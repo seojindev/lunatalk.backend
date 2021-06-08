@@ -13,3 +13,25 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+
+# local file
+storage/framework
+storage/*.key
+
+
+# Etc
+.DS_Store
+
+# Laravel Testing
+.env.testing
+
+# deploy
+deploy.sh
+
+# bootstrap file
+boots.txt
+
+# test controller
+app/Http/Controllers/Api/TestController.php
+app/Http/Controllers/Web/TestController.php
