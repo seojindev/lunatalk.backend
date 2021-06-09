@@ -34,4 +34,4 @@ boots.txt
 
 # test controller
 app/Http/Controllers/Api/TestController.php
-app/Http/Controllers/Web/TestController.php
+app/Http/Controllers/Front/TestController.php
