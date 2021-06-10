@@ -22,7 +22,7 @@ class ApiBeforeMiddleware
          */
         if ($request->wantsJson() == false) {
 //            throw new ClientErrorException(__('정상적인 요청이 아닙니다.'));
-            echo  "ClientErrorException";
+//            echo  "ClientErrorException";
         }
 
         // 클라이언트 체크 예외 라우터.
@@ -34,7 +34,7 @@ class ApiBeforeMiddleware
         if (!in_array(Route::currentRouteName(), $exceptionRouteName)) {
             if (empty($clientType) || !($clientType == env('FRONT_CLIENT_CODE') || $clientType == env('IOS_CLIENT_CODE') || $clientType == env('ANDROID_CLIENT_CODE'))) {
 //                throw new ClientErrorException(__('default.exception.clienttype'));
-                echo 'ClientErrorException';
+//                echo 'ClientErrorException';
             }
         }
 

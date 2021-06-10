@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Seoul',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ko',
 
     /*
     |--------------------------------------------------------------------------
@@ -179,6 +179,7 @@ return [
          * Custom Service Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        App\Providers\ResponseMacroServiceProvider::class,
     ],
 
     /*
