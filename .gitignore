@@ -17,7 +17,7 @@ yarn-error.log
 
 # local file
 storage/framework
-storage/*.key
+storage/inside/temp/*
 
 
 # Etc
