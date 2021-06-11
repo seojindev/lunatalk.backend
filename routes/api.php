@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\v1\Admin\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,18 @@ Route::group(['as' => 'api.'], function () {
      */
     Route::group(['prefix' => 'test', 'as' => 'test.'], function () {
         Route::post('default', [TestController::class, 'default'])->name('default');
+    });
+
+    /**
+     * api
+     */
+    Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+
+        Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+            Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+                Route::post('login', [AuthController::class, 'login'])->name('login');
+            });
+        });
+
     });
 });

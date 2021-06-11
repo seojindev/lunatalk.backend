@@ -234,7 +234,6 @@ meessage: $errorMessage
 code: $errorCode
 file: $errorFile
 line: $errorline
-trace: $errorTrace
 traceAsString: $errorTraceAsString
 
 EOF;
