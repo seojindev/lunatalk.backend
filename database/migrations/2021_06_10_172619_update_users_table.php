@@ -15,11 +15,11 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('user_uuid', 50)->after('id')->unique()->default('')->comment('사용자 uuid');
-            $table->string('user_type', 6)->after('user_uuid')->default('S01010')->comment('사용자 타입');
-            $table->string('user_level', 6)->after('user_type')->default('S02000')->comment('사용자 레벨');
-            $table->enum('active', ['Y', 'N'])->after('remember_token')->default('Y')->comment('사용자 상태');
-            $table->string('nickname', 50)->after('name')->default('')->comment('사용자 닉네임');
+            $table->string('user_uuid', 50)->after('id')->unique()->default('')->comment('회원 uuid');
+            $table->string('user_type', 6)->after('user_uuid')->default('S01010')->comment('회원 타입');
+            $table->string('user_level', 6)->after('user_type')->default('S02000')->comment('회원 레벨');
+            $table->enum('active', ['Y', 'N'])->after('remember_token')->default('Y')->comment('회원 상태');
+            $table->string('nickname', 50)->after('name')->default('')->comment('회원 닉네임');
 
             $table->foreign('user_type')->references('code_id')->on('codes')->onDelete('cascade');
             $table->foreign('user_level')->references('code_id')->on('codes')->onDelete('cascade');
