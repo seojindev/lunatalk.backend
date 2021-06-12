@@ -36,7 +36,7 @@ class UpdateUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             if(DB::getDriverName() !== 'sqlite') $table->dropForeign('users_user_level_foreign');
             if(DB::getDriverName() !== 'sqlite') $table->dropForeign('users_user_type_foreign');
-            if(DB::getDriverName() !== 'sqlite') $table->dropColumn(['user_uuid', 'user_type', 'user_level', 'active']);
+            if(DB::getDriverName() !== 'sqlite') $table->dropColumn(['user_uuid', 'user_type', 'user_level', 'active', 'nickname']);
         });
     }
 }
