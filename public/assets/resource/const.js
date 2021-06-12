@@ -1,0 +1,5 @@
+/**
+ *
+ * Lunatalk Javascript Const
+ */
+
