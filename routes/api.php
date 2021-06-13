@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\TestController;
-use App\Http\Controllers\Api\v1\Admin\AuthController;
+use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Api\v1\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,8 +36,13 @@ Route::group(['as' => 'api.'], function () {
 
         Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
-                Route::post('login', [AuthController::class, 'login'])->name('login');
+                Route::post('login', [AdminAuthController::class, 'login'])->name('login');
             });
+        });
+
+        Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+            Route::post('login', [AuthController::class, 'login'])->name('login');
+            Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         });
 
     });

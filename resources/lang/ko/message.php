@@ -19,7 +19,7 @@ return [
         'ClientTypeError' => '클라이언트 정보가 존재 하지 않습니다.',
         'ServerErrorException' => '처리중 문제가 발생했습니다.',
         'loginFail' => '로그인에 실패 했습니다.',
-        'passport_client' => 'Passport 오류가 발생했습니다.',
+        'PassportClient' => 'Passport 오류가 발생했습니다.',
         'error_exception' => '알수없는 내부 오류가 발생했습니다.',
         'ThrottleRequestsException' => '너무 많은 시도 입니다. 잠시후에 다시 시도해 주세요.',
         'PDOException' => '데이터 처리중 문제가 발생했습니다.',
@@ -29,14 +29,11 @@ return [
     ],
 
     'login' => [
-        'email_required' => '이메일을 입력해 주세요.',
-        'email_not_validate' => '이메일 형식을 입력해 주세요.',
-        'email_exists' => '존재하지 않는 사용자 입니다.',
+        'login_name_required' => '로그인 아이디를 입력해 주세요.',
+        'login_name_exists' => '존재하지 않는 사용자 입니다.',
         'password_required' => '패스워드를 입력해 주세요.',
         'password_fail' => '비밀번호를 확인해 주세요.',
-        'unauthorized' => '로그인이 필요한 서비스 입니다.',
-        'refresh_token_not_fount' => '토큰 정보가 없습니다.',
-        'refresh_token_fail' => '로그인 정보를 다시 가지고 오는데 오류가 발생했습니다.',
+        'login_success' => '로그인에 성공했습니다.',
     ],
 
 ];

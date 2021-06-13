@@ -40,6 +40,18 @@ class ResponseMacroServiceProvider extends ServiceProvider
             return Response()->json($response);
         });
 
+        Response::macro('message_success', function ($message = '', $result = null) {
+            $response = [
+                'message' => $message ?:__('message.response.success')
+            ];
+
+            if(!empty($result)) {
+                $response['result'] = $result;
+            }
+
+            return Response()->json($response);
+        });
+
         /**
          * 성공 메시지만 처리.
          */
