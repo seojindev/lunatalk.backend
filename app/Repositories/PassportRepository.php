@@ -14,6 +14,9 @@ class PassportRepository implements PassportRepositoryInterface
         $this->client = DB::table('oauth_clients')->where('id', 2)->first();
     }
 
+    /**
+     * @throws ServerErrorException
+     */
     public function clientInfo() : object
     {
         /**
@@ -23,7 +26,7 @@ class PassportRepository implements PassportRepositoryInterface
             /**
              * Passport 클라이언트 정보(id, secret)을 가지고 오지 못할떄
              */
-            throw new ServerErrorException(__('default.exception.passport_client'));
+            throw new ServerErrorException(__('message.exception.PassportClient'));
         }
 
         $returnObj = new stdClass();
