@@ -75,7 +75,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             if(is_array($error_message)) {
                 $response = [
                     'error_message' => $error_message['message'] ?: __('message.response.error'),
-                    'error' => $error_message['info']
+                    'error' => $error_message['error']
                 ];
             } else {
                 $response = [

@@ -243,9 +243,9 @@ EOF;
 //            Log::channel('slack')->debug($loggerMessage['slack']);
 
             return Response::error(
-                503,
+                500,
                 [
-                    'message' => __('default.exception.error_exception'),
+                    'message' => __('message.exception.error_exception'),
                     'error' => $e->getMessage()
                 ]
             );
