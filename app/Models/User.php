@@ -52,6 +52,10 @@ use Laravel\Passport\HasApiTokens;
  * @property string $phone_verified 회원 휴대폰 인증 상태.
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerified($value)
+ * @property string $login_name
+ * @property string $user_state 회원 상태.
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLoginName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUserState($value)
  */
 class User extends Authenticatable
 {

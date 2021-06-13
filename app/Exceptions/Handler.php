@@ -210,7 +210,7 @@ class Handler extends ExceptionHandler
 
             return Response::error(
                 500,
-                __('default.exception.pdo_exception'),
+                __('message.exception.PDOException'),
             );
         });
 

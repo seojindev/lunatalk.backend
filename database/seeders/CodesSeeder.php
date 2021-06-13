@@ -87,13 +87,14 @@ class CodesSeeder extends Seeder
             ],
             'S02' => [
                 [ 'code_id' => '000', 'code_name' => 'Guest' ],
-                [ 'code_id' => '010', 'code_name' => '사용자' ],
+                [ 'code_id' => '010', 'code_name' => '일반 사용자' ],
                 [ 'code_id' => '900', 'code_name' => '관리자' ],
                 [ 'code_id' => '999', 'code_name' => '최고 관리자' ],
             ],
             'S03' => [
-                [ 'code_id' => '000', 'code_name' => '비활성' ],
-                [ 'code_id' => '010', 'code_name' => '활성' ],
+                [ 'code_id' => '000', 'code_name' => '차단' ],
+                [ 'code_id' => '010', 'code_name' => '대기' ],
+                [ 'code_id' => '100', 'code_name' => '정상' ],
             ],
             'S04' => [
                 [ 'code_id' => '000', 'code_name' => '비사용' ],
