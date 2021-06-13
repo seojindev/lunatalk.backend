@@ -32,9 +32,8 @@ class ApiBeforeMiddleware
         $clientType = $request->header('request-client-type');
 
         if (!in_array(Route::currentRouteName(), $exceptionRouteName)) {
-            if (empty($clientType) || !($clientType == env('FRONT_CLIENT_CODE') || $clientType == env('IOS_CLIENT_CODE') || $clientType == env('ANDROID_CLIENT_CODE'))) {
+            if (empty($clientType) || !($clientType ==  config('extract.clientType.front.code') || $clientType == config('extract.clientType.ios.code') || $clientType == config('extract.clientType.android.code'))) {
                 throw new ClientErrorException(__('message.exception.ClientTypeError'));
-//                echo 'ClientErrorException';
             }
         }
 
