@@ -81,16 +81,16 @@
         <script src="{{URL::asset('assets/js/sb-admin-2.min.js')}}"></script>
 
         <!-- Custom const javascript -->
-        <script src="{{URL::asset('assets/resource/const.js')}}"></script>
+        <script src="{{URL::asset('assets/resource/const.js?t=<?php echo time(); ?>')}}"></script>
 
         <!-- Custom function javascript -->
-        <script src="{{URL::asset('assets/resource/function.js')}}"></script>
+        <script src="{{URL::asset('assets/resource/function.js?t=<?php echo time(); ?>')}}"></script>
 
         <!-- Custom common javascript -->
-        <script src="{{URL::asset('assets/resource/common.js')}}"></script>
+        <script src="{{URL::asset('assets/resource/common.js?t=<?php echo time(); ?>')}}"></script>
 
         <!-- Only This Page Javscript File -->
-        <script src="{{URL::asset('assets/resource/admin-pages-script/login.js')}}"></script>
+        <script src="{{URL::asset('assets/resource/admin-pages-script/login.js?t=<?php echo time(); ?>')}}"></script>
 
     </body>
 
