@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>LunaTak Admin - @yield('pageName')</title>
+        <title>LunaTak Admin - @yield('pageTitle')</title>
 
         <!-- Custom fonts for this template-->
         <link href="{{URL::asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -117,7 +117,7 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">@yield('content')</h1>
+                        <h1 class="h3 mb-4 text-gray-800">@yield('page')</h1>
 
                     </div>
                     <!-- /.container-fluid -->

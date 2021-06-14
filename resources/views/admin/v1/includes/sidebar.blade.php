@@ -30,7 +30,7 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">제품:</h6>
-                            <a class="collapse-item" href="javascript:;">목록</a>
+                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/products/list">목록</a>
                             <a class="collapse-item" href="javascript:;">등록</a>
                             <h6 class="collapse-header">구입:</h6>
                             <a class="collapse-item" href="javascript:;">목록</a>
@@ -51,18 +51,12 @@
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item active">
                     <a class="nav-link" href="javascript:;" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                        <i class="fas fa-fw fa-folder"></i><span>Pages</span>
+                        <i class="fas fa-fw fa-folder"></i><span>고객센터</span>
                     </a>
                     <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Login Screens:</h6>
-                            <a class="collapse-item" href="javascript:;">Login</a>
-                            <a class="collapse-item" href="javascript:;">Register</a>
-                            <a class="collapse-item" href="javascript:;">Forgot Password</a>
-                            <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="javascript:;">404 Page</a>
-                            <a class="collapse-item active" href="javascript:;">Blank Page</a>
+                            <h6 class="collapse-header">문의:</h6>
+                            <a class="collapse-item" href="javascript:;">문의</a>
                         </div>
                     </div>
                 </li>
