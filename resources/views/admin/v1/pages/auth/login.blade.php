@@ -45,10 +45,10 @@
                                         </div>
                                         <form class="user">
                                             <div class="form-group">
-                                                <input type="text" class="form-control form-control-user" id="admin_id" aria-describedby="emailHelp" placeholder="아이디를 입력해 주세요.">
+                                                <input type="text" class="form-control form-control-user" id="login_name" aria-describedby="emailHelp" placeholder="로그인하실 아이디를 입력해주세요.">
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control form-control-user" id="admin_password" placeholder="비밀번호를 입력해 주세요.">
+                                                <input type="password" class="form-control form-control-user" id="login_password" placeholder="비밀번호를 입력해 주세요.">
                                             </div>
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox small">
@@ -90,7 +90,7 @@
         <script src="{{URL::asset('assets/resource/common.js')}}"></script>
 
         <!-- Only This Page Javscript File -->
-        <script src="{{URL::asset('assets/resource/pages-script/login.js')}}"></script>
+        <script src="{{URL::asset('assets/resource/admin-pages-script/login.js')}}"></script>
 
     </body>
 

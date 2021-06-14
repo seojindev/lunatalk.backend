@@ -33,14 +33,14 @@ class AuthServices
         $request = $this->currentRequest;
 
         $validator = Validator::make($request->all(), [
-                'admin_id' => 'required|email|exists:users,email',
-                'admin_password' => 'required',
+                'login_name' => 'required|exists:users,login_name',
+                'login_password' => 'required',
             ],
             [
-                'admin_id.required'=> __('message.login.email_required'),
-                'admin_id.email'=> __('message.login.email_not_validate'),
-                'admin_id.exists'=> __('message.login.email_exists'),
-                'admin_password.required'=> __('message.login.password_required'),
+                'login_name.required' => __('message.login.login_name_required'),
+                'login_name.email' => __('message.login.email_not_validate'),
+                'login_name.exists' => __('message.login.email_exists'),
+                'login_password.required' => __('message.login.password_required'),
             ]);
 
         if( $validator->fails() ) {
@@ -48,7 +48,7 @@ class AuthServices
             throw new ServiceErrorException($validator->errors()->first());
         }
 
-        if(!Auth::attempt(['email' => $request->input('admin_id'), 'password' => $request->input('admin_password')])) {
+        if(!Auth::attempt(['login_name' => $request->input('login_name'), 'password' => $request->input('login_password')])) {
             // 비밀번호 실패.
             throw new ServiceErrorException(__('message.login.password_fail'));
         }
@@ -68,8 +68,8 @@ class AuthServices
             'grant_type' => 'password',
             'client_id' => $client->client_id,
             'client_secret' => $client->client_secret,
-            'username' => $this->currentRequest->input('admin_id'),
-            'password' => $this->currentRequest->input('admin_password'),
+            'username' => $this->currentRequest->input('login_name'),
+            'password' => $this->currentRequest->input('login_password'),
             'scope' => '',
         ];
 

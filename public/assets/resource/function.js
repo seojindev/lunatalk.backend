@@ -5,16 +5,26 @@
  var commonFunction = ( function() {
     return {
         ajaxUtil: function(option) {
+            let token = ""; // 임시.
+
             $.ajax({
                 url: option.url,
-                data: option.payload,
+                // data: option.payload,
+                data: JSON.stringify(option.payload),
                 type: option.type,
-                dataType: "json"
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Accept","application/json");
+                    xhr.setRequestHeader("Content-type","application/json");
+                    xhr.setRequestHeader("Request-Client-Type","S01010");
+                    xhr.setRequestHeader("Authorization","Bearer  " + token);
+                },
             }).fail(function(xhr, status, errorThrown) {
-                let errorText = "오류가 발생했습니다.";
-                errorText += "오류명: " + errorThrown;
-                errorText += "상태: " + status;
-                alert(errorText);
+                // console.debug(xhr);
+                // let errorText = "오류가 발생했습니다.";
+                // errorText += "오류명: " + errorThrown;
+                // errorText += "상태: " + status;
+                alert(xhr.responseJSON.error_message);
             }).done(function(json) {
                 if(json.status === false) {
                     alert(json.message);
