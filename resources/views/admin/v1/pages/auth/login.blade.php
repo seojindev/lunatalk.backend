@@ -20,7 +20,7 @@
         <link href="{{URL::asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
         <!-- global css -->
-        <link href="{{URL::asset('assets/resource/lunatalk.css')}}" rel="stylesheet">
+        <link href="{{URL::asset('assets/resource/lunatalk.css')}}?t=<?php echo time(); ?>" rel="stylesheet">
 
     </head>
 

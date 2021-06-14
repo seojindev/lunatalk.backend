@@ -16,6 +16,6 @@ class AdminController extends RootController
 
     public function dashboard()
     {
-        return view('admin/v1/pages/blank');
+        return view('admin/v1/pages/dashboard');
     }
 }

@@ -5,7 +5,7 @@
  var commonFunction = ( function() {
     return {
         ajaxUtil: function(option) {
-            let token = ""; // 임시.
+            let access_token = commonFunction.getCookie('access_token');
 
             $.ajax({
                 url: option.url,
@@ -17,7 +17,7 @@
                     xhr.setRequestHeader("Accept","application/json");
                     xhr.setRequestHeader("Content-type","application/json");
                     xhr.setRequestHeader("Request-Client-Type","S01010");
-                    xhr.setRequestHeader("Authorization","Bearer  " + token);
+                    xhr.setRequestHeader("Authorization","Bearer  " + access_token);
                 },
             }).fail(function(xhr, status, errorThrown) {
                 // console.debug(xhr);
