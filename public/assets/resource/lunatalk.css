@@ -1,14 +1,8 @@
 /* bootstrap.css */
 * {
-    font-size: 9px;
+    /* font-size: 12px; */
     line-height: 1.428;
     letter-spacing: -1px;
-}
-
-/* style.css */
-* {
-    font-size: 13px;
-    line-height: 1;
 }
 
 .bg-login-image {

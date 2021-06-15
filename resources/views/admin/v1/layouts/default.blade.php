@@ -20,7 +20,7 @@
 
 @stack('csss')
 
-        <link href="{{URL::asset('assets/resource/lunatalk.css')}}" rel="stylesheet">
+        <link href="{{URL::asset('assets/resource/lunatalk.css')}}?t={{ time() }}" rel="stylesheet">
 
     </head>
 

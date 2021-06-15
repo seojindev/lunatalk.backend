@@ -32,6 +32,9 @@ class ProductsController extends Controller
             'pages' => [
                 'pageStep' => 'products',
                 'pageTitle' => '상품 등록'
+            ],
+            'pageOption' => [
+                'dropzone' => true
             ]
         ];
 
