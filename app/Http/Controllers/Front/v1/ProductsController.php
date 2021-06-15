@@ -25,4 +25,16 @@ class ProductsController extends Controller
     {
         return view('admin/v1/pages/products/product-list');
     }
+
+    public function add()
+    {
+        $pageData = [
+            'pages' => [
+                'pageStep' => 'products',
+                'pageTitle' => '상품 등록'
+            ]
+        ];
+
+        return view('admin/v1/pages/products/product-add', $pageData);
+    }
 }

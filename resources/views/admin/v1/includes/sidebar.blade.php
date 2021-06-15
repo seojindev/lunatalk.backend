@@ -31,7 +31,7 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">제품:</h6>
                             <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/products/list">목록</a>
-                            <a class="collapse-item" href="javascript:;">등록</a>
+                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/products/add">등록</a>
                             <h6 class="collapse-header">구입:</h6>
                             <a class="collapse-item" href="javascript:;">목록</a>
                             <h6 class="collapse-header">결제:</h6>

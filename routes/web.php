@@ -48,6 +48,7 @@ Route::group(['prefix' => 'front', 'as' => 'front.'], function () {
             Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
                 Route::get('list', [ProductsController::class, 'list'])->name('list');
                 Route::get('view', [ProductsController::class, 'view'])->name('view');
+                Route::get('add', [ProductsController::class, 'add'])->name('add');
             });
         });
     });
