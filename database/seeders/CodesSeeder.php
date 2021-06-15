@@ -70,6 +70,7 @@ class CodesSeeder extends Seeder
             [ 'group_id' => 'S02', 'group_name' => '사용자 레벨' ],
             [ 'group_id' => 'S03', 'group_name' => '사용자 상태' ],
             [ 'group_id' => 'S04', 'group_name' => '상태' ],
+            [ 'group_id' => 'G01', 'group_name' => '메디아 파일 카테고리' ],
             [ 'group_id' => 'P01', 'group_name' => '상품 카테고리' ],
             [ 'group_id' => 'O10', 'group_name' => '상품 옵션1(색)' ],
             [ 'group_id' => 'O20', 'group_name' => '상품 옵션2' ],
@@ -109,6 +110,11 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0120', 'code_name' => 'bag' ],
                 [ 'code_id' => '0130', 'code_name' => 'stationery' ],
                 [ 'code_id' => '0140', 'code_name' => 'wallet' ],
+            ],
+            'G01' => [
+                [ 'code_id' => '0010', 'code_name' => '상품 이미지' ],
+                [ 'code_id' => '0020', 'code_name' => '상품 상세 이미지' ],
+                [ 'code_id' => '0030', 'code_name' => '상품 썸네일 이미지' ],
             ],
             'O10' => [
                 [ 'code_id' => '0010', 'code_name' => '초콜릿' ],

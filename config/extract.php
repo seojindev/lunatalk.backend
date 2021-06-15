@@ -51,5 +51,20 @@ return [
             'name' => 'Android',
             'code' => 'S010030'
         ]
+    ],
+    'mediaCategory' => [
+        'productImage' => [
+            'name' => '상품이미지',
+            'code' => 'G010010'
+        ],
+        'productDetailImage' => [
+            'name' => '상품 상세 이미지',
+            'code' => 'G010020'
+        ],
+        'productThumbnailImage' => [
+            'name' => '상품 썸네일 이미지',
+            'code' => 'G010030'
+        ]
     ]
+
 ];
