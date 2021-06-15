@@ -16,6 +16,14 @@ class AdminController extends RootController
 
     public function dashboard()
     {
-        return view('admin/v1/pages/dashboard');
+
+        $pageData = [
+            'pages' => [
+                'pageStep' => 'dashboard',
+                'pageTitle' => '대시보드'
+            ]
+        ];
+
+        return view('admin/v1/pages/dashboard', $pageData);
     }
 }
