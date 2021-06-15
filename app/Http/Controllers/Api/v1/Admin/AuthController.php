@@ -20,10 +20,6 @@ class AuthController extends RootController
     public function login()
     {
         $task = $this->AuthServices->attemptAdminLogin();
-
-//        print_r($task);
-
-//        return Response::success_only_data($task);
         return Response::success($task);
 
     }

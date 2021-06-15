@@ -38,8 +38,7 @@ class AuthServices
             ],
             [
                 'login_name.required' => __('message.login.login_name_required'),
-                'login_name.email' => __('message.login.email_not_validate'),
-                'login_name.exists' => __('message.login.email_exists'),
+                'login_name.exists' => __('message.login.login_name_exists'),
                 'login_password.required' => __('message.login.password_required'),
             ]);
 

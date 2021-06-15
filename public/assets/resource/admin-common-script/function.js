@@ -16,7 +16,7 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept","application/json");
                     xhr.setRequestHeader("Content-type","application/json");
-                    xhr.setRequestHeader("Request-Client-Type","S01010");
+                    xhr.setRequestHeader("Request-Client-Type","S010040");
                     xhr.setRequestHeader("Authorization","Bearer  " + access_token);
                 },
             }).fail(function(xhr, status, errorThrown) {

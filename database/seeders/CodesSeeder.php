@@ -88,6 +88,7 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0010', 'code_name' => 'Front' ],
                 [ 'code_id' => '0020', 'code_name' => 'iOS' ],
                 [ 'code_id' => '0030', 'code_name' => 'Android' ],
+                [ 'code_id' => '0040', 'code_name' => 'Service - Front' ],
             ],
             'S02' => [
                 [ 'code_id' => '0000', 'code_name' => 'Guest' ],
