@@ -50,6 +50,10 @@ return [
         'android' => [
             'name' => 'Android',
             'code' => 'S010030'
+        ],
+        'service_front' => [
+            'name' => 'Service-Front',
+            'code' => 'S010040'
         ]
     ],
     'mediaCategory' => [
