@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>LunaTak Admin - @yield('pageTitle')</title>
+        <title>LunaTak Admin - {{$pages['pageTitle']}}</title>
 
         <!-- Custom fonts for this template-->
         <link href="{{URL::asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -17,6 +17,9 @@
 
         <!-- Custom styles for this template-->
         <link href="{{URL::asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+@stack('csss')
+
         <link href="{{URL::asset('assets/resource/lunatalk.css')}}" rel="stylesheet">
 
     </head>
@@ -115,10 +118,7 @@
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-                        <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">@yield('page')</h1>
-
+                        @yield('pageContent')
                     </div>
                     <!-- /.container-fluid -->
 
@@ -150,7 +150,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">로그아웃 하시겠습니까?.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                         <a class="btn btn-primary" href="/">로그아웃</a>
@@ -170,13 +170,20 @@
         <script src="{{URL::asset('assets/js/sb-admin-2.min.js')}}"></script>
 
         <!-- Custom const javascript -->
-        <script src="{{URL::asset('assets/resource/const.js')}}?t=<?php echo time(); ?>"></script>
+        <script src="{{URL::asset('assets/resource/admin-common-script/const.js')}}?t={{ time() }}"></script>
 
         <!-- Custom function javascript -->
-        <script src="{{URL::asset('assets/resource/function.js')}}?t=<?php echo time(); ?>"></script>
+        <script src="{{URL::asset('assets/resource/admin-common-script/function.js')}}?t={{ time() }}"></script>
 
         <!-- Custom common javascript -->
-        <script src="{{URL::asset('assets/resource/common.js')}}?t=<?php echo time(); ?>"></script>
+        <script src="{{URL::asset('assets/resource/admin-common-script/common.js')}}?t={{ time() }}"></script>
+
+@stack('scripts')
+
+@if(file_exists('assets/resource/admin-pages-script/'.$pages['pageStep'].'.js'))
+        <!--  pages only javascript -->
+        <script src="{{URL::asset('assets/resource/admin-pages-script/'.$pages['pageStep'].'.js')}}?t={{ time() }}"></script>
+@endif
 
     </body>
 

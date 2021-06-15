@@ -12,6 +12,7 @@ class ProductsController extends Controller
 
         $pageData = [
             'pages' => [
+                'pageStep' => 'products',
                 'pageTitle' => '상품 리스트'
             ]
         ];
