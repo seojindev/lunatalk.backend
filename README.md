@@ -9,6 +9,14 @@
 composer app-reset
 ```
 
+```angular2html
+php artisan migrate:refresh
+php artisan passport:install
+php artisan db:seed --class=CodesSeeder --force
+```
+
+
+
 > 데이베이스 초기화 조심해야함.
 
 2. app clear
@@ -23,7 +31,6 @@ composer unit-test:watch
 
 php artisan test
 ```
-
 
 > php artisan db:seed --class=CodesSeeder --force
 
