@@ -119,33 +119,18 @@
 
 @stop
 
-
-@push('scripts')
-        <!-- Page level plugins -->
-        <script src="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/dropzone.js')}}"></script>
-
-
-        <script>
-
-        // https://github.com/haubek/bootstrap4c-dropzone
-
-        Dropzone.autoDiscover = false;
-
-        $(document).ready(function() {
-            $("#dropzone").dropzone({
-                url: "/file/post",
-                dictDefaultMessage: "이미지를 올려 주세요."
-            });
-        });
-
-
-        </script>
-
-
-@endpush
-
 @push('csss')
         <!-- Custom styles for this page -->
         <link href="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/basic.css')}}" rel="stylesheet">
         <link href="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/dropzone.css')}}" rel="stylesheet">
 @endpush
+
+
+@push('scripts')
+
+        var app = '{{ env('APP_MEDIA_URL', '') }}';
+        <!-- Page level plugins -->
+        <script src="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/dropzone.js')}}"></script>
+@endpush
+
+

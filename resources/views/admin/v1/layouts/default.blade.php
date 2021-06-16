@@ -22,6 +22,13 @@
 
         <link href="{{URL::asset('assets/resource/lunatalk.css')}}?t={{ time() }}" rel="stylesheet">
 
+        <script>
+                var appMediaUrl = '{{ env('APP_MEDIA_URL', '') }}';
+                var appMediaClientToken = '{{ env('APP_MEDIA_CLIENT_KEY', '') }}';
+        </script>
+
+@stack('scriptValues')
+
     </head>
 
     <body id="page-top">
