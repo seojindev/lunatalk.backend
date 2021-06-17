@@ -11334,7 +11334,19 @@
                         return \Illuminate\Routing\ResponseFactory::success($result);
         }
                     /**
-         * 성공 메시지만 처리.
+         * 
+         *
+         * @see \App\Providers\ResponseMacroServiceProvider::boot()
+         * @param mixed $message
+         * @param mixed $result
+         * @static 
+         */ 
+        public static function message_success($message = '', $result = null)
+        {
+                        return \Illuminate\Routing\ResponseFactory::message_success($message, $result);
+        }
+                    /**
+         * 생성 메시지만 처리.
          *
          * @see \App\Providers\ResponseMacroServiceProvider::boot()
          * @static 
@@ -15367,7 +15379,41 @@
      
 }
 
-        namespace Facade\Ignition\Facades { 
+        namespace App\Repositories { 
+            /**
+     * 
+     *
+     */ 
+        class CustomFacades {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function test()
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->test();
+        }
+                    /**
+         * 랜덤 넘버 UUID 생성.
+         * 
+         * 34930722151-50988287951-1690522742
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function randomNumberUUID()
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->randomNumberUUID();
+        }
+         
+    }
+     
+}
+
+    namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
      *
@@ -15734,7 +15780,19 @@
                         return \Illuminate\Routing\ResponseFactory::success($result);
         }
                     /**
-         * 성공 메시지만 처리.
+         * 
+         *
+         * @see \App\Providers\ResponseMacroServiceProvider::boot()
+         * @param mixed $message
+         * @param mixed $result
+         * @static 
+         */ 
+        public static function message_success($message = '', $result = null)
+        {
+                        return \Illuminate\Routing\ResponseFactory::message_success($message, $result);
+        }
+                    /**
+         * 생성 메시지만 처리.
          *
          * @see \App\Providers\ResponseMacroServiceProvider::boot()
          * @static 
@@ -19036,6 +19094,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class Helper extends \App\Repositories\CustomFacades {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
      
 }

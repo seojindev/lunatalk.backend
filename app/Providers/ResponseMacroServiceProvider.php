@@ -53,14 +53,14 @@ class ResponseMacroServiceProvider extends ServiceProvider
         });
 
         /**
-         * 성공 메시지만 처리.
+         * 생성 메시지만 처리.
          */
         Response::macro('success_only_message', function () {
             $response = [
                 'message' => __('message.response.process_success'),
             ];
 
-            return Response()->json($response);
+            return Response()->json($response, 201);
         });
 
         /**
