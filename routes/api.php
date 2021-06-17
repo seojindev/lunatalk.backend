@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\Other\MediaController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,10 @@ Route::group(['as' => 'api.'], function () {
         Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::post('login', [AdminAuthController::class, 'login'])->name('login');
+            });
+
+            Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+                Route::post('create', [AdminProductsController::class, 'create'])->name('create');
             });
         });
 
