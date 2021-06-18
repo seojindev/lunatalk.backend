@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Front\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\FrontRootServices;
+use App\Services\Front\ProductsService;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
     protected FrontRootServices $frontRootServices;
+    protected ProductsService $productsService;
 
-    public function __construct(FrontRootServices $frontRootServices)
+    public function __construct(FrontRootServices $frontRootServices, ProductsService $productsService)
     {
         $this->frontRootServices = $frontRootServices;
+        $this->productsService = $productsService;
     }
 
     public function list()
@@ -20,9 +23,10 @@ class ProductsController extends Controller
         $pageData = [
             'pages' => [
                 'pageStep' => 'products',
-                'pageTitle' => '상품 리스트'
             ]
         ];
+
+        print_r($this->productsService->makeProductsList());
 
         return view('admin/v1/pages/products/product-list', $pageData);
     }
@@ -37,14 +41,8 @@ class ProductsController extends Controller
         $pageData = [
             'pages' => [
                 'pageStep' => 'products',
-                'pageTitle' => '상품 등록'
             ],
-            'pageOption' => [
-                'dropzone' => true
-            ],
-            'commonData' => [
-                'code' => $this->frontRootServices->getCommonCode()
-            ]
+            'code_list' => $this->frontRootServices->getCommonCode(),
         ];
 
         return view('admin/v1/pages/products/product-add', $pageData);

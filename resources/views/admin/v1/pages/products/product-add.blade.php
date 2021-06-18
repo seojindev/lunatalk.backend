@@ -1,8 +1,6 @@
 @extends('admin.v1.layouts.default')
 
-@section('pageTitle')
-    {{$pages['pageTitle']}}
-@endsection
+@section('pageTitle','상품 등록')
 
 @section('pageContent')
 
@@ -16,7 +14,7 @@
                             <label for="product_category">카테고리 선택</label>
                             <select class="form-control" id="product_category" name="product_category">
                                 <option value="">선택</option>
-@foreach ($commonData['code']['code_group']['P01'] as $category)
+@foreach ($code_list['code_group']['P01'] as $category)
 <option value="{{ $category['code_id'] }}">{{ $category['code_name'] }}</option>
 @endforeach
                             </select>
@@ -33,7 +31,7 @@
                                     <label for="product_option_step1">옵션 1</label>
                                     <select class="form-control" id="product_option_step1" name="product_option_step2">
                                         <option value="">선택</option>
-@foreach ($commonData['code']['code_group']['O10'] as $category)
+@foreach ($code_list['code_group']['O10'] as $category)
 <option value="{{ $category['code_id'] }}">{{ $category['code_name'] }}</option>
 @endforeach
                                     </select>
@@ -44,7 +42,7 @@
                                     <label for="product_option_step2">옵션 2</label>
                                     <select class="form-control" id="product_option_step2" name="product_option_step2">
                                         <option value="">선택</option>
-@foreach ($commonData['code']['code_group']['O20'] as $category)
+@foreach ($code_list['code_group']['O20'] as $category)
 <option value="{{ $category['code_id'] }}">{{ $category['code_name'] }}</option>
 @endforeach
                                     </select>
@@ -131,8 +129,10 @@
 @push('scripts')
 
         var app = '{{ env('APP_MEDIA_URL', '') }}';
+
         <!-- Page level plugins -->
         <script src="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/dropzone.js')}}"></script>
+        <script src="{{URL::asset('assets/resource/admin-pages-script/products-dropzone.js')}}?t={{ time() }}"></script>
 @endpush
 
 

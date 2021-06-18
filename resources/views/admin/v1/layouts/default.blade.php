@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>LunaTak Admin - {{$pages['pageTitle']}}</title>
+        <title>LunaTak Admin - @yield('pageTitle')</title>
 
         <!-- Custom fonts for this template-->
         <link href="{{URL::asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -23,7 +23,7 @@
         <link href="{{URL::asset('assets/resource/lunatalk.css')}}?t={{ time() }}" rel="stylesheet">
 
         <script>
-                var appServiceUrl = '{{ env('APP_URL', '') }}';
+                var appServiceUrl = '{{ env('APP_URL') }}';
         </script>
 
 @stack('scriptValues')

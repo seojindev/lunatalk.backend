@@ -1,8 +1,6 @@
 @extends('admin.v1.layouts.default')
 
-@section('pageTitle')
-    {{$pages['pageTitle']}}
-@endsection
+@section('pageTitle','상품 리스트')
 
 @section('pageContent')
 

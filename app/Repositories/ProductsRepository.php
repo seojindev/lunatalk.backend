@@ -81,4 +81,12 @@ class ProductsRepository implements ProductsRepositoryInterface
         return $this->productOptions::create($dataObject);
     }
 
+    public function totalProductsForList()
+    {
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'images.category' => function($query) {
+            $query->where('media_category', 'G010010');
+        }, 'images.mediafile']);
+
+    }
+
 }
