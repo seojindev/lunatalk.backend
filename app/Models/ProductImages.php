@@ -43,8 +43,7 @@ class ProductImages extends Model
     protected $fillable = [
         'id',
         'product_id',
-        'product_image',
-        'product_thumbnail_image',
-        'product_detail_image'
+        'media_category',
+        'media_id'
     ];
 }

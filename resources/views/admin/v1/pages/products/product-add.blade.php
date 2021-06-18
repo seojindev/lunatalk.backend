@@ -104,11 +104,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="message">상품 썸네일 이미지</label>
-                            <div id="dropzone_thumbnail" class="dropzone"></div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="control-label" for="product_memo">메모</label>
                             <textarea class="form-control" cols="40" id="product_memo" name="product_memo" rows="5"></textarea>
                         </div>

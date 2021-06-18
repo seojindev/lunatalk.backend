@@ -61,7 +61,14 @@ class MediaServices
             $origialName = $request->media_file->getClientOriginalName();
 
             Storage::putFileAs('upload_tmp_images', $request->file('media_file'), $origialName);
+
             $mediaFile = fopen(storage_path('app/upload_tmp_images' . '/' . $origialName), 'r');
+
+            // 제품 이미지에서 썸네일 옵션 추가.
+            $need_thumbnail = 'false';
+            if($name == 'products' && $category == 'rep') {
+                $need_thumbnail = 'true';
+            }
 
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
@@ -71,6 +78,7 @@ class MediaServices
                 ->post(env('APP_MEDIA_URL') . '/media-upload', [
                     'media_name' => $name,
                     'media_category' => $category,
+                    'need_thumbnail' => $need_thumbnail
             ]);
 
             Storage::delete('app/upload_tmp_images' . '/' . $origialName);

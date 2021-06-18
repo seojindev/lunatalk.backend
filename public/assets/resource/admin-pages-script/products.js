@@ -9,9 +9,10 @@ var pageFormData = {
     product_barcode: null,
     product_sale: null,
     product_active: null,
-    product_image: null,
-    product_thumbnail_image: null,
-    product_detail_image: null
+    product_memo: null,
+    product_image: [],
+    product_detail_image: [],
+
 }
 
 Dropzone.autoDiscover = false;
@@ -19,16 +20,6 @@ Dropzone.autoDiscover = false;
 var pageFunction = ( function() {
     return {
         checkValidation: function() {
-
-            pageFormData.product_category = $('#product_category').val();
-            pageFormData.product_name = $('#product_name').val();
-            pageFormData.product_option_step1 = $('#product_option_step1').val();
-            pageFormData.product_option_step2 = $('#product_option_step2').val();
-            pageFormData.product_price = $('#product_price').val();
-            pageFormData.product_stock = $('#product_stock').val();
-            pageFormData.product_barcode = $('#product_barcode').val();
-            pageFormData.product_sale = $('#product_sale').val();
-            pageFormData.product_active = $('#product_active').val();
 
             if(commonFunction.isEmpty(pageFormData.product_category)) {
                 commonFunction.globalAlert('상품 카테고리를 선택해 주세요.');
@@ -50,11 +41,6 @@ var pageFunction = ( function() {
                 return false;
             }
 
-            if(commonFunction.isEmpty(pageFormData.product_thumbnail_image)) {
-                commonFunction.globalAlert('상품 썸네일 이미지를 입력해 주세요.');
-                return false;
-            }
-
             if(commonFunction.isEmpty(pageFormData.product_detail_image)) {
                 commonFunction.globalAlert('상품 상세 이미지를 입력해 주세요.');
                 return false;
@@ -71,7 +57,8 @@ var pageFunction = ( function() {
             });
         },
         addSuccess: function(e) {
-            console.debug(e);
+            commonFunction.globalAlert(e);
+            location.href="/front/admin/v1/products/list";
         }
     };
 })();
@@ -95,14 +82,14 @@ $(function () {
         },
         init: function () {
             this.on("success", function(file, responseText) {
-                pageFormData.product_image = responseText.result.media_id;
+                pageFormData.product_image.push(responseText.result.media_id);
             });
         },
     });
 
     // 상품 상세 이미지
     $("div#dropzone_detail").dropzone({
-        url: appServiceUrl  + '/api/v1/other/media/products/dropzone_detail/create',
+        url: appServiceUrl  + '/api/v1/other/media/product/detail/create',
         addRemoveLinks: true,
         paramName: "media_file",
         // maxFiles:,
@@ -117,29 +104,7 @@ $(function () {
         },
         init: function () {
             this.on("success", function(file, responseText) {
-                pageFormData.product_detail_image = responseText.result.media_id;
-            });
-        },
-    });
-
-    // 상품 썸네일 이미지
-    $("div#dropzone_thumbnail").dropzone({
-        url: appServiceUrl  + '/api/v1/other/media/products/thumbnail/create',
-        addRemoveLinks: true,
-        paramName: "media_file",
-        // maxFiles:,
-        uploadMultiple: false,
-        autoProcessQueue: true,
-        parallelUploads: 10,
-        headers: {
-            'Access-Control-Allow-Origin' : '*',
-            'Accept': 'application/json',
-            'Request-Client-Type' : serviceFrontCode,
-            'Authorization' : 'Bearer ' + commonFunction.getCookie('access_token')
-        },
-        init: function () {
-            this.on("success", function(file, responseText) {
-                pageFormData.product_thumbnail_image = responseText.result.media_id;
+                pageFormData.product_detail_image.push(responseText.result.media_id);
             });
         },
     });
@@ -149,10 +114,19 @@ $(function () {
     $(document).on('click', '[name=submit-button]', function(e){
         e.preventDefault();
 
+        pageFormData.product_category = $('#product_category').val();
+        pageFormData.product_name = $('#product_name').val();
+        pageFormData.product_option_step1 = $('#product_option_step1').val();
+        pageFormData.product_option_step2 = $('#product_option_step2').val();
+        pageFormData.product_price = $('#product_price').val();
+        pageFormData.product_stock = $('#product_stock').val();
+        pageFormData.product_barcode = $('#product_barcode').val();
+        pageFormData.product_sale = $('#product_sale').val();
+        pageFormData.product_active = $('#product_active').val();
+        pageFormData.product_memo = $('#product_memo').val();
+
         if(pageFunction.checkValidation()) {
             pageFunction.tryProductAdd();
-        } else {
-            console.debug('bad');
         }
     });
 

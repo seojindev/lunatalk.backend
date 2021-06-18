@@ -46,9 +46,10 @@ class ProductsService
 //            'product_barcode' => 'nullable|string',
             'product_sale' => 'required|in:Y,N',
             'product_active' => 'required|in:Y,N|max:1',
-            'product_image' => 'required|numeric|exists:media_files,id',
-            'product_thumbnail_image' => 'required|numeric|exists:media_files,id',
-            'product_detail_image' => 'required|numeric|exists:media_files,id',
+            'product_image' => 'required',
+            'product_image.*' => 'integer|exists:media_files,id',
+            'product_detail_image' => 'required',
+            'product_detail_image.*' => 'integer|numeric|exists:media_files,id',
         ],
             [
                 'product_category.required'=> __('message.product.create.category.required'),
@@ -68,13 +69,10 @@ class ProductsService
                 'product_active.in'=> __('message.product.create.active.in'),
                 'product_image.required'=> __('message.product.create.image.required'),
                 'product_image.numeric'=> __('message.product.create.image.numeric'),
-                'product_image.exists'=> __('message.product.create.image.exists'),
-                'product_thumbnail_image.required'=> __('message.product.create.thumbnail.required'),
-                'product_thumbnail_image.numeric'=> __('message.product.create.thumbnail.numeric'),
-                'product_thumbnail_image.exists'=> __('message.product.create.thumbnail.exists'),
+                'product_image.*.exists'=> __('message.product.create.image.exists'),
                 'product_detail_image.required'=> __('message.product.create.detail.required'),
                 'product_detail_image.numeric'=> __('message.product.create.detail.numeric'),
-                'product_detail_image.exists'=> __('message.product.create.detail.exists'),
+                'product_detail_image.*.exists'=> __('message.product.create.detail.exists'),
             ]);
 
         if( $validator->fails() ) {
@@ -111,12 +109,26 @@ class ProductsService
             'step2' => $request->input('product_option_step2')
         ]);
 
-        $this->productsRepository->createProductImage([
-            'product_id' => $createTask->id,
-            'product_image' => $request->input('product_image'),
-            'product_thumbnail_image' => $request->input('product_thumbnail_image'),
-            'product_detail_image' => $request->input('product_detail_image')
-        ]);
-    }
+        $imageData = [];
 
+        foreach ($request->input('product_image') as $element) :
+            $imageData[] = [
+                'product_id' => $createTask->id,
+                'media_category' => "G010010",
+                'media_id' => $element
+            ];
+        endforeach;
+
+        foreach ($request->input('product_detail_image') as $element) :
+            $imageData[] = [
+                'product_id' => $createTask->id,
+                'media_category' => 'G010020',
+                'media_id' => $element
+            ];
+        endforeach;
+
+        if(count($imageData) > 0) {
+            $this->productsRepository->insertProductImage($imageData);
+        }
+    }
 }

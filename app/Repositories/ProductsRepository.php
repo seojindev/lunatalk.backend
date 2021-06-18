@@ -52,13 +52,23 @@ class ProductsRepository implements ProductsRepositoryInterface
     }
 
     /**
-     * 상품 이미지 등록
+     * 상품 이미지 등록 (create)
      * @param array $dataObject
      * @return object
      */
     public function createProductImage(Array $dataObject) : object
     {
         return $this->productImages::create($dataObject);
+    }
+
+    /**
+     * 상품 이미지 등록 (insert)
+     * @param array $dataObject
+     * @return bool
+     */
+    public function insertProductImage(Array $dataObject) : bool
+    {
+        return $this->productImages::insert($dataObject);
     }
 
     /**
