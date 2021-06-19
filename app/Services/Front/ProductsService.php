@@ -4,6 +4,7 @@
 namespace App\Services\Front;
 
 use App\Repositories\ProductsRepository;
+use Illuminate\Support\Carbon;
 
 class ProductsService
 {
@@ -20,7 +21,14 @@ class ProductsService
     {
         return array_map(function($e) {
             $rep_images = function ($e) {
-                print_r($e);
+                $imageElement = $e[0]['mediafile'];
+                $returnImageUrl = env('APP_MEDIA_URL') . '/' . $imageElement['dest_path'] . '/' . $e[0]['mediafile']['file_name'];
+                $returnThumImageUrl = env('APP_MEDIA_URL') . '/' . $imageElement['dest_path'] . '/' . 'thum_'.$e[0]['mediafile']['file_name'];
+
+                return [
+                    'origin' => $returnImageUrl,
+                    'thum' => $returnThumImageUrl
+                ];
             };
 
             return [
@@ -32,6 +40,16 @@ class ProductsService
                 ],
                 'name' => $e['name'],
                 'barcode' => $e['barcode'],
+                'options' => [
+                    'step1' => [
+                        'code_id' => $e['options']['step1']['code_id'],
+                        'code_name' => $e['options']['step1']['code_name'],
+                    ],
+                    'step2' => [
+                        'code_id' => $e['options']['step2']['code_id'],
+                        'code_name' => $e['options']['step2']['code_name'],
+                    ],
+                ],
                 'price' => [
                     'number' => $e['price'],
                     'string' => number_format($e['price'])
@@ -43,17 +61,50 @@ class ProductsService
                 'memo' => $e['memo'],
                 'sale' => $e['sale'],
                 'active' => $e['active'],
-                'rep_image' => $rep_images($e['images'])
+                'rep_image' => $rep_images($e['images']),
+                'created_at' => Carbon::parse($e['created_at'])->format('Y년 m월 d일'),
             ];
         }, $item);
     }
 
     public function makeProductsList() : array
     {
-        $taskResult = $this->productsRepository->totalProductsForList()->get()->toArray();
+        return $this->gneratorProductsList($this->productsRepository->totalProductsForList()->get()->toArray());
+    }
 
+    public function detailProduct(String $product_uuid) : array
+    {
+        $task = $this->productsRepository->detailProduct($product_uuid);
+        $taskRelations = $task->getRelations();
 
-        return $this->gneratorProductsList($taskResult);
+        // TODO 이미지 배열 처리.
+        print_r($taskRelations['images'][0]);
+
+        return [
+//            'all' => $task,
+            'uuid' => $task->uuid,
+            'category' => [
+                'code_id' => $taskRelations['category']->code_id,
+                'code_name' => $taskRelations['category']->code_name,
+            ],
+            'name' => $task->name,
+            'barcode' => $task->barcode,
+            'price' => $task->price,
+            'stock' => $task->stock,
+            'memo' => $task->memo,
+            'sale' => $task->sale,
+            'active' => $task->active,
+            'options' => [
+                'step1' => [
+                    'code_id' => $taskRelations['options']->getRelations()['step1']->code_id,
+                    'code_name' => $taskRelations['options']->getRelations()['step1']->code_name,
+                ],
+                'step2' => [
+                    'code_id' => $taskRelations['options']->getRelations()['step2']->code_id,
+                    'code_name' => $taskRelations['options']->getRelations()['step2']->code_name,
+                ],
+            ],
+        ];
     }
 
 

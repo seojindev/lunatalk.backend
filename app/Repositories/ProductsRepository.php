@@ -83,10 +83,16 @@ class ProductsRepository implements ProductsRepositoryInterface
 
     public function totalProductsForList()
     {
-        return $this->products::with(['category', 'options.step1', 'options.step2', 'images.category' => function($query) {
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'images' => function($query) {
             $query->where('media_category', 'G010010');
-        }, 'images.mediafile']);
+        }, 'images.category', 'images.mediafile']);
 
+    }
+
+    public function detailProduct(String $uuid) : object
+    {
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'images' , 'images.category', 'images.mediafile'])
+            ->where('uuid', $uuid)->firstOrFail();
     }
 
 }

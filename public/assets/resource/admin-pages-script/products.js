@@ -60,3 +60,7 @@ var pageFunction = ( function() {
     };
 })();
 
+
+$(function () {
+
+});

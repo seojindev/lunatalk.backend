@@ -45,7 +45,7 @@ class MediaServices
         if ($request->hasFile('media_file')) {
 
             $validator = Validator::make($request->all(), [
-                'media_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'media_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
             ],
                 [
                     'media_file.required' => __('message.required.media_file'),
