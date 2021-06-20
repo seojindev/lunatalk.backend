@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * 자주 사용하는 코드 정리.
+ * 자주 사용하는 코드는 database select 안하고 설정 할수 있게.
+ *
+ * 다만 codes table 에 정보가 바뀌면 같이 바꿔 줘야 한다.
+ */
 return [
     'user' => [
         'user_level' => [
@@ -57,17 +64,13 @@ return [
         ]
     ],
     'mediaCategory' => [
-        'productImage' => [
+        'repImage' => [
             'name' => '상품이미지',
             'code' => 'G010010'
         ],
-        'productDetailImage' => [
+        'detailImage' => [
             'name' => '상품 상세 이미지',
             'code' => 'G010020'
-        ],
-        'productThumbnailImage' => [
-            'name' => '상품 썸네일 이미지',
-            'code' => 'G010030'
         ]
     ]
 

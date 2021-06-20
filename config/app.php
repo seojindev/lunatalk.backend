@@ -181,6 +181,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\CustomFacadesProvider::class,
+        App\Providers\FrontServiceProvider::class,
     ],
 
     /*

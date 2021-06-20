@@ -37,12 +37,16 @@ Route::group(['as' => 'api.'], function () {
     Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
         Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+
+            // 인증.
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::post('login', [AdminAuthController::class, 'login'])->name('login');
             });
 
+            // 상품 관련
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::post('create', [AdminProductsController::class, 'create'])->name('create');
+                Route::put('{product_uuid}/update', [AdminProductsController::class, 'update'])->name('update');
             });
         });
 

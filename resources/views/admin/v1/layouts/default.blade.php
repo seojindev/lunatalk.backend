@@ -18,7 +18,7 @@
         <!-- Custom styles for this template-->
         <link href="{{URL::asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
-@stack('csss')
+@stack('pageIncludeCsss')
 
         <link href="{{URL::asset('assets/resource/lunatalk.css')}}?t={{ time() }}" rel="stylesheet">
 
@@ -184,12 +184,15 @@
         <!-- Custom common javascript -->
         <script src="{{URL::asset('assets/resource/admin-common-script/common.js')}}?t={{ time() }}"></script>
 
-@stack('scripts')
+@stack('pageIncludeScripts')
 
 @if(file_exists('assets/resource/admin-pages-script/'.$pages['pageStep'].'.js'))
         <!--  pages only javascript -->
         <script src="{{URL::asset('assets/resource/admin-pages-script/'.$pages['pageStep'].'.js')}}?t={{ time() }}"></script>
 @endif
+
+
+@stack('pageLoadScript')
 
     </body>
 

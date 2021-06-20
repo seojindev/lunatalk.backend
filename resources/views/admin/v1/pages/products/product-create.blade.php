@@ -1,6 +1,6 @@
 @extends('admin.v1.layouts.default')
 
-@section('pageTitle','상품 정보')
+@section('pageTitle','상품 등록')
 
 @section('pageContent')
 
@@ -12,7 +12,7 @@
 
                                             <div class="form-group">
                                                 <label for="product_category">카테고리 선택</label>
-                                                <select class="form-control" id="product_category" name="product_category" disabled>
+                                                <select class="form-control" id="product_category" name="product_category">
                                                     <option value="">선택</option>
 @foreach ($composeCodeList['code_group']['P01'] as $category)
                                                     <option value="{{ $category['code_id'] }}">{{ $category['code_name'] }}</option>
@@ -22,15 +22,15 @@
 
                                             <div class="form-group">
                                                 <label class="control-label" for="product_name">상품 명</label>
-                                                <input class="form-control" id="product_name" name="product_name" type="text" disabled/>
+                                                <input class="form-control" id="product_name" name="product_name" type="text"/>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="product_option_step1">옵션 1</label>
-                                                        <select class="form-control" id="product_option_step1" name="product_option_step2" disabled>
-                                                            <option value="">없음</option>
+                                                        <select class="form-control" id="product_option_step1" name="product_option_step2">
+                                                            <option value="">선택</option>
 @foreach ($composeCodeList['code_group']['O10'] as $category)
                                                             <option value="{{ $category['code_id'] }}">{{ $category['code_name'] }}</option>
 @endforeach
@@ -40,8 +40,8 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="product_option_step2">옵션 2</label>
-                                                        <select class="form-control" id="product_option_step2" name="product_option_step2" disabled>
-                                                            <option value="">없음</option>
+                                                        <select class="form-control" id="product_option_step2" name="product_option_step2">
+                                                            <option value="">선택</option>
 @foreach ($composeCodeList['code_group']['O20'] as $category)
                                                             <option value="{{ $category['code_id'] }}">{{ $category['code_name'] }}</option>
 @endforeach
@@ -54,27 +54,27 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label class="control-label" for="product_price">가격</label>
-                                                        <input class="form-control" id="product_price" name="product_price" type="text" disabled/>
+                                                        <input class="form-control" id="product_price" name="product_price" type="number"/>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label class="control-label" for="product_stock">재고량</label>
-                                                        <input class="form-control" id="product_stock" name="product_stock" type="text" disabled/>
+                                                        <input class="form-control" id="product_stock" name="product_stock" type="number"/>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="control-label " for="product_barcode">바코드</label>
-                                                <input class="form-control" id="product_barcode" name="product_barcode" type="text" disabled/>
+                                                <input class="form-control" id="product_barcode" name="product_barcode" type="text"/>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label class="control-label" for="product_sale">판매 유무</label>
-                                                        <select class="form-control" id="product_sale" name="product_sale" disabled>
+                                                        <select class="form-control" id="product_sale" name="product_sale">
                                                             <option value="N">아니요</option>
                                                             <option value="Y">예</option>
                                                         </select>
@@ -83,7 +83,7 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label class="control-label" for="product_active">재품 상태</label>
-                                                        <select class="form-control" id="product_active" name="product_active" disabled>
+                                                        <select class="form-control" id="product_active" name="product_active">
                                                             <option value="N">아니요</option>
                                                             <option value="Y">예</option>
                                                         </select>
@@ -103,12 +103,11 @@
 
                                             <div class="form-group">
                                                 <label class="control-label" for="product_memo">메모</label>
-                                                <textarea class="form-control" cols="40" id="product_memo" name="product_memo" rows="5" disabled></textarea>
+                                                <textarea class="form-control" cols="40" id="product_memo" name="product_memo" rows="5"></textarea>
                                             </div>
 
                                             <div class="form-group">
-                                                <button class="btn btn-primary" name="golist-button">목록</button>
-                                                <button class="btn btn-primary" name="modify-button">수정</button>
+                                                <button class="btn btn-primary" name="submit-button">등록</button>
                                             </div>
                                         </form>
 
@@ -116,6 +115,7 @@
                                 </div>
                             </div>
                         </div>
+
 
 @stop
 
@@ -125,26 +125,24 @@
         <link href="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/dropzone.css')}}" rel="stylesheet">
 @endpush
 
+@push('scriptValues')
+        <!-- Page level script Values -->
+        <script>
+            var dropzoneMode = 'create';
+        </script>
+@endpush
 
 @push('pageIncludeScripts')
 
         <!-- Page level plugins -->
         <script src="{{URL::asset('assets/vendor/dropzone-5.7.0/dist/dropzone.js')}}"></script>
         <script src="{{URL::asset('assets/resource/admin-pages-script/products-dropzone.js')}}?t={{ time() }}"></script>
-
 @endpush
 
-@push('scriptValues')
-        <!-- Page level script Values -->
-        <script>
-            var pageData = @json($detail, JSON_PRETTY_PRINT);
-            var dropzoneMode = 'detail';
-        </script>
-@endpush
 
 @push('pageLoadScript')
         <!-- Page level pageLoadScript -->
         <script>
-            detailPageFunction.pageStart();
+            createPageFunction.pageStart();
         </script>
 @endpush

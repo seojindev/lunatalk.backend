@@ -4,6 +4,8 @@
 namespace App\Services\Api;
 
 use App\Exceptions\ClientErrorException;
+use Helper;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Repositories\ProductsRepository;
@@ -92,7 +94,7 @@ class ProductsService
         self::productValidation($request);
 
         $createTask = $this->productsRepository->createProduct([
-            'uuid' => \Helper::randomNumberUUID(),
+            'uuid' => Helper::randomNumberUUID(),
             'category' => $request->input('product_category'),
             'name' => $request->input('product_name'),
             'barcode' => $request->input('product_barcode'),
@@ -109,26 +111,75 @@ class ProductsService
             'step2' => $request->input('product_option_step2')
         ]);
 
-        $imageData = [];
-
+        // insert 가 시간은 뺴멱고 등록 처리 해서 create 로 변경.
         foreach ($request->input('product_image') as $element) :
-            $imageData[] = [
+            $this->productsRepository->createProductImage([
                 'product_id' => $createTask->id,
                 'media_category' => "G010010",
-                'media_id' => $element
-            ];
+                'media_id' => $element,
+            ]);
         endforeach;
 
         foreach ($request->input('product_detail_image') as $element) :
-            $imageData[] = [
+            $this->productsRepository->createProductImage([
                 'product_id' => $createTask->id,
-                'media_category' => 'G010020',
-                'media_id' => $element
-            ];
+                'media_category' => "G010020",
+                'media_id' => $element,
+            ]);
+        endforeach;
+    }
+
+    /**
+     * 상춤 업데이트 처리.
+     * @param Request $request
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function productUpdate(Request $request, String $uuid) : void
+    {
+        $productInfo = $this->productsRepository->productExitsByUUID($uuid);
+
+        if(!$productInfo) {
+            throw new ModelNotFoundException();
+        }
+
+        self::productValidation($request);
+
+        $this->productsRepository->updateProduct($productInfo->id, [
+            'category' => $request->input('product_category'),
+            'name' => $request->input('product_name'),
+            'barcode' => $request->input('product_barcode'),
+            'price' => $request->input('product_price'),
+            'stock' => $request->input('product_stock'),
+            'memo' => $request->input('product_memo'),
+            'sale' => $request->input('product_sale'),
+            'active' => $request->input('product_active')
+        ]);
+
+        // 옵션 삭제 후 다시 등록.
+        $this->productsRepository->deleteProductOptins($productInfo->id);
+        $this->productsRepository->createProductOption([
+            'product_id' => $productInfo->id,
+            'step1' => $request->input('product_option_step1'),
+            'step2' => $request->input('product_option_step2'),
+        ]);
+
+        // 업데이트시 일단 이미지를 삭제후 등록.
+        $this->productsRepository->deleteProdctImages($productInfo->id);
+        foreach ($request->input('product_image') as $element) :
+            $this->productsRepository->createProductImage([
+                'product_id' => $productInfo->id,
+                'media_category' => "G010010",
+                'media_id' => $element,
+            ]);
         endforeach;
 
-        if(count($imageData) > 0) {
-            $this->productsRepository->insertProductImage($imageData);
-        }
+        foreach ($request->input('product_detail_image') as $element) :
+            $this->productsRepository->createProductImage([
+                'product_id' => $productInfo->id,
+                'media_category' => "G010020",
+                'media_id' => $element,
+            ]);
+        endforeach;
     }
 }

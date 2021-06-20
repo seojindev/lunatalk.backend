@@ -20,10 +20,11 @@
                     xhr.setRequestHeader("Authorization","Bearer  " + access_token);
                 },
             }).fail(function(xhr, status, errorThrown) {
-                // console.debug(xhr);
-                // let errorText = "오류가 발생했습니다.";
-                // errorText += "오류명: " + errorThrown;
-                // errorText += "상태: " + status;
+                console.debug(xhr);
+                let errorText = "오류가 발생했습니다.";
+                errorText += "오류명: " + errorThrown;
+                errorText += "상태: " + status;
+                console.debug(errorText);
                 alert(xhr.responseJSON.error_message);
             }).done(function(json) {
                 if(json.status === false) {
