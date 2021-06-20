@@ -24,6 +24,7 @@ $(function () {
 
     // 상품 이미지 dropzone 옵션
     dropzoneOption.dictDefaultMessage = "상품 이미지를 올려 주세요.",
+    dropzoneOption.url = appServiceUrl  + '/api/v1/other/media/products/rep/create';
     dropzoneOption.init = function () {
         this.on("success", function(file, responseText) {
             productFormData.product_image.push(responseText.result.media_id);
@@ -69,7 +70,8 @@ $(function () {
     $("div#dropzone_rep").dropzone(dropzoneOption);
 
     // 상품 상세 이미지 dropzone 옵션
-    dropzoneOption.dictDefaultMessage = "상품 상세 이미지를 올려 주세요.",
+    dropzoneOption.dictDefaultMessage = "상품 상세 이미지를 올려 주세요.";
+    dropzoneOption.url = appServiceUrl  + '/api/v1/other/media/products/detail/create';
     dropzoneOption.init = function () {
         this.on("success", function(file, responseText) {
             productFormData.product_detail_image.push(responseText.result.media_id);
