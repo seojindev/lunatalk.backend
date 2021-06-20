@@ -21,7 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('barcode', 50)->nullable()->comment('상품 비코드.');
             $table->integer('price')->default(0)->comment('상품 가격.');
             $table->integer('stock')->default(0)->comment('상품 재고 수량.');
-            $table->enum('sale', ['Y', 'N'])->default('N')->comment('상품 재고 수량.');
+            $table->text('memo')->default('')->comment('상품 메모.');
+            $table->enum('sale', ['Y', 'N'])->default('N')->comment('상품 판매 유무.');
             $table->enum('active', ['Y', 'N'])->default('N')->comment('상품 상태.');
             $table->timestamps();
 

@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>LunaTak Admin - {{$pages['pageTitle']}}</title>
+        <title>LunaTak Admin - @yield('pageTitle')</title>
 
         <!-- Custom fonts for this template-->
         <link href="{{URL::asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -18,9 +18,15 @@
         <!-- Custom styles for this template-->
         <link href="{{URL::asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
-@stack('csss')
+@stack('pageIncludeCsss')
 
-        <link href="{{URL::asset('assets/resource/lunatalk.css')}}" rel="stylesheet">
+        <link href="{{URL::asset('assets/resource/lunatalk.css')}}?t={{ time() }}" rel="stylesheet">
+
+        <script>
+                var appServiceUrl = '{{ env('APP_URL') }}';
+        </script>
+
+@stack('scriptValues')
 
     </head>
 
@@ -178,12 +184,15 @@
         <!-- Custom common javascript -->
         <script src="{{URL::asset('assets/resource/admin-common-script/common.js')}}?t={{ time() }}"></script>
 
-@stack('scripts')
+@stack('pageIncludeScripts')
 
 @if(file_exists('assets/resource/admin-pages-script/'.$pages['pageStep'].'.js'))
         <!--  pages only javascript -->
         <script src="{{URL::asset('assets/resource/admin-pages-script/'.$pages['pageStep'].'.js')}}?t={{ time() }}"></script>
 @endif
+
+
+@stack('pageLoadScript')
 
     </body>
 

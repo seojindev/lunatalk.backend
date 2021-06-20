@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsController;
 use App\Http\Controllers\Api\v1\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\v1\Other\MediaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Route::group(['as' => 'api.'], function () {
      */
     Route::group(['prefix' => 'test', 'as' => 'test.'], function () {
         Route::post('default', [TestController::class, 'default'])->name('default');
+        Route::post('user-insert', [TestController::class, 'user_insert'])->name('user-insert');
     });
 
     /**
@@ -35,8 +37,22 @@ Route::group(['as' => 'api.'], function () {
     Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
         Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+
+            // 인증.
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::post('login', [AdminAuthController::class, 'login'])->name('login');
+            });
+
+            // 상품 관련
+            Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+                Route::post('create', [AdminProductsController::class, 'create'])->name('create');
+                Route::put('{product_uuid}/update', [AdminProductsController::class, 'update'])->name('update');
+            });
+        });
+
+        Route::group(['prefix' => 'other', 'as' => 'other.'], function () {
+            Route::group(['prefix' => 'media', 'as' => 'media.'], function () {
+                Route::post('{mediaName}/{mediaCategory}/create', [MediaController::class, 'media_create'])->name('create');
             });
         });
 
@@ -44,6 +60,5 @@ Route::group(['as' => 'api.'], function () {
             Route::post('login', [AuthController::class, 'login'])->name('login');
             Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         });
-
     });
 });

@@ -180,6 +180,8 @@ return [
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
+        App\Providers\CustomFacadesProvider::class,
+        App\Providers\FrontServiceProvider::class,
     ],
 
     /*
@@ -233,6 +235,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /**
+         * Custom Setting
+         */
+        'Helper' => App\Repositories\CustomFacades::class,
     ],
 
 ];

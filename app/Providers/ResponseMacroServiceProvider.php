@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Request;
 use stdClass;
 
 class ResponseMacroServiceProvider extends ServiceProvider
@@ -23,7 +24,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
         /**
          * 기본 성공 Render Macro.
@@ -53,14 +54,14 @@ class ResponseMacroServiceProvider extends ServiceProvider
         });
 
         /**
-         * 성공 메시지만 처리.
+         * 생성 메시지만 처리.
          */
         Response::macro('success_only_message', function () {
             $response = [
                 'message' => __('message.response.process_success'),
             ];
 
-            return Response()->json($response);
+            return Response()->json($response, 201);
         });
 
         /**
@@ -81,19 +82,33 @@ class ResponseMacroServiceProvider extends ServiceProvider
         /**
          * 기본 Error Render Macro.
          */
-        Response::macro('error', function($statusCode = 401, $error_message = NULL) {
+        Response::macro('error', function($statusCode = 401, $error_message = NULL) use ($request) {
 //            $request = app(\Illuminate\Http\Request::class);
 
-            if(is_array($error_message)) {
-                $response = [
-                    'error_message' => $error_message['message'] ?: __('message.response.error'),
-                    'error' => $error_message['error']
-                ];
+            if($request->wantsJson()) {
+                if(is_array($error_message)) {
+                    $response = [
+                        'error_message' => $error_message['message'] ?: __('message.response.error'),
+                        'error' => $error_message['error']
+                    ];
+                } else {
+                    $response = [
+                        'error_message' => $error_message,
+                    ];
+
+                }
+                return Response()->json($response, $statusCode);
             } else {
-                $response = [
-                    'error_message' => $error_message,
-                ];
+                if(is_array($error_message)) {
+                    $responseText = 'error_message: ' . $error_message['message'] ?: __('message.response.error');
+                    $responseText .= '<br />' . 'error: ' . $error_message['error'];
+                } else {
+                    $responseText = 'error_message: ' . $error_message;
+                }
+                return Response($responseText, $statusCode);
             }
+
+
 
             /*
             if(!empty($request->get('callback'))){
@@ -103,7 +118,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             }
             */
 
-            return Response()->json($response, $statusCode);
+
         });
     }
 }

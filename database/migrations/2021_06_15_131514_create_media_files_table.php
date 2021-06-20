@@ -15,6 +15,8 @@ class CreateMediaFilesTable extends Migration
     {
         Schema::create('media_files', function (Blueprint $table) {
             $table->id();
+            $table->string('media_name')->nullable(false)->comment('미디어명.');
+            $table->string('media_category')->nullable(false)->comment('미디어 구분.');
             $table->string('dest_path')->nullable(false)->comment('저장 디렉토리 경로.');
             $table->string('file_name')->nullable(false)->comment('파일명.');
             $table->string('original_name')->nullable(false)->comment('원본 파일명.');

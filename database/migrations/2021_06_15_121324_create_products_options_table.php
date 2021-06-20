@@ -20,6 +20,8 @@ class CreateProductsOptionsTable extends Migration
             $table->string('step2', 7)->nullable()->comment('상품 옵션 2.');
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('step1')->references('code_id')->on('codes')->onDelete('cascade');
+            $table->foreign('step2')->references('code_id')->on('codes')->onDelete('cascade');
         });
     }
 

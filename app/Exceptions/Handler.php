@@ -268,7 +268,10 @@ EOF;
          */
         if ($e instanceof ModelNotFoundException) {
             $error_message = __('message.exception.ModelNotFoundException');
-            return Response::error(404, $error_message);
+            if($request->wantsJson()) {
+                return Response::error(404, $error_message);
+            }
+            return Response($error_message, 404);
         }
 
         return parent::render($request, $e);

@@ -45,9 +45,12 @@ Route::group(['prefix' => 'front', 'as' => 'front.'], function () {
                 Route::get('login', [AuthController::class, 'login'])->name('login');
             });
 
+            // 상품 정보 페이지.
             Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
                 Route::get('list', [ProductsController::class, 'list'])->name('list');
-                Route::get('view', [ProductsController::class, 'view'])->name('view');
+                Route::get('{product_uuid}/detail', [ProductsController::class, 'detail'])->name('detail');
+                Route::get('{product_uuid}/update', [ProductsController::class, 'update'])->name('update');
+                Route::get('create', [ProductsController::class, 'create'])->name('create');
             });
         });
     });
