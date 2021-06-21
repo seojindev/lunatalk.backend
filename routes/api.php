@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsController;
 use App\Http\Controllers\Api\v1\AuthController;
@@ -29,6 +30,16 @@ Route::group(['as' => 'api.'], function () {
     Route::group(['prefix' => 'test', 'as' => 'test.'], function () {
         Route::post('default', [TestController::class, 'default'])->name('default');
         Route::post('user-insert', [TestController::class, 'user_insert'])->name('user-insert');
+    });
+
+    /**
+     * 시스템 용.
+     */
+    Route::group(['namespace' => 'system', 'prefix' => 'system', 'as' => 'system.'], function () {
+        Route::get('check-status', [SystemController::class, 'checkStatus'])->name('check.status'); // 서버 상태 체크
+        Route::get('check-notice', [SystemController::class, 'checkServerNotice'])->name('check.server.notice'); // 서버 공지 사항 체크
+        Route::get('base-data', [SystemController::class, 'baseData'])->name('base.data'); // 공통 데이터.
+
     });
 
     /**
