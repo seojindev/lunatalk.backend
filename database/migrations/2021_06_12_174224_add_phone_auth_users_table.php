@@ -14,7 +14,7 @@ class AddPhoneAuthUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('phone_number')->unique()->default(NULL)->after('remember_token')->comment('회원 휴대폰 번호.');
+            $table->string('phone_number')->unique()->default('')->after('remember_token')->comment('회원 휴대폰 번호.');
             $table->enum('phone_verified', ['Y', 'N'])->after('phone_number')->default('N')->comment('회원 휴대폰 인증 상태.');
         });
     }
