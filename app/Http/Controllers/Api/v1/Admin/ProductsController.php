@@ -45,6 +45,7 @@ class ProductsController extends RootController
      * @param Request $request
      * @param String $product_uuid
      * @return mixed
+     * @throws ClientErrorException
      */
     public function update(Request $request, String $product_uuid) {
 
