@@ -47,7 +47,9 @@ return [
             'minmax' => '휴대폰 번호의 자리수를 확인해 주세요.',
             'numeric' => '휴대폰 번호는 숫자로만 입력해 주세요.',
             'verified' => '이미 인증이 완료 되었습니다.',
-            'auth_code_fail' => '인증 번호를 확인해 주세요.',
+            'auth_code_fail_verified' => '이미 인증 완료한 코드 입니다.',
+            'auth_code_fail' => '인증 코드를 확인해 주세요.',
+            'auth_code_compare_fail' => '정확한 인증 코드를 입력해 주세요.',
         ]
     ],
 

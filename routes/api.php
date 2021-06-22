@@ -71,7 +71,7 @@ Route::group(['as' => 'api.'], function () {
             Route::post('login', [AuthController::class, 'login'])->name('login');
             Route::post('logout', [AuthController::class, 'logout'])->name('logout');
             Route::post('phone-auth', [AuthController::class, 'phone_auth'])->name('phone.auth');
-            Route::post('{auth_index}/phone-auth-confirm', [AuthController::class, 'phone_auth_confirm'])->name('phone.auth.confirm');
+            Route::post('{auth_index}/phone-auth-confirm', [AuthController::class, 'phone_auth_confirm'])->name('phone.auth.confirm')->where('auth_index', '[0-9]+');
         });
     });
 });

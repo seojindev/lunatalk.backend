@@ -15,7 +15,6 @@ class AddPhoneAuthUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone_number')->unique()->default('')->after('remember_token')->comment('회원 휴대폰 번호.');
-            $table->enum('phone_verified', ['Y', 'N'])->after('phone_number')->default('N')->comment('회원 휴대폰 인증 상태.');
         });
     }
 
@@ -28,7 +27,6 @@ class AddPhoneAuthUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             if(DB::getDriverName() !== 'sqlite') $table->dropColumn(['phone_number']);
-            if(DB::getDriverName() !== 'sqlite') $table->dropColumn(['phone_verified']);
         });
     }
 }

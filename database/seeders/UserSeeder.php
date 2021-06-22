@@ -29,7 +29,6 @@ class UserSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('password'),
                 'phone_number' => '010-1234-1234',
-                'phone_verified' => 'Y',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -45,7 +44,6 @@ class UserSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('password'),
                 'phone_number' => '010-0234-0234',
-                'phone_verified' => 'Y',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -61,7 +59,6 @@ class UserSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make('password'),
                 'phone_number' => '010-0234-0235',
-                'phone_verified' => 'Y',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

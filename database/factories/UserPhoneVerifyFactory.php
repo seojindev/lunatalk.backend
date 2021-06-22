@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use Helper;
+use Illuminate\Support\Facades\Crypt;
 
 class UserPhoneVerifyFactory extends Factory
 {
@@ -26,9 +27,9 @@ class UserPhoneVerifyFactory extends Factory
     {
         return [
             'user_id' => User::where('user_level', 'S020010')->inRandomOrder()->first()->id,
-            'phone_number' => $this->faker->numerify('010-####-####'),
+            'phone_number' => Crypt::encryptString($this->faker->numerify('010########')),
             'auth_code' => Helper::generateAuthNumberCode(),
-            'verified_at' => Carbon::now(),
+            'verified' => 'Y',
         ];
     }
 }

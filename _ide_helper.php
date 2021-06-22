@@ -15408,6 +15408,26 @@
                         /** @var \App\Supports\HelperClass $instance */
                         return $instance->randomNumberUUID();
         }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function generatePin($number)
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->generatePin($number);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function generateAuthNumberCode()
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->generateAuthNumberCode();
+        }
          
     }
      

@@ -6,8 +6,8 @@ namespace App\Services\Api;
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Exceptions\ServerErrorException;
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,13 +15,33 @@ use App\Repositories\PassportRepository;
 use App\Repositories\AuthRepository;
 use Helper;
 
+/**
+ * Class AuthServices
+ * @package App\Services\Api
+ */
 class AuthServices
 {
+    /**
+     * @var Request
+     */
     protected Request $currentRequest;
 
+    /**
+     * @var PassportRepository
+     */
     protected PassportRepository $passportRepository;
+
+    /**
+     * @var AuthRepository
+     */
     protected AuthRepository $authRepository;
 
+    /**
+     * AuthServices constructor.
+     * @param Request $request
+     * @param PassportRepository $passportRepository
+     * @param AuthRepository $authRepository
+     */
     function __construct(Request $request, PassportRepository $passportRepository, AuthRepository $authRepository){
         $this->currentRequest = $request;
         $this->passportRepository = $passportRepository;
@@ -89,6 +109,11 @@ class AuthServices
         ];
     }
 
+    /**
+     * 회원 가입 휴대폰 인증.
+     * @return array
+     * @throws ClientErrorException
+     */
     public function phoneAuth() : array
     {
         $validator = Validator::make($this->currentRequest->all(), [
@@ -108,11 +133,18 @@ class AuthServices
         $authCode = Helper::generateAuthNumberCode();
 
         $task = $this->authRepository->createUserPhoneVerify([
-            'user_id' => 1,
-            'phone_number' => $this->currentRequest->input('phone_number'),
+            'phone_number' => Crypt::encryptString($this->currentRequest->input('phone_number')),
             'auth_code' => $authCode
         ]);
 
+        if(env('APP_ENV') == "production") {
+            return [
+                'phone_number' => $this->currentRequest->input('phone_number'),
+                'auth_index' => $task->id
+            ];
+        }
+
+        // 운영 버전이 아니면 인증코드도 같이.
         return [
             'phone_number' => $this->currentRequest->input('phone_number'),
             'auth_index' => $task->id,
@@ -120,9 +152,42 @@ class AuthServices
         ];
     }
 
-    public function phoneAuthConfirm(int $auth_index)
+    /**
+     * 회원 가입 휴대폰 인증 확인.
+     * @param Int $auth_index
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function phoneAuthConfirm(Int $auth_index) : array
     {
+        $task = $this->authRepository->findUserPhoneVerify($auth_index);
 
+        if($task->verified === 'Y') {
+            throw new ClientErrorException(__('message.register.phone_auth_confirm.auth_code_fail_verified'));
+        }
+
+        $validator = Validator::make($this->currentRequest->all(), [
+            'auth_code' => 'required|string|min:4'
+        ],
+            [
+                'auth_code.required' => __('message.register.phone_auth_confirm.required'),
+                'auth_code.string' => __('message.register.phone_auth_confirm.auth_code_fail'),
+                'auth_code.min' => __('message.register.phone_auth_confirm.auth_code_fail'),
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        if($this->currentRequest->input('auth_code') !== $task->auth_code) {
+            throw new ClientErrorException(__('message.register.phone_auth_confirm.auth_code_compare_fail'));
+        }
+
+        $this->authRepository->updateUserPhoneVerifyVerified($auth_index, 'Y');
+
+        return [
+            'auth_index' => $task->id,
+            'phone_number' => Crypt::decryptString($task->phone_number),
+        ];
     }
-
 }
