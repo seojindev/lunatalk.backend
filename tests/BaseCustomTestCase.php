@@ -72,14 +72,14 @@ class BaseCustomTestCase extends TestCase
     protected function getTestAccessTokenHeader() : array
     {
         $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/auth/login', [
-            "email" => \App\Models\User::where('user_level', 'S02900')->orderBy('id', 'ASC')->first()->email,
-            "password" => 'password'
+            "login_name" => \App\Models\User::where('user_level', 'S020900')->orderBy('id', 'ASC')->first()->login_name,
+            "login_password" => 'password'
         ]);
         return [
             'Request-Client-Type' => config('extract.clientType.front.code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer '.$response['access_token']
+            'Authorization' => 'Bearer '.$response['result']['access_token']
         ];
     }
 
@@ -90,14 +90,14 @@ class BaseCustomTestCase extends TestCase
     protected function getTestGuestAccessTokenHeader() : array
     {
         $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/auth/login', [
-            "email" => \App\Models\User::where('user_level', 'S02010')->orderBy('id', 'ASC')->first()->email,
-            "password" => 'password'
+            "login_name" => \App\Models\User::where('user_level', 'S020010')->orderBy('id', 'ASC')->first()->login_name,
+            "login_password" => 'password'
         ]);
         return [
             'Request-Client-Type' => config('extract.clientType.front.code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer '.$response['access_token']
+            'Authorization' => 'Bearer '.$response['result']['access_token']
         ];
     }
 }
