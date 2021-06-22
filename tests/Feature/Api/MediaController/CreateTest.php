@@ -74,20 +74,21 @@ class CreateTest extends BaseCustomTestCase
     }
 
     // 정상
-    public function test_media_정상_요청()
-    {
-        $file = UploadedFile::fake()->create('test_image.jpeg', 300, 'image/jpeg');
-
-        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', '/api/v1/other/media/products/rep/create', [
-            'media_file' => $file
-        ])->assertStatus(200)->assertJsonStructure([
-            'message',
-            'result' => [
-                'media_id',
-                'media_name',
-                'media_category',
-                'media_full_url'
-            ]
-        ]);
-    }
+    // 정상일때 테스트시는 이미지가 직접 올라가기 떄문에 뺌.
+//    public function test_media_정상_요청()
+//    {
+//        $file = UploadedFile::fake()->create('test_image.jpeg', 300, 'image/jpeg');
+//
+//        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', '/api/v1/other/media/products/rep/create', [
+//            'media_file' => $file
+//        ])->assertStatus(200)->assertJsonStructure([
+//            'message',
+//            'result' => [
+//                'media_id',
+//                'media_name',
+//                'media_category',
+//                'media_full_url'
+//            ]
+//        ]);
+//    }
 }

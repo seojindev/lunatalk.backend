@@ -72,8 +72,8 @@ class LoginTest extends BaseCustomTestCase
     public function test_login_정상_요청()
     {
         $testBody = '{
-            "login_name": "test1",
-            "login_password": "1212"
+            "login_name": "test3",
+            "login_password": "password"
         }';
 
         $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testBody, true))
