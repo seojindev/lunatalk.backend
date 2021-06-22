@@ -14,7 +14,7 @@ class ChangeColumnLoginNameUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('login_name', 50)->unique()->change();
+            $table->string('login_id', 50)->unique()->change();
         });
     }
 

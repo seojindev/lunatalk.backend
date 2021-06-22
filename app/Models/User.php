@@ -52,10 +52,11 @@ use Laravel\Passport\HasApiTokens;
  * @property string $phone_verified 회원 휴대폰 인증 상태.
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerified($value)
- * @property string $login_name
+ * @property string $login_id
  * @property string $user_state 회원 상태.
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLoginName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUserState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLoginId($value)
  */
 class User extends Authenticatable
 {
@@ -67,7 +68,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'login_name',
+        'login_id',
         'email',
         'password',
     ];
@@ -92,10 +93,10 @@ class User extends Authenticatable
     ];
 
     /**
-     * @param $username
+     * @param $login_id
      * @return User|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
-    public function findForPassport($username) {
-        return $this->where('login_name', $username)->first();
+    public function findForPassport($login_id) {
+        return $this->where('login_id', $login_id)->first();
     }
 }

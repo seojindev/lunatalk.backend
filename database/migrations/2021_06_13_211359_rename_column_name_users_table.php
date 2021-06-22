@@ -14,7 +14,7 @@ class RenameColumnNameUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('name', 'login_name');
+            $table->renameColumn('name', 'login_id')->comment('로그인 아이디.');
         });
     }
 
@@ -26,7 +26,7 @@ class RenameColumnNameUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('login_name', 'name');
+            $table->renameColumn('login_id', 'name');
         });
     }
 }

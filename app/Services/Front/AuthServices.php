@@ -3,10 +3,8 @@
 
 namespace App\Services\Front;
 
-use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Exceptions\ServerErrorException;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -33,12 +31,12 @@ class AuthServices
         $request = $this->currentRequest;
 
         $validator = Validator::make($request->all(), [
-                'login_name' => 'required|exists:users,login_name',
+                'login_id' => 'required|exists:users,login_id',
                 'login_password' => 'required',
             ],
             [
-                'login_name.required' => __('message.login.login_name_required'),
-                'login_name.exists' => __('message.login.login_name_exists'),
+                'login_id.required' => __('message.login.login_id_required'),
+                'login_id.exists' => __('message.login.login_id_exists'),
                 'login_password.required' => __('message.login.password_required'),
             ]);
 
@@ -47,7 +45,7 @@ class AuthServices
             throw new ServiceErrorException($validator->errors()->first());
         }
 
-        if(!Auth::attempt(['login_name' => $request->input('login_name'), 'password' => $request->input('login_password')])) {
+        if(!Auth::attempt(['login_id' => $request->input('login_id'), 'password' => $request->input('login_password')])) {
             // 비밀번호 실패.
             throw new ServiceErrorException(__('message.login.password_fail'));
         }
@@ -67,7 +65,7 @@ class AuthServices
             'grant_type' => 'password',
             'client_id' => $client->client_id,
             'client_secret' => $client->client_secret,
-            'username' => $this->currentRequest->input('login_name'),
+            'username' => $this->currentRequest->input('login_id'),
             'password' => $this->currentRequest->input('login_password'),
             'scope' => '',
         ];

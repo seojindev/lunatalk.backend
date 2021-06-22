@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|UserPhoneVerify whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserPhoneVerify whereVerifiedAt($value)
  * @mixin \Eloquent
+ * @property string|null $verified 인증 상태
+ * @method static \Illuminate\Database\Eloquent\Builder|UserPhoneVerify whereVerified($value)
  */
 class UserPhoneVerify extends Model
 {

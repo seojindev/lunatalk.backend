@@ -16,10 +16,10 @@ class LoginTest extends BaseCustomTestCase
     public function test_login_아이디_없이_요청()
     {
         $this->expectException(ServiceErrorException::class);
-        $this->expectExceptionMessage(__('message.login.login_name_required'));
+        $this->expectExceptionMessage(__('message.login.login_id_required'));
 
         $testBody = '{
-            "login_name": "",
+            "login_id": "",
             "login_password": ""
         }';
 
@@ -30,10 +30,10 @@ class LoginTest extends BaseCustomTestCase
     public function test_login_존재하지_않은_사용자_요청()
     {
         $this->expectException(ServiceErrorException::class);
-        $this->expectExceptionMessage(__('message.login.login_name_exists'));
+        $this->expectExceptionMessage(__('message.login.login_id_exists'));
 
         $testBody = '{
-            "login_name": "test2222",
+            "login_id": "test2222",
             "login_password": ""
         }';
 
@@ -47,7 +47,7 @@ class LoginTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('message.login.password_required'));
 
         $testBody = '{
-            "login_name": "test1",
+            "login_id": "test1",
             "login_password": ""
         }';
 
@@ -61,7 +61,7 @@ class LoginTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('message.login.password_fail'));
 
         $testBody = '{
-            "login_name": "test1",
+            "login_id": "test1",
             "login_password": "1111"
         }';
 
@@ -72,7 +72,7 @@ class LoginTest extends BaseCustomTestCase
     public function test_login_정상_요청()
     {
         $testBody = '{
-            "login_name": "test3",
+            "login_id": "test3",
             "login_password": "password"
         }';
 

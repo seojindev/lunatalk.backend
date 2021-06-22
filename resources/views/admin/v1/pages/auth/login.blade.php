@@ -45,7 +45,7 @@
                                         </div>
                                         <form class="user">
                                             <div class="form-group">
-                                                <input type="text" class="form-control form-control-user" id="login_name" aria-describedby="emailHelp" placeholder="로그인하실 아이디를 입력해주세요.">
+                                                <input type="text" class="form-control form-control-user" id="login_id" aria-describedby="emailHelp" placeholder="로그인하실 아이디를 입력해주세요.">
                                             </div>
                                             <div class="form-group">
                                                 <input type="password" class="form-control form-control-user" id="login_password" placeholder="비밀번호를 입력해 주세요.">
