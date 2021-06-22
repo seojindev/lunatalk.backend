@@ -74,6 +74,7 @@ class CodesSeeder extends Seeder
             [ 'group_id' => 'P01', 'group_name' => '상품 카테고리' ],
             [ 'group_id' => 'O10', 'group_name' => '상품 옵션1(색)' ],
             [ 'group_id' => 'O20', 'group_name' => '상품 옵션2' ],
+            [ 'group_id' => 'E01', 'group_name' => '상품 옵션2' ],
         ];
     }
 
@@ -116,6 +117,20 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0010', 'code_name' => '상품 이미지' ],
                 [ 'code_id' => '0020', 'code_name' => '상품 상세 이미지' ],
                 [ 'code_id' => '0030', 'code_name' => '상품 썸네일 이미지' ],
+            ],
+            'E01' => [
+                [ 'code_id' => '0010', 'code_name' => 'naver.com' ],
+                [ 'code_id' => '0020', 'code_name' => 'hanmail.net' ],
+                [ 'code_id' => '0030', 'code_name' => 'daum.net' ],
+                [ 'code_id' => '0040', 'code_name' => 'nate.com' ],
+                [ 'code_id' => '0050', 'code_name' => 'gmail.com' ],
+                [ 'code_id' => '0060', 'code_name' => 'hotmail.com' ],
+                [ 'code_id' => '0070', 'code_name' => 'lycos.co.kr' ],
+                [ 'code_id' => '0080', 'code_name' => 'empal.com' ],
+                [ 'code_id' => '0090', 'code_name' => 'cyworld.com' ],
+                [ 'code_id' => '0100', 'code_name' => 'yahoo.com' ],
+                [ 'code_id' => '0110', 'code_name' => 'paran.com' ],
+                [ 'code_id' => '0120', 'code_name' => 'dreamwiz.com' ],
             ],
             'O10' => [
                 [ 'code_id' => '0010', 'code_name' => '초콜릿' ],
