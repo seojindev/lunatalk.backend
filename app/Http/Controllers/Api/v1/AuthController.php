@@ -29,4 +29,14 @@ class AuthController extends RootController
 
         return Response::success_only_message();
     }
+
+    public function phone_auth(Request $request)
+    {
+        return Response::message_success(__('message.other.send_phone_auth_code'), $this->AuthServices->phoneAuth());
+    }
+
+    public function phone_auth_confirm(Int $auth_index, Request $request)
+    {
+        return Response::message_success(__('message.other.success_phone_auth_code'), $this->AuthServices->phoneAuthConfirm($auth_index));
+    }
 }

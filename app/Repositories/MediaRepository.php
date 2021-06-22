@@ -23,7 +23,6 @@ class MediaRepository implements MediaRepositoryInterface
     public function __construct(MediaFiles $mediafiles)
     {
         $this->MediaFiles = $mediafiles;
-
     }
 
     /**

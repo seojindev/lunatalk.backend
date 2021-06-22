@@ -36,6 +36,21 @@ return [
         'login_success' => '로그인에 성공했습니다.',
     ],
 
+    'register' => [
+        'phone_auth' => [
+            'required' => '휴대폰 번호를 입력해 주세요.',
+            'minmax' => '휴대폰 번호의 자리수를 확인해 주세요.',
+            'numeric' => '휴대폰 번호는 숫자로만 입력해 주세요.',
+        ],
+        'phone_auth_confirm' => [
+            'required' => '인증 코드를 입력해 주세요.',
+            'minmax' => '휴대폰 번호의 자리수를 확인해 주세요.',
+            'numeric' => '휴대폰 번호는 숫자로만 입력해 주세요.',
+            'verified' => '이미 인증이 완료 되었습니다.',
+            'auth_code_fail' => '인증 번호를 확인해 주세요.',
+        ]
+    ],
+
     'required' => [
         'media_file' => '이미지를 등록해 주세요.',
     ],
@@ -44,6 +59,8 @@ return [
         'image_check' => '이미지만 등록 가능합니다.',
         'image_mimes' => '업로드 가능한 이미지가 아닙니다. (jpeg,png,jpg,gif)',
         'image_max' => '업로드 이미지 용량 초과 입니다. (2048 byte)',
+        'send_phone_auth_code' => '인증코드를 발송 했습니다. 문자를 확인해 주세요.',
+        'success_phone_auth_code' => '인증코드 확인이 완료 되었습니다.',
     ],
 
     'product' => [

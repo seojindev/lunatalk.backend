@@ -12,16 +12,20 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\PassportRepository;
+use App\Repositories\AuthRepository;
+use Helper;
 
 class AuthServices
 {
     protected Request $currentRequest;
 
     protected PassportRepository $passportRepository;
+    protected AuthRepository $authRepository;
 
-    function __construct(Request $request, PassportRepository $passportRepository){
+    function __construct(Request $request, PassportRepository $passportRepository, AuthRepository $authRepository){
         $this->currentRequest = $request;
         $this->passportRepository = $passportRepository;
+        $this->authRepository = $authRepository;
     }
 
     /**
@@ -84,4 +88,41 @@ class AuthServices
             'refresh_token' => $tokenRequestResult->refresh_token
         ];
     }
+
+    public function phoneAuth() : array
+    {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'phone_number' => 'required|numeric|digits_between:8,11'
+        ],
+            [
+                'phone_number.required' => __('message.register.phone_auth.required'),
+                'phone_number.min' => __('message.register.phone_auth.minmax'),
+                'phone_number.digits_between' => __('message.register.phone_auth.minmax'),
+                'phone_number.numeric' => __('message.register.phone_auth.numeric'),
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $authCode = Helper::generateAuthNumberCode();
+
+        $task = $this->authRepository->createUserPhoneVerify([
+            'user_id' => 1,
+            'phone_number' => $this->currentRequest->input('phone_number'),
+            'auth_code' => $authCode
+        ]);
+
+        return [
+            'phone_number' => $this->currentRequest->input('phone_number'),
+            'auth_index' => $task->id,
+            'auth_code' => $authCode
+        ];
+    }
+
+    public function phoneAuthConfirm(int $auth_index)
+    {
+
+    }
+
 }

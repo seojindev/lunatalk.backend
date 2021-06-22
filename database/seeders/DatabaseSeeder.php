@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CodesSeeder::class,
             UserSeeder::class,
+            UserPhoneVerifySeeder::class,
         ]);
     }
 }
