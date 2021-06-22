@@ -3,7 +3,7 @@
 ## Lunatalk Back-End Source.
 
 ### app script
-1. app app-reset
+1. app app-rewset
 
 ```angular2html
 composer app-reset
@@ -28,6 +28,8 @@ composer app-clear
 ```angular2html
 composer unit-test:clear
 composer unit-test:watch
+
+./vendor/bin/phpunit-watcher watch --filter=test_login_
 
 php artisan test
 ```
