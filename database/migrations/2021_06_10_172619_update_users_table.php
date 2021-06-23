@@ -16,8 +16,8 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('user_uuid', 50)->after('id')->unique()->default('')->comment('회원 uuid');
-            $table->string('user_type', 7)->after('user_uuid')->default(config('extract.clientType.front.code'))->comment('회원 타입');
-            $table->string('user_level', 7)->after('user_type')->default(config('extract.user.user_level.user.level_code'))->comment('회원 레벨');
+            $table->char('user_type', 7)->after('user_uuid')->default(config('extract.clientType.front.code'))->comment('회원 타입');
+            $table->char('user_level', 7)->after('user_type')->default(config('extract.user.user_level.user.level_code'))->comment('회원 레벨');
             $table->enum('active', ['Y', 'N'])->after('remember_token')->default('Y')->comment('회원 상태');
             $table->string('nickname', 50)->after('name')->default('')->comment('회원 닉네임');
 

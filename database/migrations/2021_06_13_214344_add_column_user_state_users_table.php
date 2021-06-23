@@ -14,7 +14,7 @@ class AddColumnUserStateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('user_state', 7)->default(config('extract.user.user_state.waiting.code'))->after('user_level')->comment('회원 상태.');
+            $table->char('user_state', 7)->default(config('extract.user.user_state.waiting.code'))->after('user_level')->comment('회원 상태.');
 
             $table->foreign('user_state')->references('code_id')->on('codes')->onDelete('cascade');
         });

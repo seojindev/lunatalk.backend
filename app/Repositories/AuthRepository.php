@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\Repositories;
 
-
-use App\Models\MediaFiles;
 use App\Models\UserPhoneVerify;
+use App\Models\User;
 
 /**
  * Class AuthRepository
@@ -19,12 +17,19 @@ class AuthRepository implements AuthRepositoryInterface
     protected UserPhoneVerify $UserPhoneVerify;
 
     /**
+     * @var User
+     */
+    protected User $user;
+
+    /**
      * AuthRepository constructor.
      * @param UserPhoneVerify $userPhoneVerify
+     * @param User $user
      */
-    public function __construct(UserPhoneVerify $userPhoneVerify)
+    public function __construct(UserPhoneVerify $userPhoneVerify, User $user)
     {
         $this->UserPhoneVerify = $userPhoneVerify;
+        $this->user = $user;
     }
 
     /**
@@ -58,5 +63,28 @@ class AuthRepository implements AuthRepositoryInterface
         return $this->UserPhoneVerify::where('id', $id)->update([
             'verified' => $verified
         ]);
+    }
+
+    /**
+     * 사용자 id 필드 업데이트
+     * @param Int $id
+     * @param String $user_id
+     * @return bool
+     */
+    public function updateUserPhoneVerifyUserId(Int $id, String $user_id) : bool
+    {
+        return $this->UserPhoneVerify::where('id', $id)->update([
+            'user_id' => $user_id
+        ]);
+    }
+
+    /**
+     * 회원 가입.
+     * @param array $dataObject
+     * @return object
+     */
+    public function createUser(Array $dataObject) : object
+    {
+        return $this->user::create($dataObject);
     }
 }
