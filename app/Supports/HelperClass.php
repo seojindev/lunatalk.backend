@@ -24,6 +24,13 @@ class HelperClass
             .'-'.str_pad(rand(0,'3'.round(microtime(true))),11, "0", STR_PAD_LEFT);
     }
 
+    /**
+     * 랜덤 pin 번호.
+     *  - 알파벳 포함.
+     * ex) 65T5
+     * @param $number
+     * @return string
+     */
     public function generatePin( $number ) : string
     {
         // Generate set of alpha characters
@@ -53,8 +60,72 @@ class HelperClass
         return implode('', $rand);
     }
 
+    /**
+     * 랜덤 번호.
+     *  - 숫자만.
+     * ex) 0012
+     * @return string
+     */
     public function generateAuthNumberCode() : string
     {
         return sprintf('%04d', rand(0, 9999));
     }
+
+    /**
+     * 회원 로그인 아이디 금지어 체크
+     * @param String $checkWord
+     * @return bool
+     */
+    public static function checkProhibitLoginId(String $checkWord) : bool
+    {
+        $prohibitWord = explode(',', config('extract.prohibit.login_id'));
+        foreach ($prohibitWord as $element):
+            $tmpWord = trim($element);
+            if (preg_match("/{$tmpWord}/i", $checkWord)) {
+//            if (strpos( $this->currentRequest->input('user_id'), $tmpWord) !== false) {
+                return true;
+            }
+        endforeach;
+
+        return false;
+    }
+
+    /**
+     * 회원 닉네임 금지어 체크.
+     * @param String $checkWord
+     * @return bool
+     */
+    public static function checkProhibitUserNickname(String $checkWord) : bool
+    {
+        $prohibitWord = explode(',', config('extract.prohibit.nickname'));
+        foreach ($prohibitWord as $element):
+            $tmpWord = trim($element);
+            if (preg_match("/{$tmpWord}/i", $checkWord)) {
+//            if (strpos( $this->currentRequest->input('user_id'), $tmpWord) !== false) {
+                return true;
+            }
+        endforeach;
+
+        return false;
+    }
+
+    /**
+     * 문자열중 금지어 체크.
+     * @param String $checkWord
+     * @return bool
+     */
+    public static function checkProhibitWord(String $checkWord) : bool
+    {
+        $prohibitWord = explode(',', config('extract.prohibit.word'));
+        foreach ($prohibitWord as $element):
+            $tmpWord = trim($element);
+            if (preg_match("/{$tmpWord}/i", $checkWord)) {
+//            if (strpos( $this->currentRequest->input('user_id'), $tmpWord) !== false) {
+                return true;
+            }
+        endforeach;
+
+        return false;
+    }
+
 }

@@ -16,7 +16,7 @@ class CreateProductsImagesTable extends Migration
         Schema::create('products_images', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->nullable(false)->index()->comment('상품 고유값.');
-            $table->string('media_category', 7)->nullable()->comment('이미지 카테고리.');
+            $table->char('media_category', 7)->nullable()->comment('이미지 카테고리.');
             $table->unsignedBigInteger('media_id')->nullable()->comment('제품 썸네일 이미지.');
 
             $table->timestamps();

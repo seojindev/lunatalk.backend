@@ -21,11 +21,11 @@ class PhoneAuthTest extends BaseCustomTestCase
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth.required'));
 
-        $testBody = '{
+        $testPayload = '{
             "phone_number": ""
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testPayload, true));
     }
 
     // 정상적인 전화 번호가 아닐때.
@@ -34,47 +34,48 @@ class PhoneAuthTest extends BaseCustomTestCase
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth.numeric'));
 
-        $testBody = '{
+        $testPayload = '{
             "phone_number": "adsdasdasdasd"
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testPayload, true));
 
-        $testBody = '{
+        $testPayload = '{
             "phone_number": "010-1234-1233"
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testPayload, true));
     }
 
+    // 정상적인 전화 번호 자리수 아닐때 요청.
     public function test_phone_auth_정상적인_전화_번호_자리수_아닐때()
     {
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth.minmax'));
 
-        $testBody = '{
+        $testPayload = '{
             "phone_number": "0101234123456"
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testPayload, true));
     }
 
     // 정상 요청.
     public function test_phone_auth_정상_요청()
     {
-        $testBody = '{
+        $testPayload = '{
             "phone_number": "01012341234"
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testBody, true))
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'message',
-                'result' => [
-                    "phone_number",
-                    "auth_index",
-                    "auth_code"
-                ]
-            ]);
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/phone-auth', json_decode($testPayload, true))
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'message',
+            'result' => [
+                "phone_number",
+                "auth_index",
+                "auth_code"
+            ]
+        ]);
     }
 }

@@ -18,12 +18,12 @@ class LoginTest extends BaseCustomTestCase
         $this->expectException(ServiceErrorException::class);
         $this->expectExceptionMessage(__('message.login.login_id_required'));
 
-        $testBody = '{
+        $testPayload = '{
             "login_id": "",
             "login_password": ""
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true));
     }
 
     // 존재 하지 않은 사용자 요청.
@@ -32,12 +32,12 @@ class LoginTest extends BaseCustomTestCase
         $this->expectException(ServiceErrorException::class);
         $this->expectExceptionMessage(__('message.login.login_id_exists'));
 
-        $testBody = '{
+        $testPayload = '{
             "login_id": "test2222",
             "login_password": ""
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true));
     }
 
     // 비밀번호 없이 요청.
@@ -46,12 +46,12 @@ class LoginTest extends BaseCustomTestCase
         $this->expectException(ServiceErrorException::class);
         $this->expectExceptionMessage(__('message.login.password_required'));
 
-        $testBody = '{
-            "login_id": "test1",
+        $testPayload = '{
+            "login_id": "test33",
             "login_password": ""
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true));
     }
 
     // 존재 하는 사용자 이지만 비밀번호 틀릴때.
@@ -60,23 +60,23 @@ class LoginTest extends BaseCustomTestCase
         $this->expectException(ServiceErrorException::class);
         $this->expectExceptionMessage(__('message.login.password_fail'));
 
-        $testBody = '{
-            "login_id": "test1",
+        $testPayload = '{
+            "login_id": "test33",
             "login_password": "1111"
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testBody, true));
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true));
     }
 
     // 성공.
     public function test_login_정상_요청()
     {
-        $testBody = '{
-            "login_id": "test3",
+        $testPayload = '{
+            "login_id": "test33",
             "login_password": "password"
         }';
 
-        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testBody, true))
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true))
         ->assertStatus(200)
         ->assertJsonStructure([
             'message',

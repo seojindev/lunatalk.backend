@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('uuid', 50)->unique()->nullable(false)->comment('상품 uuid.');
-            $table->string('category', 7)->nullable(false)->comment('상품 카테고리.');
+            $table->char('category', 7)->nullable(false)->comment('상품 카테고리.');
             $table->string('name')->nullable(false)->comment('상품명.');
             $table->string('barcode', 50)->nullable()->comment('상품 비코드.');
             $table->integer('price')->default(0)->comment('상품 가격.');

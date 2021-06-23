@@ -54,6 +54,21 @@ class ResponseMacroServiceProvider extends ServiceProvider
         });
 
         /**
+         * 결과 커스텀 하게 사용.
+         */
+        Response::macro('custom_success', function($statusCode = 200, $message = '', $result = NULL) use ($request) {
+            $response = [
+                'message' => $message ?:__('message.response.success')
+            ];
+
+            if(!empty($result)) {
+                $response['result'] = $result;
+            }
+
+            return Response()->json($response, $statusCode);
+        });
+
+        /**
          * 생성 메시지만 처리.
          */
         Response::macro('success_only_message', function () {

@@ -74,4 +74,14 @@ class AuthController extends RootController
     {
         return Response::message_success(__('message.other.success_phone_auth_code'), $this->AuthServices->phoneAuthConfirm($auth_index));
     }
+
+    /**
+     * 회원 가입.
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function register()
+    {
+        return Response::custom_success(201, __('message.register.register_success'), $this->AuthServices->attemptRegister());
+    }
 }

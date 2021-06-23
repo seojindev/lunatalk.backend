@@ -18,7 +18,7 @@ class CreateUsersPhoneVerifyTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable()->comment('회원 번호');
             $table->string('phone_number')->comment('인증 전화 번호');
             $table->string('auth_code', 10)->comment('인증 코드');
-            $table->enum('verified', ['Y', 'N'])->nullable('N')->comment('인증 상태');
+            $table->enum('verified', ['Y', 'N'])->nullable()->default('N')->comment('인증 상태');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

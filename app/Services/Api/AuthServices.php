@@ -8,12 +8,14 @@ use App\Exceptions\ServiceErrorException;
 use App\Exceptions\ServerErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\PassportRepository;
 use App\Repositories\AuthRepository;
 use Helper;
+use Illuminate\Support\Str;
 
 /**
  * Class AuthServices
@@ -188,6 +190,90 @@ class AuthServices
         return [
             'auth_index' => $task->id,
             'phone_number' => Crypt::decryptString($task->phone_number),
+        ];
+    }
+
+    /**
+     * 회원 가입 처리.
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function attemptRegister() : array
+    {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'auth_id' => 'required|exists:users_phone_verify,id',
+            'user_id' => 'required|between:5,20|regex:/^[a-z]/i|regex:/(^[A-Za-z0-9 ]+$)+/|unique:users,login_id',
+            'user_password' => 'required|between:5,20',
+            'user_password_confirm' => 'required|same:user_password|between:5,20',
+            'user_nickname' => 'required',
+            'user_email' => 'required|email|unique:users,email',
+            ],
+            [
+                'auth_id.required' => __('message.register.attempt.required.auth_id'),
+                'auth_id.exists' => __('message.register.attempt.auth_code.exists'),
+                'user_id.required' => __('message.register.attempt.required.user_id'),
+                'user_id.between' => __('message.register.attempt.user_id.check'),
+                'user_id.regex' => __('message.register.attempt.user_id.check'),
+                'user_id.unique' => __('message.register.attempt.user_id.unique'),
+                'user_password.required' => __('message.register.attempt.required.user_password'),
+                'user_password_confirm.required' => __('message.register.attempt.required.user_password_confirm'),
+                'user_password.between' => __('message.register.attempt.password.check'),
+                'user_password_confirm.same' => __('message.register.attempt.required.user_password_same'),
+                'user_nickname.required' => __('message.register.attempt.required.user_nickname'),
+                'user_email.required' => __('message.register.attempt.required.user_email'),
+                'user_email.email' => __('message.register.attempt.email.check'),
+                'user_email.unique' => __('message.register.attempt.email.unique'),
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $authTask = $this->authRepository->findUserPhoneVerify($this->currentRequest->input('auth_id'));
+
+        if($authTask->verified === 'N') {
+            throw new ClientErrorException(__('message.register.attempt.auth_code.yet_verified'));
+        }
+
+        // 금지 아이디 체크.
+        if(Helper::checkProhibitLoginId($this->currentRequest->input('user_id'))) {
+            throw new ClientErrorException(__('message.register.attempt.prohibit_user_id'));
+        }
+
+        // 닉네임 금지어 단어 체크
+        if(Helper::checkProhibitWord($this->currentRequest->input('user_nickname'))) {
+            throw new ClientErrorException(__('message.register.attempt.prohibit_user_nickname'));
+        }
+
+        // 닉네임 금지어 체크
+        if(Helper::checkProhibitUserNickname($this->currentRequest->input('user_nickname'))) {
+            throw new ClientErrorException(__('message.register.attempt.prohibit_user_nickname'));
+        }
+
+
+        // 각 코드들 때문에 웹 외엔 추가 수정 필요.
+        $createTask = $this->authRepository->createUser([
+            'user_uuid' => Str::uuid()->toString(),
+            'user_type' => config('extract.clientType.front.code'),
+            'user_level' => config('extract.user.user_level.user.level_code'),
+            'user_state' => config('extract.user.user_state.normal.code'),
+            'login_id' => $this->currentRequest->input('user_id'),
+            'nickname' => $this->currentRequest->input('user_nickname'),
+            'email' => $this->currentRequest->input('user_email'),
+            'password' => Hash::make($this->currentRequest->input('user_password')),
+            'phone_number' => Hash::make(Crypt::decryptString($authTask->phone_number))
+        ]);
+
+        $this->authRepository->updateUserPhoneVerifyUserId($authTask->id, $createTask->id);
+
+        return [
+            'id' => $createTask->id,
+            'user_uuid' => $createTask->user_uuid,
+            'login_id' => $createTask->login_id,
+            'name' => $createTask->nickname,
+            'user_type' => $createTask->user_type,
+            'user_level' => $createTask->user_level,
+            'user_state' => $createTask->user_state,
         ];
     }
 }

@@ -44,14 +44,14 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         UserPhoneVerify::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testBody = '{
+        $testPayload = '{
             "auth_code": ""
         }';
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth_confirm.required'));
 
-        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testBody, true));
+        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testPayload, true));
     }
 
     public function test_phone_auth_confirm_인증_코드_잘못된_자리수_요청()
@@ -60,14 +60,14 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         UserPhoneVerify::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testBody = '{
+        $testPayload = '{
             "auth_code": "11"
         }';
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth_confirm.auth_code_fail'));
 
-        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testBody, true));
+        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testPayload, true));
     }
 
     // 잘못된 인증 코드 요청.
@@ -77,14 +77,14 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         UserPhoneVerify::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testBody = '{
+        $testPayload = '{
             "auth_code": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ"
         }';
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth_confirm.auth_code_compare_fail'));
 
-        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testBody, true));
+        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testPayload, true));
     }
 
     // 인증 코드 비교 에러 요청.
@@ -94,14 +94,14 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         UserPhoneVerify::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testBody = '{
+        $testPayload = '{
             "auth_code": "0000"
         }';
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.phone_auth_confirm.auth_code_compare_fail'));
 
-        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testBody, true));
+        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testPayload, true));
     }
 
     // 정상 요청.
@@ -111,11 +111,11 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         UserPhoneVerify::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testBody = '{
+        $testPayload = '{
             "auth_code": "'.$randTask->auth_code.'"
         }';
 
-        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testBody, true))
+        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', "/api/v1/auth/${auth_index}/phone-auth-confirm", json_decode($testPayload, true))
 //            ->dump()
             ->assertStatus(200)
             ->assertJsonStructure([
@@ -126,6 +126,4 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
                 ]
             ]);
     }
-
-
 }
