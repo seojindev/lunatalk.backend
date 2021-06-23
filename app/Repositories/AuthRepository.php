@@ -87,4 +87,14 @@ class AuthRepository implements AuthRepositoryInterface
     {
         return $this->user::create($dataObject);
     }
+
+    /**
+     * 로그인 아이디로 사용자 검색.
+     * @param String $login_id
+     * @return object
+     */
+    public function findUserByLoginId(String $login_id) : object
+    {
+        return $this->user::where('login_id', $login_id)->firstOrFail();
+    }
 }

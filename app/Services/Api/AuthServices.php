@@ -78,6 +78,12 @@ class AuthServices
             throw new ServiceErrorException(__('message.login.password_fail'));
         }
 
+        // 차단 상태 체크
+        $userTask = $this->authRepository->findUserByLoginId($request->input('login_id'));
+        if($userTask->user_state == config('extract.user.user_state.block.code')) {
+            throw new ServiceErrorException(__('message.login.block_user'));
+        }
+
         return $this->publishNewToken();
     }
 

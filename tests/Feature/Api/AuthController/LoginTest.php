@@ -3,6 +3,8 @@
 namespace Tests\Feature\Api\AuthController;
 
 use App\Exceptions\ServiceErrorException;
+use App\Models\User;
+use App\Models\UserPhoneVerify;
 use Tests\BaseCustomTestCase;
 
 class LoginTest extends BaseCustomTestCase
@@ -63,6 +65,25 @@ class LoginTest extends BaseCustomTestCase
         $testPayload = '{
             "login_id": "test33",
             "login_password": "1111"
+        }';
+
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true));
+    }
+
+    //  차단 상태 사용자 요청.
+    public function test_login_차단_상태_사용자_요청()
+    {
+
+        $randTask = User::select()->where('user_level' , config('extract.user.user_level.user.level_code'))->first();
+        User::where('id', $randTask->id)->update(['user_state' => config('extract.user.user_state.block.code')]);
+
+
+        $this->expectException(ServiceErrorException::class);
+        $this->expectExceptionMessage(__('message.login.block_user'));
+
+        $testPayload = '{
+            "login_id": "'.$randTask->login_id.'",
+            "login_password": "password"
         }';
 
         $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/login', json_decode($testPayload, true));

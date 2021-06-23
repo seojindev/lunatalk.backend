@@ -33,6 +33,7 @@ return [
         'login_id_exists' => '존재하지 않는 사용자 입니다.',
         'password_required' => '패스워드를 입력해 주세요.',
         'password_fail' => '비밀번호를 확인해 주세요.',
+        'block_user' => '로그인이 차단 상태인 사용자 입니다.',
         'login_success' => '로그인에 성공했습니다.',
     ],
 
