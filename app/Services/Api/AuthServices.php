@@ -231,8 +231,18 @@ class AuthServices
 
         $authTask = $this->authRepository->findUserPhoneVerify($this->currentRequest->input('auth_id'));
 
+        /**
+         * 인증 받지 않은 auth index 인지.
+         */
         if($authTask->verified === 'N') {
             throw new ClientErrorException(__('message.register.attempt.auth_code.yet_verified'));
+        }
+
+        /**
+         * 이미 회원 가입 까지 진행 된 auth index 인지.
+         */
+        if(!empty($authTask->user_id)) {
+            throw new ClientErrorException(__('message.register.attempt.auth_code.verified'));
         }
 
         // 금지 아이디 체크.

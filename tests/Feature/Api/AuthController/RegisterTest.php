@@ -51,6 +51,7 @@ class RegisterTest extends BaseCustomTestCase
 
         $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/register', json_decode($testPayload, true));
     }
+
     //  휴대폰 인증하지 않은 상태로 요청.
     public function test_auth_register_휴대폰_인증하지_않은_상태로_요청()
     {
@@ -60,6 +61,28 @@ class RegisterTest extends BaseCustomTestCase
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('message.register.attempt.auth_code.yet_verified'));
+
+        $testPayload = '{
+                "auth_id": "'.$auth_index.'",
+                "user_id": "aaaaaaaaa",
+                "user_password": "password",
+                "user_password_confirm": "password",
+                "user_nickname": "테스트사용자",
+                "user_email": "test@test.com"
+        }';
+
+        $this->withHeaders($this->getTestApiHeaders())->json('POST', '/api/v1/auth/register', json_decode($testPayload, true));
+    }
+
+    //  이미 인증이 끝난 인증 정보 요청.
+    public function test_auth_register_이미_인증이_끝난_인증_정보_요청()
+    {
+        $randTask = UserPhoneVerify::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
+        UserPhoneVerify::where('id', $randTask->id)->update(['user_id' => 1]);
+        $auth_index = $randTask->id;
+
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('message.register.attempt.auth_code.verified'));
 
         $testPayload = '{
                 "auth_id": "'.$auth_index.'",
@@ -141,6 +164,7 @@ class RegisterTest extends BaseCustomTestCase
     public function test_auth_register_사용할수_없는_아이디_요청()
     {
         $randTask = UserPhoneVerify::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
+        UserPhoneVerify::where('id', $randTask->id)->update(['user_id' => null]);
         $auth_index = $randTask->id;
 
         $this->expectException(ClientErrorException::class);
@@ -351,6 +375,10 @@ class RegisterTest extends BaseCustomTestCase
     //  정상 요청.
     public function test_auth_register_정상_요청()
     {
+        $randTask = UserPhoneVerify::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
+        UserPhoneVerify::where('id', $randTask->id)->update(['user_id' => null]);
+        $auth_index = $randTask->id;
+
         $randTask = UserPhoneVerify::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         $auth_index = $randTask->id;
 
