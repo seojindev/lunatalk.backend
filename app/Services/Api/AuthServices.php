@@ -292,4 +292,48 @@ class AuthServices
             'user_state' => $createTask->user_state,
         ];
     }
+
+    /**
+     * 토큰 리프래시 처리.
+     * @return array
+     * @throws ClientErrorException
+     * @throws ServerErrorException
+     */
+    public function attemptTokenRefesh() : array
+    {
+        $refresh_token = empty($this->currentRequest->input('refresh_token')) ? '' : $this->currentRequest->input('refresh_token');
+
+        $validator = Validator::make($this->currentRequest->all(), [
+            'refresh_token' => 'required|min:1',
+        ],
+            [
+                'refresh_token.required' => __('message.token.required_refresh_token')
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $client = $this->passportRepository->clientInfo();
+
+        $payloadObject = [
+            'grant_type' => 'refresh_token',
+            'client_id' => $client->client_id,
+            'client_secret' => $client->client_secret,
+            'refresh_token' => $refresh_token,
+            'scope' => '',
+        ];
+
+        $tokenRequest = Request::create('/oauth/token', 'POST', $payloadObject);
+        $tokenRequestResult = json_decode(app()->handle($tokenRequest)->getContent());
+
+        if(isset($tokenRequestResult->message) && $tokenRequestResult->message) {
+            throw new ServerErrorException(__('message.token.required_refresh_token_fail'));
+        }
+
+        return [
+            'access_token' => $tokenRequestResult->access_token,
+            'refresh_token' => $tokenRequestResult->refresh_token
+        ];
+    }
 }

@@ -84,4 +84,17 @@ class AuthController extends RootController
     {
         return Response::custom_success(201, __('message.register.register_success'), $this->AuthServices->attemptRegister());
     }
+
+    /**
+     * 토큰 리프래시
+     * @return mixed
+     * @throws ClientErrorException
+     * @throws ServerErrorException
+     */
+    public function token_refresh()
+    {
+        $task = $this->AuthServices->attemptTokenRefesh();
+
+        return Response::message_success(__('message.token.success_token_refresh'), $task);
+    }
 }

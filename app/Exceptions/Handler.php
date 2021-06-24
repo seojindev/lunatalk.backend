@@ -9,6 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Laravel\Passport\Exceptions\OAuthServerException;
 use PDOException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -86,6 +87,21 @@ class Handler extends ExceptionHandler
 
             return Response::error(400, $error_message);
         });
+
+        // 토큰 정보 처리중 발생하는 exception 인데 캐치를 못하네.
+//        $this->renderable(function (OAuthServerException $e) {
+//
+//            echo "asdasd";
+//
+//            $this->loggingChannel = 'ServiceErrorException';
+//            $error_message = $e->getMessage() ?: __('message.exception.error_exception');
+//            $loggerMessage = $this->getLoggerMessage($error_message);
+//
+//            Log::channel('ServiceErrorExceptionLog')->error($loggerMessage['file']);
+////            Log::channel('slack')->debug($loggerMessage['slack']);
+//
+//            return Response::error(400, $error_message);
+//        });
 
         /**
          * NotFoundHttpException

@@ -95,6 +95,11 @@ return [
         'send_phone_auth_code' => '인증코드를 발송 했습니다. 문자를 확인해 주세요.',
         'success_phone_auth_code' => '인증코드 확인이 완료 되었습니다.',
     ],
+    'token' => [
+        'required_refresh_token' => '로그인 정보가 존재 하지 않습니다.',
+        'required_refresh_token_fail' => '로그인 정보를 처리하는 과정중에 문제가 발생했습니다.',
+        'success_token_refresh' => '로그인 정보 처리가 완료 되었습니다.',
+    ],
 
     'product' => [
         'create' => [
