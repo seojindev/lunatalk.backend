@@ -71,12 +71,12 @@ class ResponseMacroServiceProvider extends ServiceProvider
         /**
          * 생성 메시지만 처리.
          */
-        Response::macro('success_only_message', function () {
+        Response::macro('success_only_message', function (Int $statusCode = 201) {
             $response = [
                 'message' => __('message.response.process_success'),
             ];
 
-            return Response()->json($response, 201);
+            return Response()->json($response, $statusCode);
         });
 
         /**

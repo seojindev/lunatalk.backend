@@ -86,6 +86,7 @@ return [
 
     'required' => [
         'media_file' => '이미지를 등록해 주세요.',
+        'notice_message' => '공지사항 문구를 입력해 주세요.',
     ],
 
     'other' => [

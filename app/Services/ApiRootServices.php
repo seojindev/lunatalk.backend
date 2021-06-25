@@ -2,9 +2,12 @@
 
 
 namespace App\Services;
+use App\Exceptions\ClientErrorException;
 use App\Repositories\ServiceRepository;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ApiRootServices
@@ -12,6 +15,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class ApiRootServices
 {
+    protected Request $currentRequest;
+
     /**
      * @var ServiceRepository
      */
@@ -21,7 +26,8 @@ class ApiRootServices
      * FrontRootServices constructor.
      * @param ServiceRepository $serviceRepository
      */
-    function __construct( ServiceRepository $serviceRepository){
+    function __construct(Request $request, ServiceRepository $serviceRepository){
+        $this->currentRequest = $request;
         $this->serviceRepository = $serviceRepository;
     }
 
@@ -71,5 +77,33 @@ class ApiRootServices
         return [
             'codes' => $this->serviceRepository->getCommonCodeList()
         ];
+    }
+
+    /**
+     * 서비스 공지사항 추가 수정.
+     * @throws ClientErrorException
+     */
+    public function createServiceNotice() : void
+    {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'notice_message' => 'required',
+        ],
+            [
+                'notice_message.required' => __('message.required.notice_message')
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        Storage::disk('inside-temp')->put('server_notice.txt', $this->currentRequest->input('notice_message'));
+    }
+
+    /**
+     * 서비스 공지사항 삭제 처리.
+     */
+    public function deleteServiceNotice() : void
+    {
+        Storage::disk('inside-temp')->delete('server_notice.txt');
     }
 }

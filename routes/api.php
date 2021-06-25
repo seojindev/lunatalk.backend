@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsController;
+use App\Http\Controllers\Api\v1\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\Other\MediaController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,12 @@ Route::group(['as' => 'api.'], function () {
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::post('create', [AdminProductsController::class, 'create'])->name('create');
                 Route::put('{product_uuid}/update', [AdminProductsController::class, 'update'])->name('update');
+            });
+
+            // 시스템 공지 사항.
+            Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
+                Route::post('service-notice', [AdminServiceController::class, 'service_notice'])->name('service.notice.create');
+                Route::delete('service-notice', [AdminServiceController::class, 'delete_service_notice'])->name('service.notice.delete');
             });
         });
 

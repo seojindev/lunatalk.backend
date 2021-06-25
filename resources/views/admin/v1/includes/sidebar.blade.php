@@ -75,6 +75,26 @@
                 </li>
 
                 <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    관리
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="javascript:;" data-toggle="collapse" data-target="#serviceUtilities" aria-expanded="true" aria-controls="serviceUtilities">
+                        <i class="fas fa-fw fa-wrench"></i><span>관리</span>
+                    </a>
+                    <div id="serviceUtilities" class="collapse" aria-labelledby="servicePages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">서비스 공지사항:</h6>
+                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/service/service-notice">등록</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
 
                 <!-- Sidebar Toggler (Sidebar) -->
