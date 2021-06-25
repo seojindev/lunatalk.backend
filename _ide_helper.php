@@ -11362,11 +11362,12 @@
          * 생성 메시지만 처리.
          *
          * @see \App\Providers\ResponseMacroServiceProvider::boot()
+         * @param int $statusCode
          * @static 
          */ 
-        public static function success_only_message()
+        public static function success_only_message($statusCode = 201)
         {
-                        return \Illuminate\Routing\ResponseFactory::success_only_message();
+                        return \Illuminate\Routing\ResponseFactory::success_only_message($statusCode);
         }
                     /**
          * 데이터만 Render Macro.
@@ -15883,11 +15884,12 @@
          * 생성 메시지만 처리.
          *
          * @see \App\Providers\ResponseMacroServiceProvider::boot()
+         * @param int $statusCode
          * @static 
          */ 
-        public static function success_only_message()
+        public static function success_only_message($statusCode = 201)
         {
-                        return \Illuminate\Routing\ResponseFactory::success_only_message();
+                        return \Illuminate\Routing\ResponseFactory::success_only_message($statusCode);
         }
                     /**
          * 데이터만 Render Macro.
