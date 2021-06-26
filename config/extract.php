@@ -7,6 +7,9 @@
  * 다만 codes table 에 정보가 바뀌면 같이 바꿔 줘야 한다.
  */
 return [
+    'notification' => [
+        'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),
+    ],
     'user' => [
         'user_level' => [
             'guest' => [
