@@ -41,7 +41,7 @@ class ServiceSlackNotice implements ShouldQueue
             return;
         }
 
-        Notification::route('slack', env('SLACK_WEBHOOK_URL'))->notify(new ServiceNotice((object) [
+        Notification::route('slack', env('NOTICE_SLACK_WEBHOOK_URL'))->notify(new ServiceNotice((object) [
             'type' => $this->task->type,
             'message' => $this->task->message
         ]));
