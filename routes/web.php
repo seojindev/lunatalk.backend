@@ -6,6 +6,7 @@ use App\Http\Controllers\Front\v1\AdminController;
 use App\Http\Controllers\Front\v1\AuthController;
 use App\Http\Controllers\Front\v1\ProductsController;
 use App\Http\Controllers\Front\v1\ServiceController;
+use App\Http\Controllers\Front\v1\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,15 +49,20 @@ Route::group(['prefix' => 'front', 'as' => 'front.'], function () {
 
             // 상품 정보 페이지.
             Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
-                Route::get('list', [ProductsController::class, 'list'])->name('list');
-                Route::get('{product_uuid}/detail', [ProductsController::class, 'detail'])->name('detail');
-                Route::get('{product_uuid}/update', [ProductsController::class, 'update'])->name('update');
-                Route::get('create', [ProductsController::class, 'create'])->name('create');
+                Route::get('list', [ProductsController::class, 'list'])->name('products.list');
+                Route::get('{product_uuid}/detail', [ProductsController::class, 'detail'])->name('products.detail');
+                Route::get('{product_uuid}/update', [ProductsController::class, 'update'])->name('products.update');
+                Route::get('create', [ProductsController::class, 'create'])->name('products.create');
             });
 
             // 관리 메뉴 페이지.
             Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
                 Route::get('service-notice', [ServiceController::class, 'service_notice'])->name('service.notice');
+            });
+
+            // 유저(회원) 관리 페이지.
+            Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+                Route::get('list', [UsersController::class, 'list'])->name('list');
             });
         });
     });
