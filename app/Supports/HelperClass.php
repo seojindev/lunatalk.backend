@@ -128,4 +128,21 @@ class HelperClass
         return false;
     }
 
+    /**
+     * @param String $phonenumber
+     * @return string
+     */
+    public static function phoneNumberAddHyphen(String $phonenumber) : string
+    {
+        $phonenumber = preg_replace("/[^0-9]*/s","",$phonenumber);
+
+        if (substr($phonenumber,0,2) == '02' ) {
+            return preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/","\\1-\\2-\\3", $phonenumber);
+        }else if(substr($phonenumber,0,2) =='8' && substr($phonenumber,0,2) =='15' || substr($phonenumber,0,2) =='16'||  substr($phonenumber,0,2) =='18'  ) {
+            return preg_replace("/([0-9]{4})([0-9]{4})$/","\\1-\\2", $phonenumber);
+        } else {
+            return preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/","\\1-\\2-\\3" ,$phonenumber);
+        }
+    }
+
 }
