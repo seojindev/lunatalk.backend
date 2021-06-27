@@ -95,7 +95,7 @@
                     <div id="serviceUtilities" class="collapse" aria-labelledby="servicePages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">회원:</h6>
-                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/users/list">리스트</a>
+                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/user/list">리스트</a>
                         </div>
                     </div>
                 </li>

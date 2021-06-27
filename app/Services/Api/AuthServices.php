@@ -6,6 +6,7 @@ namespace App\Services\Api;
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Exceptions\ServerErrorException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -38,6 +39,8 @@ class AuthServices
      */
     protected AuthRepository $authRepository;
 
+    protected String $passportClient;
+
     /**
      * AuthServices constructor.
      * @param Request $request
@@ -56,9 +59,7 @@ class AuthServices
      */
     public function attemptLogin() : array
     {
-        $request = $this->currentRequest;
-
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($this->currentRequest->all(), [
                 'login_id' => 'required|exists:users,login_id',
                 'login_password' => 'required',
             ],
@@ -73,13 +74,13 @@ class AuthServices
             throw new ServiceErrorException($validator->errors()->first());
         }
 
-        if(!Auth::attempt(['login_id' => $request->input('login_id'), 'password' => $request->input('login_password')])) {
+        if(!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
             // 비밀번호 실패.
             throw new ServiceErrorException(__('message.login.password_fail'));
         }
 
         // 차단 상태 체크
-        $userTask = $this->authRepository->findUserByLoginId($request->input('login_id'));
+        $userTask = $this->authRepository->findUserByLoginId($this->currentRequest->input('login_id'));
         if($userTask->user_state == config('extract.user.user_state.block.code')) {
             throw new ServiceErrorException(__('message.login.block_user'));
         }
@@ -90,26 +91,11 @@ class AuthServices
     /**
      * @throws ServerErrorException
      * @throws ServerErrorException
+     * @throws Exception
      */
     public function publishNewToken() : array
     {
-        $client = $this->passportRepository->clientInfo();
-
-        $payloadObject = [
-            'grant_type' => 'password',
-            'client_id' => $client->client_id,
-            'client_secret' => $client->client_secret,
-            'username' => $this->currentRequest->input('login_id'),
-            'password' => $this->currentRequest->input('login_password'),
-            'scope' => '',
-        ];
-
-        $tokenRequest = Request::create('/oauth/token', 'POST', $payloadObject);
-        $tokenRequestResult = json_decode(app()->handle($tokenRequest)->getContent());
-
-        if(isset($tokenRequestResult->message) && $tokenRequestResult->message) {
-            throw new ServerErrorException($tokenRequestResult->message);
-        }
+        $tokenRequestResult = $this->passportRepository->newToken($this->currentRequest->input('login_id'), $this->currentRequest->input('login_password'));
 
         return [
             'access_token' => $tokenRequestResult->access_token,
@@ -277,7 +263,7 @@ class AuthServices
             'nickname' => $this->currentRequest->input('user_nickname'),
             'email' => $this->currentRequest->input('user_email'),
             'password' => Hash::make($this->currentRequest->input('user_password')),
-            'phone_number' => Hash::make(Crypt::decryptString($authTask->phone_number))
+            'phone_number' => $authTask->phone_number // 암호화 변경.
         ]);
 
         $this->authRepository->updateUserPhoneVerifyUserId($authTask->id, $createTask->id);
@@ -298,6 +284,7 @@ class AuthServices
      * @return array
      * @throws ClientErrorException
      * @throws ServerErrorException
+     * @throws Exception
      */
     public function attemptTokenRefesh() : array
     {
@@ -314,22 +301,7 @@ class AuthServices
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        $client = $this->passportRepository->clientInfo();
-
-        $payloadObject = [
-            'grant_type' => 'refresh_token',
-            'client_id' => $client->client_id,
-            'client_secret' => $client->client_secret,
-            'refresh_token' => $refresh_token,
-            'scope' => '',
-        ];
-
-        $tokenRequest = Request::create('/oauth/token', 'POST', $payloadObject);
-        $tokenRequestResult = json_decode(app()->handle($tokenRequest)->getContent());
-
-        if(isset($tokenRequestResult->message) && $tokenRequestResult->message) {
-            throw new ServerErrorException(__('message.token.required_refresh_token_fail'));
-        }
+        $tokenRequestResult = $this->passportRepository->tokenRefesh($refresh_token);
 
         return [
             'access_token' => $tokenRequestResult->access_token,

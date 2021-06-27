@@ -19,27 +19,33 @@
                                         <thead>
                                             <tr>
                                                 <th>회원 번호</th>
-                                                <th>상품명</th>
-                                                <th>옵션1</th>
-                                                <th>옵션2</th>
-                                                <th>금액</th>
-                                                <th>재고량</th>
-                                                <th>판매유무</th>
-                                                <th>재품상태</th>
+                                                <th>로그인 아이디</th>
+                                                <th>이름</th>
+                                                <th>회원 가입 종류</th>
+                                                <th>회원 레벨</th>
+                                                <th>회원 상태</th>
+                                                <th>이메일</th>
+                                                <th>전화번호</th>
                                                 <th>등록일</th>
                                             </tr>
                                         </thead>
+                                        <tfoot>
+                                        </tfoot>
+
+                                        <tbody>
 @foreach ($users as $user)
                                             <tr>
-                                                <td></td>
+                                                <td>{{ $user['user_uuid'] }}</td>
+                                                <td>{{ $user['login_id'] }}</td>
+                                                <td>{{ $user['nickname'] }}</td>
+                                                <td>{{ $user['user_type']['code_name'] }}</td>
+                                                <td>{{ $user['user_level']['code_name'] }}</td>
+                                                <td>{{ $user['user_state']['code_name'] }}</td>
+                                                <td>{{ $user['email'] }}</td>
+                                                <td>{{ $user['phone_number']['step2'] }}</td>
+                                                <td>{{ $user['user_date']['create_at'] }}</td>
                                             </tr>
 @endforeach
-                                        <tfoot>
-
-                                        </tfoot>
-                                        <tbody>
-
-
                                         </tbody>
                                     </table>
                                 </div>

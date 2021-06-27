@@ -6,7 +6,7 @@ use App\Http\Controllers\Front\v1\AdminController;
 use App\Http\Controllers\Front\v1\AuthController;
 use App\Http\Controllers\Front\v1\ProductsController;
 use App\Http\Controllers\Front\v1\ServiceController;
-use App\Http\Controllers\Front\v1\UsersController;
+use App\Http\Controllers\Front\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,8 +61,8 @@ Route::group(['prefix' => 'front', 'as' => 'front.'], function () {
             });
 
             // 유저(회원) 관리 페이지.
-            Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
-                Route::get('list', [UsersController::class, 'list'])->name('list');
+            Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+                Route::get('list', [UserController::class, 'list'])->name('list');
             });
         });
     });
