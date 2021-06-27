@@ -15484,6 +15484,17 @@
         {
                         return \App\Supports\HelperClass::checkProhibitWord($checkWord);
         }
+                    /**
+         * 
+         *
+         * @param String $phonenumber
+         * @return string 
+         * @static 
+         */ 
+        public static function phoneNumberAddHyphen($phonenumber)
+        {
+                        return \App\Supports\HelperClass::phoneNumberAddHyphen($phonenumber);
+        }
          
     }
      
