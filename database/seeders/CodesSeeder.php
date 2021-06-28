@@ -66,15 +66,16 @@ class CodesSeeder extends Seeder
     public function initGroupCodesList(): array
     {
         return [
-            [ 'group_id' => 'S01', 'group_name' => '클라이언트 타입' ],
-            [ 'group_id' => 'S02', 'group_name' => '사용자 레벨' ],
-            [ 'group_id' => 'S03', 'group_name' => '사용자 상태' ],
-            [ 'group_id' => 'S04', 'group_name' => '상태' ],
-            [ 'group_id' => 'G01', 'group_name' => '메디아 파일 카테고리' ],
-            [ 'group_id' => 'P01', 'group_name' => '상품 카테고리' ],
-            [ 'group_id' => 'O10', 'group_name' => '상품 옵션1(색)' ],
-            [ 'group_id' => 'O20', 'group_name' => '상품 옵션2' ],
-            [ 'group_id' => 'E01', 'group_name' => '상품 옵션2' ],
+            [ 'group_id' => 'S01', 'group_name' => '클라이언트 타입.' ],
+            [ 'group_id' => 'S02', 'group_name' => '사용자 레벨.' ],
+            [ 'group_id' => 'S03', 'group_name' => '사용자 상태.' ],
+            [ 'group_id' => 'S04', 'group_name' => '상태.' ],
+            [ 'group_id' => 'G01', 'group_name' => '메디아 파일 카테고리.' ],
+            [ 'group_id' => 'P01', 'group_name' => '상품 카테고리.' ],
+            [ 'group_id' => 'P10', 'group_name' => '페이지 카테고리.' ],
+            [ 'group_id' => 'O10', 'group_name' => '상품 옵션1(색).' ],
+            [ 'group_id' => 'O20', 'group_name' => '상품 옵션2.' ],
+            [ 'group_id' => 'E01', 'group_name' => '이메일 리스트.' ],
         ];
     }
 
@@ -196,7 +197,10 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0030', 'code_name' => '스케쥴러' ],
                 [ 'code_id' => '0040', 'code_name' => '무선' ],
 
-            ]
+            ],
+            'P10' => [
+                [ 'code_id' => '0010', 'code_name' => '메인 TOP' ],
+            ],
         ];
     }
 }
