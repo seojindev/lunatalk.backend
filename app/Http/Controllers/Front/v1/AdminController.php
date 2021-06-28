@@ -12,6 +12,8 @@ class AdminController extends RootController
 
     public function __construct(ProductsService $productsService)
     {
+        parent::__construct();
+
         $this->productsService = $productsService;
     }
 
