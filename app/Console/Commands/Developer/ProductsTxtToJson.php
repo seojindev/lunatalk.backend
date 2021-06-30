@@ -105,14 +105,14 @@ class ProductsTxtToJson extends Command
                         $imageBaseName = basename($element[key($element)]);
 
                         if (env('APP_ENV') == 'development') {
-                            file_put_contents('/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images', file_get_contents($element[key($element)]));
-                            $images['we'][key($element)][] = '/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/'.$imageBaseName;
+                            file_put_contents('/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
+                            $images['we'][key($element)][] = '/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName;
                         } else {
                             if (!file_exists('/tmp/lunatalk/origin-images')) {
                                 mkdir('/tmp/lunatalk/origin-images', 0777, true);
                             }
-                            file_put_contents('/tmp/lunatalk/origin-images/'.$imageBaseName, file_get_contents($element[key($element)]));
-                            $images['we'][key($element)][] = '/tmp/lunatalk/origin-images/'.$imageBaseName;
+                            file_put_contents('/tmp/lunatalk/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
+                            $images['we'][key($element)][] = '/tmp/lunatalk/origin-images/' . $imageBaseName;
                         }
                     endforeach;
                 }
