@@ -15423,6 +15423,18 @@
                         return $instance->randomNumberUUID();
         }
                     /**
+         * 랭덤 코드 생성.
+         * 
+         * ex) d0e6a9f5-a114-4517-83c9-5f3ae0c035db
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function uuidSecure()
+        {
+                        return \App\Supports\HelperClass::uuidSecure();
+        }
+                    /**
          * 랜덤 pin 번호.
          * 
          * - 알파벳 포함.

@@ -57,6 +57,10 @@ Route::group(['prefix' => 'front', 'as' => 'front.'], function () {
 
             // 관리 메뉴 페이지.
             Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
+
+                Route::get('edit-home-main/list', [ServiceController::class, 'edit_home_main_list'])->name('edit.home.main.list');
+                Route::get('edit-home-main/create', [ServiceController::class, 'edit_home_main_create'])->name('edit.home.main.create');
+
                 Route::get('service-notice', [ServiceController::class, 'service_notice'])->name('service.notice');
             });
 

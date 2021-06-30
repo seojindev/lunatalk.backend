@@ -94,6 +94,13 @@
                     </div>
                     <div id="serviceUtilities" class="collapse" aria-labelledby="servicePages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">편집:</h6>
+                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/service/edit-home-main/list">홈 메인</a>
+                            <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/service/edit-home-main/create">홈 메인 등록</a>
+                        </div>
+                    </div>
+                    <div id="serviceUtilities" class="collapse" aria-labelledby="servicePages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">회원:</h6>
                             <a class="collapse-item" href="javascript:;" name="goPageURL" pageUrl="/front/admin/v1/user/list">리스트</a>
                         </div>

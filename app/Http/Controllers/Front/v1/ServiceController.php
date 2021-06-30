@@ -45,4 +45,32 @@ class ServiceController extends RootController
             'noticeContents' => $this->frontRootServices->getServerNotice()
         ]);
     }
+
+    /**
+     * 홈 메인 편집 리스트.
+     * @return Application|Factory|View
+     */
+    public function edit_home_main_list()
+    {
+        return view('admin/v1/pages/service/edit-home-main-list', [
+            'pages' => [
+                'pageStep' => 'service',
+            ],
+            'main' => '',
+        ]);
+    }
+
+    /**
+     * 홈 메인 편집 생성.
+     * @return Application|Factory|View
+     */
+    public function edit_home_main_create()
+    {
+        return view('admin/v1/pages/service/edit-home-main-create', [
+            'pages' => [
+                'pageStep' => 'service',
+            ],
+            'main' => '',
+        ]);
+    }
 }

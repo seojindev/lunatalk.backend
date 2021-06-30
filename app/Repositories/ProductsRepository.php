@@ -136,4 +136,14 @@ class ProductsRepository implements ProductsRepositoryInterface
         return $this->productImages::where('product_id', $product_id)->delete();
     }
 
+    /**
+     * uuid 로 상품 검색.
+     * @param string $uuid
+     * @return object
+     */
+    public function findProductByUUID(string $uuid) : object
+    {
+        return $this->products::where('uuid', $uuid)->firstOrFail();
+    }
+
 }
