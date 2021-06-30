@@ -55,16 +55,18 @@ class ProductsJsonToCreate extends Command
 
                 $images = $product['product_images'];
 
-                $response = Http::withHeaders([
-                    'Request-Client-Type' => config('extract.clientType.front.code'),
-                    'Accept' => 'application/json'
-                ])->attach(
-                    'media_file', file_get_contents($images['we']['product_image'][0]), basename($images['we']['product_image'][0])
-                )->post(env('APP_URL') . '/api/v1/other/media/products/rep/create');
+                if(array_key_exists('we', $images)) {
+                    $response = Http::withHeaders([
+                        'Request-Client-Type' => config('extract.clientType.front.code'),
+                        'Accept' => 'application/json'
+                    ])->attach(
+                        'media_file', file_get_contents($images['we']['product_image'][0]), basename($images['we']['product_image'][0])
+                    )->post(env('APP_URL') . '/api/v1/other/media/products/rep/create');
 
-                if(!$response->ok()) {
-                    print_r($response->json());
-                    exit;
+                    if (!$response->ok()) {
+                        print_r($response->json());
+                        exit;
+                    }
                 }
 
                 $imageResult = $response->json();
@@ -105,8 +107,6 @@ class ProductsJsonToCreate extends Command
                     'product_image' => $repMediaId,
                     'product_detail_image' => $detailMediaId
                 ]);
-
-                sleep(5);
 
                 $bar->advance();
 
