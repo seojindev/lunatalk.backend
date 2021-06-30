@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\Developer\ProductsTxtToJson',
+        'App\Console\Commands\Developer\ProductsJsonToCreate',
     ];
 
     /**
