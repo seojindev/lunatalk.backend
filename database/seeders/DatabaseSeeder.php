@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             CodesSeeder::class,
             UserSeeder::class,
             UserPhoneVerifySeeder::class,
+            MediaFilesSeeder::class,
+            ProductsSeeder::class,
+            HomeMainSeeder::class,
         ]);
     }
 }

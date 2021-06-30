@@ -3,9 +3,15 @@
 
 namespace App\Supports;
 
-
+/**
+ * Class HelperClass
+ * @package App\Supports
+ */
 class HelperClass
 {
+    /**
+     * 테스트.
+     */
     public function test()
     {
         echo 'HelperClass';
@@ -22,6 +28,54 @@ class HelperClass
             str_pad(rand(0,'6'.round(microtime(true))),11, "0", STR_PAD_LEFT)
             .'-'.str_pad(rand(0,'9'.round(microtime(true))),11, "0", STR_PAD_LEFT)
             .'-'.str_pad(rand(0,'3'.round(microtime(true))),11, "0", STR_PAD_LEFT);
+    }
+
+    /**
+     * 랭덤 코드 생성.
+     * ex) d0e6a9f5-a114-4517-83c9-5f3ae0c035db
+     * @return string
+     */
+    public static function uuidSecure() : string
+    {
+
+        $pr_bits = null;
+        $fp = @fopen('/dev/urandom','rb');
+        if ($fp !== false) {
+            $pr_bits .= @fread($fp, 16);
+            @fclose($fp);
+        } else {
+            // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
+            $pr_bits = "";
+            for($cnt=0; $cnt < 16; $cnt++){
+                $pr_bits .= chr(mt_rand(0, 255));
+            }
+        }
+
+        $time_low = bin2hex(substr($pr_bits,0, 4));
+        $time_mid = bin2hex(substr($pr_bits,4, 2));
+        $time_hi_and_version = bin2hex(substr($pr_bits,6, 2));
+        $clock_seq_hi_and_reserved = bin2hex(substr($pr_bits,8, 2));
+        $node = bin2hex(substr($pr_bits,10, 6));
+
+        /**
+         * Set the four most significant bits (bits 12 through 15) of the
+         * time_hi_and_version field to the 4-bit version number from
+         * Section 4.1.3.
+         * @see http://tools.ietf.org/html/rfc4122#section-4.1.3
+         */
+        $time_hi_and_version = hexdec($time_hi_and_version);
+        $time_hi_and_version = $time_hi_and_version >> 4;
+        $time_hi_and_version = $time_hi_and_version | 0x4000;
+
+        /**
+         * Set the two most significant bits (bits 6 and 7) of the
+         * clock_seq_hi_and_reserved to zero and one, respectively.
+         */
+        $clock_seq_hi_and_reserved = hexdec($clock_seq_hi_and_reserved);
+        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved >> 2;
+        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved | 0x8000;
+
+        return sprintf('%08s-%04s-%04x-%04x-%012s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
     }
 
     /**
@@ -129,6 +183,7 @@ class HelperClass
     }
 
     /**
+     * 숫자로 되어 있는 휴대폰 번호 - 추가.
      * @param String $phonenumber
      * @return string
      */
@@ -144,5 +199,4 @@ class HelperClass
             return preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/","\\1-\\2-\\3" ,$phonenumber);
         }
     }
-
 }

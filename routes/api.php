@@ -65,6 +65,11 @@ Route::group(['as' => 'api.'], function () {
             Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
                 Route::post('service-notice', [AdminServiceController::class, 'service_notice'])->name('service.notice.create');
                 Route::delete('service-notice', [AdminServiceController::class, 'delete_service_notice'])->name('service.notice.delete');
+
+                Route::post('edit-home-main', [AdminServiceController::class, 'edit_home_main_create'])->name('edit.home.main.create');
+                Route::put('{id}/edit-home-main', [AdminServiceController::class, 'edit_home_main_update'])->name('edit.home.main.update');
+                Route::delete('{id}/edit-home-main', [AdminServiceController::class, 'edit_home_main_delete'])->name('edit.home.main.delete');
+                Route::post('{id}/edit-home-main/status', [AdminServiceController::class, 'edit_home_main_statsu_update'])->name('edit.home.main.status.update');
             });
         });
 

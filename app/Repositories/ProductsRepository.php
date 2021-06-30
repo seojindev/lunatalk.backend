@@ -102,7 +102,15 @@ class ProductsRepository implements ProductsRepositoryInterface
         return $this->products::with(['category', 'options.step1', 'options.step2', 'images' => function($query) {
             $query->where('media_category', 'G010010');
         }, 'images.category', 'images.mediafile']);
+    }
 
+    /**
+     * 심플 상품 전체 리스트.
+     * @return Builder
+     */
+    public function simpleTotalProducts() : Builder
+    {
+        return $this->products::with(['category', 'options.step1', 'options.step2'])->where([['sale', 'Y'], ['active', 'Y']]);
     }
 
     /**
@@ -134,6 +142,16 @@ class ProductsRepository implements ProductsRepositoryInterface
     public function deleteProdctImages(Int $product_id) : bool
     {
         return $this->productImages::where('product_id', $product_id)->delete();
+    }
+
+    /**
+     * uuid 로 상품 검색.
+     * @param string $uuid
+     * @return object
+     */
+    public function findProductByUUID(string $uuid) : object
+    {
+        return $this->products::where('uuid', $uuid)->firstOrFail();
     }
 
 }

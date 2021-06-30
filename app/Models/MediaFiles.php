@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereOriginalName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\MediaFilesFactory factory(...$parameters)
  */
 class MediaFiles extends Model
 {
