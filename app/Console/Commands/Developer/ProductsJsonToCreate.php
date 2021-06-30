@@ -67,10 +67,10 @@ class ProductsJsonToCreate extends Command
                         print_r($response->json());
                         exit;
                     }
-                }
 
-                $imageResult = $response->json();
-                $repMediaId[] = $imageResult['result']['media_id'];
+                    $imageResult = $response->json();
+                    $repMediaId[] = $imageResult['result']['media_id'];
+                }
 
                 if(array_key_exists('detail_image', $images['we'])) {
                     foreach ($images['we']['detail_image'] as $element) :
