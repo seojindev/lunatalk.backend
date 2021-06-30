@@ -70,23 +70,24 @@ class ProductsJsonToCreate extends Command
 
                     $imageResult = $response->json();
                     $repMediaId[] = $imageResult['result']['media_id'];
+
+                    if(array_key_exists('detail_image', $images['we'])) {
+                        foreach ($images['we']['detail_image'] as $element) :
+
+                            $response = Http::withHeaders([
+                                'Request-Client-Type' => config('extract.clientType.front.code'),
+                                'Accept' => 'application/json'
+                            ])->attach(
+                                'media_file', file_get_contents($element), basename($element)
+                            )->post(env('APP_URL') . '/api/v1/other/media/products/detail/create');
+
+                            $imageResult = $response->json();
+                            $detailMediaId[] = $imageResult['result']['media_id'];
+
+                        endforeach;
+                    }
                 }
 
-                if(array_key_exists('detail_image', $images['we'])) {
-                    foreach ($images['we']['detail_image'] as $element) :
-
-                        $response = Http::withHeaders([
-                            'Request-Client-Type' => config('extract.clientType.front.code'),
-                            'Accept' => 'application/json'
-                        ])->attach(
-                            'media_file', file_get_contents($element), basename($element)
-                        )->post(env('APP_URL') . '/api/v1/other/media/products/detail/create');
-
-                        $imageResult = $response->json();
-                        $detailMediaId[] = $imageResult['result']['media_id'];
-
-                    endforeach;
-                }
 
 
                 $response = Http::withHeaders([
