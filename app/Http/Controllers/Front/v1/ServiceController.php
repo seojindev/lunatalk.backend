@@ -56,7 +56,7 @@ class ServiceController extends RootController
             'pages' => [
                 'pageStep' => 'service',
             ],
-            'main' => '',
+            'main_list' => '',
         ]);
     }
 

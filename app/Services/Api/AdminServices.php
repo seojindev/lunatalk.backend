@@ -12,15 +12,39 @@ use Illuminate\Support\Facades\Validator;
 use App\Repositories\ServiceRepository;
 use App\Repositories\ProductsRepository;
 
-
+/**
+ * Class AdminServices
+ * @package App\Services\Api
+ */
 class AdminServices
 {
+    /**
+     * @var Request
+     */
     protected Request $currentRequest;
+
+    /**
+     * @var AdminRepository
+     */
     protected AdminRepository $adminRepository;
+
+    /**
+     * @var ProductsRepository
+     */
     protected ProductsRepository $productsRepository;
 
+    /**
+     * @var ServiceRepository
+     */
     protected ServiceRepository $serviceRepository;
 
+    /**
+     * AdminServices constructor.
+     * @param Request $request
+     * @param ServiceRepository $serviceRepository
+     * @param AdminRepository $adminRepository
+     * @param ProductsRepository $productsRepository
+     */
     function __construct(Request $request, ServiceRepository $serviceRepository, AdminRepository $adminRepository, ProductsRepository $productsRepository)
     {
         $this->currentRequest = $request;
@@ -29,6 +53,9 @@ class AdminServices
         $this->productsRepository = $productsRepository;
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function adminMainHomeValidator() : void
     {
         $validator = Validator::make($this->currentRequest->all(), [
@@ -50,6 +77,9 @@ class AdminServices
         }
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function createAdminMainHome() : void
     {
         $this->adminMainHomeValidator();
@@ -62,6 +92,10 @@ class AdminServices
 
     }
 
+    /**
+     * @param Int $id
+     * @throws ClientErrorException
+     */
     public function updateAdminMainHome(Int $id) : void
     {
         $this->adminRepository->findHomeMain($id);
@@ -74,6 +108,9 @@ class AdminServices
         ]);
     }
 
+    /**
+     * @param Int $id
+     */
     public function deleteAdminMainHome(Int $id) : void
     {
         $this->adminRepository->findHomeMain($id);
@@ -81,6 +118,10 @@ class AdminServices
         $this->adminRepository->deleteHomeMain($id);
     }
 
+    /**
+     * @param Int $id
+     * @throws ClientErrorException
+     */
     public function updateStatusAdminMainHome(Int $id) : void
     {
         $this->adminRepository->findHomeMain($id);
@@ -99,6 +140,4 @@ class AdminServices
 
         $this->adminRepository->updateHomeMainStatus($id, $this->currentRequest->input('edit_status'));
     }
-
-
 }
