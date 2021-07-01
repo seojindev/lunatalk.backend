@@ -2,14 +2,6 @@
 
 @section('pageTitle', '홈 메인 등록')
 
-@php
-    echo "<!-- \n";
-
-        print_r($mainhome);
-
-    echo "\n-->\n";
-@endphp
-
 @section('pageContent')
 
     <div class="row justify-content-center">

@@ -2,12 +2,6 @@
 
 @section('pageTitle', '홈 메인 편집')
 
-@php
-    echo "\n<!--\n";
-        print_r($mains);
-    echo "\n<!--\n";
-@endphp
-
 @section('pageContent')
 
     <!-- Page Heading -->
