@@ -44,11 +44,7 @@ var serviceNoticePageFunction = ( function() {
 
 // 홈 편집
 var editHomeMainFormData = {
-<<<<<<< HEAD
     edit_image: '',
-=======
-    edit_image: [],
->>>>>>> c0c2f2b865f1ba61ebe37b206786ba411d6b5660
     edit_product_select: null,
     edit_status: null,
 }
