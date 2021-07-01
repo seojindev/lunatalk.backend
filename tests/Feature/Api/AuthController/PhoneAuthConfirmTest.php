@@ -22,8 +22,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     public function test_phone_auth_confirm_존재_하지_않은_auth_index_요청()
     {
         $this->expectException(ModelNotFoundException::class);
-
-        // TODO 테스트 코드 작성.
         $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', '/api/v1/auth/9999999/phone-auth-confirm');
     }
 

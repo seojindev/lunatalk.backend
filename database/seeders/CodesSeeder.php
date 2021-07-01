@@ -107,6 +107,8 @@ class CodesSeeder extends Seeder
             'S04' => [
                 [ 'code_id' => '0000', 'code_name' => '비사용' ],
                 [ 'code_id' => '0010', 'code_name' => '사용' ],
+                [ 'code_id' => '0020', 'code_name' => '예' ],
+                [ 'code_id' => '0030', 'code_name' => '아니요' ],
             ],
             'P01' => [
                 [ 'code_id' => '0110', 'code_name' => 'acc' ],

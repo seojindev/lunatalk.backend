@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Products
@@ -40,12 +42,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUuid($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\ProductsFactory factory(...$parameters)
  */
 class Products extends Model
 {
     use HasFactory;
 
-
+    /**
+     * @var string
+     */
     protected $table = 'products';
 
     /**
@@ -64,17 +69,29 @@ class Products extends Model
         'active'
     ];
 
-    public function category()
+    /**
+     * 카테고리.
+     * @return HasOne
+     */
+    public function category(): HasOne
     {
         return $this->hasOne('App\Models\Codes', 'code_id', 'category');
     }
 
-    public function options()
+    /**
+     * 옵션 관계.
+     * @return HasOne
+     */
+    public function options(): HasOne
     {
         return $this->hasOne('App\Models\ProductOptions', 'product_id', 'id');
     }
 
-    public function images()
+    /**
+     * 이미지 관계.
+     * @return HasMany
+     */
+    public function images(): HasMany
     {
         return $this->hasMany('App\Models\ProductImages', 'product_id', 'id');
     }

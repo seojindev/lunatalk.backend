@@ -21,6 +21,5 @@ class UserPhoneVerifySeeder extends Seeder
         if (env('APP_ENV') == 'testing') {
             UserPhoneVerify::factory()->count(1)->create();
         }
-
     }
 }
