@@ -49,6 +49,22 @@ var pageFunction = ( function() {
     };
 })();
 
+// 리스트 페이지.
+var listPageFunction = ( function() {
+    return {
+        pageStart: function() {
+            console.debug(':: listPage Start ::');
+
+            $(document).on('click', '[name=button-add-best-item]', function(e){
+                var product_uuid = $(this).attr("product-uuid");
+
+                console.debug(product_uuid);
+            });
+
+        },
+    };
+})();
+
 // 등록 페이지 함수
 var createPageFunction = ( function() {
     return {

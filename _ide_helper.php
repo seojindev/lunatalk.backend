@@ -15400,7 +15400,7 @@
      */ 
         class CustomFacades {
                     /**
-         * 
+         * 테스트.
          *
          * @static 
          */ 
@@ -15497,7 +15497,7 @@
                         return \App\Supports\HelperClass::checkProhibitWord($checkWord);
         }
                     /**
-         * 
+         * 숫자로 되어 있는 휴대폰 번호 - 추가.
          *
          * @param String $phonenumber
          * @return string 

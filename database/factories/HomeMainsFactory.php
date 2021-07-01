@@ -6,7 +6,7 @@ use App\Models\HomeMains;
 use App\Models\MediaFiles;
 use App\Models\Products;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Codes;
 /**
  * Class HomeMainsFactory
  * @package Database\Factories
@@ -27,6 +27,7 @@ class HomeMainsFactory extends Factory
      */
     public function definition()
     {
+        $randGubun = Codes::select('code_id')->where('group_id', 'P10')->whereNotNull('code_id')->inRandomOrder()->first();
         $randProducts = Products::select()->inRandomOrder()->first();
         $randMediaFile = MediaFiles::select()->inRandomOrder()->first();
 
@@ -36,6 +37,7 @@ class HomeMainsFactory extends Factory
         ];
 
         return [
+            'gubun' => $randGubun->code_id,
             'product_id' => $randProducts->id,
             'media_id' => $randMediaFile->id,
             'status' => $status[array_rand($status, 1)],

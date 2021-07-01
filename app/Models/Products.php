@@ -43,6 +43,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUuid($value)
  * @mixin \Eloquent
  * @method static \Database\Factories\ProductsFactory factory(...$parameters)
+ * @property int $view_count 뷰 카운트.
+ * @method static \Illuminate\Database\Eloquent\Builder|Products whereViewCount($value)
  */
 class Products extends Model
 {

@@ -84,6 +84,7 @@ class AdminServices
         $this->adminMainHomeValidator();
 
         $this->adminRepository->createHomeMain([
+            'gubun' => config('extract.homeMainGubun.mainTop.code'),
             'product_id' => $this->productsRepository->findProductByUUID($this->currentRequest->input('edit_product_select'))->id,
             'media_id' => $this->currentRequest->input('edit_image'),
             'status' => $this->currentRequest->input('edit_status')

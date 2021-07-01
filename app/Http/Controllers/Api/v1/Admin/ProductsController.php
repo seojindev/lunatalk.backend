@@ -37,7 +37,6 @@ class ProductsController extends RootController
     public function create(Request $request) {
 
         $this->productsService->productCreate($request);
-
         return Response::success_only_message();
     }
 
@@ -50,7 +49,26 @@ class ProductsController extends RootController
     public function update(Request $request, String $product_uuid) {
 
         $this->productsService->productUpdate($request, $product_uuid);
+        return Response::success_only_message();
+    }
 
+    public function addBestItem(String $product_uuid)
+    {
+        return Response::success_only_message();
+    }
+
+    public function deleteBestItem(String $product_uuid)
+    {
+        return Response::success_only_message();
+    }
+
+    public function addHotItem(String $product_uuid)
+    {
+        return Response::success_only_message();
+    }
+
+    public function deleteHotItem(String $product_uuid)
+    {
         return Response::success_only_message();
     }
 }

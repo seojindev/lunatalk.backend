@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereUpdatedAt($value)
  * @mixin \Eloquent
  * @method static \Database\Factories\HomeMainsFactory factory(...$parameters)
+ * @property-read \App\Models\MediaFiles|null $media_file
+ * @property-read \App\Models\Products|null $product
  */
 class HomeMains extends Model
 {
@@ -33,6 +35,7 @@ class HomeMains extends Model
 
     protected $fillable = [
         'id',
+        'gubun',
         'product_id',
         'media_id',
         'status'

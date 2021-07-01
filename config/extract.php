@@ -76,6 +76,12 @@ return [
             'code' => 'G010020'
         ]
     ],
+    'homeMainGubun' => [
+        'mainTop' => [
+            'name' => '메안 top',
+            'code' => 'P100010'
+        ],
+    ],
     'prohibit' => [
         'login_id' => 'admin,administrator,webmaster,sysop,manager,root,su,guest',
         'nickname' => '관리자,운영자,어드민,주인장,웹마스터,시삽,시샵,매니저,메니저,루트,방문객,테스트,닉네임',

@@ -182,4 +182,24 @@ class ProductsService
             ]);
         endforeach;
     }
+
+    public function tabMainTopItems() : array
+    {
+        return [];
+    }
+
+    public function tabMainProductsCategoryItems() : array
+    {
+        return [];
+    }
+
+    public function tabMainProductsBestItems() : array
+    {
+        return [];
+    }
+
+    public function tabMainProductsHotItems() : array
+    {
+        return [];
+    }
 }

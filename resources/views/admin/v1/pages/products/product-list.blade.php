@@ -2,6 +2,12 @@
 
 @section('pageTitle','상품 리스트')
 
+@php
+    echo "<!--";
+    print_r($products);
+    echo "//-->";
+@endphp
+
 @section('pageContent')
 
                         <!-- Page Heading -->
@@ -27,21 +33,13 @@
                                                 <th>판매유무</th>
                                                 <th>재품상태</th>
                                                 <th>등록일</th>
+                                                <th>
+                                                    <div class="text-center well">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> -
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>카테고리</th>
-                                                <th>상품명</th>
-                                                <th>옵션1</th>
-                                                <th>옵션2</th>
-                                                <th>금액</th>
-                                                <th>재고량</th>
-                                                <th>판매유무</th>
-                                                <th>재품상태</th>
-                                                <th>등록일</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
 @foreach ($products as $product)
                                             <tr>
@@ -54,6 +52,16 @@
                                                 <td>{{ $product['sale'] }}</td>
                                                 <td>{{ $product['active'] }}</td>
                                                 <td>{{ $product['created_at'] }}</td>
+                                                <td>
+                                                    <div class="text-center well">
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2" name="button-add-best-item" product-uuid="{{ $product['product_uuid']}}">
+                                                             Best-Item
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2">
+                                                             Hot-Item
+                                                        </button>
+                                                    </div>
+                                                </td>
                                             </tr>
 @endforeach
 
@@ -83,4 +91,12 @@
 
 @push('pageIncludeScripts')
 
+@endpush
+
+
+@push('pageLoadScript')
+        <!-- Page level pageLoadScript -->
+        <script>
+            listPageFunction.pageStart();
+        </script>
 @endpush
