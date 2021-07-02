@@ -45,6 +45,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Database\Factories\ProductsFactory factory(...$parameters)
  * @property int $view_count 뷰 카운트.
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereViewCount($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\HomeMains[] $homeMain
+ * @property-read int|null $home_main_count
+ * @property-read \App\Models\HomeMains|null $home_best_item
+ * @property-read \App\Models\HomeMains|null $home_hot_item
+ * @property-read \App\Models\HomeMains|null $home_top_item
+ * @property-read \App\Models\ProductImages|null $rep_images
  */
 class Products extends Model
 {

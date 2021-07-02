@@ -154,4 +154,94 @@ class ProductsRepository implements ProductsRepositoryInterface
         return $this->products::where('uuid', $uuid)->firstOrFail();
     }
 
+    /**
+     * 메인 톱 확인 exits.
+     * @param Int $product_id
+     * @return bool
+     */
+    public function findHomeMainsMainTopItemExitsByid(Int $product_id) : bool
+    {
+        return $this->homeMains::where([['gubun', config('extract.homeMainGubun.mainTop.code')], ['product_id', $product_id]])->exists();
+    }
+
+    /**
+     * 메인 베스트 exits.
+     * @param Int $product_id
+     * @return bool
+     */
+    public function findHomeMainsBestItemExitsByid(Int $product_id) : bool
+    {
+        return $this->homeMains::where([['gubun', config('extract.homeMainGubun.mainBestItem.code')], ['product_id', $product_id]])->exists();
+    }
+
+    /**
+     * 메인 핫 아이템 exits.
+     * @param Int $product_id
+     * @return bool
+     */
+    public function findHomeMainsHotItemExitsByid(Int $product_id) : bool
+    {
+        return $this->homeMains::where([['gubun', config('extract.homeMainGubun.mainHotItem.code')], ['product_id', $product_id]])->exists();
+    }
+
+    /**
+     * 홈 TOP 등록.
+     * @param array $dataObject
+     * @return object
+     */
+    public function createHomeMain(Array $dataObject) : object
+    {
+        return $this->homeMains::create($dataObject);
+    }
+
+    /**
+     * 홈 TOP 삭제.
+     * @param String $gubun
+     * @param Int $product_id
+     * @return bool|mixed|null
+     */
+    public function deleteHomeMainsItem(String $gubun, Int $product_id)
+    {
+        return $this->homeMains::where([['gubun', $gubun], ['product_id', $product_id]])->delete();
+    }
+
+    /**
+     * 홈 TOP 리스트.
+     * @return Builder
+     */
+    public function selectHomeMainTops()
+    {
+        return $this->homeMains::with(['product', 'media_file'])->where([['gubun', config('extract.homeMainGubun.mainTop.code')],['status', 'Y']]);
+    }
+
+    /**
+     * 홈 카테고리 랜덤.
+     * @param String $category
+     * @return object
+     */
+    public function selectProductCategoryRandomItem(String $category) : object
+    {
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'rep_images' => function($query) {
+            $query->where('media_category', 'G010010');
+        }, 'rep_images.mediafile'])
+            ->where('category', $category)->inRandomOrder()->firstOrFail();
+    }
+
+    /**
+     * 홈 베스트 아이템 대표..
+     * @return object
+     */
+    public function selectHomeMainBestItems() : object
+    {
+        return $this->homeMains::with(['product', 'product.rep_images.mediafile'])->where([['gubun', config('extract.homeMainGubun.mainBestItem.code')],['status', 'Y']]);
+    }
+
+    /**
+     * 홈 핫 아이템 대표..
+     * @return object
+     */
+    public function selectHomeMainHotItems() : object
+    {
+        return $this->homeMains::with(['product', 'product.rep_images.mediafile'])->where([['gubun', config('extract.homeMainGubun.mainHotItem.code')],['status', 'Y']]);
+    }
 }

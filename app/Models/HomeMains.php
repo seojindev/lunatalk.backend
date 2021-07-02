@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Database\Factories\HomeMainsFactory factory(...$parameters)
  * @property-read \App\Models\MediaFiles|null $media_file
  * @property-read \App\Models\Products|null $product
+ * @property \App\Models\Codes|null $gubun 구분.
+ * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereGubun($value)
  */
 class HomeMains extends Model
 {

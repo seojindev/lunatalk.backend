@@ -4,6 +4,7 @@
 namespace App\Services\Api;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServerErrorException;
 use Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
@@ -185,21 +186,64 @@ class ProductsService
 
     public function tabMainTopItems() : array
     {
-        return [];
+        $task = $this->productsRepository->selectHomeMainTops()->get()->toArray();
+
+        if(empty($task)) {
+            throw new ModelNotFoundException();
+        }
+
+        return array_map(function($item) {
+            return [
+                'product_name' => $item['product']['name'],
+                'product_uuid' => $item['product']['uuid'],
+                'product_image' => env('APP_MEDIA_URL') . $item['media_file']['dest_path'] . '/' . $item['media_file']['file_name']
+            ];
+         } , $task);
     }
 
     public function tabMainProductsCategoryItems() : array
     {
-        return [];
+        return array_map(function($category) {
+            $getTask = $this->productsRepository->selectProductCategoryRandomItem($category['code'])->toArray();
+            return [
+                'category_code' => $category['code'],
+                'product_uuid' => $getTask['uuid'],
+                'product_name' => $getTask['name'],
+                'product_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/' . $getTask['rep_images']['mediafile']['file_name'],
+                'product_thumb_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/thum_' . $getTask['rep_images']['mediafile']['file_name'],
+            ];
+        }, config('extract.productCategory'));
     }
 
+    /**
+     * 홈 베스트 아이템 생성.
+     * @return array
+     */
     public function tabMainProductsBestItems() : array
     {
-        return [];
+        $getTask = $this->productsRepository->selectHomeMainBestItems()->get()->toArray();
+
+        if(empty($getTask)) {
+            throw new ModelNotFoundException();
+        }
+
+        return array_map(function($item) {
+            return [
+                'product_name' => $item['product']['name'],
+                'product_uuid' => $item['product']['uuid'],
+                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
+            ];
+        }, array_filter($getTask, fn($value) => $value['product']['rep_images']));
     }
 
     public function tabMainProductsHotItems() : array
     {
-        return [];
+        return array_map(function($item) {
+            return [
+                'product_name' => $item['product']['name'],
+                'product_uuid' => $item['product']['uuid'],
+                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
+            ];
+        } , $this->productsRepository->selectHomeMainHotItems()->get()->toArray());
     }
 }
