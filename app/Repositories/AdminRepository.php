@@ -78,14 +78,14 @@ class AdminRepository implements AdminRepositoryInterface
     }
 
     /**
-     * 상태 업테이트 처리.
+     * 메인 top 리스트.
      * @return Builder
      */
     public function selectHomeMainStatusOrder() : Builder
     {
         return $this->homeMains::with(['product' => function($query) {
             $query->where('active' , 'Y');
-        }, 'media_file'])->orderBy('status')->orderByDesc('id');
+        }, 'media_file'])->where('gubun', config('extract.homeMainGubun.mainTop.code'))->orderBy('status')->orderByDesc('id');
     }
 
     /**

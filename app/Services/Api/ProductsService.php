@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Repositories\ProductsRepository;
+use App\Repositories\ServiceRepository;
 
 /**
  * Class ProductsService
@@ -23,12 +24,19 @@ class ProductsService
     protected ProductsRepository $productsRepository;
 
     /**
+     * @var ServiceRepository
+     */
+    protected ServiceRepository $serviceRepository;
+
+    /**
      * ProductsService constructor.
      * @param ProductsRepository $productsRepository
+     * @param ServiceRepository $serviceRepository
      */
-    public function __construct(ProductsRepository $productsRepository)
+    public function __construct(ProductsRepository $productsRepository, ServiceRepository $serviceRepository)
     {
         $this->productsRepository = $productsRepository;
+        $this->serviceRepository = $serviceRepository;
     }
 
     /**
@@ -184,6 +192,10 @@ class ProductsService
         endforeach;
     }
 
+    /**
+     * 홈 메인 TOP 리스트 생성.
+     * @return array
+     */
     public function tabMainTopItems() : array
     {
         $task = $this->productsRepository->selectHomeMainTops()->get()->toArray();
@@ -201,6 +213,10 @@ class ProductsService
          } , $task);
     }
 
+    /**
+     * 홈 카테고리 생성.
+     * @return array
+     */
     public function tabMainProductsCategoryItems() : array
     {
         return array_map(function($category) {
@@ -236,6 +252,10 @@ class ProductsService
         }, array_filter($getTask, fn($value) => $value['product']['rep_images']));
     }
 
+    /**
+     * 홈 핫 아이템 생성.
+     * @return array
+     */
     public function tabMainProductsHotItems() : array
     {
         return array_map(function($item) {

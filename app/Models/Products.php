@@ -103,4 +103,49 @@ class Products extends Model
     {
         return $this->hasMany('App\Models\ProductImages', 'product_id', 'id');
     }
+
+    /**
+     * 대표 이미지 관계.
+     * @return HasOne
+     */
+    public function rep_images(): HasOne
+    {
+        return $this->hasOne('App\Models\ProductImages', 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'));
+    }
+
+    /**
+     * 홈 메인 관계.
+     * @return HasMany
+     */
+    public function homeMain() : HasMany
+    {
+        return $this->HasMany('App\Models\HomeMains', 'product_id', 'id');
+    }
+
+    /**
+     * 홈 탑 이미지 관계.
+     * @return HasOne
+     */
+    public function home_top_item() : HasOne
+    {
+        return $this->hasOne('App\Models\HomeMains', 'product_id', 'id')->where('gubun', config('extract.homeMainGubun.mainTop.code'));
+    }
+
+    /**
+     * 홈 베스트 아이템 관계.
+     * @return HasOne
+     */
+    public function home_best_item() : HasOne
+    {
+        return $this->hasOne('App\Models\HomeMains', 'product_id', 'id')->where('gubun', config('extract.homeMainGubun.mainBestItem.code'));
+    }
+
+    /**
+     * 홈 핫 아이템 관계.
+     * @return HasOne
+     */
+    public function home_hot_item() : HasOne
+    {
+        return $this->hasOne('App\Models\HomeMains', 'product_id', 'id')->where('gubun', config('extract.homeMainGubun.mainHotItem.code'));
+    }
 }

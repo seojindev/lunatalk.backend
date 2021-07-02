@@ -15,7 +15,7 @@ class ProductsSeeder extends Seeder
     public function run()
     {
         if (env('APP_ENV') == 'testing') {
-            Products::factory()->count(10)->create();
+            Products::factory()->count(20)->create();
         }
     }
 }

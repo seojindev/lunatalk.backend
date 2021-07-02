@@ -55,13 +55,55 @@ var listPageFunction = ( function() {
         pageStart: function() {
             console.debug(':: listPage Start ::');
 
-            $(document).on('click', '[name=button-add-best-item]', function(e){
+            $('#dataTable').DataTable({
+                order: []
+            });
+
+            $(document).on('click', '[name=button-delete-best-item]', function(e){
                 var product_uuid = $(this).attr("product-uuid");
 
-                console.debug(product_uuid);
+                commonFunction.ajaxUtil({
+                    url: `/api/v1/admin/product/${product_uuid}/best-item`,
+                    payload: {},
+                    type: 'delete',
+                    successCallback: listPageFunction.responseSuccess
+                });
+            });
+
+            $(document).on('click', '[name=button-add-best-item]', function(e){
+                var product_uuid = $(this).attr("product-uuid");
+                commonFunction.ajaxUtil({
+                    url: `/api/v1/admin/product/${product_uuid}/best-item`,
+                    payload: {},
+                    type: 'put',
+                    successCallback: listPageFunction.responseSuccess
+                });
+            });
+
+            $(document).on('click', '[name=button-delete-hot-item]', function(e){
+                var product_uuid = $(this).attr("product-uuid");
+                commonFunction.ajaxUtil({
+                    url: `/api/v1/admin/product/${product_uuid}/hot-item`,
+                    payload: {},
+                    type: 'delete',
+                    successCallback: listPageFunction.responseSuccess
+                });
+            });
+
+            $(document).on('click', '[name=button-add-hot-item]', function(e){
+                var product_uuid = $(this).attr("product-uuid");
+                commonFunction.ajaxUtil({
+                    url: `/api/v1/admin/product/${product_uuid}/hot-item`,
+                    payload: {},
+                    type: 'put',
+                    successCallback: listPageFunction.responseSuccess
+                });
             });
 
         },
+        responseSuccess: function() {
+            location.reload();
+        }
     };
 })();
 

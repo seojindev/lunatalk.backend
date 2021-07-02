@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\Admin;
 use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Api\RootController;
 use App\Services\Api\ProductsService;
+use App\Services\Api\AdminServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -20,12 +21,19 @@ class ProductsController extends RootController
     protected ProductsService $productsService;
 
     /**
+     * @var AdminServices
+     */
+    protected AdminServices $adminServices;
+
+    /**
      * ProductsController constructor.
      * @param ProductsService $productsService
+     * @param AdminServices $adminServices
      */
-    public function __construct(ProductsService $productsService)
+    public function __construct(ProductsService $productsService, AdminServices $adminServices)
     {
         $this->productsService = $productsService;
+        $this->adminServices = $adminServices;
     }
 
     /**
@@ -52,23 +60,51 @@ class ProductsController extends RootController
         return Response::success_only_message();
     }
 
+    /**
+     * 베스트 상품 추가.
+     * @param String $product_uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
     public function addBestItem(String $product_uuid)
     {
+        $this->adminServices->addProductBestItem($product_uuid);
         return Response::success_only_message();
     }
 
+    /**
+     * 베스트 상품 취소.
+     * @param String $product_uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
     public function deleteBestItem(String $product_uuid)
     {
-        return Response::success_only_message();
+        $this->adminServices->deleteProductBestItem($product_uuid);
+        return Response::custom_success(202);
     }
 
+    /**
+     * 핫 아이템 추가.
+     * @param String $product_uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
     public function addHotItem(String $product_uuid)
     {
+        $this->adminServices->addProductHotItem($product_uuid);
         return Response::success_only_message();
     }
 
+    /**
+     * 핫 아이템 취소.
+     * @param String $product_uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
     public function deleteHotItem(String $product_uuid)
     {
-        return Response::success_only_message();
+        $this->adminServices->deleteProductHotItem($product_uuid);
+        return Response::custom_success(202);
     }
 }

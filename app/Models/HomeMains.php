@@ -44,6 +44,16 @@ class HomeMains extends Model
     ];
 
     /**
+     * 구분값 관계.
+     * @return HasOne
+     */
+    public function gubun() : HasOne
+    {
+        return $this->hasOne('App\Models\Codes', 'code_id', 'gubun');
+    }
+
+    /**
+     * 상품 관계.
      * @return HasOne
      */
     public function product() : HasOne
@@ -52,6 +62,7 @@ class HomeMains extends Model
     }
 
     /**
+     * 이미지 관계.
      * @return HasOne
      */
     public function media_file() : HasOne

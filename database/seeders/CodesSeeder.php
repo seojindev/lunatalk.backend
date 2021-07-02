@@ -202,6 +202,8 @@ class CodesSeeder extends Seeder
             ],
             'P10' => [
                 [ 'code_id' => '0010', 'code_name' => '메인 TOP' ],
+                [ 'code_id' => '0020', 'code_name' => '메인 BEST ITEM' ],
+                [ 'code_id' => '0030', 'code_name' => '메인 HOT ITEM' ],
             ],
         ];
     }

@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Models\Products;
 use App\Models\ProductImages;
 use App\Models\ProductOptions;
+use App\Models\HomeMains;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -29,17 +30,21 @@ class ProductsRepository implements ProductsRepositoryInterface
      */
     protected ProductOptions $productOptions;
 
+    protected HomeMains $homeMains;
+
     /**
      * ProductsRepository constructor.
      * @param Products $products
      * @param ProductOptions $productOptions
      * @param ProductImages $productImages
+     * @param HomeMains $homeMains
      */
-    public function __construct(Products $products, ProductOptions $productOptions, ProductImages $productImages)
+    public function __construct(Products $products, ProductOptions $productOptions, ProductImages $productImages, HomeMains $homeMains)
     {
         $this->products = $products;
         $this->productImages = $productImages;
         $this->productOptions = $productOptions;
+        $this->homeMains = $homeMains;
     }
 
     /**
@@ -101,7 +106,7 @@ class ProductsRepository implements ProductsRepositoryInterface
     {
         return $this->products::with(['category', 'options.step1', 'options.step2', 'images' => function($query) {
             $query->where('media_category', 'G010010');
-        }, 'images.category', 'images.mediafile']);
+        }, 'images.category', 'images.mediafile', 'home_top_item', 'home_best_item', 'home_hot_item']);
     }
 
     /**
@@ -149,7 +154,7 @@ class ProductsRepository implements ProductsRepositoryInterface
      * @param string $uuid
      * @return object
      */
-    public function findProductByUUID(string $uuid) : object
+    public function findProductByUUID(String $uuid) : object
     {
         return $this->products::where('uuid', $uuid)->firstOrFail();
     }

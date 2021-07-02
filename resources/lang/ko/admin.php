@@ -16,7 +16,8 @@ return [
                 'status-required' => '게시 상태를 선택해 주세요.',
                 'status-exists' => '존재 하지 않은 게시 상태 입니다.',
                 'status-in' => '정상 게시 상태 값이 아닙니다.',
-                'id-exists' => '데이터가 존재 않지 않습니다.'
+                'id-exists' => '데이터가 존재 않지 않습니다.',
+                'product-main-unique' => '이미 등록되어 있는 상품 입니다.',
             ]
         ]
     ],
