@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\ProductOptions
@@ -24,11 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions whereStep2($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\ProductOptionsFactory factory(...$parameters)
  */
 class ProductOptions extends Model
 {
     use HasFactory;
-
 
     /**
      * @var string
@@ -45,12 +46,18 @@ class ProductOptions extends Model
         'step2'
     ];
 
-    public function step1()
+    /**
+     * @return HasOne
+     */
+    public function step1() : HasOne
     {
         return $this->hasOne('App\Models\Codes', 'code_id', 'step1');
     }
 
-    public function step2()
+    /**
+     * @return HasOne
+     */
+    public function step2() : HasOne
     {
         return $this->hasOne('App\Models\Codes', 'code_id', 'step2');
     }

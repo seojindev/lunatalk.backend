@@ -111,10 +111,35 @@ class EditHomeMainTest extends BaseCustomTestCase
         $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', '/api/v1/admin/service/edit-home-main', json_decode($testPayload, true));
     }
 
+    public function test_admin_edit_home_main_create_중복_상품_선택_요청()
+    {
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('admin.service.edit.home-main.product-main-unique'));
+
+        $randImageTask = MediaFiles::select()->inRandomOrder()->first();
+        $selectHomeMain = HomeMains::with(['product'])->where('gubun', config('extract.homeMainGubun.mainTop.code'))->inRandomOrder()->first()->toArray();
+        $product_uuid = $selectHomeMain['product']['uuid'];
+
+        $testPayload = '{
+            "edit_image" : "'.$randImageTask->id.'",
+            "edit_product_select" : "'.$product_uuid.'",
+            "edit_status" : "Y"
+        }';
+
+        $this->withHeaders($this->getTestAccessTokenHeader())->json('POST', '/api/v1/admin/service/edit-home-main', json_decode($testPayload, true));
+    }
+
     public function test_admin_edit_home_main_create_정상_요청()
     {
         $randImageTask = MediaFiles::select()->inRandomOrder()->first();
-        $randProduct = Products::select()->inRandomOrder()->first();
+        $selectHomeMain = HomeMains::select('product_id')->where('gubun', config('extract.homeMainGubun.mainTop.code'))->get()->toArray();
+
+        $tmpProductIds = [];
+        foreach ($selectHomeMain as $element) :
+            $tmpProductIds[] = $element['product_id'];
+        endforeach;
+
+        $randProduct = Products::select()->whereNotIn('id', $tmpProductIds)->inRandomOrder()->first();
 
         $testPayload = '{
             "edit_image" : "'.$randImageTask->id.'",

@@ -43,6 +43,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUuid($value)
  * @mixin \Eloquent
  * @method static \Database\Factories\ProductsFactory factory(...$parameters)
+ * @property int $view_count 뷰 카운트.
+ * @method static \Illuminate\Database\Eloquent\Builder|Products whereViewCount($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\HomeMains[] $homeMain
+ * @property-read int|null $home_main_count
+ * @property-read \App\Models\HomeMains|null $home_best_item
+ * @property-read \App\Models\HomeMains|null $home_hot_item
+ * @property-read \App\Models\HomeMains|null $home_top_item
+ * @property-read \App\Models\ProductImages|null $rep_images
  */
 class Products extends Model
 {
@@ -94,5 +102,50 @@ class Products extends Model
     public function images(): HasMany
     {
         return $this->hasMany('App\Models\ProductImages', 'product_id', 'id');
+    }
+
+    /**
+     * 대표 이미지 관계.
+     * @return HasOne
+     */
+    public function rep_images(): HasOne
+    {
+        return $this->hasOne('App\Models\ProductImages', 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'));
+    }
+
+    /**
+     * 홈 메인 관계.
+     * @return HasMany
+     */
+    public function homeMain() : HasMany
+    {
+        return $this->HasMany('App\Models\HomeMains', 'product_id', 'id');
+    }
+
+    /**
+     * 홈 탑 이미지 관계.
+     * @return HasOne
+     */
+    public function home_top_item() : HasOne
+    {
+        return $this->hasOne('App\Models\HomeMains', 'product_id', 'id')->where('gubun', config('extract.homeMainGubun.mainTop.code'));
+    }
+
+    /**
+     * 홈 베스트 아이템 관계.
+     * @return HasOne
+     */
+    public function home_best_item() : HasOne
+    {
+        return $this->hasOne('App\Models\HomeMains', 'product_id', 'id')->where('gubun', config('extract.homeMainGubun.mainBestItem.code'));
+    }
+
+    /**
+     * 홈 핫 아이템 관계.
+     * @return HasOne
+     */
+    public function home_hot_item() : HasOne
+    {
+        return $this->hasOne('App\Models\HomeMains', 'product_id', 'id')->where('gubun', config('extract.homeMainGubun.mainHotItem.code'));
     }
 }

@@ -72,6 +72,9 @@ class ProductsService
                     'number' => $e['stock'],
                     'string' => number_format($e['stock'])
                 ],
+                'home_top_item' => !empty($e['home_top_item']),
+                'home_best_item' => !empty($e['home_best_item']),
+                'home_hot_item' => !empty($e['home_hot_item']),
                 'memo' => $e['memo'],
                 'sale' => $e['sale'],
                 'active' => $e['active'],

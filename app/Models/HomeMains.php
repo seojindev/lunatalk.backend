@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereUpdatedAt($value)
  * @mixin \Eloquent
  * @method static \Database\Factories\HomeMainsFactory factory(...$parameters)
+ * @property-read \App\Models\MediaFiles|null $media_file
+ * @property-read \App\Models\Products|null $product
+ * @property \App\Models\Codes|null $gubun 구분.
+ * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereGubun($value)
  */
 class HomeMains extends Model
 {
@@ -33,12 +37,23 @@ class HomeMains extends Model
 
     protected $fillable = [
         'id',
+        'gubun',
         'product_id',
         'media_id',
         'status'
     ];
 
     /**
+     * 구분값 관계.
+     * @return HasOne
+     */
+    public function gubun() : HasOne
+    {
+        return $this->hasOne('App\Models\Codes', 'code_id', 'gubun');
+    }
+
+    /**
+     * 상품 관계.
      * @return HasOne
      */
     public function product() : HasOne
@@ -47,6 +62,7 @@ class HomeMains extends Model
     }
 
     /**
+     * 이미지 관계.
      * @return HasOne
      */
     public function media_file() : HasOne

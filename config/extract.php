@@ -76,6 +76,37 @@ return [
             'code' => 'G010020'
         ]
     ],
+
+    'productCategory' => [
+        'acc' => [
+            'code' => 'P010110'
+        ],
+        'bag' => [
+            'code' => 'P010120'
+        ],
+        'stationery' => [
+            'code' => 'P010130'
+        ],
+        'wallet' => [
+            'code' => 'P010140'
+        ],
+    ],
+
+    'homeMainGubun' => [
+        'mainTop' => [
+            'name' => '메인 top',
+            'code' => 'P100010'
+        ],
+        'mainBestItem' => [
+            'name' => '메인 BEST ITEM',
+            'code' => 'P100020'
+        ],
+        'mainHotItem' => [
+            'name' => '메인 HOT ITEM',
+            'code' => 'P100030'
+        ],
+    ],
+
     'prohibit' => [
         'login_id' => 'admin,administrator,webmaster,sysop,manager,root,su,guest',
         'nickname' => '관리자,운영자,어드민,주인장,웹마스터,시삽,시샵,매니저,메니저,루트,방문객,테스트,닉네임',

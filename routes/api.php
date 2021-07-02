@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsControl
 use App\Http\Controllers\Api\v1\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\Other\MediaController;
+use App\Http\Controllers\Api\v1\Pages\TabsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,11 @@ Route::group(['as' => 'api.'], function () {
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::post('create', [AdminProductsController::class, 'create'])->name('create');
                 Route::put('{product_uuid}/update', [AdminProductsController::class, 'update'])->name('update');
+
+                Route::put('{product_uuid}/best-item', [AdminProductsController::class, 'addBestItem'])->name('best.item.add'); // 베스트 아이템 추가.
+                Route::delete('{product_uuid}/best-item', [AdminProductsController::class, 'deleteBestItem'])->name('best.item.delete'); // 베스트 아이템 삭제.
+                Route::put('{product_uuid}/hot-item', [AdminProductsController::class, 'addHotItem'])->name('hot.item.add'); // 핫 아이템 추가.
+                Route::delete('{product_uuid}/hot-item', [AdminProductsController::class, 'deleteHotItem'])->name('hot.item.delete'); // 핫 아이템 삭제.
             });
 
             // 시스템 공지 사항.
@@ -76,6 +82,15 @@ Route::group(['as' => 'api.'], function () {
         Route::group(['prefix' => 'other', 'as' => 'other.'], function () {
             Route::group(['prefix' => 'media', 'as' => 'media.'], function () {
                 Route::post('{mediaName}/{mediaCategory}/create', [MediaController::class, 'media_create'])->name('create');
+            });
+        });
+
+        Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
+            Route::group(['prefix' => 'tabs', 'as' => 'tabs.'], function () {
+                Route::get('main-top', [TabsController::class, 'mainTop'])->name('main.top');
+                Route::get('main-products-category', [TabsController::class, 'mainProductsCategory'])->name('main.products.category');
+                Route::get('main-products-best-items', [TabsController::class, 'mainProductsBestItems'])->name('main.products.best.items');
+                Route::get('main-products-hot-items', [TabsController::class, 'mainProductsHotItems'])->name('main.products.hot.items');
             });
         });
 

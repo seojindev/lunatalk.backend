@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\ProductImages
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\ProductImagesFactory factory(...$parameters)
  */
 class ProductImages extends Model
 {
@@ -46,12 +48,15 @@ class ProductImages extends Model
         'media_id'
     ];
 
-    public function category()
+    /**
+     * @return HasOne
+     */
+    public function category() : HasOne
     {
         return $this->hasOne('App\Models\Codes', 'code_id', 'media_category');
     }
 
-    public function mediafile()
+    public function mediafile() : HasOne
     {
         return $this->hasOne('App\Models\MediaFiles', 'id', 'media_id');
     }

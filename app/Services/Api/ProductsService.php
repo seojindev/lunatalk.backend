@@ -4,11 +4,13 @@
 namespace App\Services\Api;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServerErrorException;
 use Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Repositories\ProductsRepository;
+use App\Repositories\ServiceRepository;
 
 /**
  * Class ProductsService
@@ -22,12 +24,19 @@ class ProductsService
     protected ProductsRepository $productsRepository;
 
     /**
+     * @var ServiceRepository
+     */
+    protected ServiceRepository $serviceRepository;
+
+    /**
      * ProductsService constructor.
      * @param ProductsRepository $productsRepository
+     * @param ServiceRepository $serviceRepository
      */
-    public function __construct(ProductsRepository $productsRepository)
+    public function __construct(ProductsRepository $productsRepository, ServiceRepository $serviceRepository)
     {
         $this->productsRepository = $productsRepository;
+        $this->serviceRepository = $serviceRepository;
     }
 
     /**
@@ -181,5 +190,80 @@ class ProductsService
                 'media_id' => $element,
             ]);
         endforeach;
+    }
+
+    /**
+     * 홈 메인 TOP 리스트 생성.
+     * @return array
+     */
+    public function tabMainTopItems() : array
+    {
+        $task = $this->productsRepository->selectHomeMainTops()->get()->toArray();
+
+        if(empty($task)) {
+            throw new ModelNotFoundException();
+        }
+
+        return array_map(function($item) {
+            return [
+                'product_name' => $item['product']['name'],
+                'product_uuid' => $item['product']['uuid'],
+                'product_image' => env('APP_MEDIA_URL') . $item['media_file']['dest_path'] . '/' . $item['media_file']['file_name']
+            ];
+         } , $task);
+    }
+
+    /**
+     * 홈 카테고리 생성.
+     * @return array
+     */
+    public function tabMainProductsCategoryItems() : array
+    {
+        return array_map(function($category) {
+            $getTask = $this->productsRepository->selectProductCategoryRandomItem($category['code'])->toArray();
+            return [
+                'category_code' => $category['code'],
+                'product_uuid' => $getTask['uuid'],
+                'product_name' => $getTask['name'],
+                'product_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/' . $getTask['rep_images']['mediafile']['file_name'],
+                'product_thumb_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/thum_' . $getTask['rep_images']['mediafile']['file_name'],
+            ];
+        }, config('extract.productCategory'));
+    }
+
+    /**
+     * 홈 베스트 아이템 생성.
+     * @return array
+     */
+    public function tabMainProductsBestItems() : array
+    {
+        $getTask = $this->productsRepository->selectHomeMainBestItems()->get()->toArray();
+
+        if(empty($getTask)) {
+            throw new ModelNotFoundException();
+        }
+
+        return array_map(function($item) {
+            return [
+                'product_name' => $item['product']['name'],
+                'product_uuid' => $item['product']['uuid'],
+                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
+            ];
+        }, array_filter($getTask, fn($value) => $value['product']['rep_images']));
+    }
+
+    /**
+     * 홈 핫 아이템 생성.
+     * @return array
+     */
+    public function tabMainProductsHotItems() : array
+    {
+        return array_map(function($item) {
+            return [
+                'product_name' => $item['product']['name'],
+                'product_uuid' => $item['product']['uuid'],
+                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
+            ];
+        } , $this->productsRepository->selectHomeMainHotItems()->get()->toArray());
     }
 }

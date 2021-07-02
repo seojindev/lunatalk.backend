@@ -23,7 +23,7 @@ class ProductsFactory extends Factory
      */
     public function definition()
     {
-        $randCategory = Codes::select('code_id')->where('group_id', 'O10')->whereNotNull('code_id')->inRandomOrder()->first();
+        $randCategory = Codes::select('code_id')->where('group_id', 'P01')->whereNotNull('code_id')->inRandomOrder()->first();
 
         return [
             'uuid' => Helper::randomNumberUUID(),

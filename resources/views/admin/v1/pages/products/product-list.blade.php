@@ -2,6 +2,12 @@
 
 @section('pageTitle','상품 리스트')
 
+@php
+    echo "<!--";
+    print_r($products);
+    echo "//-->";
+@endphp
+
 @section('pageContent')
 
                         <!-- Page Heading -->
@@ -18,6 +24,7 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th>홈 아이템</th>
                                                 <th>카테고리</th>
                                                 <th>상품명</th>
                                                 <th>옵션1</th>
@@ -27,24 +34,30 @@
                                                 <th>판매유무</th>
                                                 <th>재품상태</th>
                                                 <th>등록일</th>
+                                                <th>
+                                                    <div class="text-center well">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> -
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>카테고리</th>
-                                                <th>상품명</th>
-                                                <th>옵션1</th>
-                                                <th>옵션2</th>
-                                                <th>금액</th>
-                                                <th>재고량</th>
-                                                <th>판매유무</th>
-                                                <th>재품상태</th>
-                                                <th>등록일</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
 @foreach ($products as $product)
                                             <tr>
+                                                <td>
+                                                    <div class="text-center well">
+                                                            @if ($product['home_best_item'])
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2">
+                                                             베스트
+                                                        </button>
+                                                            @endif
+                                                            @if ($product['home_hot_item'])
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2">
+                                                             핫
+                                                        </button>
+                                                            @endif
+                                                    </div>
+                                                </td>
                                                 <td>{{ $product['category']['code_name'] }}</td>
                                                 <td class="cursor-pointer" name="click-product-view" product_uuid="{{ $product['product_uuid'] }}">{{ $product['name'] }}</td>
                                                 <td>{{ $product['options']['step1']['code_name'] }}</td>
@@ -54,6 +67,28 @@
                                                 <td>{{ $product['sale'] }}</td>
                                                 <td>{{ $product['active'] }}</td>
                                                 <td>{{ $product['created_at'] }}</td>
+                                                <td>
+                                                    <div class="text-center well">
+                                                        @if ($product['home_best_item'])
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2" name="button-delete-best-item" product-uuid="{{ $product['product_uuid']}}">
+                                                             베스트 아이템 삭제
+                                                        </button>
+                                                        @else
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2" name="button-add-best-item" product-uuid="{{ $product['product_uuid']}}">
+                                                            베스트 아이템 추가
+                                                       </button>
+                                                       @endif
+                                                       @if ($product['home_best_item'])
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2" name="button-delete-hot-item" product-uuid="{{ $product['product_uuid']}}">
+                                                            핫 아이템 삭제
+                                                        </button>
+                                                        @else
+                                                        <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2" name="button-add-hot-item" product-uuid="{{ $product['product_uuid']}}">
+                                                            핫 아이템 추가
+                                                        </button>
+                                                        @endif
+                                                    </div>
+                                                </td>
                                             </tr>
 @endforeach
 
@@ -76,11 +111,17 @@
         <script src="{{URL::asset('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="{{URL::asset('assets/js/demo/datatables-demo.js')}}"></script>
 @endpush
 
 
 @push('pageIncludeScripts')
 
+@endpush
+
+
+@push('pageLoadScript')
+        <!-- Page level pageLoadScript -->
+        <script>
+            listPageFunction.pageStart();
+        </script>
 @endpush

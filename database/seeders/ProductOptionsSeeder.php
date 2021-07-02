@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Products;
+use App\Models\ProductOptions;
 use Illuminate\Database\Seeder;
 
-class ProductsSeeder extends Seeder
+class ProductOptionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class ProductsSeeder extends Seeder
     public function run()
     {
         if (env('APP_ENV') == 'testing') {
-            Products::factory()->count(20)->create();
+            ProductOptions::factory()->count(50)->create();
         }
     }
 }

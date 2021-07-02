@@ -83,8 +83,18 @@ class AdminServices
     {
         $this->adminMainHomeValidator();
 
+        $product_id = $this->productsRepository->findProductByUUID($this->currentRequest->input('edit_product_select'))->id;
+
+        $checkHomeMain = $this->productsRepository->findHomeMainsMainTopItemExitsByid($product_id);
+
+        if($checkHomeMain)
+        {
+            throw new ClientErrorException(__('admin.service.edit.home-main.product-main-unique'));
+        }
+
         $this->adminRepository->createHomeMain([
-            'product_id' => $this->productsRepository->findProductByUUID($this->currentRequest->input('edit_product_select'))->id,
+            'gubun' => config('extract.homeMainGubun.mainTop.code'),
+            'product_id' => $product_id,
             'media_id' => $this->currentRequest->input('edit_image'),
             'status' => $this->currentRequest->input('edit_status')
         ]);
@@ -141,5 +151,89 @@ class AdminServices
         }
 
         $this->adminRepository->updateHomeMainStatus($id, $this->currentRequest->input('edit_status'));
+    }
+
+    /**
+     * 메인 베스트 아이템 추가.
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function addProductBestItem(String $uuid) : void
+    {
+        $product_task = $this->productsRepository->findProductByUUID($uuid);
+
+        $checkHomeMain = $this->productsRepository->findHomeMainsBestItemExitsByid($product_task->id);
+
+        if($checkHomeMain)
+        {
+            throw new ClientErrorException(__('admin.products.hot-best.uuid-unique'));
+        }
+
+        $this->productsRepository->createHomeMain([
+            'gubun' => config('extract.homeMainGubun.mainBestItem.code'),
+            'product_id' => $product_task->id,
+            'status' => 'Y'
+        ]);
+    }
+
+    /**
+     * 베스트 상품 삭제.
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function deleteProductBestItem(String $uuid) : void
+    {
+        $product_task = $this->productsRepository->findProductByUUID($uuid);
+
+        $checkHomeMain = $this->productsRepository->findHomeMainsBestItemExitsByid($product_task->id);
+
+        if(!$checkHomeMain)
+        {
+            throw new ClientErrorException(__('admin.products.hot-best.uuid-exists'));
+        }
+
+        $this->productsRepository->deleteHomeMainsItem(config('extract.homeMainGubun.mainBestItem.code'), $product_task->id);
+    }
+
+    /**
+     * 핫 상품 추가.
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function addProductHotItem(String $uuid) : void
+    {
+        $product_task = $this->productsRepository->findProductByUUID($uuid);
+
+        $checkHomeMain = $this->productsRepository->findHomeMainsHotItemExitsByid($product_task->id);
+
+        if($checkHomeMain)
+        {
+            throw new ClientErrorException(__('admin.products.hot-best.uuid-unique'));
+        }
+
+        $this->productsRepository->createHomeMain([
+            'gubun' => config('extract.homeMainGubun.mainHotItem.code'),
+            'product_id' => $product_task->id,
+            'status' => 'Y'
+        ]);
+    }
+
+    /**
+     * 핫 상품 삭제.
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function deleteProductHotItem(String $uuid) : void
+    {
+        $product_task = $this->productsRepository->findProductByUUID($uuid);
+
+        $checkHomeMain = $this->productsRepository->findHomeMainsHotItemExitsByid($product_task->id);
+
+        if(!$checkHomeMain)
+        {
+            throw new ClientErrorException(__('admin.products.hot-best.uuid-exists'));
+        }
+
+        $this->productsRepository->deleteHomeMainsItem(config('extract.homeMainGubun.mainHotItem.code'), $product_task->id);
     }
 }
