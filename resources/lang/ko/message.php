@@ -95,6 +95,7 @@ return [
         'image_max' => '업로드 이미지 용량 초과 입니다. (2048 byte)',
         'send_phone_auth_code' => '인증코드를 발송 했습니다. 문자를 확인해 주세요.',
         'success_phone_auth_code' => '인증코드 확인이 완료 되었습니다.',
+        'code_exits' => '존재 하는 코드가 아닙니다.',
     ],
     'token' => [
         'required_refresh_token' => '로그인 정보가 존재 하지 않습니다.',

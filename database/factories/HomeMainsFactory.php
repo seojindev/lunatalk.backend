@@ -7,6 +7,8 @@ use App\Models\MediaFiles;
 use App\Models\Products;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Codes;
+use Helper;
+
 /**
  * Class HomeMainsFactory
  * @package Database\Factories
@@ -37,6 +39,7 @@ class HomeMainsFactory extends Factory
         ];
 
         return [
+            'uid' => Helper::generateDigit(),
             'gubun' => $randGubun->code_id,
             'product_id' => $randProducts->id,
             'media_id' => $randMediaFile->id,

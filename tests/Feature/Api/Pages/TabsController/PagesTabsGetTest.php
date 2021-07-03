@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Pages;
+namespace Tests\Feature\Api\Pages\TabsController;
 
 use App\Models\HomeMains;
 use App\Models\ProductImages;
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
-class TabsControllerTest extends BaseCustomTestCase
+class PagesTabsGetTest extends BaseCustomTestCase
 {
     public function setUp(): void
     {

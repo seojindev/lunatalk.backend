@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Validator;
  */
 class ApiRootServices
 {
+    /**
+     * @var Request
+     */
     protected Request $currentRequest;
 
     /**
@@ -24,6 +27,7 @@ class ApiRootServices
 
     /**
      * FrontRootServices constructor.
+     * @param Request $request
      * @param ServiceRepository $serviceRepository
      */
     function __construct(Request $request, ServiceRepository $serviceRepository){

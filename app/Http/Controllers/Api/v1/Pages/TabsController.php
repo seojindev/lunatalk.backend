@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1\Pages;
 
+use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Api\RootController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Services\Api\ProductsService;
+use App\Services\Api\OtherServices;
 
 /**
  * Class TabsController
@@ -19,12 +20,19 @@ class TabsController extends RootController
     protected ProductsService $productsService;
 
     /**
+     * @var OtherServices
+     */
+    protected OtherServices $otherServices;
+
+    /**
      * TabsController constructor.
      * @param ProductsService $productsService
+     * @param OtherServices $otherServices
      */
-    public function __construct(ProductsService $productsService)
+    public function __construct(ProductsService $productsService, OtherServices $otherServices)
     {
         $this->productsService = $productsService;
+        $this->otherServices = $otherServices;
     }
 
     /**
@@ -61,5 +69,17 @@ class TabsController extends RootController
     public function mainProductsHotItems()
     {
         return Response::success($this->productsService->tabMainProductsHotItems());
+    }
+
+    /**
+     * 홈 메인 탭 기록용.
+     * @param String $click_code
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function tab_click(String $click_code)
+    {
+        $this->otherServices->createHomeTabClick($click_code);
+        return Response::success_no_content();
     }
 }

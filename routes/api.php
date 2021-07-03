@@ -91,6 +91,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('main-products-category', [TabsController::class, 'mainProductsCategory'])->name('main.products.category');
                 Route::get('main-products-best-items', [TabsController::class, 'mainProductsBestItems'])->name('main.products.best.items');
                 Route::get('main-products-hot-items', [TabsController::class, 'mainProductsHotItems'])->name('main.products.hot.items');
+                Route::put('{click_code}/click', [TabsController::class, 'tab_click'])->name('tab.click');
             });
         });
 

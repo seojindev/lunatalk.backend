@@ -4,6 +4,7 @@ namespace App\Services\Api;
 
 use App\Exceptions\ClientErrorException;
 use App\Repositories\AdminRepository;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\ServiceRepository;
@@ -93,6 +94,7 @@ class AdminServices
         }
 
         $this->adminRepository->createHomeMain([
+            'uid' => Helper::generateDigit(),
             'gubun' => config('extract.homeMainGubun.mainTop.code'),
             'product_id' => $product_id,
             'media_id' => $this->currentRequest->input('edit_image'),
@@ -170,6 +172,7 @@ class AdminServices
         }
 
         $this->productsRepository->createHomeMain([
+            'uid' => Helper::generateDigit(),
             'gubun' => config('extract.homeMainGubun.mainBestItem.code'),
             'product_id' => $product_task->id,
             'status' => 'Y'
@@ -212,6 +215,7 @@ class AdminServices
         }
 
         $this->productsRepository->createHomeMain([
+            'uid' => Helper::generateDigit(),
             'gubun' => config('extract.homeMainGubun.mainHotItem.code'),
             'product_id' => $product_task->id,
             'status' => 'Y'

@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \App\Models\Products|null $product
  * @property \App\Models\Codes|null $gubun 구분.
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereGubun($value)
+ * @property string $uid uid.
+ * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereUid($value)
  */
 class HomeMains extends Model
 {
@@ -37,6 +39,7 @@ class HomeMains extends Model
 
     protected $fillable = [
         'id',
+        'uid',
         'gubun',
         'product_id',
         'media_id',

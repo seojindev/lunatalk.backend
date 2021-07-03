@@ -16,7 +16,8 @@
         "laravel/passport": "^10.1",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
-      "ext-dom": "*"
+      "ext-dom": "*",
+      "ext-openssl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

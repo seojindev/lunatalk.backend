@@ -15507,6 +15507,17 @@
         {
                         return \App\Supports\HelperClass::phoneNumberAddHyphen($phonenumber);
         }
+                    /**
+         * generate 9 Digit Number
+         * ex) 625314639
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function generateDigit()
+        {
+                        return \App\Supports\HelperClass::generateDigit();
+        }
          
     }
      

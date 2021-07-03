@@ -4,6 +4,8 @@
 namespace App\Repositories;
 
 use App\Models\Codes;
+use App\Models\HomeTabClick;
+use App\Models\HomeMains;
 
 /**
  * Class ServiceRepository
@@ -17,12 +19,26 @@ class ServiceRepository implements ServiceRepositoryInterface
     protected Codes $codes;
 
     /**
+     * @var HomeTabClick
+     */
+    protected HomeTabClick $homeTabClick;
+
+    /**
+     * @var HomeMains
+     */
+    protected HomeMains $homeMains;
+
+    /**
      * ServiceRepository constructor.
      * @param Codes $codes
+     * @param HomeTabClick $homeTabClick
+     * @param HomeMains $homeMains
      */
-    public function __construct(Codes $codes)
+    public function __construct(Codes $codes, HomeTabClick $homeTabClick, HomeMains $homeMains)
     {
         $this->codes = $codes;
+        $this->homeTabClick = $homeTabClick;
+        $this->homeMains = $homeMains;
     }
 
     /**
@@ -65,5 +81,25 @@ class ServiceRepository implements ServiceRepositoryInterface
         };
 
         return $returnObject($this->codes::where('active', 'Y')->orderBy('id')->get()->toArray());
+    }
+
+    /**
+     * 홈 메인 클릭 기록.
+     * @param array $dataObject
+     * @return object
+     */
+    public function createHomeTabClick(Array $dataObject) : object
+    {
+        return $this->homeTabClick::create($dataObject);
+    }
+
+    /**
+     * 홈 메인 uid 존재 여부.
+     * @param String $uid
+     * @return bool
+     */
+    public function existsHomeMainsUid(String $uid) : bool
+    {
+        return $this->homeMains::where('uid', $uid)->exists();
     }
 }
