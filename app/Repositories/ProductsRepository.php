@@ -30,6 +30,9 @@ class ProductsRepository implements ProductsRepositoryInterface
      */
     protected ProductOptions $productOptions;
 
+    /**
+     * @var HomeMains
+     */
     protected HomeMains $homeMains;
 
     /**

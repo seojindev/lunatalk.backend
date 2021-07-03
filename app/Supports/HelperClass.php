@@ -3,6 +3,9 @@
 
 namespace App\Supports;
 
+use Faker\Core\Number;
+use PhpParser\Node\Expr\Cast\Int_;
+
 /**
  * Class HelperClass
  * @package App\Supports
@@ -198,5 +201,15 @@ class HelperClass
         } else {
             return preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/","\\1-\\2-\\3" ,$phonenumber);
         }
+    }
+
+    /**
+     * generate 9 Digit Number
+     * ex) 625314639
+     * @return int
+     */
+    public static function generateDigit() : int
+    {
+        return floor(time()-999999999);
     }
 }

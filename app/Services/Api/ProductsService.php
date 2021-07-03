@@ -206,6 +206,7 @@ class ProductsService
 
         return array_map(function($item) {
             return [
+                'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
                 'product_image' => env('APP_MEDIA_URL') . $item['media_file']['dest_path'] . '/' . $item['media_file']['file_name']
@@ -222,7 +223,7 @@ class ProductsService
         return array_map(function($category) {
             $getTask = $this->productsRepository->selectProductCategoryRandomItem($category['code'])->toArray();
             return [
-                'category_code' => $category['code'],
+                'click_code' => $category['code'],
                 'product_uuid' => $getTask['uuid'],
                 'product_name' => $getTask['name'],
                 'product_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/' . $getTask['rep_images']['mediafile']['file_name'],
@@ -245,6 +246,7 @@ class ProductsService
 
         return array_map(function($item) {
             return [
+                'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
                 'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
@@ -260,6 +262,7 @@ class ProductsService
     {
         return array_map(function($item) {
             return [
+                'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
                 'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
