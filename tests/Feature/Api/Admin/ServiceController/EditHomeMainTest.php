@@ -117,12 +117,17 @@ class EditHomeMainTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('admin.service.edit.home-main.product-main-unique'));
 
         $randImageTask = MediaFiles::select()->inRandomOrder()->first();
-        $selectHomeMain = HomeMains::with(['product'])->where('gubun', config('extract.homeMainGubun.mainTop.code'))->inRandomOrder()->first()->toArray();
-        $product_uuid = $selectHomeMain['product']['uuid'];
+        $randProduct = Products::select()->inRandomOrder()->first();
+
+
+        HomeMains::factory(1)->create([
+            'gubun' => config('extract.homeMainGubun.mainTop.code'),
+            'product_id' => $randProduct->id
+        ]);
 
         $testPayload = '{
             "edit_image" : "'.$randImageTask->id.'",
-            "edit_product_select" : "'.$product_uuid.'",
+            "edit_product_select" : "'.$randProduct->uuid.'",
             "edit_status" : "Y"
         }';
 

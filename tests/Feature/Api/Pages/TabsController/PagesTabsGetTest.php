@@ -38,6 +38,7 @@ class PagesTabsGetTest extends BaseCustomTestCase
                 'message',
                 'result' => [
                     '*' => [
+                        "click_code",
                         "product_name",
                         "product_uuid",
                         "product_image",
@@ -84,6 +85,7 @@ class PagesTabsGetTest extends BaseCustomTestCase
                 'message',
                 'result' => [
                     '*' => [
+                        "click_code",
                         "product_name",
                         "product_uuid",
                         "product_image",
@@ -112,6 +114,7 @@ class PagesTabsGetTest extends BaseCustomTestCase
                 'message',
                 'result' => [
                     '*' => [
+                        "click_code",
                         "product_name",
                         "product_uuid",
                         "product_image",
@@ -139,6 +142,7 @@ class PagesTabsGetTest extends BaseCustomTestCase
                 'message',
                 'result' => [
                     '*' => [
+                        "click_code",
                         "product_name",
                         "product_uuid",
                         "product_image",
