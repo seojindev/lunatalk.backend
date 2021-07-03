@@ -14,7 +14,7 @@ class AddColumnUidHomeMainTable extends Migration
     public function up()
     {
         Schema::table('home_mains', function (Blueprint $table) {
-            $table->char('uid', 9)->nullable(false)->after('id')->comment('uid.');
+            $table->char('uid', 9)->nullable()->after('id')->comment('uid.');
         });
     }
 
