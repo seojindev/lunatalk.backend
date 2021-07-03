@@ -326,7 +326,7 @@ class EditHomeMainTest extends BaseCustomTestCase
 
     public function test_admin_edit_home_main_status_update_정상_요청()
     {
-        $selectHomeMain = HomeMains::select()->where('status', 'N')->inRandomOrder()->first();
+        $selectHomeMain = HomeMains::select()->inRandomOrder()->first();
 
         $testPayload = '{
             "edit_status" : "Y"
