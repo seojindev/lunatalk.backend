@@ -15,7 +15,16 @@ class HomeMainSeeder extends Seeder
     public function run()
     {
         if (env('APP_ENV') == 'testing') {
-            HomeMains::factory()->count(10)->create();
+
+            foreach (config('extract.homeMainGubun') as $gubun):
+                $tmp_i = 0;
+                while($tmp_i <= 3):
+                    HomeMains::factory()->create([
+                        'gubun' => $gubun['code']
+                    ]);
+                    $tmp_i++;
+                endwhile;
+            endforeach;
         }
     }
 }

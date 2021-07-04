@@ -229,9 +229,9 @@ class ProductsRepository implements ProductsRepositoryInterface
      */
     public function selectProductCategoryRandomItem(String $category) : object
     {
-        return $this->products::with(['category', 'options.step1', 'options.step2', 'rep_images' => function($query) {
-            $query->where('media_category', 'G010010');
-        }, 'rep_images.mediafile'])
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'rep_image' => function($query) {
+            $query->where('media_category', config('extract.mediaCategory.repImage.code'));
+        }, 'rep_image.mediafile'])
             ->where('category', $category)->inRandomOrder()->firstOrFail();
     }
 
@@ -241,7 +241,7 @@ class ProductsRepository implements ProductsRepositoryInterface
      */
     public function selectHomeMainBestItems() : object
     {
-        return $this->homeMains::with(['product', 'product.rep_images.mediafile'])->where([['gubun', config('extract.homeMainGubun.mainBestItem.code')],['status', 'Y']]);
+        return $this->homeMains::with(['product', 'product.rep_image.mediafile'])->where([['gubun', config('extract.homeMainGubun.mainBestItem.code')],['status', 'Y']]);
     }
 
     /**
@@ -250,6 +250,17 @@ class ProductsRepository implements ProductsRepositoryInterface
      */
     public function selectHomeMainHotItems() : object
     {
-        return $this->homeMains::with(['product', 'product.rep_images.mediafile'])->where([['gubun', config('extract.homeMainGubun.mainHotItem.code')],['status', 'Y']]);
+        return $this->homeMains::with(['product', 'product.rep_image.mediafile'])->where([['gubun', config('extract.homeMainGubun.mainHotItem.code')],['status', 'Y']]);
+    }
+
+    /**
+     * 전체 상품 리스트 - 페이징 처리.
+     * @param Int $page
+     * @return object
+     */
+    public function selectProductsTotalPaging(Int $page) : object
+    {
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'rep_image', 'rep_image.category', 'rep_image.mediafile'])
+            ->orderBy('created_at','DESC')->simplePaginate(config('extract.default.list_pageing'), ['*'], 'page', $page);
     }
 }

@@ -108,9 +108,18 @@ class Products extends Model
      * 대표 이미지 관계.
      * @return HasOne
      */
-    public function rep_images(): HasOne
+    public function rep_image(): HasOne
     {
         return $this->hasOne('App\Models\ProductImages', 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'));
+    }
+
+    /**
+     * 대표 이미지들 관계.
+     * @return HasMany
+     */
+    public function rep_images(): HasMany
+    {
+        return $this->hasMany('App\Models\ProductImages', 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'));
     }
 
     /**
