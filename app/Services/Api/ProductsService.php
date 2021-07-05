@@ -139,7 +139,7 @@ class ProductsService
     }
 
     /**
-     * 상춤 업데이트 처리.
+     * 상품 업데이트 처리.
      * @param Request $request
      * @param String $uuid
      * @throws ClientErrorException
@@ -226,8 +226,8 @@ class ProductsService
                 'click_code' => $category['code'],
                 'product_uuid' => $getTask['uuid'],
                 'product_name' => $getTask['name'],
-                'product_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/' . $getTask['rep_images']['mediafile']['file_name'],
-                'product_thumb_image' => env('APP_MEDIA_URL') . $getTask['rep_images']['mediafile']['dest_path'] . '/thum_' . $getTask['rep_images']['mediafile']['file_name'],
+                'product_image' => env('APP_MEDIA_URL') . $getTask['rep_image']['mediafile']['dest_path'] . '/' . $getTask['rep_image']['mediafile']['file_name'],
+                'product_thumb_image' => env('APP_MEDIA_URL') . $getTask['rep_image']['mediafile']['dest_path'] . '/thum_' . $getTask['rep_image']['mediafile']['file_name'],
             ];
         }, config('extract.productCategory'));
     }
@@ -249,9 +249,9 @@ class ProductsService
                 'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
-                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
+                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_image']['mediafile']['dest_path'] . '/' . $item['product']['rep_image']['mediafile']['file_name'],
             ];
-        }, array_filter($getTask, fn($value) => $value['product']['rep_images']));
+        }, array_filter($getTask, fn($value) => $value['product']['rep_image']));
     }
 
     /**
@@ -265,8 +265,58 @@ class ProductsService
                 'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
-                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_images']['mediafile']['dest_path'] . '/' . $item['product']['rep_images']['mediafile']['file_name'],
+                'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_image']['mediafile']['dest_path'] . '/' . $item['product']['rep_image']['mediafile']['file_name'],
             ];
         } , $this->productsRepository->selectHomeMainHotItems()->get()->toArray());
+    }
+
+    /**
+     * 전체 상품 리스트 - 페이징 처리.
+     * @param Int $page
+     * @return array
+     */
+    public function productsListPaging(Int $page = 1) : array
+    {
+        $task = collect($this->productsRepository->selectProductsTotalPaging($page))->toArray();
+        $taskData = $task['data'];
+
+        return [
+            'current_page' => $task['current_page'],
+            'per_page' => $task['per_page'],
+            'has_more' => !((config('extract.default.list_pageing') > count($taskData))),
+            'from' => $task['from'],
+            'to' => $task['to'],
+            'products' => array_map(function($item) {
+
+                $optionStep1Name = $item['options']['step1']['code_name'];
+                $optionStep2Name = !empty($item['options']['step2']) ? $item['options']['step2']['code_name'] : '';
+
+                return [
+                    'id' => $item['id'],
+                    'uuid' => $item['uuid'],
+                    'category' => [
+                        'code_id' => $item['category']['code_id'],
+                        'code_name' => $item['category']['code_name'],
+                    ],
+                    'name' => $item['name'],
+                    'full_name' => $item['name'] . ' ' . $optionStep1Name . ' ' . $optionStep2Name,
+                    'options' => [
+                        'step1' => [
+                            'code_id' => $item['options']['step1']['code_id'],
+                            'name_name' => $item['options']['step1']['code_name'],
+                        ],
+                        'step2' => !empty($item['options']['step2']) ? [
+                            'code_id' => $item['options']['step2']['code_id'],
+                            'name_name' => $item['options']['step2']['code_name'],
+                        ] : (object) []
+                    ],
+                    'rep_image' => [
+                        'path' => $item['rep_image']['mediafile']['dest_path'] . '/' . $item['rep_image']['mediafile']['file_name'],
+                        'url' => env('APP_MEDIA_URL') .  $item['rep_image']['mediafile']['dest_path'] . '/' . $item['rep_image']['mediafile']['file_name'],
+                        'thumb_url' => env('APP_MEDIA_URL') . $item['rep_image']['mediafile']['dest_path'] . '/thum_' . $item['rep_image']['mediafile']['file_name']
+                    ]
+                ];
+            }, $taskData),
+        ];
     }
 }

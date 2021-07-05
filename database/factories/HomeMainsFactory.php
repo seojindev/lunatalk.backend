@@ -33,17 +33,12 @@ class HomeMainsFactory extends Factory
         $randProducts = Products::select()->inRandomOrder()->first();
         $randMediaFile = MediaFiles::select()->inRandomOrder()->first();
 
-        $status = [
-            'Y',
-            'N',
-        ];
-
         return [
             'uid' => Helper::generateDigit(),
             'gubun' => $randGubun->code_id,
             'product_id' => $randProducts->id,
             'media_id' => $randMediaFile->id,
-            'status' => $status[array_rand($status, 1)],
+            'status' => 'Y',
         ];
     }
 }

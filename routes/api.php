@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\v1\Admin\ServiceController as AdminServiceControlle
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\Other\MediaController;
 use App\Http\Controllers\Api\v1\Pages\TabsController;
+use App\Http\Controllers\Api\v1\Pages\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,6 +93,11 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('main-products-best-items', [TabsController::class, 'mainProductsBestItems'])->name('main.products.best.items');
                 Route::get('main-products-hot-items', [TabsController::class, 'mainProductsHotItems'])->name('main.products.hot.items');
                 Route::put('{click_code}/click', [TabsController::class, 'tab_click'])->name('tab.click');
+            });
+
+            Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+                Route::get('total-list-paging/{page}', [ProductsController::class, 'total_list_paging'])->name('total.list.paging');
+                Route::get('{product_uuid}/detail', [ProductsController::class, 'detail'])->name('detail');
             });
         });
 

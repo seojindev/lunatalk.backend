@@ -317,7 +317,7 @@ class EditHomeMainTest extends BaseCustomTestCase
 
     public function test_admin_edit_home_main_status_update_상태값_없이_요청()
     {
-        $selectHomeMain = HomeMains::select()->where('status', 'N')->inRandomOrder()->first();
+        $selectHomeMain = HomeMains::select()->where('status', 'Y')->inRandomOrder()->first();
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('admin.service.edit.home-main.status-required'));

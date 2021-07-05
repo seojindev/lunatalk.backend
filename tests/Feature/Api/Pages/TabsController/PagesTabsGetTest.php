@@ -56,28 +56,6 @@ class PagesTabsGetTest extends BaseCustomTestCase
 
     public function test_pages_tabs_get_메인_카테고리_상품_정상_요청()
     {
-        Products::truncate();
-
-        foreach (config('extract.productCategory') as $categoryItem):
-            Products::factory(4)->create([
-                'category' => $categoryItem['code']
-            ]);
-
-            foreach (Products::all()->toArray() as $product) :
-                ProductOptions::factory(1)->create([
-                    'product_id' => $product['id']
-                ]);
-                ProductImages::factory(1)->create([
-                    'product_id' => $product['id'],
-                    'media_category' => 'G010010'
-                ]);
-                ProductImages::factory(3)->create([
-                    'product_id' => $product['id'],
-                    'media_category' => 'G010020'
-                ]);
-            endforeach;
-        endforeach;
-
         $this->withHeaders($this->getTestApiHeaders())->json('GET', '/api/v1/pages/tabs/main-products-category')
             ->assertStatus(200)
 //            ->dump()

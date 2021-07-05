@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
             UserPhoneVerifySeeder::class,
             MediaFilesSeeder::class,
             ProductsSeeder::class,
-            ProductOptionsSeeder::class,
-            ProductImagesSeeder::class,
+//            ProductOptionsSeeder::class,
+//            ProductImagesSeeder::class,
             HomeMainSeeder::class,
         ]);
     }
