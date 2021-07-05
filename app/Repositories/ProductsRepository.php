@@ -132,6 +132,12 @@ class ProductsRepository implements ProductsRepositoryInterface
             ->where('uuid', $uuid)->firstOrFail();
     }
 
+    public function detailProductForFront(String $uuid) : object
+    {
+        return $this->products::with(['category', 'options.step1', 'options.step2', 'images' , 'images.category', 'images.mediafile'])
+            ->where('uuid', $uuid)->firstOrFail();
+    }
+
     /**
      * 옵션 테이블 내용 삭제.
      * @param Int $product_id
@@ -217,7 +223,7 @@ class ProductsRepository implements ProductsRepositoryInterface
      * 홈 TOP 리스트.
      * @return Builder
      */
-    public function selectHomeMainTops()
+    public function selectHomeMainTops() : Builder
     {
         return $this->homeMains::with(['product', 'media_file'])->where([['gubun', config('extract.homeMainGubun.mainTop.code')],['status', 'Y']]);
     }

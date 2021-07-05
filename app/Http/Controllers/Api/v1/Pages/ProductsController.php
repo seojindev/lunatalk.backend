@@ -44,8 +44,6 @@ class ProductsController extends Controller
      */
     public function detail(String $product_uuid)
     {
-        return Response::success([
-            'product_uuid' => $product_uuid
-        ]);
+        return Response::success($this->productsService->productDetail($product_uuid));
     }
 }

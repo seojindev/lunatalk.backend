@@ -104,6 +104,10 @@ return [
     ],
 
     'product' => [
+        'detail' => [
+            'sale_stop' => '판매 중지된 상품 입니다.',
+            'active_stop' => '판매 중지된 상품 입니다.',
+        ],
         'create' => [
             'category' => [
                 'required' => '상품 카테고리를 입력해 주세요.',
