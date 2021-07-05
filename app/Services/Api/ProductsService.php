@@ -319,4 +319,74 @@ class ProductsService
             }, $taskData),
         ];
     }
+
+    public function productDetail(String $product_uuid) : array
+    {
+        $productTask = $this->productsRepository->detailProductForFront($product_uuid)->toArray();
+
+        $optionStep1Name = $productTask['options']['step1']['code_name'];
+        $optionStep2Name = !empty($productTask['options']['step2']) ? $productTask['options']['step2']['code_name'] : '';
+        $productFullName = $productTask['name'] . ' ' . $optionStep1Name . ' ' . $optionStep2Name;
+
+        return [
+            'uuid' => $productTask['uuid'],
+            'category' => [
+                'code_id' => $productTask['category']['code_id'],
+                'code_name' => $productTask['category']['code_name'],
+            ],
+            'name' => $productTask['name'],
+            'full_name' => $productFullName,
+            'price' => [
+                'type1' => $productTask['price'],
+                'type2' => number_format($productTask['price']),
+            ],
+            'stock' => [
+                'type1' => $productTask['stock'],
+                'type2' => number_format($productTask['stock']),
+            ],
+            'sale' => $productTask['sale'],
+            'active' => $productTask['active'],
+            'options' => [
+                'step1' => [
+                    'code_id' => $productTask['options']['step1']['code_id'],
+                    'name_name' => $productTask['options']['step1']['code_name'],
+                ],
+                'step2' => !empty($productTask['options']['step2']) ? [
+                    'code_id' => $productTask['options']['step2']['code_id'],
+                    'name_name' => $productTask['options']['step2']['code_name'],
+                ] : (object) []
+            ],
+            'images' => [
+                // 상품 이미지 처리.
+                'repImage' => [
+                    'name' => config('extract.mediaCategory.repImage.name'),
+                    'list' => array_map(function($element) {
+                        return [
+                            'media_id' => $element['mediafile']['id'],
+                            'original_name' => $element['mediafile']['original_name'],
+                            'url' => env('APP_MEDIA_URL') . $element['mediafile']['dest_path'] . '/' . $element['mediafile']['file_name'],
+                            'thumb_url' => env('APP_MEDIA_URL') . $element['mediafile']['dest_path'] . '/' . 'thum_'.$element['mediafile']['file_name'],
+                            'size' => $element['mediafile']['file_size']
+                        ];
+                    }, array_values(array_filter($productTask['images'], function($element) {
+                        return $element['category']['code_id'] === config('extract.mediaCategory.repImage.code');
+                    })))
+                ],
+                // 상품 상세 이미지 처리.
+                'detailImage' => [
+                    'name' => config('extract.mediaCategory.detailImage.name'),
+                    'list' => array_map(function($element) {
+                        return [
+                            'media_id' => $element['mediafile']['id'],
+                            'original_name' => $element['mediafile']['original_name'],
+                            'url' => env('APP_MEDIA_URL') . $element['mediafile']['dest_path'] . '/' . $element['mediafile']['file_name'],
+                            'size' => $element['mediafile']['file_size'],
+                        ];
+                    }, array_values(array_filter($productTask['images'], function($element) {
+                        return $element['category']['code_id'] === config('extract.mediaCategory.detailImage.code');
+                    })))
+                ],
+            ]
+        ];
+    }
 }
