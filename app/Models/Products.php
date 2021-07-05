@@ -51,6 +51,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \App\Models\HomeMains|null $home_hot_item
  * @property-read \App\Models\HomeMains|null $home_top_item
  * @property-read \App\Models\ProductImages|null $rep_images
+ * @property-read \App\Models\ProductImages|null $rep_image
+ * @property-read int|null $rep_images_count
  */
 class Products extends Model
 {
