@@ -3,7 +3,7 @@
 ## Lunatalk Back-End Source.
 
 ### app script
-1. app app-rewset
+1. app app-reset
 
 ```angular2html
 composer app-reset
@@ -37,7 +37,7 @@ php artisan test
 > php artisan db:seed --class=CodesSeeder --force
 
 
-> 기존 상춤 정보 가지고 오기
+> 기존 상품 정보 가지고 오기
 
 ```angular2html
 
