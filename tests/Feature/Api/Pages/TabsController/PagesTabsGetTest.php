@@ -95,6 +95,10 @@ class PagesTabsGetTest extends BaseCustomTestCase
                         "click_code",
                         "product_name",
                         "product_uuid",
+                        "product_price" => [
+                            'type1',
+                            'type2'
+                        ],
                         "product_image",
                     ]
                 ]
@@ -123,6 +127,10 @@ class PagesTabsGetTest extends BaseCustomTestCase
                         "click_code",
                         "product_name",
                         "product_uuid",
+                        "product_price" => [
+                            'type1',
+                            'type2'
+                        ],
                         "product_image",
                     ]
                 ]

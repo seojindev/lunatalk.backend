@@ -249,6 +249,10 @@ class ProductsService
                 'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
+                'product_price' => [
+                    'type1' => $item['product']['price'],
+                    'type2' => number_format($item['product']['price']),
+                ],
                 'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_image']['mediafile']['dest_path'] . '/' . $item['product']['rep_image']['mediafile']['file_name'],
             ];
         }, array_filter($getTask, fn($value) => $value['product']['rep_image']));
@@ -265,6 +269,10 @@ class ProductsService
                 'click_code' => $item['uid'],
                 'product_name' => $item['product']['name'],
                 'product_uuid' => $item['product']['uuid'],
+                'product_price' => [
+                    'type1' => $item['product']['price'],
+                    'type2' => number_format($item['product']['price']),
+                ],
                 'product_image' => env('APP_MEDIA_URL') . $item['product']['rep_image']['mediafile']['dest_path'] . '/' . $item['product']['rep_image']['mediafile']['file_name'],
             ];
         } , $this->productsRepository->selectHomeMainHotItems()->get()->toArray());
