@@ -32,6 +32,6 @@ class CreateHomeMainTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('home_main');
+        Schema::dropIfExists('home_mains');
     }
 }
