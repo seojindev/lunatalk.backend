@@ -88,8 +88,6 @@ class ProductsJsonToCreate extends Command
                     }
                 }
 
-
-
                 $response = Http::withHeaders([
                     'Request-Client-Type' => config('extract.clientType.front.code'),
                     'Accept' => 'application/json',

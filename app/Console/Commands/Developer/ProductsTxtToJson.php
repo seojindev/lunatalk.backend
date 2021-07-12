@@ -71,6 +71,7 @@ class ProductsTxtToJson extends Command
                     @$htmlDom->loadHTML($htmlString);
                     $imageTags = $htmlDom->getElementsByTagName('img');
                     $extractedImages = array();
+
                     foreach($imageTags as $imageTag){
                         $imgSrc = $imageTag->getAttribute('src');
                         $altText = $imageTag->getAttribute('alt');
@@ -85,36 +86,85 @@ class ProductsTxtToJson extends Command
                         );
                     }
 
-                    $tmpImages = array_values(array_map(function($element) {
+//                    print_r($extractedImages);
 
-                        if(trim($element['classText']) == 'BigImage') {
-                            return [
-                                'product_image' => 'http:' . $element['src']
-                            ];
-                        } else {
-                            return [
-                                'detail_image' => 'http://lunatalk.co.kr/' . $element['src']
-                            ];
-                        }
+                    // 대표 이미지
+                    $bigimages = array_values(array_map(function($element) {
+                        return 'http:' . $element['src'];
 
-                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'BigImage') || (strpos($value['src'], '/detimg') !== false))));
+                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'BigImage' && trim($value['src']) !== '//img.echosting.cafe24.com/thumb/img_product_big.gif'))));
 
-                    foreach ($tmpImages as $element) :
-                        $images['origin'][key($element)][] = $element[key($element)];
+                    // 대표 썸네일 이미지
+                    $thumbimage = array_values(array_map(function($element) {
 
-                        $imageBaseName = basename($element[key($element)]);
+                        return str_replace("/small/", "/big/", 'http:' . $element['src']);
 
-                        if (env('APP_ENV') == 'development') {
-                            file_put_contents('/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
-                            $images['we'][key($element)][] = '/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName;
-                        } else {
-                            if (!file_exists('/tmp/lunatalk/origin-images')) {
-                                mkdir('/tmp/lunatalk/origin-images', 0777, true);
-                            }
-                            file_put_contents('/tmp/lunatalk/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
-                            $images['we'][key($element)][] = '/tmp/lunatalk/origin-images/' . $imageBaseName;
-                        }
-                    endforeach;
+                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'ThumbImage' && trim($value['src']) !== '//img.echosting.cafe24.com/thumb/img_product_small.gif'))));
+
+                    $product_image = array_merge_recursive($bigimages,$thumbimage);
+
+                    // detimg 상세 이미지
+                    $tmpImages1 = array_values(array_map(function($element) {
+                        return 'http://lunatalk.co.kr/' . $element['src'];
+                    }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/detimg') !== false))));
+
+                    $tmpImages2 = array_values(array_map(function($element) {
+                        return 'http://lunatalk.co.kr' . $element['src'];
+                    }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/ACC/') !== false))));
+                    $tmpImages2 = array_unique($tmpImages2);
+
+
+                    if(count($tmpImages1) === 0 && count($tmpImages2) === 0) {
+
+                        echo PHP_EOL;
+                        echo $product_url.PHP_EOL;
+                        print_r($extractedImages);
+
+                        echo PHP_EOL;
+
+                        exit;
+                    }
+
+                    // 노멀 상세 이미지.
+
+
+
+
+
+//                    $tmpImages = array_values(array_map(function($element) {
+//
+//                        print_r($element);
+//
+//                        if(trim($element['classText']) == 'BigImage') {
+//                            return [
+//                                'product_image' => 'http:' . $element['src']
+//                            ];
+//                        } else {
+//                            return [
+//                                'detail_image' => 'http://lunatalk.co.kr/' . $element['src']
+//                            ];
+//                        }
+//
+//                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'BigImage') || (strpos($value['src'], '/detimg') !== false))));
+
+
+
+//                    foreach ($tmpImages as $element) :
+//                        $images['origin'][key($element)][] = $element[key($element)];
+//
+//                        $imageBaseName = basename($element[key($element)]);
+//
+//                        if (env('APP_ENV') == 'development') {
+//                            file_put_contents('/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
+//                            $images['we'][key($element)][] = '/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName;
+//                        } else {
+//                            if (!file_exists('/tmp/lunatalk/origin-images')) {
+//                                mkdir('/tmp/lunatalk/origin-images', 0777, true);
+//                            }
+//                            file_put_contents('/tmp/lunatalk/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
+//                            $images['we'][key($element)][] = '/tmp/lunatalk/origin-images/' . $imageBaseName;
+//                        }
+//                    endforeach;
                 }
 
                 $bar->advance();
