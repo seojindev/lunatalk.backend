@@ -296,7 +296,7 @@ class ProductsService
             'to' => $task['to'],
             'products' => array_map(function($item) {
 
-                $optionStep1Name = $item['options']['step1']['code_name'];
+                $optionStep1Name = !empty($item['options']['step1']) ? $item['options']['step1']['code_name'] : '';
                 $optionStep2Name = !empty($item['options']['step2']) ? $item['options']['step2']['code_name'] : '';
 
                 return [
@@ -309,10 +309,10 @@ class ProductsService
                     'name' => $item['name'],
                     'full_name' => $item['name'] . ' ' . $optionStep1Name . ' ' . $optionStep2Name,
                     'options' => [
-                        'step1' => [
+                        'step1' => !empty($item['options']['step1']) ? [
                             'code_id' => $item['options']['step1']['code_id'],
                             'name_name' => $item['options']['step1']['code_name'],
-                        ],
+                        ] : (object) [],
                         'step2' => !empty($item['options']['step2']) ? [
                             'code_id' => $item['options']['step2']['code_id'],
                             'name_name' => $item['options']['step2']['code_name'],
