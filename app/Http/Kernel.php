@@ -52,7 +52,7 @@ class Kernel extends HttpKernel
          */
         'api' => [
             \App\Http\Middleware\ApiBeforeMiddleware::class,
-            'throttle:600,1',
+//            'throttle:600,1',
             \App\Http\Middleware\ApiAfterMiddleware::class,
         ],
 

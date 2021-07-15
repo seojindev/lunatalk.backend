@@ -4,8 +4,11 @@ namespace App\Console\Commands\Developer;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Codes;
+use Illuminate\Support\Str;
+use App\Models\MediaFiles;
 
 class ProductsTxtToJson extends Command
 {
@@ -26,6 +29,10 @@ class ProductsTxtToJson extends Command
     protected $spaceName = 'products';
     protected $txtFileName = 'products.txt';
     protected $jsonFileName = 'products.json';
+    protected $imagetTargetRoot = '/tmp/lunatalk/images/origin-images';
+
+    protected $repNoimage = '';
+    protected $detailNoimage = '';
 
     /**
      * Create a new command instance.
@@ -36,8 +43,6 @@ class ProductsTxtToJson extends Command
     {
         parent::__construct();
     }
-
-
 
     /**
      * Execute the console command.
@@ -50,6 +55,15 @@ class ProductsTxtToJson extends Command
         if(Storage::disk('inside-space')->exists($this->spaceName . '/' . $this->txtFileName))
         {
             $fileContents = Storage::disk('inside-space')->get($this->spaceName . '/' . $this->txtFileName);
+
+            if (!file_exists($this->imagetTargetRoot)) {
+                mkdir($this->imagetTargetRoot, 0777, true);
+            }
+
+            $noImageUrl = "http://img.echosting.cafe24.com/thumb/img_product_big.gif";
+            $targetBaseName = Str::random(40).'.gif';
+            $this->repNoimage = $this->getProductImage('rep', 'true', $noImageUrl, $targetBaseName);
+            $this->detailNoimage = $this->getProductImage('detail', 'false', $noImageUrl, $targetBaseName);
 
             $bar = $this->output->createProgressBar(count(array_filter(explode("\n", $fileContents), fn($value) => !is_null($value) && $value !== '')));
             $bar->start();
@@ -71,6 +85,7 @@ class ProductsTxtToJson extends Command
                     @$htmlDom->loadHTML($htmlString);
                     $imageTags = $htmlDom->getElementsByTagName('img');
                     $extractedImages = array();
+
                     foreach($imageTags as $imageTag){
                         $imgSrc = $imageTag->getAttribute('src');
                         $altText = $imageTag->getAttribute('alt');
@@ -85,36 +100,80 @@ class ProductsTxtToJson extends Command
                         );
                     }
 
-                    $tmpImages = array_values(array_map(function($element) {
+                    // 대표 이미지
+                    $bigimages = array_values(array_map(function($element) {
+                        return 'http:' . $element['src'];
 
-                        if(trim($element['classText']) == 'BigImage') {
-                            return [
-                                'product_image' => 'http:' . $element['src']
-                            ];
-                        } else {
-                            return [
-                                'detail_image' => 'http://lunatalk.co.kr/' . $element['src']
-                            ];
-                        }
+                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'BigImage' && trim($value['src']) !== '//img.echosting.cafe24.com/thumb/img_product_big.gif'))));
 
-                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'BigImage') || (strpos($value['src'], '/detimg') !== false))));
+                    // 대표 썸네일 이미지
+                    $thumbimage = array_values(array_map(function($element) {
 
-                    foreach ($tmpImages as $element) :
-                        $images['origin'][key($element)][] = $element[key($element)];
+                        return str_replace("/small/", "/big/", 'http:' . $element['src']);
 
-                        $imageBaseName = basename($element[key($element)]);
+                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'ThumbImage' && trim($value['src']) !== '//img.echosting.cafe24.com/thumb/img_product_small.gif'))));
 
-                        if (env('APP_ENV') == 'development') {
-                            file_put_contents('/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
-                            $images['we'][key($element)][] = '/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName;
-                        } else {
-                            if (!file_exists('/tmp/lunatalk/origin-images')) {
-                                mkdir('/tmp/lunatalk/origin-images', 0777, true);
-                            }
-                            file_put_contents('/tmp/lunatalk/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
-                            $images['we'][key($element)][] = '/tmp/lunatalk/origin-images/' . $imageBaseName;
+                    $product_image = array_merge_recursive($bigimages,$thumbimage);
+
+                    // detimg 상세 이미지
+                    $detailTmpImages1 = array_values(array_map(function($element) {
+                        return 'http://lunatalk.co.kr' . $element['src'];
+                    }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/detimg') !== false))));
+
+                    $detailTmpImages2 = array_values(array_map(function($element) {
+                        return 'http://lunatalk.co.kr' . $element['src'];
+                    }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/ACC/') !== false))));
+                    $detailTmpImages2 = array_unique($detailTmpImages2);
+
+                    if(count($detailTmpImages1) === 0 && count($detailTmpImages2) === 0 ) {
+
+                        $detailTmpImages3 = array_values(array_map(function($element) {
+                            return 'http://lunatalk.co.kr' . $element['src'];
+                        }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/%BB%F3%BC%BC%C0%CC%B9%CC%C1%F6%BF%EB/') !== false))));
+
+                        $detail_image = array_merge_recursive($detailTmpImages1, $detailTmpImages2, $detailTmpImages3);
+                    } else {
+                        $detail_image = array_merge_recursive($detailTmpImages1, $detailTmpImages2);
+                    }
+
+                    $productImage = array_unique($product_image);
+                    $detailImage = array_unique($detail_image);
+
+                    if(count($productImage) == 0) {
+                        echo $product_url.PHP_EOL;
+
+                        print_r($productImage);
+
+                        echo PHP_EOL;
+                        exit;
+                    }
+
+                    $images = array();
+
+                    //mac ulimit -Sn 4096
+                    foreach ($productImage as $element) :
+                        $sourceURL = $element;
+                        $sourceBaseName = basename($element);
+                        $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
+
+                        if(@file_get_contents($sourceURL,false,NULL,0,1)) {
+                            $images['rep'][] = $this->getProductImage('rep', 'true', $sourceURL,$targetBaseName);
                         }
                     endforeach;
+
+                    foreach ($detailImage as $element) :
+                        $sourceURL = $element;
+                        $sourceBaseName = basename($element);
+                        $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
+
+                        if(@file_get_contents($sourceURL,false,NULL,0,1)) {
+                            $images['detail'][] = $this->getProductImage('detail', 'false', $sourceURL, $targetBaseName);
+                        }
+                    endforeach;
+
+                } else {
+                    $images['rep'][] = $this->repNoimage;
+                    $images['detail'][] = $this->detailNoimage;
                 }
 
                 $bar->advance();
@@ -138,15 +197,53 @@ class ProductsTxtToJson extends Command
             Storage::disk('inside-temp')->put($this->jsonFileName, json_encode($products));
 
             $bar->finish();
-
-            // 테스트 코드.
-//            echo "\ntest : \n";
-//            $fileContents = Storage::disk('inside-space')->get($this->spaceName . '/' . $this->jsonFileName);
-//            print_r(json_decode($fileContents, true));
-
         }
 
         echo PHP_EOL;
         return 0;
+    }
+
+    /**
+     * @param $category
+     * @param $need_thumb
+     * @param $sourceURL
+     * @param $targetBaseName
+     * @return int|mixed
+     */
+    public function getProductImage($category, $need_thumb, $sourceURL, $targetBaseName)
+    {
+        file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
+        $mediaFile = fopen($this->imagetTargetRoot . '/' . $targetBaseName, 'r');
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Client-Token' => env('APP_MEDIA_CLIENT_KEY')
+        ])
+            ->attach('media_file', $mediaFile)
+            ->post(env('APP_MEDIA_URL') . '/media-upload', [
+                'media_name' => 'products',
+                'media_category' => $category,
+                'need_thumbnail' => $need_thumb
+            ]);
+
+        if(!$response->successful()) {
+            echo "rep".PHP_EOL;
+            print_r($response->json());
+            exit;
+        }
+
+        $result = json_decode($response->body())->data;
+
+        $task = MediaFiles::create([
+            'media_name' => $result->media_name,
+            'media_category' => $result->media_category,
+            'dest_path' => $result->dest_path,
+            'file_name' => $result->new_file_name,
+            'original_name' => $result->original_name,
+            'file_type' => $result->file_type,
+            'file_size' => $result->file_size,
+            'file_extension' => $result->file_extension,
+        ]);
+
+        return $task->id;
     }
 }

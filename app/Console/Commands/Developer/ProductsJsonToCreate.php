@@ -2,9 +2,17 @@
 
 namespace App\Console\Commands\Developer;
 
+use App\Models\ProductImages;
+use App\Models\ProductOptions;
+use App\Models\Products;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Helper;
+use function App\Models\ProductImages;
+use function App\Models\ProductOptions;
 
 class ProductsJsonToCreate extends Command
 {
@@ -36,9 +44,8 @@ class ProductsJsonToCreate extends Command
     }
 
     /**
-     * Execute the console command.
-     *
      * @return int
+     * @throws FileNotFoundException
      */
     public function handle()
     {
@@ -46,79 +53,55 @@ class ProductsJsonToCreate extends Command
         {
             $fileContents = Storage::disk('inside-temp')->get($this->jsonFileName);
             $products = (array) json_decode($fileContents, true);
+
             $bar = $this->output->createProgressBar(count($products));
             $bar->start();
 
             foreach ($products as $product):
-                $repMediaId = [];
-                $detailMediaId = [];
 
-                $images = $product['product_images'];
-
-                if(array_key_exists('we', $images)) {
-                    $response = Http::withHeaders([
-                        'Request-Client-Type' => config('extract.clientType.front.code'),
-                        'Accept' => 'application/json'
-                    ])->attach(
-                        'media_file', file_get_contents($images['we']['product_image'][0]), basename($images['we']['product_image'][0])
-                    )->post(env('APP_URL') . '/api/v1/other/media/products/rep/create');
-
-                    if (!$response->ok()) {
-                        print_r($response->json());
-                        exit;
-                    }
-
-                    $imageResult = $response->json();
-                    $repMediaId[] = $imageResult['result']['media_id'];
-
-                    if(array_key_exists('detail_image', $images['we'])) {
-                        foreach ($images['we']['detail_image'] as $element) :
-
-                            $response = Http::withHeaders([
-                                'Request-Client-Type' => config('extract.clientType.front.code'),
-                                'Accept' => 'application/json'
-                            ])->attach(
-                                'media_file', file_get_contents($element), basename($element)
-                            )->post(env('APP_URL') . '/api/v1/other/media/products/detail/create');
-
-                            $imageResult = $response->json();
-                            $detailMediaId[] = $imageResult['result']['media_id'];
-
-                        endforeach;
-                    }
-                }
-
-
-
-                $response = Http::withHeaders([
-                    'Request-Client-Type' => config('extract.clientType.front.code'),
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json'
-                ])->post(env('APP_URL') . '/api/v1/admin/product/create', [
-                    'product_category' => $product['category'],
-                    'product_name' =>  $product['name'],
-                    'product_option_step1' => $product['option']['step1'],
-                    'product_option_step2' => $product['option']['step2'],
-                    'product_price' => $product['price'],
-                    'product_stock' => $product['stock'],
-                    'product_barcode' => $product['barcode'],
-                    'product_memo' => '메모: ',
-                    'product_sale' => 'Y',
-                    'product_active' => 'N',
-                    'product_image' => $repMediaId,
-                    'product_detail_image' => $detailMediaId
+                $createTask = Products::create([
+                    'uuid' => Helper::randomNumberUUID(),
+                    'category' => $product['category'],
+                    'name' => $product['name'],
+                    'barcode' => $product['barcode'],
+                    'price' => $product['price'],
+                    'stock' => $product['stock'],
+                    'memo' => '',
+                    'sale' => 'Y',
+                    'active' => 'Y'
                 ]);
 
-                $bar->advance();
+                ProductOptions::create([
+                    'product_id' => $createTask->id,
+                    'step1' => $product['option']['step1'],
+                    'step2' => $product['option']['step2']
+                ]);
 
+                if(!array_key_exists('rep', $product['product_images'])) {
+                    print_r($product);
+                }
+
+                foreach ($product['product_images']['rep'] as $element) :
+                    ProductImages::create([
+                        'product_id' => $createTask->id,
+                        'media_category' => "G010010",
+                        'media_id' => $element,
+                    ]);
+                endforeach;
+
+                foreach ($product['product_images']['detail'] as $element) :
+                    ProductImages::create([
+                        'product_id' => $createTask->id,
+                        'media_category' => "G010020",
+                        'media_id' => $element,
+                    ]);
+                endforeach;
+
+                $bar->advance();
             endforeach;
 
             $bar->finish();
         }
-
-
-
-
 
         return 0;
     }
