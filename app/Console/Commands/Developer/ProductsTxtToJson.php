@@ -4,9 +4,11 @@ namespace App\Console\Commands\Developer;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Codes;
 use Illuminate\Support\Str;
+use App\Models\MediaFiles;
 
 class ProductsTxtToJson extends Command
 {
@@ -29,6 +31,9 @@ class ProductsTxtToJson extends Command
     protected $jsonFileName = 'products.json';
     protected $imagetTargetRoot = '/tmp/lunatalk/images/origin-images';
 
+    protected $repNoimage = '';
+    protected $detailNoimage = '';
+
     /**
      * Create a new command instance.
      *
@@ -38,8 +43,6 @@ class ProductsTxtToJson extends Command
     {
         parent::__construct();
     }
-
-
 
     /**
      * Execute the console command.
@@ -52,6 +55,15 @@ class ProductsTxtToJson extends Command
         if(Storage::disk('inside-space')->exists($this->spaceName . '/' . $this->txtFileName))
         {
             $fileContents = Storage::disk('inside-space')->get($this->spaceName . '/' . $this->txtFileName);
+
+            if (!file_exists($this->imagetTargetRoot)) {
+                mkdir($this->imagetTargetRoot, 0777, true);
+            }
+
+            $noImageUrl = "http://img.echosting.cafe24.com/thumb/img_product_big.gif";
+            $targetBaseName = Str::random(40).'.gif';
+            $this->repNoimage = $this->getProductImage('rep', 'true', $noImageUrl, $targetBaseName);
+            $this->detailNoimage = $this->getProductImage('detail', 'false', $noImageUrl, $targetBaseName);
 
             $bar = $this->output->createProgressBar(count(array_filter(explode("\n", $fileContents), fn($value) => !is_null($value) && $value !== '')));
             $bar->start();
@@ -136,21 +148,16 @@ class ProductsTxtToJson extends Command
                         exit;
                     }
 
-
                     $images = array();
 
-                    // TODO: rep 이미지 없는게 있는데??? noimage 처리..
+                    //mac ulimit -Sn 4096
                     foreach ($productImage as $element) :
                         $sourceURL = $element;
                         $sourceBaseName = basename($element);
                         $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
 
-                        if (!file_exists($this->imagetTargetRoot)) {
-                            mkdir($this->imagetTargetRoot, 0777, true);
-                        }
                         if(@file_get_contents($sourceURL,false,NULL,0,1)) {
-                            file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
-                            $images['rep'][] = $this->imagetTargetRoot . '/' . $targetBaseName;
+                            $images['rep'][] = $this->getProductImage('rep', 'true', $sourceURL,$targetBaseName);
                         }
                     endforeach;
 
@@ -159,14 +166,14 @@ class ProductsTxtToJson extends Command
                         $sourceBaseName = basename($element);
                         $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
 
-                        if (!file_exists($this->imagetTargetRoot)) {
-                            mkdir($this->imagetTargetRoot, 0777, true);
-                        }
                         if(@file_get_contents($sourceURL,false,NULL,0,1)) {
-                            file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
-                            $images['detail'][] = $this->imagetTargetRoot . '/' . $targetBaseName;
+                            $images['detail'][] = $this->getProductImage('detail', 'false', $sourceURL, $targetBaseName);
                         }
                     endforeach;
+
+                } else {
+                    $images['rep'][] = $this->repNoimage;
+                    $images['detail'][] = $this->detailNoimage;
                 }
 
                 $bar->advance();
@@ -194,5 +201,49 @@ class ProductsTxtToJson extends Command
 
         echo PHP_EOL;
         return 0;
+    }
+
+    /**
+     * @param $category
+     * @param $need_thumb
+     * @param $sourceURL
+     * @param $targetBaseName
+     * @return int|mixed
+     */
+    public function getProductImage($category, $need_thumb, $sourceURL, $targetBaseName)
+    {
+        file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
+        $mediaFile = fopen($this->imagetTargetRoot . '/' . $targetBaseName, 'r');
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Client-Token' => env('APP_MEDIA_CLIENT_KEY')
+        ])
+            ->attach('media_file', $mediaFile)
+            ->post(env('APP_MEDIA_URL') . '/media-upload', [
+                'media_name' => 'products',
+                'media_category' => $category,
+                'need_thumbnail' => $need_thumb
+            ]);
+
+        if(!$response->successful()) {
+            echo "rep".PHP_EOL;
+            print_r($response->json());
+            exit;
+        }
+
+        $result = json_decode($response->body())->data;
+
+        $task = MediaFiles::create([
+            'media_name' => $result->media_name,
+            'media_category' => $result->media_category,
+            'dest_path' => $result->dest_path,
+            'file_name' => $result->new_file_name,
+            'original_name' => $result->original_name,
+            'file_type' => $result->file_type,
+            'file_size' => $result->file_size,
+            'file_extension' => $result->file_extension,
+        ]);
+
+        return $task->id;
     }
 }
