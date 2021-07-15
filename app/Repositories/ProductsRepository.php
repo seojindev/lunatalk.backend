@@ -267,6 +267,6 @@ class ProductsRepository implements ProductsRepositoryInterface
     public function selectProductsTotalPaging(Int $page) : object
     {
         return $this->products::with(['category', 'options.step1', 'options.step2', 'rep_image', 'rep_image.category', 'rep_image.mediafile'])
-            ->orderBy('created_at','DESC')->simplePaginate(config('extract.default.list_pageing'), ['*'], 'page', $page);
+            ->orderBy('id','DESC')->simplePaginate(config('extract.default.list_pageing'), ['*'], 'page', $page);
     }
 }
