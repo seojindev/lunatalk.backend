@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Codes;
+use Illuminate\Support\Str;
 
 class ProductsTxtToJson extends Command
 {
@@ -26,6 +27,7 @@ class ProductsTxtToJson extends Command
     protected $spaceName = 'products';
     protected $txtFileName = 'products.txt';
     protected $jsonFileName = 'products.json';
+    protected $imagetTargetRoot = '/tmp/lunatalk/images/origin-images';
 
     /**
      * Create a new command instance.
@@ -86,8 +88,6 @@ class ProductsTxtToJson extends Command
                         );
                     }
 
-//                    print_r($extractedImages);
-
                     // 대표 이미지
                     $bigimages = array_values(array_map(function($element) {
                         return 'http:' . $element['src'];
@@ -104,67 +104,69 @@ class ProductsTxtToJson extends Command
                     $product_image = array_merge_recursive($bigimages,$thumbimage);
 
                     // detimg 상세 이미지
-                    $tmpImages1 = array_values(array_map(function($element) {
-                        return 'http://lunatalk.co.kr/' . $element['src'];
+                    $detailTmpImages1 = array_values(array_map(function($element) {
+                        return 'http://lunatalk.co.kr' . $element['src'];
                     }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/detimg') !== false))));
 
-                    $tmpImages2 = array_values(array_map(function($element) {
+                    $detailTmpImages2 = array_values(array_map(function($element) {
                         return 'http://lunatalk.co.kr' . $element['src'];
                     }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/ACC/') !== false))));
-                    $tmpImages2 = array_unique($tmpImages2);
+                    $detailTmpImages2 = array_unique($detailTmpImages2);
 
+                    if(count($detailTmpImages1) === 0 && count($detailTmpImages2) === 0 ) {
 
-                    if(count($tmpImages1) === 0 && count($tmpImages2) === 0) {
+                        $detailTmpImages3 = array_values(array_map(function($element) {
+                            return 'http://lunatalk.co.kr' . $element['src'];
+                        }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/%BB%F3%BC%BC%C0%CC%B9%CC%C1%F6%BF%EB/') !== false))));
 
-                        echo PHP_EOL;
+                        $detail_image = array_merge_recursive($detailTmpImages1, $detailTmpImages2, $detailTmpImages3);
+                    } else {
+                        $detail_image = array_merge_recursive($detailTmpImages1, $detailTmpImages2);
+                    }
+
+                    $productImage = array_unique($product_image);
+                    $detailImage = array_unique($detail_image);
+
+                    if(count($productImage) == 0) {
                         echo $product_url.PHP_EOL;
-                        print_r($extractedImages);
+
+                        print_r($productImage);
 
                         echo PHP_EOL;
-
                         exit;
                     }
 
-                    // 노멀 상세 이미지.
 
+                    $images = array();
 
+                    // TODO: rep 이미지 없는게 있는데??? noimage 처리..
+                    foreach ($productImage as $element) :
+                        $sourceURL = $element;
+                        $sourceBaseName = basename($element);
+                        $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
 
+                        if (!file_exists($this->imagetTargetRoot)) {
+                            mkdir($this->imagetTargetRoot, 0777, true);
+                        }
+                        if(@file_get_contents($sourceURL,false,NULL,0,1)) {
+                            file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
+                            $images['rep'][] = $this->imagetTargetRoot . '/' . $targetBaseName;
+                        }
+                    endforeach;
 
+                    foreach ($detailImage as $element) :
+                        $sourceURL = $element;
+                        $sourceBaseName = basename($element);
+                        $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
 
-//                    $tmpImages = array_values(array_map(function($element) {
-//
-//                        print_r($element);
-//
-//                        if(trim($element['classText']) == 'BigImage') {
-//                            return [
-//                                'product_image' => 'http:' . $element['src']
-//                            ];
-//                        } else {
-//                            return [
-//                                'detail_image' => 'http://lunatalk.co.kr/' . $element['src']
-//                            ];
-//                        }
-//
-//                    }, array_filter($extractedImages, fn($value) => (trim($value['classText']) == 'BigImage') || (strpos($value['src'], '/detimg') !== false))));
-
-
-
-//                    foreach ($tmpImages as $element) :
-//                        $images['origin'][key($element)][] = $element[key($element)];
-//
-//                        $imageBaseName = basename($element[key($element)]);
-//
-//                        if (env('APP_ENV') == 'development') {
-//                            file_put_contents('/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
-//                            $images['we'][key($element)][] = '/var/www/site/lunatalk.co.kr/dev.media/public/products/origin-images/' . $imageBaseName;
-//                        } else {
-//                            if (!file_exists('/tmp/lunatalk/origin-images')) {
-//                                mkdir('/tmp/lunatalk/origin-images', 0777, true);
-//                            }
-//                            file_put_contents('/tmp/lunatalk/origin-images/' . $imageBaseName, file_get_contents($element[key($element)]));
-//                            $images['we'][key($element)][] = '/tmp/lunatalk/origin-images/' . $imageBaseName;
-//                        }
-//                    endforeach;
+                        if (!file_exists($this->imagetTargetRoot)) {
+                            mkdir($this->imagetTargetRoot, 0777, true);
+                        }
+                        if(@file_get_contents($sourceURL,false,NULL,0,1)) {
+                            file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
+                            $images['detail'][] = $this->imagetTargetRoot . '/' . $targetBaseName;
+                        }
+                    endforeach;
                 }
 
                 $bar->advance();
@@ -188,12 +190,6 @@ class ProductsTxtToJson extends Command
             Storage::disk('inside-temp')->put($this->jsonFileName, json_encode($products));
 
             $bar->finish();
-
-            // 테스트 코드.
-//            echo "\ntest : \n";
-//            $fileContents = Storage::disk('inside-space')->get($this->spaceName . '/' . $this->jsonFileName);
-//            print_r(json_decode($fileContents, true));
-
         }
 
         echo PHP_EOL;
