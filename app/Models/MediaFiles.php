@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MediaFiles
+ * App\Models\MediaFiles
  *
- * @package App\Models
  * @property int $id
  * @property string $media_name 미디어명.
  * @property string $media_category 미디어 구분.
@@ -20,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $file_extension 파일 확장자.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\MediaFilesFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles query()
@@ -35,7 +35,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereOriginalName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Database\Factories\MediaFilesFactory factory(...$parameters)
  */
 class MediaFiles extends Model
 {

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \App\Models\Codes|null $step2 상품 옵션 2.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\ProductOptionsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions query()
@@ -25,7 +26,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions whereStep2($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductOptions whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Database\Factories\ProductOptionsFactory factory(...$parameters)
  */
 class ProductOptions extends Model
 {

@@ -71,7 +71,7 @@ class BaseCustomTestCase extends TestCase
      */
     protected function getTestAccessTokenHeader() : array
     {
-        $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/auth/login', [
+        $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/admin/auth/login', [
             "login_id" => \App\Models\User::where('user_level', 'S020900')->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);
@@ -89,7 +89,7 @@ class BaseCustomTestCase extends TestCase
      */
     protected function getTestGuestAccessTokenHeader() : array
     {
-        $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/auth/login', [
+        $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/service/auth/login', [
             "login_id" => \App\Models\User::where('user_level', 'S020010')->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);
