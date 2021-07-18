@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Codes|null $category
  * @property-read \App\Models\MediaFiles|null $mediafile
+ * @method static \Database\Factories\ProductImagesFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages query()
@@ -27,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Database\Factories\ProductImagesFactory factory(...$parameters)
  */
 class ProductImages extends Model
 {

@@ -17,15 +17,24 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null $barcode 상품 비코드.
  * @property int $price 상품 가격.
  * @property int $stock 상품 재고 수량.
- * @property string $memo 상품 메모.
+ * @property string|null $memo 상품 메모.
+ * @property int $view_count 뷰 카운트.
  * @property string $sale 상품 판매 유무.
  * @property string $active 상품 상태.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\HomeMains[] $homeMain
+ * @property-read int|null $home_main_count
+ * @property-read \App\Models\HomeMains|null $home_best_item
+ * @property-read \App\Models\HomeMains|null $home_hot_item
+ * @property-read \App\Models\HomeMains|null $home_top_item
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $images
  * @property-read int|null $images_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
- * @property-read int|null $options_count
+ * @property-read \App\Models\ProductOptions|null $options
+ * @property-read \App\Models\ProductImages|null $rep_image
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $rep_images
+ * @property-read int|null $rep_images_count
+ * @method static \Database\Factories\ProductsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Products newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Products newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Products query()
@@ -41,18 +50,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereStock($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUuid($value)
- * @mixin \Eloquent
- * @method static \Database\Factories\ProductsFactory factory(...$parameters)
- * @property int $view_count 뷰 카운트.
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereViewCount($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\HomeMains[] $homeMain
- * @property-read int|null $home_main_count
- * @property-read \App\Models\HomeMains|null $home_best_item
- * @property-read \App\Models\HomeMains|null $home_hot_item
- * @property-read \App\Models\HomeMains|null $home_top_item
- * @property-read \App\Models\ProductImages|null $rep_images
- * @property-read \App\Models\ProductImages|null $rep_image
- * @property-read int|null $rep_images_count
+ * @mixin \Eloquent
  */
 class Products extends Model
 {

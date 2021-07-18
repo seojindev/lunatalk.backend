@@ -5,10 +5,10 @@ use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsController;
 use App\Http\Controllers\Api\v1\Admin\ServiceController as AdminServiceController;
-use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\Service\AuthController;
+use App\Http\Controllers\Api\v1\Service\TabsController;
+use App\Http\Controllers\Api\v1\Service\ProductsController;
 use App\Http\Controllers\Api\v1\Other\MediaController;
-use App\Http\Controllers\Api\v1\Pages\TabsController;
-use App\Http\Controllers\Api\v1\Pages\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,7 +86,17 @@ Route::group(['as' => 'api.'], function () {
             });
         });
 
-        Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
+        Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
+
+            Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+                Route::post('login', [AuthController::class, 'login'])->name('login');
+                Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+                Route::post('token-refresh', [AuthController::class, 'token_refresh'])->name('token.refresh');
+                Route::post('register', [AuthController::class, 'register'])->name('register');
+                Route::post('phone-auth', [AuthController::class, 'phone_auth'])->name('phone.auth');
+                Route::post('{auth_index}/phone-auth-confirm', [AuthController::class, 'phone_auth_confirm'])->name('phone.auth.confirm')->where('auth_index', '[0-9]+');
+            });
+
             Route::group(['prefix' => 'tabs', 'as' => 'tabs.'], function () {
                 Route::get('main-top', [TabsController::class, 'mainTop'])->name('main.top');
                 Route::get('main-products-category', [TabsController::class, 'mainProductsCategory'])->name('main.products.category');
@@ -99,15 +109,6 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('total-list-paging/{page}', [ProductsController::class, 'total_list_paging'])->name('total.list.paging');
                 Route::get('{product_uuid}/detail', [ProductsController::class, 'detail'])->name('detail');
             });
-        });
-
-        Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
-            Route::post('login', [AuthController::class, 'login'])->name('login');
-            Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-            Route::post('token-refresh', [AuthController::class, 'token_refresh'])->name('token.refresh');
-            Route::post('register', [AuthController::class, 'register'])->name('register');
-            Route::post('phone-auth', [AuthController::class, 'phone_auth'])->name('phone.auth');
-            Route::post('{auth_index}/phone-auth-confirm', [AuthController::class, 'phone_auth_confirm'])->name('phone.auth.confirm')->where('auth_index', '[0-9]+');
         });
     });
 });

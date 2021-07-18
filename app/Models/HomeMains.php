@@ -10,28 +10,28 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * App\Models\HomeMains
  *
  * @property int $id
+ * @property string|null $uid uid.
+ * @property \App\Models\Codes|null $gubun 구분.
  * @property int $product_id 상품 고유값.
  * @property int|null $media_id 이미지 아이디.
  * @property string $status 상태.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\MediaFiles|null $media_file
+ * @property-read \App\Models\Products|null $product
+ * @method static \Database\Factories\HomeMainsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains query()
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereGubun($value)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereMediaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereUid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Database\Factories\HomeMainsFactory factory(...$parameters)
- * @property-read \App\Models\MediaFiles|null $media_file
- * @property-read \App\Models\Products|null $product
- * @property \App\Models\Codes|null $gubun 구분.
- * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereGubun($value)
- * @property string $uid uid.
- * @method static \Illuminate\Database\Eloquent\Builder|HomeMains whereUid($value)
  */
 class HomeMains extends Model
 {

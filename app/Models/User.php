@@ -17,9 +17,9 @@ use Laravel\Passport\HasApiTokens;
  *
  * @property int $id
  * @property string $user_uuid 회원 uuid
- * @property string $user_type 회원 타입
- * @property string $user_level 회원 레벨
- * @property string $user_state 회원 상태.
+ * @property \App\Models\Codes|null $user_type 회원 타입
+ * @property \App\Models\Codes|null $user_level 회원 레벨
+ * @property \App\Models\Codes|null $user_state 회원 상태.
  * @property string $login_id
  * @property string $nickname 회원 닉네임
  * @property string $email
