@@ -17,13 +17,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CodesSeeder::class,
-            UserSeeder::class,
-            UserPhoneVerifySeeder::class,
-            MediaFilesSeeder::class,
-            ProductsSeeder::class,
-//            ProductOptionsSeeder::class,
-//            ProductImagesSeeder::class,
-            HomeMainSeeder::class,
         ]);
     }
 }

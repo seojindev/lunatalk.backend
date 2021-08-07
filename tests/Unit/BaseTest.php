@@ -29,8 +29,8 @@ class BaseTest extends BaseCustomTestCase
      */
     public function test_base_server_migrate()
     {
-        $this->assertDatabaseHas('users', [
-            'login_id' => 'test11',
+        $this->assertDatabaseHas('codes', [
+            'code_id' => 'S010010',
         ]);
     }
 
