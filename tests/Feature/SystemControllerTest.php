@@ -63,7 +63,7 @@ class SystemControllerTest extends BaseCustomTestCase
      */
     public function test_system_check_base_data() {
         $response = $this->withHeaders($this->getTestApiHeaders())->json('GET', '/api/system/base-data');
-        // $response->dump();
+//         $response->dump();
         $response->assertOk();
         $response->assertJsonStructure([
             'message',

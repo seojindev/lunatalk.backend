@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\ClientErrorException;
-use App\Repositories\CodesRepository;
+use App\Repositories\CodesRepositoryInterface;
 
 /**
  * Class ApiRootServices
@@ -21,18 +21,17 @@ class ApiRootServices
     protected Request $currentRequest;
 
     /**
-     * @var CodesRepository
+     * @var CodesRepositoryInterface
      */
-    protected CodesRepository $serviceRepository;
+    protected CodesRepositoryInterface $codesRepository;
 
     /**
-     * FrontRootServices constructor.
      * @param Request $request
-     * @param CodesRepository $serviceRepository
+     * @param CodesRepositoryInterface $codesRepository
      */
-    function __construct(Request $request, CodesRepository $serviceRepository){
+    function __construct(Request $request, CodesRepositoryInterface $codesRepository){
         $this->currentRequest = $request;
-        $this->serviceRepository = $serviceRepository;
+        $this->codesRepository = $codesRepository;
     }
 
     /**
@@ -73,13 +72,41 @@ class ApiRootServices
     }
 
     /**
+     * 공통 코드 리스트.
+     * @return array[]
+     */
+    public function getCommonCodeList(): array
+    {
+        $codesLists = $this->codesRepository->defaultall()->toArray();
+
+        $code_group = array();
+        $code_name = array();
+
+        foreach (array_filter($codesLists, function($e) {
+            return $e['code_id'];
+        }) as $item) :
+            $code_group[$item['group_id']][] = [
+                'code_id' => $item['code_id'],
+                'code_name' => $item['code_name'],
+            ];
+
+            $code_name[$item['code_id']] = $item['code_name'];
+        endforeach;
+
+        return [
+            'code_name' => $code_name,
+            'code_group' => $code_group
+        ];
+    }
+
+    /**
      * 공통 데이터 생성.
      * @return array
      */
     public function createBaseData() : array
     {
         return [
-            'codes' => $this->serviceRepository->getCommonCodeList()
+            'codes' => $this->getCommonCodeList()
         ];
     }
 
