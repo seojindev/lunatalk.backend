@@ -71,10 +71,6 @@ class CodesSeeder extends Seeder
             [ 'group_id' => 'S03', 'group_name' => '사용자 상태.' ],
             [ 'group_id' => 'S04', 'group_name' => '상태.' ],
             [ 'group_id' => 'G01', 'group_name' => '메디아 파일 카테고리.' ],
-            [ 'group_id' => 'P01', 'group_name' => '상품 카테고리.' ],
-            [ 'group_id' => 'P10', 'group_name' => '페이지 카테고리.' ],
-            [ 'group_id' => 'O10', 'group_name' => '상품 옵션1(색).' ],
-            [ 'group_id' => 'O20', 'group_name' => '상품 옵션2.' ],
             [ 'group_id' => 'E01', 'group_name' => '이메일 리스트.' ],
         ];
     }
@@ -110,16 +106,11 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0020', 'code_name' => '예' ],
                 [ 'code_id' => '0030', 'code_name' => '아니요' ],
             ],
-            'P01' => [
-                [ 'code_id' => '0110', 'code_name' => 'acc' ],
-                [ 'code_id' => '0120', 'code_name' => 'bag' ],
-                [ 'code_id' => '0130', 'code_name' => 'stationery' ],
-                [ 'code_id' => '0140', 'code_name' => 'wallet' ],
-            ],
             'G01' => [
                 [ 'code_id' => '0010', 'code_name' => '상품 이미지' ],
-                [ 'code_id' => '0020', 'code_name' => '상품 상세 이미지' ],
-                [ 'code_id' => '0030', 'code_name' => '상품 썸네일 이미지' ],
+                [ 'code_id' => '0020', 'code_name' => '상품 썸네일 이미지' ],
+                [ 'code_id' => '0030', 'code_name' => '상품 상세 이미지' ],
+
             ],
             'E01' => [
                 [ 'code_id' => '0010', 'code_name' => 'naver.com' ],
@@ -192,19 +183,7 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0540', 'code_name' => '커피브라운' ],
                 [ 'code_id' => '0550', 'code_name' => '바이올렛핑크' ],
                 [ 'code_id' => '0560', 'code_name' => '라임옐로우' ],
-            ],
-            'O20' => [
-                [ 'code_id' => '0010', 'code_name' => '무선' ],
-                [ 'code_id' => '0020', 'code_name' => '유선' ],
-                [ 'code_id' => '0030', 'code_name' => '스케쥴러' ],
-                [ 'code_id' => '0040', 'code_name' => '무선' ],
-
-            ],
-            'P10' => [
-                [ 'code_id' => '0010', 'code_name' => '메인 TOP' ],
-                [ 'code_id' => '0020', 'code_name' => '메인 BEST ITEM' ],
-                [ 'code_id' => '0030', 'code_name' => '메인 HOT ITEM' ],
-            ],
+            ]
         ];
     }
 }

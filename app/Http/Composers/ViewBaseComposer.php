@@ -4,7 +4,7 @@
 namespace App\Http\Composers;
 
 use Illuminate\View\View;
-use App\Repositories\CodesRepository;
+use App\Services\RootServices;
 
 /**
  * Class ViewBaseComposer
@@ -13,17 +13,17 @@ use App\Repositories\CodesRepository;
 class ViewBaseComposer
 {
     /**
-     * @var CodesRepository
+     * @var RootServices
      */
-    protected CodesRepository $serviceRepository;
+    private RootServices $apiRootServices;
 
     /**
      * ViewBaseComposer constructor.
-     * @param CodesRepository $serviceRepository
+     * @param RootServices $apiRootServices
      */
-    function __construct(CodesRepository $serviceRepository)
+    function __construct(RootServices $apiRootServices)
     {
-        $this->serviceRepository = $serviceRepository;
+        $this->apiRootServices = $apiRootServices;
     }
 
     /**
@@ -31,7 +31,7 @@ class ViewBaseComposer
      */
     public function compose(View $view)
     {
-        $view->with('composeCodeList', $this->serviceRepository->getCommonCodeList());
+        $view->with('composeCodeList', $this->apiRootServices->getCommonCodeList());
 //        $view->with('commonData', []);
     }
 }

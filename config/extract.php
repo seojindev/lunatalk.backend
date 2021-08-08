@@ -7,12 +7,15 @@
  * 다만 codes table 에 정보가 바뀌면 같이 바꿔 줘야 한다.
  */
 return [
+
     'default' => [
         'list_pageing' => 15
     ],
+
     'notification' => [
         'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),
     ],
+
     'user' => [
         'user_level' => [
             'guest' => [
@@ -51,6 +54,7 @@ return [
             ]
         ],
     ],
+
     'clientType' => [
         'front' => [
             'name' => '웹',
@@ -69,6 +73,7 @@ return [
             'code' => 'S010040'
         ]
     ],
+
     'mediaCategory' => [
         'repImage' => [
             'name' => '상품이미지',
@@ -78,36 +83,6 @@ return [
             'name' => '상품 상세 이미지',
             'code' => 'G010020'
         ]
-    ],
-
-    'productCategory' => [
-        'acc' => [
-            'code' => 'P010110'
-        ],
-        'bag' => [
-            'code' => 'P010120'
-        ],
-        'stationery' => [
-            'code' => 'P010130'
-        ],
-        'wallet' => [
-            'code' => 'P010140'
-        ],
-    ],
-
-    'homeMainGubun' => [
-        'mainTop' => [
-            'name' => '메인 top',
-            'code' => 'P100010'
-        ],
-        'mainBestItem' => [
-            'name' => '메인 BEST ITEM',
-            'code' => 'P100020'
-        ],
-        'mainHotItem' => [
-            'name' => '메인 HOT ITEM',
-            'code' => 'P100030'
-        ],
     ],
 
     'prohibit' => [

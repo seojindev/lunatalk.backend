@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\ApiRootServices;
+use App\Services\RootServices;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Response;
 
@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Response;
 class SystemController extends RootController
 {
     /**
-     * @var ApiRootServices
+     * @var RootServices
      */
-    protected ApiRootServices $apiRootServices;
+    protected RootServices $rootServices;
 
     /**
      * SystemController constructor.
-     * @param ApiRootServices $apiRootServices
+     * @param RootServices $rootServices
      */
-    public function __construct(ApiRootServices $apiRootServices)
+    public function __construct(RootServices $rootServices)
     {
-        $this->apiRootServices = $apiRootServices;
+        $this->rootServices = $rootServices;
     }
 
     /**
@@ -42,7 +42,7 @@ class SystemController extends RootController
      */
     public function checkServerNotice()
     {
-        $task = $this->apiRootServices->checkSererNotice();
+        $task = $this->rootServices->checkSererNotice();
 
         if($task['check']) {
             return Response::success([
@@ -59,6 +59,6 @@ class SystemController extends RootController
      */
     public function baseData()
     {
-        return Response::success($this->apiRootServices->createBaseData());
+        return Response::success($this->rootServices->createBaseData());
     }
 }

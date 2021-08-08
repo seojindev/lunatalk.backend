@@ -13,7 +13,7 @@ use App\Repositories\CodesRepositoryInterface;
  * Class ApiRootServices
  * @package App\Services
  */
-class ApiRootServices
+class RootServices
 {
     /**
      * @var Request
@@ -42,12 +42,12 @@ class ApiRootServices
     public function checkSererNotice() : array
     {
         $noticeFileName = 'server_notice.txt';
-        $niticeExists = Storage::disk('inside-temp')->exists($noticeFileName);
+        $noticeExists = Storage::disk('inside-temp')->exists($noticeFileName);
 
         /**
          * 시스템 공지 사항 없을때.
          */
-        if($niticeExists == false) {
+        if($noticeExists == false) {
             return [
                 'check' => false,
                 'notice' => ''
