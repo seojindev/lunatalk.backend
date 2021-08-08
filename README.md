@@ -5,11 +5,11 @@
 ### app script
 1. app app-reset
 
-```angular2html
+```bash
 composer app-reset
 ```
 
-```angular2html
+```bash
 php artisan migrate:refresh
 php artisan passport:install
 php artisan db:seed --class=CodesSeeder --force
@@ -20,12 +20,12 @@ php artisan db:seed --class=CodesSeeder --force
 > 데이베이스 초기화 조심해야함.
 
 2. app clear
-```angular2html
+```bash
 composer app-clear
 ```
 
 2. unitest
-```angular2html
+```bash
 composer unit-test:clear
 composer unit-test:watch
 
@@ -39,7 +39,7 @@ php artisan test
 
 > 기존 상품 정보 가지고 오기
 
-```angular2html
+```bash
 
 # php artisan products:txt-to-json
 # php artisan products:json-to-create

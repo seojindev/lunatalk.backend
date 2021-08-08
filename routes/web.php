@@ -35,40 +35,4 @@ Route::group(['prefix' => 'front', 'as' => 'front.'], function () {
     Route::group(['prefix' => 'test', 'as' => 'test.'], function () {
         Route::get('default', [TestController::class, 'default'])->name('default');
     });
-
-    Route::group(['namespace' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-
-        Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
-
-            Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-            Route::get('blank', [AdminController::class, 'blank'])->name('blank');
-
-            Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
-                Route::get('login', [AuthController::class, 'login'])->name('login');
-            });
-
-            // 상품 정보 페이지.
-            Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
-                Route::get('list', [ProductsController::class, 'list'])->name('products.list');
-                Route::get('{product_uuid}/detail', [ProductsController::class, 'detail'])->name('products.detail');
-                Route::get('{product_uuid}/update', [ProductsController::class, 'update'])->name('products.update');
-                Route::get('create', [ProductsController::class, 'create'])->name('products.create');
-            });
-
-            // 관리 메뉴 페이지.
-            Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
-
-                Route::get('edit-home-main/list', [ServiceController::class, 'edit_home_main_list'])->name('edit.home.main.list');
-                Route::get('edit-home-main/{id}/update', [ServiceController::class, 'edit_home_main_update'])->name('edit.home.main.update');
-                Route::get('edit-home-main/create', [ServiceController::class, 'edit_home_main_create'])->name('edit.home.main.create');
-
-                Route::get('service-notice', [ServiceController::class, 'service_notice'])->name('service.notice');
-            });
-
-            // 유저(회원) 관리 페이지.
-            Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-                Route::get('list', [UserController::class, 'list'])->name('list');
-            });
-        });
-    });
 });

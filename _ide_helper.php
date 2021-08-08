@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.50.0.
+ * Generated for Laravel 8.53.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2654,7 +2654,7 @@
                     /**
          * Apply the echo handler for the value if it exists.
          *
-         * @param $value string
+         * @param string $value
          * @return string 
          * @static 
          */ 
@@ -5950,6 +5950,20 @@
         {
                         /** @var \Illuminate\Filesystem\Filesystem $instance */
                         $instance->replace($path, $content);
+        }
+                    /**
+         * Replace a given string within a given file.
+         *
+         * @param array|string $search
+         * @param array|string $replace
+         * @param string $path
+         * @return void 
+         * @static 
+         */ 
+        public static function replaceInFile($search, $replace, $path)
+        {
+                        /** @var \Illuminate\Filesystem\Filesystem $instance */
+                        $instance->replaceInFile($search, $replace, $path);
         }
                     /**
          * Prepend to a file.
@@ -10822,13 +10836,14 @@
          *
          * @param string $key
          * @param callable $callback
+         * @param callable|null $default
          * @return $this|mixed 
          * @static 
          */ 
-        public static function whenHas($key, $callback)
+        public static function whenHas($key, $callback, $default = null)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->whenHas($key, $callback);
+                        return $instance->whenHas($key, $callback, $default);
         }
                     /**
          * Determine if the request contains a non-empty value for an input item.
@@ -10871,13 +10886,14 @@
          *
          * @param string $key
          * @param callable $callback
+         * @param callable|null $default
          * @return $this|mixed 
          * @static 
          */ 
-        public static function whenFilled($key, $callback)
+        public static function whenFilled($key, $callback, $default = null)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->whenFilled($key, $callback);
+                        return $instance->whenFilled($key, $callback, $default);
         }
                     /**
          * Determine if the request is missing a given input item key.
@@ -13972,6 +13988,56 @@
                         /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->getDriver();
         }
+                    /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
+        }
+                    /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */ 
+        public static function macroCall($method, $parameters)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->macroCall($method, $parameters);
+        }
          
     }
             /**
@@ -15502,137 +15568,7 @@
      
 }
 
-        namespace App\Repositories { 
-            /**
-     * 
-     *
-     */ 
-        class CustomFacades {
-                    /**
-         * 테스트.
-         *
-         * @static 
-         */ 
-        public static function test()
-        {
-                        /** @var \App\Supports\HelperClass $instance */
-                        return $instance->test();
-        }
-                    /**
-         * 랜덤 넘버 UUID 생성.
-         * 
-         * 34930722151-50988287951-1690522742
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function randomNumberUUID()
-        {
-                        /** @var \App\Supports\HelperClass $instance */
-                        return $instance->randomNumberUUID();
-        }
-                    /**
-         * 랭덤 코드 생성.
-         * 
-         * ex) d0e6a9f5-a114-4517-83c9-5f3ae0c035db
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function uuidSecure()
-        {
-                        return \App\Supports\HelperClass::uuidSecure();
-        }
-                    /**
-         * 랜덤 pin 번호.
-         * 
-         * - 알파벳 포함.
-         * ex) 65T5
-         *
-         * @param $number
-         * @return string 
-         * @static 
-         */ 
-        public static function generatePin($number)
-        {
-                        /** @var \App\Supports\HelperClass $instance */
-                        return $instance->generatePin($number);
-        }
-                    /**
-         * 랜덤 번호.
-         * 
-         * - 숫자만.
-         * ex) 0012
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function generateAuthNumberCode()
-        {
-                        /** @var \App\Supports\HelperClass $instance */
-                        return $instance->generateAuthNumberCode();
-        }
-                    /**
-         * 회원 로그인 아이디 금지어 체크
-         *
-         * @param String $checkWord
-         * @return bool 
-         * @static 
-         */ 
-        public static function checkProhibitLoginId($checkWord)
-        {
-                        return \App\Supports\HelperClass::checkProhibitLoginId($checkWord);
-        }
-                    /**
-         * 회원 닉네임 금지어 체크.
-         *
-         * @param String $checkWord
-         * @return bool 
-         * @static 
-         */ 
-        public static function checkProhibitUserNickname($checkWord)
-        {
-                        return \App\Supports\HelperClass::checkProhibitUserNickname($checkWord);
-        }
-                    /**
-         * 문자열중 금지어 체크.
-         *
-         * @param String $checkWord
-         * @return bool 
-         * @static 
-         */ 
-        public static function checkProhibitWord($checkWord)
-        {
-                        return \App\Supports\HelperClass::checkProhibitWord($checkWord);
-        }
-                    /**
-         * 숫자로 되어 있는 휴대폰 번호 - 추가.
-         *
-         * @param String $phonenumber
-         * @return string 
-         * @static 
-         */ 
-        public static function phoneNumberAddHyphen($phonenumber)
-        {
-                        return \App\Supports\HelperClass::phoneNumberAddHyphen($phonenumber);
-        }
-                    /**
-         * generate 9 Digit Number
-         * ex) 625314639
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function generateDigit()
-        {
-                        return \App\Supports\HelperClass::generateDigit();
-        }
-         
-    }
-     
-}
-
-    namespace Facade\Ignition\Facades { 
+        namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
      *
@@ -16538,7 +16474,7 @@ namespace  {
              * @param int|null $perPage
              * @param array $columns
              * @param string $cursorName
-             * @param string|null $cursor
+             * @param \Illuminate\Pagination\Cursor|string|null $cursor
              * @return \Illuminate\Contracts\Pagination\CursorPaginator 
              * @static 
              */ 
@@ -17351,7 +17287,7 @@ namespace  {
              * @param mixed $value
              * @param callable $callback
              * @param callable|null $default
-             * @return mixed 
+             * @return $this|mixed 
              * @static 
              */ 
             public static function when($value, $callback, $default = null)
@@ -17366,7 +17302,7 @@ namespace  {
              * @param mixed $value
              * @param callable $callback
              * @param callable|null $default
-             * @return mixed 
+             * @return $this|mixed 
              * @static 
              */ 
             public static function unless($value, $callback, $default = null)
@@ -17462,6 +17398,7 @@ namespace  {
                 /**
              * Force the query to only return distinct results.
              *
+             * @param mixed $distinct
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -19326,7 +19263,6 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
-            class Helper extends \App\Repositories\CustomFacades {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
      
 }
