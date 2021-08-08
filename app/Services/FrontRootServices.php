@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\ServiceRepository;
+use App\Repositories\CodesRepository;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Storage;
 class FrontRootServices
 {
     /**
-     * @var ServiceRepository
+     * @var CodesRepository
      */
-    protected ServiceRepository $serviceRepository;
+    protected CodesRepository $serviceRepository;
 
     /**
      * FrontRootServices constructor.
-     * @param ServiceRepository $serviceRepository
+     * @param CodesRepository $serviceRepository
      */
-    function __construct( ServiceRepository $serviceRepository){
+    function __construct(CodesRepository $serviceRepository){
         $this->serviceRepository = $serviceRepository;
     }
 

@@ -4,7 +4,7 @@
 namespace App\Repositories;
 
 
-interface ServiceRepositoryInterface
+interface CodesRepositoryInterface
 {
 
 }

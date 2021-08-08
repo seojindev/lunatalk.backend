@@ -4,7 +4,7 @@
 namespace App\Http\Composers;
 
 use Illuminate\View\View;
-use App\Repositories\ServiceRepository;
+use App\Repositories\CodesRepository;
 
 /**
  * Class ViewBaseComposer
@@ -13,15 +13,15 @@ use App\Repositories\ServiceRepository;
 class ViewBaseComposer
 {
     /**
-     * @var ServiceRepository
+     * @var CodesRepository
      */
-    protected ServiceRepository $serviceRepository;
+    protected CodesRepository $serviceRepository;
 
     /**
      * ViewBaseComposer constructor.
-     * @param ServiceRepository $serviceRepository
+     * @param CodesRepository $serviceRepository
      */
-    function __construct(ServiceRepository $serviceRepository)
+    function __construct(CodesRepository $serviceRepository)
     {
         $this->serviceRepository = $serviceRepository;
     }

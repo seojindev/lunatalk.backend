@@ -2,12 +2,12 @@
 
 
 namespace App\Services;
-use App\Exceptions\ClientErrorException;
-use App\Repositories\ServiceRepository;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\ClientErrorException;
+use App\Repositories\CodesRepository;
 
 /**
  * Class ApiRootServices
@@ -21,16 +21,16 @@ class ApiRootServices
     protected Request $currentRequest;
 
     /**
-     * @var ServiceRepository
+     * @var CodesRepository
      */
-    protected ServiceRepository $serviceRepository;
+    protected CodesRepository $serviceRepository;
 
     /**
      * FrontRootServices constructor.
      * @param Request $request
-     * @param ServiceRepository $serviceRepository
+     * @param CodesRepository $serviceRepository
      */
-    function __construct(Request $request, ServiceRepository $serviceRepository){
+    function __construct(Request $request, CodesRepository $serviceRepository){
         $this->currentRequest = $request;
         $this->serviceRepository = $serviceRepository;
     }
