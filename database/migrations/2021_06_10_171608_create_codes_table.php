@@ -21,6 +21,8 @@ class CreateCodesTable extends Migration
             $table->char('code_name', 100)->nullable();
             $table->enum('active', ['Y', 'N'])->default('Y')->comment('사용 상태(사용중, 비사용)');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 
