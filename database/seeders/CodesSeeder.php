@@ -66,10 +66,11 @@ class CodesSeeder extends Seeder
     public function initGroupCodesList(): array
     {
         return [
-            [ 'group_id' => 'S01', 'group_name' => '클라이언트 타입.' ],
-            [ 'group_id' => 'S02', 'group_name' => '사용자 레벨.' ],
-            [ 'group_id' => 'S03', 'group_name' => '사용자 상태.' ],
-            [ 'group_id' => 'S04', 'group_name' => '상태.' ],
+            [ 'group_id' => 'S01', 'group_name' => '가입 클라이언트.' ],
+            [ 'group_id' => 'S02', 'group_name' => '사용자 타입.' ],
+            [ 'group_id' => 'S03', 'group_name' => '사용자 레벨.' ],
+            [ 'group_id' => 'S04', 'group_name' => '사용자 상태.' ],
+            [ 'group_id' => 'S05', 'group_name' => '상태.' ],
             [ 'group_id' => 'G01', 'group_name' => '메디아 파일 카테고리.' ],
             [ 'group_id' => 'E01', 'group_name' => '이메일 리스트.' ],
         ];
@@ -89,18 +90,23 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0040', 'code_name' => 'Service - Front' ],
             ],
             'S02' => [
+                [ 'code_id' => '0010', 'code_name' => 'Lunatalk' ],
+                [ 'code_id' => '0020', 'code_name' => 'Kakao' ],
+                [ 'code_id' => '0030', 'code_name' => 'Naver' ],
+            ],
+            'S03' => [
                 [ 'code_id' => '0000', 'code_name' => 'Guest' ],
                 [ 'code_id' => '0010', 'code_name' => '일반 사용자' ],
                 [ 'code_id' => '0900', 'code_name' => '관리자' ],
                 [ 'code_id' => '9999', 'code_name' => '최고 관리자' ],
             ],
-            'S03' => [
+            'S04' => [
                 [ 'code_id' => '0000', 'code_name' => '차단' ],
                 [ 'code_id' => '0010', 'code_name' => '제한' ],
                 [ 'code_id' => '0011', 'code_name' => '대기' ],
                 [ 'code_id' => '0100', 'code_name' => '정상' ],
             ],
-            'S04' => [
+            'S05' => [
                 [ 'code_id' => '0000', 'code_name' => '비사용' ],
                 [ 'code_id' => '0010', 'code_name' => '사용' ],
                 [ 'code_id' => '0020', 'code_name' => '예' ],
