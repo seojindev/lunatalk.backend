@@ -15568,7 +15568,137 @@
      
 }
 
-        namespace Facade\Ignition\Facades { 
+        namespace App\Repositories { 
+            /**
+     * 
+     *
+     */ 
+        class CustomFacades {
+                    /**
+         * 테스트.
+         *
+         * @static 
+         */ 
+        public static function test()
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->test();
+        }
+                    /**
+         * 랜덤 넘버 UUID 생성.
+         * 
+         * 34930722151-50988287951-1690522742
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function randomNumberUUID()
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->randomNumberUUID();
+        }
+                    /**
+         * 랭덤 코드 생성.
+         * 
+         * ex) d0e6a9f5-a114-4517-83c9-5f3ae0c035db
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function uuidSecure()
+        {
+                        return \App\Supports\HelperClass::uuidSecure();
+        }
+                    /**
+         * 랜덤 pin 번호.
+         * 
+         * - 알파벳 포함.
+         * ex) 65T5
+         *
+         * @param $number
+         * @return string 
+         * @static 
+         */ 
+        public static function generatePin($number)
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->generatePin($number);
+        }
+                    /**
+         * 랜덤 번호.
+         * 
+         * - 숫자만.
+         * ex) 0012
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function generateAuthNumberCode()
+        {
+                        /** @var \App\Supports\HelperClass $instance */
+                        return $instance->generateAuthNumberCode();
+        }
+                    /**
+         * 회원 로그인 아이디 금지어 체크
+         *
+         * @param String $checkWord
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkProhibitLoginId($checkWord)
+        {
+                        return \App\Supports\HelperClass::checkProhibitLoginId($checkWord);
+        }
+                    /**
+         * 회원 닉네임 금지어 체크.
+         *
+         * @param String $checkWord
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkProhibitUserNickname($checkWord)
+        {
+                        return \App\Supports\HelperClass::checkProhibitUserNickname($checkWord);
+        }
+                    /**
+         * 문자열중 금지어 체크.
+         *
+         * @param String $checkWord
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkProhibitWord($checkWord)
+        {
+                        return \App\Supports\HelperClass::checkProhibitWord($checkWord);
+        }
+                    /**
+         * 숫자로 되어 있는 휴대폰 번호 - 추가.
+         *
+         * @param String $phonenumber
+         * @return string 
+         * @static 
+         */ 
+        public static function phoneNumberAddHyphen($phonenumber)
+        {
+                        return \App\Supports\HelperClass::phoneNumberAddHyphen($phonenumber);
+        }
+                    /**
+         * generate 9 Digit Number
+         * ex) 625314639
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function generateDigit()
+        {
+                        return \App\Supports\HelperClass::generateDigit();
+        }
+         
+    }
+     
+}
+
+    namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
      *
@@ -19263,6 +19393,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class Helper extends \App\Repositories\CustomFacades {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
      
 }

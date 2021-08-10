@@ -12,7 +12,12 @@ return [
         'list_pageing' => 15,
         'user_client' => 'S010010',
         'user_type' => 'S020010',
-        'user_level'=> 'S030010',
+        'user_level' => 'S030010',
+        'user_status' => 'S040100',
+        'front_code' => 'S010010',
+        'ios_code' => 'S010020',
+        'android_code' => 'S010040',
+        'service_front_code' => 'S010040',
     ],
 
     'notification' => [
@@ -37,22 +42,22 @@ return [
             'level_code' => 'S029999'
         ],
     ],
-    'user_state' => [
+    'user_status' => [
         'block' => [
             'name' => '차단',
-            'code' => 'S030000'
+            'code' => 'S040000'
         ],
         'deny' => [
             'name' => '제한',
-            'code' => 'S030010'
+            'code' => 'S040010'
         ],
         'waiting' => [
             'name' => '대기',
-            'code' => 'S030011'
+            'code' => 'S040011'
         ],
         'normal' => [
             'name' => '정상',
-            'code' => 'S030100'
+            'code' => 'S040100'
         ]
     ],
 

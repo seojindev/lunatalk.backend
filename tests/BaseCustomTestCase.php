@@ -58,7 +58,7 @@ class BaseCustomTestCase extends TestCase
     public static function getTestApiHeaders() : array
     {
         return [
-            'Request-Client-Type' => config('extract.clientType.front.code'),
+            'Request-Client-Type' => config('extract.default.front_code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
             'Authorization' => ''
@@ -76,7 +76,7 @@ class BaseCustomTestCase extends TestCase
             "login_password" => 'password'
         ]);
         return [
-            'Request-Client-Type' => config('extract.clientType.front.code'),
+            'Request-Client-Type' => config('extract.default.front_code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$response['result']['access_token']
@@ -94,7 +94,7 @@ class BaseCustomTestCase extends TestCase
             "login_password" => 'password'
         ]);
         return [
-            'Request-Client-Type' => config('extract.clientType.front.code'),
+            'Request-Client-Type' => config('extract.default.front_code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$response['result']['access_token']

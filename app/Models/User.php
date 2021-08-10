@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -72,10 +73,15 @@ use Laravel\Passport\HasApiTokens;
  * @method static Builder|User whereUuid($value)
  * @property string $user_id 로그인
  * @method static Builder|User whereUserId($value)
+ * @property string $status 회원 상태.
+ * @method static Builder|User whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -83,15 +89,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_uuid',
-        'user_type',
-        'user_level',
-        'user_state',
+        'client',
+        'type',
+        'level',
         'login_id',
-        'nickname',
+        'name',
         'email',
         'password',
-        'phone_number',
+        'status'
     ];
 
     /**
@@ -126,7 +131,7 @@ class User extends Authenticatable
      */
     public function user_type(): HasOne
     {
-        return $this->hasOne('App\Models\Codes' , 'code_id', 'user_type');
+        return $this->hasOne('App\Models\Codes' , 'code_id', 'type');
     }
 
     /**
@@ -134,7 +139,7 @@ class User extends Authenticatable
      */
     public function user_level(): HasOne
     {
-        return $this->hasOne('App\Models\Codes' , 'code_id', 'user_level');
+        return $this->hasOne('App\Models\Codes' , 'code_id', 'level');
     }
 
     /**
@@ -142,6 +147,6 @@ class User extends Authenticatable
      */
     public function user_state(): HasOne
     {
-        return $this->hasOne('App\Models\Codes' , 'code_id', 'user_state');
+        return $this->hasOne('App\Models\Codes' , 'code_id', 'state');
     }
 }

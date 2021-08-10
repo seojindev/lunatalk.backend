@@ -46,6 +46,18 @@ php artisan test
 
 ```
 
+> tinker factory
+
+```bash
+User::factory()->count(5)->create();
+PhoneVerify::factory()->count(5)->create();
+ProductCategory::factory()->count(5)->create();
+UserRegisterSelects::factory()->count(5)->create();
+
+
+
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
