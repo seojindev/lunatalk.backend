@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|UserRegisterSelects withTrashed()
  * @method static \Illuminate\Database\Query\Builder|UserRegisterSelects withoutTrashed()
  * @mixin \Eloquent
+ * @method static \Database\Factories\UserRegisterSelectsFactory factory(...$parameters)
  */
 class UserRegisterSelects extends Model
 {

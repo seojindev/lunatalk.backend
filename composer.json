@@ -16,11 +16,11 @@
         "laravel/passport": "^10.1.3",
         "laravel/slack-notification-channel": "^2.3.1",
         "laravel/tinker": "^2.6.1",
-      "ext-dom": "*",
-      "ext-openssl": "*"
+        "barryvdh/laravel-ide-helper": "^2.10",
+        "ext-dom": "*",
+        "ext-openssl": "*"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.10",
         "facade/ignition": "^2.11.0",
         "fakerphp/faker": "^1.15.0",
         "laravel/sail": "^1.9.0",
