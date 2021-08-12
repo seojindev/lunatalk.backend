@@ -66,12 +66,13 @@ class CodesSeeder extends Seeder
     public function initGroupCodesList(): array
     {
         return [
-            [ 'group_id' => 'S01', 'group_name' => '클라이언트 타입.' ],
-            [ 'group_id' => 'S02', 'group_name' => '사용자 레벨.' ],
-            [ 'group_id' => 'S03', 'group_name' => '사용자 상태.' ],
-            [ 'group_id' => 'S04', 'group_name' => '상태.' ],
-            [ 'group_id' => 'G01', 'group_name' => '메디아 파일 카테고리.' ],
-            [ 'group_id' => 'E01', 'group_name' => '이메일 리스트.' ],
+            [ 'group_id' => '010', 'group_name' => '클라이언트.' ],
+            [ 'group_id' => '110', 'group_name' => '사용자 타입.' ],
+            [ 'group_id' => '120', 'group_name' => '사용자 레벨.' ],
+            [ 'group_id' => '130', 'group_name' => '사용자 상태.' ],
+            [ 'group_id' => '210', 'group_name' => '상태.' ],
+            [ 'group_id' => '300', 'group_name' => '메디아 파일 카테고리.' ],
+            [ 'group_id' => '400', 'group_name' => '이메일 리스트.' ],
         ];
     }
 
@@ -82,37 +83,42 @@ class CodesSeeder extends Seeder
     public function initCodesList(): array
     {
         return [
-            'S01' => [
+            '010' => [
                 [ 'code_id' => '0010', 'code_name' => 'Front' ],
                 [ 'code_id' => '0020', 'code_name' => 'iOS' ],
                 [ 'code_id' => '0030', 'code_name' => 'Android' ],
                 [ 'code_id' => '0040', 'code_name' => 'Service - Front' ],
             ],
-            'S02' => [
+            '110' => [
+                [ 'code_id' => '0010', 'code_name' => 'Lunatalk' ],
+                [ 'code_id' => '0020', 'code_name' => 'Kakao' ],
+                [ 'code_id' => '0030', 'code_name' => 'Naver' ],
+            ],
+            '120' => [
                 [ 'code_id' => '0000', 'code_name' => 'Guest' ],
                 [ 'code_id' => '0010', 'code_name' => '일반 사용자' ],
                 [ 'code_id' => '0900', 'code_name' => '관리자' ],
                 [ 'code_id' => '9999', 'code_name' => '최고 관리자' ],
             ],
-            'S03' => [
+            '130' => [
                 [ 'code_id' => '0000', 'code_name' => '차단' ],
                 [ 'code_id' => '0010', 'code_name' => '제한' ],
                 [ 'code_id' => '0011', 'code_name' => '대기' ],
                 [ 'code_id' => '0100', 'code_name' => '정상' ],
             ],
-            'S04' => [
+            '210' => [
                 [ 'code_id' => '0000', 'code_name' => '비사용' ],
                 [ 'code_id' => '0010', 'code_name' => '사용' ],
                 [ 'code_id' => '0020', 'code_name' => '예' ],
                 [ 'code_id' => '0030', 'code_name' => '아니요' ],
             ],
-            'G01' => [
+            '300' => [
                 [ 'code_id' => '0010', 'code_name' => '상품 이미지' ],
                 [ 'code_id' => '0020', 'code_name' => '상품 썸네일 이미지' ],
                 [ 'code_id' => '0030', 'code_name' => '상품 상세 이미지' ],
 
             ],
-            'E01' => [
+            '400' => [
                 [ 'code_id' => '0010', 'code_name' => 'naver.com' ],
                 [ 'code_id' => '0020', 'code_name' => 'hanmail.net' ],
                 [ 'code_id' => '0030', 'code_name' => 'daum.net' ],
@@ -126,7 +132,7 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0110', 'code_name' => 'paran.com' ],
                 [ 'code_id' => '0120', 'code_name' => 'dreamwiz.com' ],
             ],
-            'O10' => [
+            '710' => [
                 [ 'code_id' => '0010', 'code_name' => '초콜릿' ],
                 [ 'code_id' => '0020', 'code_name' => '레드' ],
                 [ 'code_id' => '0030', 'code_name' => '네이비' ],

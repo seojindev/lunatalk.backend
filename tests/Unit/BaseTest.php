@@ -30,7 +30,7 @@ class BaseTest extends BaseCustomTestCase
     public function test_base_server_migrate()
     {
         $this->assertDatabaseHas('codes', [
-            'code_id' => 'S010010',
+            'code_id' => '0100010',
         ]);
     }
 
@@ -56,7 +56,7 @@ class BaseTest extends BaseCustomTestCase
         $this->withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Request-Client-Type' => config('extract.clientType.front.code'),
+            'Request-Client-Type' => config('extract.default.front_code'),
         ])->json('GET', '/api/system/check-status')->assertNoContent();
     }
 
@@ -68,7 +68,7 @@ class BaseTest extends BaseCustomTestCase
         $this->withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Request-Client-Type' => config('extract.clientType.ios.code'),
+            'Request-Client-Type' => config('extract.default.ios_code'),
         ])->json('GET', '/api/system/check-status')->assertNoContent();
     }
 
@@ -80,7 +80,7 @@ class BaseTest extends BaseCustomTestCase
         $this->withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Request-Client-Type' => config('extract.clientType.android.code'),
+            'Request-Client-Type' => config('extract.default.android_code'),
         ])->json('GET', '/api/system/check-status')->assertNoContent();
     }
 
@@ -92,7 +92,7 @@ class BaseTest extends BaseCustomTestCase
         $this->withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Request-Client-Type' => config('extract.clientType.service_front.code'),
+            'Request-Client-Type' => config('extract.default.service_front_code'),
         ])->json('GET', '/api/system/check-status')->assertNoContent();
     }
 }

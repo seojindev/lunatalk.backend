@@ -9,79 +9,98 @@
 return [
 
     'default' => [
-        'list_pageing' => 15
+        'list_paging' => 15,
+        'user_client' => '0100010',
+        'user_type' => '1100010',
+        'user_level' => '1200010',
+        'user_status' => '1300100',
+        'front_code' => '0100010',
+        'ios_code' => '0100020',
+        'android_code' => '0100030',
+        'service_front_code' => '0100040',
     ],
 
     'notification' => [
         'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),
     ],
 
-    'user' => [
-        'user_level' => [
-            'guest' => [
-                'name' => '게스트',
-                'level_code' => 'S020000'
-            ],
-            'user' => [
-                'name' => '사용자',
-                'level_code' => 'S020010'
-            ],
-            'admin' => [
-                'name' => '관리자',
-                'level_code' => 'S020900'
-            ],
-            'root' => [
-                'name' => '최고 관리자',
-                'level_code' => 'S029999'
-            ],
+    'user_level' => [
+        'guest' => [
+            'name' => '게스트',
+            'level_code' => '1200000'
         ],
-        'user_state' => [
-            'block' => [
-                'name' => '차단',
-                'code' => 'S030000'
-            ],
-            'deny' => [
-                'name' => '제한',
-                'code' => 'S030010'
-            ],
-            'waiting' => [
-                'name' => '대기',
-                'code' => 'S030011'
-            ],
-            'normal' => [
-                'name' => '정상',
-                'code' => 'S030100'
-            ]
+        'normal' => [
+            'name' => '일반 사용자',
+            'level_code' => '1200010'
+        ],
+        'admin' => [
+            'name' => '관리자',
+            'level_code' => '1200900'
+        ],
+        'root' => [
+            'name' => '최고 관리자',
+            'level_code' => '1209999'
         ],
     ],
 
-    'clientType' => [
-        'front' => [
-            'name' => '웹',
-            'code' => 'S010010'
+    'user_status' => [
+        'block' => [
+            'name' => '차단',
+            'code' => '1300000'
         ],
-        'ios' => [
-            'name' => 'iOS',
-            'code' => 'S010020'
+        'deny' => [
+            'name' => '제한',
+            'code' => '1300010'
         ],
-        'android' => [
-            'name' => 'Android',
-            'code' => 'S010030'
+        'waiting' => [
+            'name' => '대기',
+            'code' => '1300011'
         ],
-        'service_front' => [
-            'name' => 'Service-Front',
-            'code' => 'S010040'
+        'normal' => [
+            'name' => '정상',
+            'code' => '1300100'
         ]
+    ],
+
+    'client' => [
+        '0100010' => 'Front',
+        '0100020' => 'iOS',
+        '0100030' => 'Android',
+        '0100040' => 'Service - Front',
+    ],
+
+    'type' => [
+        '1100010' => 'Lunatalk',
+        '1100020' => 'Kakao',
+        '1100030' => 'Naver',
+    ],
+
+    'level' => [
+        '1200000' => 'Guest',
+        '1200010' => '일반 사용자',
+        '1200900' => '관리자',
+        '1209999' => '최고 관리자',
+    ],
+
+    'state' => [
+        '1300000' => '차단',
+        '1300010' => '제한',
+        '1300011' => '대기',
+        '1300100' => '정상',
     ],
 
     'mediaCategory' => [
         'repImage' => [
             'name' => '상품이미지',
-            'code' => 'G010010'
+            'code' => '3000010'
+        ],
+        'thumbnailImage' => [
+            'name' => '상품이미지',
+            'code' => '3000020'
         ],
         'detailImage' => [
             'name' => '상품 상세 이미지',
-            'code' => 'G010020'
+            'code' => '3000030'
         ]
     ],
 

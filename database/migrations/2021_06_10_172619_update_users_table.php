@@ -15,14 +15,18 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('user_uuid', 50)->after('id')->unique()->default('')->comment('회원 uuid');
-            $table->char('user_type', 7)->after('user_uuid')->default(config('extract.clientType.front.code'))->comment('회원 타입');
-            $table->char('user_level', 7)->after('user_type')->default(config('extract.user.user_level.user.level_code'))->comment('회원 레벨');
-            $table->enum('active', ['Y', 'N'])->after('remember_token')->default('Y')->comment('회원 상태');
-            $table->string('nickname', 50)->after('name')->default('')->comment('회원 닉네임');
+            $table->string('uuid', 50)->after('id')->unique()->default(DB::raw('(UUID())'))->comment('회원 uuid');
+            $table->char('client', 7)->after('uuid')->default(config('extract.default.user_client'))->comment('회원 타입');
+            $table->char('type', 7)->after('client')->default(config('extract.default.user_type'))->comment('회원 타입');
+            $table->char('level', 7)->after('type')->default(config('extract.default.user_level'))->comment('회원 레벨');
+            $table->char('login_id', 50)->after('level')->unique()->nullable(false)->comment('로그인 아이디');
+            $table->char('status', 7)->default(config('extract.default.user_status'))->after('remember_token')->comment('회원 상태.');
+            $table->enum('active', ['Y', 'N'])->after('status')->default('Y')->comment('회원 상태');
 
-            $table->foreign('user_type')->references('code_id')->on('codes')->onDelete('cascade');
-            $table->foreign('user_level')->references('code_id')->on('codes')->onDelete('cascade');
+
+            $table->foreign('type')->references('code_id')->on('codes')->onDelete('cascade');
+            $table->foreign('level')->references('code_id')->on('codes')->onDelete('cascade');
+            $table->foreign('status')->references('code_id')->on('codes')->onDelete('cascade');
         });
     }
 
@@ -34,9 +38,12 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            if(DB::getDriverName() !== 'sqlite') $table->dropForeign('users_user_level_foreign');
-            if(DB::getDriverName() !== 'sqlite') $table->dropForeign('users_user_type_foreign');
-            if(DB::getDriverName() !== 'sqlite') $table->dropColumn(['user_uuid', 'user_type', 'user_level', 'active', 'nickname']);
+            $table->dropForeign('users_client_foreign');
+            $table->dropForeign('users_type_foreign');
+            $table->dropForeign('users_level_foreign');
+            $table->dropForeign('users_status_foreign');
+
+            $table->dropColumn(['uuid', 'client', 'type', 'level', 'login_id', 'status', 'active']);
         });
     }
 }

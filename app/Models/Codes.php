@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Codes whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Codes whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Codes whereDeletedAt($value)
  */
 class Codes extends Model
 {

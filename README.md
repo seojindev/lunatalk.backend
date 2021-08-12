@@ -26,8 +26,14 @@ composer app-clear
 
 2. unitest
 ```bash
+> 테스트 설정 리셋.
 composer unit-test:clear
+
+> 유닌 테스트 와치 실행. 
 composer unit-test:watch
+
+> 팩토리 데이터 실행 ( 데이터 베이스 리셋. )
+composer unit-test:factory
 
 ./vendor/bin/phpunit-watcher watch --filter=test_login_
 
@@ -43,6 +49,19 @@ php artisan test
 
 # php artisan products:txt-to-json
 # php artisan products:json-to-create
+
+```
+
+> tinker factory
+
+```bash
+User::factory()->count(5)->create();
+PhoneVerify::factory()->count(5)->create();
+ProductCategory::factory()->count(5)->create();
+UserRegisterSelects::factory()->count(5)->create();
+MediaFiles::factory()->count(5)->create();
+
+
 
 ```
 
