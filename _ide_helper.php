@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.53.1.
+ * Generated for Laravel 8.45.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1090,32 +1090,6 @@
                         $instance->singletonIf($abstract, $concrete);
         }
                     /**
-         * Register a scoped binding in the container.
-         *
-         * @param string $abstract
-         * @param \Closure|string|null $concrete
-         * @return void 
-         * @static 
-         */ 
-        public static function scoped($abstract, $concrete = null)
-        {            //Method inherited from \Illuminate\Container\Container         
-                        /** @var \Illuminate\Foundation\Application $instance */
-                        $instance->scoped($abstract, $concrete);
-        }
-                    /**
-         * Register a scoped binding if it hasn't already been registered.
-         *
-         * @param string $abstract
-         * @param \Closure|string|null $concrete
-         * @return void 
-         * @static 
-         */ 
-        public static function scopedIf($abstract, $concrete = null)
-        {            //Method inherited from \Illuminate\Container\Container         
-                        /** @var \Illuminate\Foundation\Application $instance */
-                        $instance->scopedIf($abstract, $concrete);
-        }
-                    /**
          * "Extend" an abstract type in the container.
          *
          * @param string $abstract
@@ -1386,17 +1360,6 @@
         {            //Method inherited from \Illuminate\Container\Container         
                         /** @var \Illuminate\Foundation\Application $instance */
                         $instance->forgetInstances();
-        }
-                    /**
-         * Clear all of the scoped instances from the container.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function forgetScopedInstances()
-        {            //Method inherited from \Illuminate\Container\Container         
-                        /** @var \Illuminate\Foundation\Application $instance */
-                        $instance->forgetScopedInstances();
         }
                     /**
          * Get the globally available instance of the container.
@@ -1972,7 +1935,7 @@
          *
          * @param string $password
          * @param string $attribute
-         * @return \App\Models\User|null 
+         * @return bool|null 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */ 
@@ -2488,6 +2451,19 @@
                         return $instance->getCustomDirectives();
         }
                     /**
+         * Add a handler to be executed before echoing a given class.
+         *
+         * @param string|callable $class
+         * @param callable|null $handler
+         * @return void 
+         * @static 
+         */ 
+        public static function stringable($class, $handler = null)
+        {
+                        /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
+                        $instance->stringable($class, $handler);
+        }
+                    /**
          * Register a new precompiler.
          *
          * @param callable $precompiler
@@ -2627,19 +2603,6 @@
                         return $instance->compileEndOnce();
         }
                     /**
-         * Add a handler to be executed before echoing a given class.
-         *
-         * @param string|callable $class
-         * @param callable|null $handler
-         * @return void 
-         * @static 
-         */ 
-        public static function stringable($class, $handler = null)
-        {
-                        /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
-                        $instance->stringable($class, $handler);
-        }
-                    /**
          * Compile Blade echos into valid PHP.
          *
          * @param string $value
@@ -2650,18 +2613,6 @@
         {
                         /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
                         return $instance->compileEchos($value);
-        }
-                    /**
-         * Apply the echo handler for the value if it exists.
-         *
-         * @param string $value
-         * @return string 
-         * @static 
-         */ 
-        public static function applyEchoHandler($value)
-        {
-                        /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
-                        return $instance->applyEchoHandler($value);
         }
          
     }
@@ -4931,17 +4882,6 @@
                         return $instance->raw($value);
         }
                     /**
-         * Determine if the database connection has modified any database records.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasModifiedRecords()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
-                        return $instance->hasModifiedRecords();
-        }
-                    /**
          * Indicate if any records have been modified.
          *
          * @param bool $value
@@ -4954,18 +4894,6 @@
                         $instance->recordsHaveBeenModified($value);
         }
                     /**
-         * Set the record modification state.
-         *
-         * @param bool $value
-         * @return \Illuminate\Database\MySqlConnection 
-         * @static 
-         */ 
-        public static function setRecordModificationState($value)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
-                        return $instance->setRecordModificationState($value);
-        }
-                    /**
          * Reset the record modification state.
          *
          * @return void 
@@ -4975,18 +4903,6 @@
         {            //Method inherited from \Illuminate\Database\Connection         
                         /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->forgetRecordModificationState();
-        }
-                    /**
-         * Indicate that the connection should use the write PDO connection for reads.
-         *
-         * @param bool $value
-         * @return \Illuminate\Database\MySqlConnection 
-         * @static 
-         */ 
-        public static function useWriteConnectionWhenReading($value = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
-                        return $instance->useWriteConnectionWhenReading($value);
         }
                     /**
          * Is Doctrine available?
@@ -5950,20 +5866,6 @@
         {
                         /** @var \Illuminate\Filesystem\Filesystem $instance */
                         $instance->replace($path, $content);
-        }
-                    /**
-         * Replace a given string within a given file.
-         *
-         * @param array|string $search
-         * @param array|string $replace
-         * @param string $path
-         * @return void 
-         * @static 
-         */ 
-        public static function replaceInFile($search, $replace, $path)
-        {
-                        /** @var \Illuminate\Filesystem\Filesystem $instance */
-                        $instance->replaceInFile($search, $replace, $path);
         }
                     /**
          * Prepend to a file.
@@ -7408,8 +7310,6 @@
             /**
      * 
      *
-     * @method static \Illuminate\Log\Logger withContext(array $context = [])
-     * @method static \Illuminate\Log\Logger withoutContext()
      * @method static void write(string $level, string $message, array $context = [])
      * @method static void listen(\Closure $callback)
      * @see \Illuminate\Log\Logger
@@ -10836,14 +10736,13 @@
          *
          * @param string $key
          * @param callable $callback
-         * @param callable|null $default
          * @return $this|mixed 
          * @static 
          */ 
-        public static function whenHas($key, $callback, $default = null)
+        public static function whenHas($key, $callback)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->whenHas($key, $callback, $default);
+                        return $instance->whenHas($key, $callback);
         }
                     /**
          * Determine if the request contains a non-empty value for an input item.
@@ -10886,14 +10785,13 @@
          *
          * @param string $key
          * @param callable $callback
-         * @param callable|null $default
          * @return $this|mixed 
          * @static 
          */ 
-        public static function whenFilled($key, $callback, $default = null)
+        public static function whenFilled($key, $callback)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        return $instance->whenFilled($key, $callback, $default);
+                        return $instance->whenFilled($key, $callback);
         }
                     /**
          * Determine if the request is missing a given input item key.
@@ -13414,18 +13312,6 @@
                         return $instance->cloud();
         }
                     /**
-         * Build an on-demand disk.
-         *
-         * @param string|array $config
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
-         * @static 
-         */ 
-        public static function build($config)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemManager $instance */
-                        return $instance->build($config);
-        }
-                    /**
          * Create an instance of the local driver.
          *
          * @param array $config
@@ -13987,56 +13873,6 @@
         {
                         /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
                         return $instance->getDriver();
-        }
-                    /**
-         * Register a custom macro.
-         *
-         * @param string $name
-         * @param object|callable $macro
-         * @return void 
-         * @static 
-         */ 
-        public static function macro($name, $macro)
-        {
-                        \Illuminate\Filesystem\FilesystemAdapter::macro($name, $macro);
-        }
-                    /**
-         * Mix another object into the class.
-         *
-         * @param object $mixin
-         * @param bool $replace
-         * @return void 
-         * @throws \ReflectionException
-         * @static 
-         */ 
-        public static function mixin($mixin, $replace = true)
-        {
-                        \Illuminate\Filesystem\FilesystemAdapter::mixin($mixin, $replace);
-        }
-                    /**
-         * Checks if macro is registered.
-         *
-         * @param string $name
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasMacro($name)
-        {
-                        return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
-        }
-                    /**
-         * Dynamically handle calls to the class.
-         *
-         * @param string $method
-         * @param array $parameters
-         * @return mixed 
-         * @throws \BadMethodCallException
-         * @static 
-         */ 
-        public static function macroCall($method, $parameters)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->macroCall($method, $parameters);
         }
          
     }
@@ -14617,17 +14453,6 @@
         {
                         /** @var \Illuminate\Validation\Factory $instance */
                         $instance->replacer($rule, $replacer);
-        }
-                    /**
-         * Indicate that unvalidated array keys should be excluded, even if the parent array was validated.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function excludeUnvalidatedArrayKeys()
-        {
-                        /** @var \Illuminate\Validation\Factory $instance */
-                        $instance->excludeUnvalidatedArrayKeys();
         }
                     /**
          * Set the Validator instance resolver.
@@ -16268,7 +16093,7 @@ namespace  {
              * @param mixed $operator
              * @param mixed $value
              * @param string $boolean
-             * @return \Illuminate\Database\Eloquent\Model|static|null 
+             * @return \Illuminate\Database\Eloquent\Model|static 
              * @static 
              */ 
             public static function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
@@ -16604,8 +16429,9 @@ namespace  {
              * @param int|null $perPage
              * @param array $columns
              * @param string $cursorName
-             * @param \Illuminate\Pagination\Cursor|string|null $cursor
-             * @return \Illuminate\Contracts\Pagination\CursorPaginator 
+             * @param string|null $cursor
+             * @return \Illuminate\Contracts\Pagination\Paginator 
+             * @throws \Illuminate\Pagination\CursorPaginationException
              * @static 
              */ 
             public static function cursorPaginate($perPage = null, $columns = [], $cursorName = 'cursor', $cursor = null)
@@ -17417,7 +17243,7 @@ namespace  {
              * @param mixed $value
              * @param callable $callback
              * @param callable|null $default
-             * @return $this|mixed 
+             * @return mixed 
              * @static 
              */ 
             public static function when($value, $callback, $default = null)
@@ -17432,7 +17258,7 @@ namespace  {
              * @param mixed $value
              * @param callable $callback
              * @param callable|null $default
-             * @return $this|mixed 
+             * @return mixed 
              * @static 
              */ 
             public static function unless($value, $callback, $default = null)
@@ -17528,7 +17354,6 @@ namespace  {
                 /**
              * Force the query to only return distinct results.
              *
-             * @param mixed $distinct
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -17961,7 +17786,7 @@ namespace  {
                 /**
              * Add an "or where null" clause to the query.
              *
-             * @param string|array $column
+             * @param string $column
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -18639,7 +18464,7 @@ namespace  {
                 /**
              * Add a descending "order by" clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
+             * @param string $column
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -18775,7 +18600,7 @@ namespace  {
                 /**
              * Remove all existing orders and optionally add a new order.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string|null $column
+             * @param string|null $column
              * @param string $direction
              * @return \Illuminate\Database\Query\Builder 
              * @static 

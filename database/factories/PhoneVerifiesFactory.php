@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\PhoneVerify;
+use App\Models\PhoneVerifies;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Helper;
 
-class PhoneVerifyFactory extends Factory
+class PhoneVerifiesFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PhoneVerify::class;
+    protected $model = PhoneVerifies::class;
 
     /**
      * Define the model's default state.

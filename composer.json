@@ -75,6 +75,11 @@
         "unit-test:watch": [
             "phpunit-watcher watch < /dev/tty"
         ],
+        "unit-test:factory": [
+            "php artisan db:wipe",
+            "php artisan migrate --seed",
+            "php artisan dev:factory-data-test"
+        ],
         "unit-test:clear": [
             "php artisan config:clear --env=testing"
         ]
