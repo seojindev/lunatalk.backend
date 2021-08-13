@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Laravel\Passport\Client;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Token;
 
 
 /**
@@ -18,26 +25,26 @@ use Laravel\Passport\HasApiTokens;
  *
  * @property int $id
  * @property string $user_uuid 회원 uuid
- * @property \App\Models\Codes|null $user_type 회원 타입
- * @property \App\Models\Codes|null $user_level 회원 레벨
- * @property \App\Models\Codes|null $user_state 회원 상태.
+ * @property Codes|null $user_type 회원 타입
+ * @property Codes|null $user_level 회원 레벨
+ * @property Codes|null $user_state 회원 상태.
  * @property string $login_id
  * @property string $nickname 회원 닉네임
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
  * @property string $phone_number 회원 휴대폰 번호.
  * @property string $active 회원 상태
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Client[] $clients
  * @property-read int|null $clients_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @property-read Collection|Token[] $tokens
  * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
@@ -56,7 +63,7 @@ use Laravel\Passport\HasApiTokens;
  * @method static Builder|User whereUserState($value)
  * @method static Builder|User whereUserType($value)
  * @method static Builder|User whereUserUuid($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property string $uuid 회원 uuid
  * @property string $type 회원 타입
  * @property string $level 회원 레벨

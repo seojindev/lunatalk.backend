@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Codes
@@ -14,22 +17,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $group_name
  * @property string|null $code_name
  * @property string $active 사용 상태(사용중, 비사용)
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Codes newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Codes newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Codes query()
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereCodeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereCodeName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereGroupId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereGroupName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * @method static \Illuminate\Database\Eloquent\Builder|Codes whereDeletedAt($value)
+ * @method static Builder|Codes newModelQuery()
+ * @method static Builder|Codes newQuery()
+ * @method static Builder|Codes query()
+ * @method static Builder|Codes whereActive($value)
+ * @method static Builder|Codes whereCodeId($value)
+ * @method static Builder|Codes whereCodeName($value)
+ * @method static Builder|Codes whereCreatedAt($value)
+ * @method static Builder|Codes whereDeletedAt($value)
+ * @method static Builder|Codes whereGroupId($value)
+ * @method static Builder|Codes whereGroupName($value)
+ * @method static Builder|Codes whereId($value)
+ * @method static Builder|Codes whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Codes extends Model
 {
