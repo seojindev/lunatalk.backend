@@ -32,6 +32,7 @@ Route::group(['as' => 'api.'], function () {
      */
     Route::group(['prefix' => 'test', 'as' => 'test.'], function () {
         Route::post('default', [TestController::class, 'default'])->name('default');
+        Route::post('test', [TestController::class, 'test'])->name('test');
         Route::post('user-insert', [TestController::class, 'user_insert'])->name('user-insert');
     });
 
