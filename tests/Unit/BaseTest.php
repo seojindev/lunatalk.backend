@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Exceptions\ClientErrorException;
 use App\Models\PhoneVerifies;
 use App\Models\UserRegisterSelects;
+use Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -98,7 +99,7 @@ class BaseTest extends BaseCustomTestCase
     }
 
     /**
-     *
+     * 테스트 관리자 아이디 등록 테스트.
      */
     public function test_base_server_admin_등록()
     {
@@ -115,7 +116,7 @@ class BaseTest extends BaseCustomTestCase
         endforeach;
 
         $auth_code = Helper::generateAuthNumberCode();
-        $phone_number = '01012341234';
+        $phone_number = Crypt::encryptString('01012341234');
         $password = Hash::make('1212');
         $login_id = 'admin';
         $name = '관리자';
