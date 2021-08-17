@@ -3,8 +3,14 @@
 namespace Tests\Unit;
 
 use App\Exceptions\ClientErrorException;
+use App\Models\PhoneVerifies;
+use App\Models\UserRegisterSelects;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
-
+use App\Models\User;
+use Helper;
 class BaseTest extends BaseCustomTestCase
 {
     /**
@@ -89,5 +95,79 @@ class BaseTest extends BaseCustomTestCase
             'Accept' => 'application/json',
             'Request-Client-Type' => config('extract.default.service_front_code'),
         ])->json('GET', '/api/system/check-status')->assertNoContent();
+    }
+
+    /**
+     *
+     */
+    public function test_base_server_admin_등록()
+    {
+        $admins = DB::table('users')
+            ->select('id')
+            ->whereIn(
+                'level', [config('extract.user_level.admin.level_code'), config('extract.user_level.root.level_code')]
+            )->get()->toArray();
+
+        foreach ($admins as $admin):
+            UserRegisterSelects::where('id' , $admin->id)->forcedelete();
+            PhoneVerifies::where('id' , $admin->id)->forcedelete();
+            User::where('id' , $admin->id)->forcedelete();
+        endforeach;
+
+        $auth_code = Helper::generateAuthNumberCode();
+        $phone_number = '01012341234';
+        $password = Hash::make('1212');
+        $login_id = 'admin';
+        $name = '관리자';
+        $level = config('extract.user_level.admin.level_code');
+        $email = 'admin@test.com';
+        $now = now();
+        $remember_token = Str::random(10);
+
+        $admin = User::factory()->create([
+            'login_id' => $login_id,
+            'name' => $name,
+            'level' => $level,
+            'email' => $email,
+            'email_verified_at' => $now,
+            'password' => $password, // password
+            'remember_token' => $remember_token,
+        ]);
+
+        PhoneVerifies::factory()->create([
+            'user_id' => $admin->id,
+            'phone_number' => $phone_number,
+            'auth_code' => $auth_code,
+            'verified' => 'Y'
+        ]);
+
+        UserRegisterSelects::factory()->create([
+            'user_id' => $admin->id,
+            'email' => 'Y',
+            'message' => 'Y'
+        ]);
+
+        $this->assertDatabaseHas('user_register_selects', [
+            'user_id' => $admin->id,
+            'email' => 'Y',
+            'message' => 'Y'
+        ]);
+
+        $this->assertDatabaseHas('phone_verifies', [
+            'user_id' => $admin->id,
+            'phone_number' => $phone_number,
+            'auth_code' => $auth_code,
+            'verified' => 'Y'
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'login_id' => $login_id,
+            'name' => $name,
+            'level' => $level,
+            'email' => $email,
+            'email_verified_at' => $now,
+            'password' => $password, // password
+            'remember_token' => $remember_token,
+        ]);
     }
 }
