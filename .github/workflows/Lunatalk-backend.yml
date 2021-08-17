@@ -69,7 +69,7 @@ jobs:
         run: php artisan config:clear
 
       - name: Run Migration
-        run: php artisan migrate -v
+        run: php artisan migrate --seed -v
 
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
