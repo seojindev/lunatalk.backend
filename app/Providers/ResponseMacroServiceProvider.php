@@ -31,7 +31,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
          */
         Response::macro('success', function ($result = null) {
             $response = [
-                'message' => __('message.response.success'),
+                'message' => __('response.success'),
             ];
 
             if(!empty($result)) {
@@ -43,7 +43,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
 
         Response::macro('message_success', function ($message = '', $result = null) {
             $response = [
-                'message' => $message ?:__('message.response.success')
+                'message' => $message ?:__('response.success')
             ];
 
             if(!empty($result)) {
@@ -58,7 +58,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
          */
         Response::macro('custom_success', function($statusCode = 200, $message = '', $result = NULL) use ($request) {
             $response = [
-                'message' => $message ?:__('message.response.success')
+                'message' => $message ?:__('response.success')
             ];
 
             if(!empty($result)) {
@@ -73,7 +73,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
          */
         Response::macro('success_only_message', function (Int $statusCode = 201) {
             $response = [
-                'message' => __('message.response.process_success'),
+                'message' => __('response.process_success'),
             ];
 
             return Response()->json($response, $statusCode);
@@ -98,8 +98,6 @@ class ResponseMacroServiceProvider extends ServiceProvider
          * 기본 Error Render Macro.
          */
         Response::macro('error', function($statusCode = 401, $error_message = NULL) use ($request) {
-//            $request = app(\Illuminate\Http\Request::class);
-
             if($request->wantsJson()) {
                 if(is_array($error_message)) {
                     $response = [
@@ -122,18 +120,6 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 }
                 return Response($responseText, $statusCode);
             }
-
-
-
-            /*
-            if(!empty($request->get('callback'))){
-                return Response()->json($response)->setCallback( $request->get('callback') );
-            }else{
-                return Response()->json($response, $statusCode);
-            }
-            */
-
-
         });
     }
 }

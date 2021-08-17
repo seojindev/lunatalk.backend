@@ -79,7 +79,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ServiceErrorException $e) {
 
             $this->loggingChannel = 'ServiceErrorException';
-            $error_message = $e->getMessage() ?: __('message.exception.error_exception');
+            $error_message = $e->getMessage() ?: __('exception.error_exception');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('ServiceErrorExceptionLog')->error($loggerMessage['file']);
@@ -95,7 +95,7 @@ class Handler extends ExceptionHandler
 //        $this->renderable(function (OAuthServerException $e) {
 //
 //            $this->loggingChannel = 'ServiceErrorException';
-//            $error_message = $e->getMessage() ?: __('message.exception.error_exception');
+//            $error_message = $e->getMessage() ?: __('exception.error_exception');
 //            $loggerMessage = $this->getLoggerMessage($error_message);
 //
 //            Log::channel('ServiceErrorExceptionLog')->error($loggerMessage['file']);
@@ -110,7 +110,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (NotFoundHttpException $e) {
 
             $this->loggingChannel = 'NotFoundHttpException';
-            $error_message = $e->getMessage() ?: __('message.exception.NotFoundHttpException');
+            $error_message = $e->getMessage() ?: __('exception.NotFoundHttpException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('NotFoundHttpException')->error($loggerMessage['file']);
@@ -130,7 +130,7 @@ class Handler extends ExceptionHandler
             if ( !$e ) return false;
 
             $this->loggingChannel = 'MethodNotAllowedHttpException';
-            $error_message = __('message.exception.MethodNotAllowedHttpException');
+            $error_message = __('exception.MethodNotAllowedHttpException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('MethodNotAllowedHttpException')->error($loggerMessage['file']);
@@ -144,7 +144,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ClientErrorException $e) {
 
             $this->loggingChannel = 'ClientErrorException';
-            $error_message = $e->getMessage() ?: __('message.exception.ClientErrorException');
+            $error_message = $e->getMessage() ?: __('exception.ClientErrorException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('ClientErrorException')->error($loggerMessage['file']);
@@ -162,7 +162,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ServerErrorException $e) {
 
             $this->loggingChannel = 'ServerErrorException';
-            $error_message = $e->getMessage() ?: __('message.exception.ServerErrorException');
+            $error_message = $e->getMessage() ?: __('exception.ServerErrorException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('ServerErrorException')->error($loggerMessage['file']);
@@ -181,7 +181,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ForbiddenErrorException $e) {
 
             $this->loggingChannel = 'ForbiddenErrorException';
-            $error_message = ($e->getMessage()) ?: __('message.exception.ForbiddenErrorException');
+            $error_message = ($e->getMessage()) ?: __('exception.ForbiddenErrorException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('ForbiddenErrorException')->error($loggerMessage['file']);
@@ -199,7 +199,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (AuthenticationException $e) {
 
             $this->loggingChannel = 'AuthenticationException';
-            $error_message = __('message.exception.AuthenticationException') ?: $e->getMessage();
+            $error_message = __('exception.AuthenticationException') ?: $e->getMessage();
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('AuthenticationException')->error($loggerMessage['file']);
@@ -218,7 +218,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ThrottleRequestsException $e) {
 
             $this->loggingChannel = 'ThrottleRequestsException';
-            $error_message = ($e->getMessage()) ?: __('message.exception.ThrottleRequestsException');
+            $error_message = ($e->getMessage()) ?: __('exception.ThrottleRequestsException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('ThrottleRequestsException')->error($loggerMessage['file']);
@@ -236,7 +236,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (PDOException $e) {
 
             $this->loggingChannel = 'PDOException';
-            $error_message = ($e->getMessage()) ?: __('message.exception.PDOException');
+            $error_message = ($e->getMessage()) ?: __('exception.PDOException');
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('PDOException')->error($loggerMessage['file']);
@@ -247,7 +247,7 @@ class Handler extends ExceptionHandler
 
             return Response::error(
                 500,
-                __('message.exception.PDOException'),
+                __('exception.PDOException'),
             );
         });
 
@@ -285,7 +285,7 @@ EOF;
             return Response::error(
                 500,
                 [
-                    'message' => __('message.exception.error_exception'),
+                    'message' => __('exception.error_exception'),
                     'error' => $e->getMessage()
                 ]
             );
@@ -307,7 +307,7 @@ EOF;
          * laravel 이전 버전에서 가지고 옴.
          */
         if ($e instanceof ModelNotFoundException) {
-            $error_message = __('message.exception.ModelNotFoundException');
+            $error_message = __('exception.ModelNotFoundException');
             if($request->wantsJson()) {
                 return Response::error(404, $error_message);
             }
