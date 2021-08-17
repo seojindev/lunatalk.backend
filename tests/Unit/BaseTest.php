@@ -41,7 +41,7 @@ class BaseTest extends BaseCustomTestCase
     public function test_base_server_exception_클라이언트_코드없을때()
     {
         $this->expectException(ClientErrorException::class);
-        $this->expectExceptionMessage(__('message.exception.ClientTypeError'));
+        $this->expectExceptionMessage(__('exception.ClientTypeError'));
 
         $this->withHeaders([
             'Content-Type' => 'application/json',

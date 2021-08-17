@@ -120,7 +120,7 @@ class RootServices
             'notice_message' => 'required',
         ],
             [
-                'notice_message.required' => __('message.required.notice_message')
+                'notice_message.required' => __('required.notice_message')
             ]);
 
         if( $validator->fails() ) {

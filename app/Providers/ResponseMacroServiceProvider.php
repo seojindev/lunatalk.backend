@@ -101,7 +101,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             if($request->wantsJson()) {
                 if(is_array($error_message)) {
                     $response = [
-                        'error_message' => $error_message['message'] ?: __('message.response.error'),
+                        'error_message' => $error_message['message'] ?: __('response.error'),
                         'error' => $error_message['error']
                     ];
                 } else {
@@ -113,7 +113,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 return Response()->json($response, $statusCode);
             } else {
                 if(is_array($error_message)) {
-                    $responseText = 'error_message: ' . $error_message['message'] ?: __('message.response.error');
+                    $responseText = 'error_message: ' . $error_message['message'] ?: __('response.error');
                     $responseText .= '<br />' . 'error: ' . $error_message['error'];
                 } else {
                     $responseText = 'error_message: ' . $error_message;

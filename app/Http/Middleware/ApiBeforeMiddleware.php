@@ -33,7 +33,7 @@ class ApiBeforeMiddleware
 
         if (!in_array(Route::currentRouteName(), $exceptionRouteName)) {
             if (empty($clientType) || !($clientType ==  config('extract.default.front_code') || $clientType == config('extract.default.ios_code') || $clientType == config('extract.default.android_code') || $clientType == config('extract.default.service_front_code'))) {
-                throw new ClientErrorException(__('message.exception.ClientTypeError'));
+                throw new ClientErrorException(__('exception.ClientTypeError'));
             }
         }
 
