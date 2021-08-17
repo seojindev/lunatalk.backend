@@ -50,13 +50,12 @@ class BaseCustomTestCase extends TestCase
      * Request Header.
      * @return string[]
      */
-    public static function getTestApiHeaders() : array
+    public static function getTestDefaultApiHeaders() : array
     {
         return [
             'Request-Client-Type' => config('extract.default.front_code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => ''
         ];
     }
 
@@ -64,9 +63,9 @@ class BaseCustomTestCase extends TestCase
      * 관리자 테스트용 토큰 포함 해더.
      * @return string[]
      */
-    protected function getTestAccessTokenHeader() : array
+    protected function getTestAdminAccessTokenHeader() : array
     {
-        $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/admin/auth/login', [
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/v1/admin/auth/login', [
             "login_id" => \App\Models\User::where('user_level', 'S020900')->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);
@@ -82,9 +81,9 @@ class BaseCustomTestCase extends TestCase
      * 일반 로그인 사용자 테스트용 헤더.
      * @return string[]
      */
-    protected function getTestGuestAccessTokenHeader() : array
+    protected function getTestNormalAccessTokenHeader() : array
     {
-        $response = $this->withHeaders($this->getTestApiHeaders())->postjson('/api/v1/service/auth/login', [
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/v1/service/auth/login', [
             "login_id" => \App\Models\User::where('user_level', 'S020010')->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);

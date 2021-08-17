@@ -48,6 +48,11 @@ class BaseRepository implements EloquentRepositoryInterface
         return $this->model->select($columns)->with($relations)->findOrFail($modelId)->append($appends);
     }
 
+    public function defaultFindById(int $modelId): ?Model
+    {
+        return $this->model->where('id', $modelId)->firstOrFail();
+    }
+
     /**
      * @param array $payload
      * @return Model|null

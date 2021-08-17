@@ -2,13 +2,7 @@
 
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
-use App\Http\Controllers\Api\v1\Admin\AuthController as AdminAuthController;
-use App\Http\Controllers\Api\v1\Admin\ProductsController as AdminProductsController;
-use App\Http\Controllers\Api\v1\Admin\ServiceController as AdminServiceController;
-use App\Http\Controllers\Api\v1\Service\AuthController;
-use App\Http\Controllers\Api\v1\Service\TabsController;
-use App\Http\Controllers\Api\v1\Service\ProductsController;
-use App\Http\Controllers\Api\v1\Other\MediaController;
+use App\Http\Controllers\Api\Front\v1\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,15 +43,14 @@ Route::group(['as' => 'api.'], function () {
     /**
      * api
      */
-    Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+    Route::group(['namespace' => 'front', 'prefix' => 'front', 'as' => 'front.'], function () {
+        Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
 
-        Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-        });
-
-        Route::group(['prefix' => 'other', 'as' => 'other.'], function () {
-        });
-
-        Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
+            Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+                Route::get('{phoneNumber}/phone-auth', [AuthController::class, 'phoneAuth'])->name('phone.auth'); // 인증번호 요청.
+                Route::post('{authIndex}/phone-auth-confirm', [AuthController::class, 'phoneAuthConfirm'])->name('phone.auth.confirm')->where('authIndex', '[0-9]+'); // 인증번호 확인.
+                Route::post('register', [AuthController::class, 'register'])->name('register'); // 회원가입.
+            });
         });
     });
 });

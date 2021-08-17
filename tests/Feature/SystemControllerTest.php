@@ -19,7 +19,7 @@ class SystemControllerTest extends BaseCustomTestCase
     public function test_system_notice_not_exists()
     {
         Storage::disk('inside-temp')->delete('server_notice.txt');
-        $this->withHeaders(self::getTestApiHeaders())->json('GET', '/api/system/check-notice')->assertStatus(204);
+        $this->withHeaders(self::getTestDefaultApiHeaders())->json('GET', '/api/system/check-notice')->assertStatus(204);
     }
 
     /**
@@ -29,7 +29,7 @@ class SystemControllerTest extends BaseCustomTestCase
     public function test_system_notice_not_exists_contents()
     {
         Storage::disk('inside-temp')->put('server_notice.txt', '');
-        $response = $this->withHeaders($this->getTestApiHeaders())->json('GET', '/api/system/check-notice');
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', '/api/system/check-notice');
         // $response->dump();
         $response->assertStatus(204);
     }
@@ -42,7 +42,7 @@ class SystemControllerTest extends BaseCustomTestCase
     {
         $tmpNoticeMessage = '긴급 공지 사항 테스트입니다.';
         Storage::disk('inside-temp')->put('server_notice.txt', $tmpNoticeMessage);
-        $response = $this->withHeaders($this->getTestApiHeaders())->json('GET', '/api/system/check-notice');
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', '/api/system/check-notice');
         // $response->dump();
         $response->assertOk();
         $response->assertJsonStructure([
@@ -62,7 +62,7 @@ class SystemControllerTest extends BaseCustomTestCase
      * @return void
      */
     public function test_system_check_base_data() {
-        $response = $this->withHeaders($this->getTestApiHeaders())->json('GET', '/api/system/base-data');
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', '/api/system/base-data');
 //         $response->dump();
         $response->assertOk();
         $response->assertJsonStructure([
