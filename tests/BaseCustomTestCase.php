@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\DB;
 
 class BaseCustomTestCase extends TestCase
 {
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     /**
      * 전체 테이블 리스트.
      *

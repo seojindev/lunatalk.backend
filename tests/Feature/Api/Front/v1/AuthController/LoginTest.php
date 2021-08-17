@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Api\Front\v1\AuthController;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase

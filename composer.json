@@ -72,13 +72,13 @@
             "php artisan migrate --seed",
             "php artisan passport:install --force"
         ],
-        "unit-test:watch": [
-            "phpunit-watcher watch < /dev/tty"
-        ],
-        "unit-test:factory": [
+        "app-test:factory": [
             "php artisan db:wipe",
             "php artisan migrate --seed",
             "php artisan dev:factory-data-test"
+        ],
+        "app-test:watch": [
+            "phpunit-watcher watch < /dev/tty"
         ],
         "unit-test:clear": [
             "php artisan config:clear --env=testing"

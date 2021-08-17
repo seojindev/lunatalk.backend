@@ -7,11 +7,6 @@ use Tests\BaseCustomTestCase;
 
 class BaseTest extends BaseCustomTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /**
      * A basic unit test example.
      *
@@ -30,7 +25,7 @@ class BaseTest extends BaseCustomTestCase
     public function test_base_server_migrate()
     {
         $this->assertDatabaseHas('codes', [
-            'code_id' => '0100010',
+            'code_id' => config('extract.default.front_code'),
         ]);
     }
 
