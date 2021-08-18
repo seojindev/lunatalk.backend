@@ -3,6 +3,8 @@
 namespace Tests\Feature\Api\Front\v1\AuthController;
 
 use App\Exceptions\ClientErrorException;
+use App\Models\PhoneVerifies;
+use App\Models\UserPhoneVerify;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
@@ -56,5 +58,8 @@ class PhoneAuthTest extends BaseCustomTestCase
                     "auth_code"
                 ]
             ]);
+
+        // 테스트 인증 삭제.
+        PhoneVerifies::whereNull('user_id')->forcedelete();
     }
 }

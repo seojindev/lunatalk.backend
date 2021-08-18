@@ -110,8 +110,8 @@ class BaseTest extends BaseCustomTestCase
             )->get()->toArray();
 
         foreach ($admins as $admin):
-            UserRegisterSelects::where('id' , $admin->id)->forcedelete();
-            PhoneVerifies::where('id' , $admin->id)->forcedelete();
+            UserRegisterSelects::where('user_id' , $admin->id)->forcedelete();
+            PhoneVerifies::where('user_id' , $admin->id)->forcedelete();
             User::where('id' , $admin->id)->forcedelete();
         endforeach;
 

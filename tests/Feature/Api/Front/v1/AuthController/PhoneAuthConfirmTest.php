@@ -100,7 +100,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         $auth_index = $randTask->id;
 
         $testPayload = '{
-            "auth_code": "ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ"
+            "auth_code": "asdasdasdasd"
         }';
 
         $this->expectException(ClientErrorException::class);
@@ -156,5 +156,4 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
                 ]
             ]);
     }
-
 }

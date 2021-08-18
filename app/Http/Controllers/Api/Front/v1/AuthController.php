@@ -16,21 +16,6 @@ class AuthController extends RootController
         $this->authServices = $authServices;
     }
 
-    public function login()
-    {
-        return Response::success([]);
-    }
-
-    public function logout()
-    {
-        return Response::success([]);
-    }
-
-    public function register()
-    {
-        return Response::success([]);
-    }
-
     public function phoneAuth(string $phoneNumber)
     {
         return Response::success($this->authServices->getPhoneAuthCode($phoneNumber));
@@ -41,5 +26,20 @@ class AuthController extends RootController
         !$authIndex ?? $authIndex = 0;
 
         return Response::success($this->authServices->phoneAuthConfirm($authIndex));
+    }
+
+    public function register()
+    {
+        return Response::success([]);
+    }
+
+    public function login()
+    {
+        return Response::success([]);
+    }
+
+    public function logout()
+    {
+        return Response::success([]);
     }
 }

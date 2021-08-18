@@ -50,6 +50,8 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('{phoneNumber}/phone-auth', [AuthController::class, 'phoneAuth'])->name('phone.auth'); // 인증번호 요청.
                 Route::post('{authIndex}/phone-auth-confirm', [AuthController::class, 'phoneAuthConfirm'])->name('phone.auth.confirm')->where('authIndex', '[0-9]+'); // 인증번호 확인.
                 Route::post('register', [AuthController::class, 'register'])->name('register'); // 회원가입.
+                Route::post('login', [AuthController::class, 'login'])->name('login'); // 로그인.
+                Route::post('logout', [AuthController::class, 'logout'])->name('logout'); // 로그아웃.
             });
         });
     });
