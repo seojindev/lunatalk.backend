@@ -30,7 +30,7 @@ class AuthController extends RootController
 
     public function register()
     {
-        return Response::success([]);
+        return Response::custom_success(201, __('register.register_success'), $this->authServices->attemptRegister());
     }
 
     public function login()

@@ -23,7 +23,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
 
 
 // 정상 라우터 체크
-    public function test_front_v1_phone_auth_confirm_라우터_에러()
+    public function test_front_v1_auth_phone_auth_confirm_라우터_에러()
     {
         $this->expectException(NotFoundHttpException::class);
 
@@ -31,14 +31,14 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     }
 
     // 존재 하지 않은 auth index 요청.
-    public function test_front_v1_phone_auth_confirm_존재_하지_않은_auth_index_요청()
+    public function test_front_v1_auth_phone_auth_confirm_존재_하지_않은_auth_index_요청()
     {
         $this->expectException(ModelNotFoundException::class);
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', '999999', $this->apiURL));
     }
 
     // 이미 인증 받은 auth index 요청.
-    public function test_front_v1_phone_auth_confirm_이미_인증_받은_auth_index_요청()
+    public function test_front_v1_auth_phone_auth_confirm_이미_인증_받은_auth_index_요청()
     {
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.phone_auth_confirm.auth_code_fail_verified'));
@@ -52,7 +52,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     }
 
     // 인증 코드 누락 요청.
-    public function test_front_v1_phone_auth_confirm_인증_코드_누락_요청()
+    public function test_front_v1_auth_phone_auth_confirm_인증_코드_누락_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
@@ -68,7 +68,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', $auth_index, $this->apiURL), json_decode($testPayload, true));
     }
 
-    public function test_front_v1_phone_auth_confirm_인증_코드_잘못된_자리수_요청()
+    public function test_front_v1_auth_phone_auth_confirm_인증_코드_잘못된_자리수_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         if(!$randTask) {
@@ -89,7 +89,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     }
 
     // 잘못된 인증 코드 요청.
-    public function test_front_v1_phone_auth_confirm_잘못된_인증_코드_요청()
+    public function test_front_v1_auth_phone_auth_confirm_잘못된_인증_코드_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         if(!$randTask) {
@@ -110,7 +110,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     }
 
     // 인증 코드 비교 에러 요청.
-    public function test_front_v1_phone_auth_confirm_인증_코드가_다른_요청()
+    public function test_front_v1_auth_phone_auth_confirm_인증_코드가_다른_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         if(!$randTask) {
@@ -131,7 +131,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     }
 
     // 정상 요청.
-    public function test_front_v1_phone_auth_confirm_정상_요청()
+    public function test_front_v1_auth_phone_auth_confirm_정상_요청()
     {
         $randTask = PhoneVerifies::select()->where('verified' , 'Y')->inRandomOrder()->first();
         if(!$randTask) {

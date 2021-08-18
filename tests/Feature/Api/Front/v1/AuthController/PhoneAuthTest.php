@@ -20,7 +20,7 @@ class PhoneAuthTest extends BaseCustomTestCase
     }
 
     // 전화 번호 없이 요청.
-    public function test_front_v1_phone_auth_전화_번호_없이_요청()
+    public function test_front_v1_auth_phone_auth_전화_번호_없이_요청()
     {
         $this->expectException(NotFoundHttpException::class);
 
@@ -28,7 +28,7 @@ class PhoneAuthTest extends BaseCustomTestCase
     }
 
     // 정상적인 전화 번호가 아닐때.
-    public function test_front_v1_phone_auth_정상적인_전화_번호가_아닐때()
+    public function test_front_v1_auth_phone_auth_정상적인_전화_번호가_아닐때()
     {
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.phone_auth.numeric'));
@@ -37,7 +37,7 @@ class PhoneAuthTest extends BaseCustomTestCase
     }
 
     // 정상적인 전화 번호 자리수 아닐때 요청.
-    public function test_front_v1_phone_auth_정상적인_전화_번호_자리수_아닐때()
+    public function test_front_v1_auth_phone_auth_정상적인_전화_번호_자리수_아닐때()
     {
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.phone_auth.minmax'));
@@ -46,7 +46,7 @@ class PhoneAuthTest extends BaseCustomTestCase
     }
 
     // 정상 요청.
-    public function test_front_v1_phone_auth_정상_요청()
+    public function test_front_v1_auth_phone_auth_정상_요청()
     {
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', str_replace('phone-number', '01012341234', $this->apiURL))
             ->assertStatus(200)

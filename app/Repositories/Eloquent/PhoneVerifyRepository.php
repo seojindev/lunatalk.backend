@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\UserPhoneVerifyRepositoryInterface;
+use App\Repositories\PhoneVerifyRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PhoneVerifies;
 
-class UserPhoneVerifyRepository extends BaseRepository implements UserPhoneVerifyRepositoryInterface
+class PhoneVerifyRepository extends BaseRepository implements PhoneVerifyRepositoryInterface
 {
     protected Model $model;
 

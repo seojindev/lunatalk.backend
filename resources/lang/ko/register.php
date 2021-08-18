@@ -29,7 +29,7 @@ return [
             'user_password' => '패스워드를 입력해 주세요.',
             'user_password_confirm' => '패스워드 확인을 입력해 주세요.',
             'user_password_same' => '패스워드와 패스워드 확인은 같아야 합니다.',
-            'user_nickname' => '사용자 이름을 입력해 주세요.',
+            'user_name' => '사용자 이름을 입력해 주세요.',
             'user_email' => '사용자 이메일을 입력해 주세요.'
         ],
         'auth_code' => [
