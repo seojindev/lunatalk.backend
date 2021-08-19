@@ -149,6 +149,7 @@ class RegisterTest extends BaseCustomTestCase
     //  이미 사용중인 아이디 요청.
     public function test_front_v1_auth_register_이미_사용중인_아이디_요청()
     {
+        PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         $auth_index = $randTask->id;
 
@@ -396,8 +397,8 @@ class RegisterTest extends BaseCustomTestCase
         $testPayload = '{
                 "auth_id": "'.$auth_index.'",
                 "user_id": "testuserid",
-                "user_password": "asdfasdf",
-                "user_password_confirm": "asdfasdf",
+                "user_password": "password",
+                "user_password_confirm": "password",
                 "user_name": "어둠의계정",
                 "user_email": "test1111@test.com"
         }';
