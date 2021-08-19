@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Repositories\Eloquent\PhoneVerifyRepository;
+use App\Repositories\Eloquent\UserRegisterSelectsRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\PhoneVerifyRepositoryInterface;
+use App\Repositories\UserRegisterSelectsRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Eloquent\BaseRepository;
@@ -25,6 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CodesRepositoryInterface::class, CodesRepository::class);
         $this->app->bind(PhoneVerifyRepositoryInterface::class, PhoneVerifyRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserRegisterSelectsRepositoryInterface::class, UserRegisterSelectsRepository::class);
     }
 
     /**

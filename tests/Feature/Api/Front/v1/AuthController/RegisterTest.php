@@ -80,7 +80,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "테스트사용자",
-                "user_email": "test@test.com"
+                "user_email": "test@test.com",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -117,7 +119,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "테스트사용자",
-                "user_email": "test@test.com"
+                "user_email": "test@test.com",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -141,7 +145,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "",
                 "user_password_confirm": "",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -161,7 +167,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "",
                 "user_password_confirm": "",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -185,7 +193,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "",
                 "user_password_confirm": "",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -207,7 +217,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "테스트사용자",
-                "user_email": "test@test.com"
+                "user_email": "test@test.com",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -228,7 +240,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "",
                 "user_password_confirm": "",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -249,7 +263,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "pass",
                 "user_password_confirm": "",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -270,7 +286,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -291,7 +309,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password1",
                 "user_password_confirm": "password2",
                 "user_name": "",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -312,7 +332,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "",
-                "user_email": "test@test.com"
+                "user_email": "test@test.com",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -333,7 +355,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "어둠의계정",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -354,7 +378,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "어둠의계정",
-                "user_email": ""
+                "user_email": "",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -374,7 +400,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "어둠의계정",
-                "user_email": "test"
+                "user_email": "test",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -392,10 +420,113 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "어둠의계정",
-                "user_email": "'.$this->testUser['email'].'"
+                "user_email": "'.$this->testUser['email'].'",
+                "user_select_email": "Y",
+                "user_select_message": "Y"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    }
+
+    // 이메일 선택 사항 데이터 없을떄.
+    public function test_front_v1_auth_register_이메일_선택사항_없이_요청()
+    {
+        $result = PhoneVerifies::factory()->create([
+            'user_id' => null,
+            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
+
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('register.attempt.select_email.required'));
+
+        $testPayload = '{
+                "auth_id": "'.$result->id.'",
+                "user_id": "'.'id'.uniqid().'",
+                "user_password": "asdfasdf",
+                "user_password_confirm": "asdfasdf",
+                "user_name": "어둠의계정",
+                "user_email": "asdasd@asdasdad1.com"
+        }';
+
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    }
+    // 이메일 선택 사항 다른 데이터 일떄.
+    public function test_front_v1_auth_register_이메일_선택사항_다른_데이터_요청()
+    {
+        $result = PhoneVerifies::factory()->create([
+            'user_id' => null,
+            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
+
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('register.attempt.select_email.in'));
+
+        $testPayload = '{
+                "auth_id": "'.$result->id.'",
+                "user_id": "'.'id'.uniqid().'",
+                "user_password": "asdfasdf",
+                "user_password_confirm": "asdfasdf",
+                "user_name": "어둠의계정",
+                "user_email": "asdasd@asdasdad.com",
+                "user_select_email": "ASD"
+        }';
+
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    }
+    // 메시지 선택 사항 데이터 없을떄.
+    public function test_front_v1_auth_register_메시지_선택사항_없이_요청()
+    {
+        $result = PhoneVerifies::factory()->create([
+            'user_id' => null,
+            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
+
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('register.attempt.select_message.required'));
+
+        $testPayload = '{
+                "auth_id": "'.$result->id.'",
+                "user_id": "'.'id'.uniqid().'",
+                "user_password": "asdfasdf",
+                "user_password_confirm": "asdfasdf",
+                "user_name": "어둠의계정",
+                "user_email": "asdasd@asdasdad.com",
+                "user_select_email": "Y"
+        }';
+
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true))->dump();
+    }
+    // 메시지 선택 사항 다른 데이터 일떄.
+    public function test_front_v1_auth_register_메시지_선택사항_다른_데이터_요청()
+    {
+        $result = PhoneVerifies::factory()->create([
+            'user_id' => null,
+            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
+
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('register.attempt.select_message.in'));
+
+        $testPayload = '{
+                "auth_id": "'.$result->id.'",
+                "user_id": "'.'id'.uniqid().'",
+                "user_password": "asdfasdf",
+                "user_password_confirm": "asdfasdf",
+                "user_name": "어둠의계정",
+                "user_email": "asdasd@asdasdad.com",
+                "user_select_email": "Y",
+                "user_select_message": "ASD"
+        }';
+
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true))->dump();
     }
 
     //  정상 요청.
@@ -414,7 +545,9 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "어둠의계정",
-                "user_email": "test1111@test.com"
+                "user_email": "test1111@test.com",
+                "user_select_email" : "Y",
+                "user_select_message" : "Y"
         }';
 
         $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));

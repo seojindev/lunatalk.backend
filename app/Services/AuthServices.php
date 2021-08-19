@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
+use App\Supports\PassportTrait;
 use App\Exceptions\ClientErrorException;
-use App\Exceptions\ServiceErrorException;
+use App\Repositories\UserRegisterSelectsRepositoryInterface;
 use App\Repositories\PhoneVerifyRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 use Crypt;
 use Hash;
 use Helper;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Str;
-use App\Supports\PassportTrait;
 
 class AuthServices
 {
@@ -24,12 +24,14 @@ class AuthServices
     protected Request $currentRequest;
     protected UserRepositoryInterface $userRepository;
     protected PhoneVerifyRepositoryInterface $phoneVerifyRepository;
+    protected UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository;
 
-    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository)
+    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository, UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository)
     {
         $this->currentRequest = $request;
         $this->userRepository = $userRepository;
         $this->phoneVerifyRepository = $phoneVerifyRepository;
+        $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
     }
 
     /**
@@ -117,6 +119,9 @@ class AuthServices
             'user_password_confirm' => 'required|same:user_password|between:5,20',
             'user_name' => 'required',
             'user_email' => 'required|email|unique:users,email',
+            'user_select_email' => 'required|in:Y,N|max:1',
+            'user_select_message' => 'required|in:Y,N|max:1'
+
         ],
             [
                 'auth_id.required' => __('register.attempt.required.auth_id'),
@@ -133,6 +138,10 @@ class AuthServices
                 'user_email.required' => __('register.attempt.required.user_email'),
                 'user_email.email' => __('register.attempt.email.check'),
                 'user_email.unique' => __('register.attempt.email.unique'),
+                'user_select_email.required'=> __('register.attempt.select_email.required'),
+                'user_select_email.in'=> __('register.attempt.select_email.in'),
+                'user_select_message.required'=> __('register.attempt.select_message.required'),
+                'user_select_message.in'=> __('register.attempt.select_message.in'),
             ]);
 
         if( $validator->fails() ) {
@@ -180,6 +189,12 @@ class AuthServices
             'name' => $this->currentRequest->input('user_name'),
             'email' => $this->currentRequest->input('user_email'),
             'password' => Hash::make($this->currentRequest->input('user_password')),
+        ]);
+
+        $this->userRegisterSelectsRepository->create([
+            'user_id' => $createTask->id,
+            'email' => $this->currentRequest->input('user_select_email'),
+            'message' => $this->currentRequest->input('user_select_message')
         ]);
 
         $this->phoneVerifyRepository->update($authTask->id, [
