@@ -3,13 +3,8 @@
 namespace Tests\Feature\Api\Front\v1\AuthController;
 
 use App\Exceptions\ClientErrorException;
-use App\Models\PhoneVerifies;
 use App\Models\User;
-use Crypt;
-use Hash;
-use Helper;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
 
 class LoginTest extends BaseCustomTestCase

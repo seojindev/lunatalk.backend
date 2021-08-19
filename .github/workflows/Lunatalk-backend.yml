@@ -71,6 +71,9 @@ jobs:
       - name: Run Migration
         run: php artisan migrate --seed -v
 
+      - name: Run Passport Install
+        run: php artisan passport:install --force
+
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
 
