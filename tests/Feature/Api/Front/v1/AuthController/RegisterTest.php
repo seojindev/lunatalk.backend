@@ -153,7 +153,7 @@ class RegisterTest extends BaseCustomTestCase
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         $auth_index = $randTask->id;
 
-        $userTask = User::select()->where([['level' , config('extract.default.user_level')],['status' , config('extract.default.user_status')]])->inRandomOrder()->first();
+        $userTask = User::inRandomOrder()->first();
         $test_login_id = $userTask->login_id;
 
         $this->expectException(ClientErrorException::class);
