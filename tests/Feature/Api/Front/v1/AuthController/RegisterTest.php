@@ -5,10 +5,15 @@ namespace Tests\Feature\Api\Front\v1\AuthController;
 use App\Exceptions\ClientErrorException;
 use App\Models\PhoneVerifies;
 use App\Models\User;
+use Crypt;
+use Helper;
 use Tests\BaseCustomTestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class RegisterTest extends BaseCustomTestCase
 {
+    use WithFaker;
+
     protected string $apiURL;
 
     public function setUp(): void
@@ -363,6 +368,7 @@ class RegisterTest extends BaseCustomTestCase
     //  중복 이메일 요청.
     public function test_front_v1_auth_register_중복_이메일_요청()
     {
+        PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
         $auth_index = $randTask->id;
 
@@ -387,15 +393,16 @@ class RegisterTest extends BaseCustomTestCase
     //  정상 요청.
     public function test_front_v1_auth_register_정상_요청()
     {
-        $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        PhoneVerifies::where('id', $randTask->id)->update(['user_id' => null]);
-        $auth_index = $randTask->id;
+        $result = PhoneVerifies::factory()->create([
+            'user_id' => null,
+            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
 
-        $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        $auth_index = $randTask->id;
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_id": "'.$result->id.'",
                 "user_id": "testuserid",
                 "user_password": "password",
                 "user_password_confirm": "password",
@@ -420,19 +427,8 @@ class RegisterTest extends BaseCustomTestCase
                 'status'
             ]
         ]);
-        User::where('login_id', "testuserid")->forcedelete();
 
-//        $response->assertJsonStructure([
-//            'message',
-//            'result' => [
-//                'id' => $createTask->id,
-//                'user_uuid' => $createTask->user_uuid,
-//                'login_id' => $createTask->login_id,
-//                'name' => $createTask->name,
-//                'user_type' => $createTask->user_type,
-//                'user_level' => $createTask->user_level,
-//                'user_state'  => $createTask->user_state
-//            ]
-//        ]);
+        PhoneVerifies::where('id', $result->id)->forcedelete();
+        User::where('login_id', "testuserid")->forcedelete();
     }
 }

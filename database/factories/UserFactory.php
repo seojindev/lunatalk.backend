@@ -23,7 +23,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'login_id' => strtolower($this->faker->unique()->word()),
+            'login_id' => 'id'.uniqid(),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
