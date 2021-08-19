@@ -11,12 +11,16 @@ use Tests\BaseCustomTestCase;
 class PhoneAuthTest extends BaseCustomTestCase
 {
     protected string $apiURL;
+    protected array $testUser;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->apiURL = "/api/front/v1/auth/phone-number/phone-auth";
+
+        // 테스트 사용자 입력.
+        $this->testUser = $this->insertTestUser();
     }
 
     // 전화 번호 없이 요청.
@@ -48,7 +52,7 @@ class PhoneAuthTest extends BaseCustomTestCase
     // 정상 요청.
     public function test_front_v1_auth_phone_auth_정상_요청()
     {
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', str_replace('phone-number', '01012341234', $this->apiURL))
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', str_replace('phone-number', '01012342314', $this->apiURL))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'message',
@@ -60,6 +64,6 @@ class PhoneAuthTest extends BaseCustomTestCase
             ]);
 
         // 테스트 인증 삭제.
-        PhoneVerifies::whereNull('user_id')->forcedelete();
+        $this->deleteTestUser();
     }
 }

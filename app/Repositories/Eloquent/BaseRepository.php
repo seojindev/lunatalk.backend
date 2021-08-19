@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\EloquentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class BaseRepository implements EloquentRepositoryInterface
 {
@@ -48,9 +49,19 @@ class BaseRepository implements EloquentRepositoryInterface
         return $this->model->select($columns)->with($relations)->findOrFail($modelId)->append($appends);
     }
 
+    public function defaultCustomFind(string $columnsName, string $value): ?Model
+    {
+        return $this->model->where($columnsName, $value)->firstOrFail();
+    }
+
     public function defaultFindById(int $modelId): ?Model
     {
         return $this->model->where('id', $modelId)->firstOrFail();
+    }
+
+    public function defaultExistsColumn(string $columnsName, string $value): bool
+    {
+        return $this->model->where($columnsName, $value)->exists();
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Exceptions\ClientErrorException;
 use App\Models\PhoneVerifies;
 use App\Models\User;
 use Crypt;
+use Hash;
 use Helper;
 use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
@@ -16,12 +17,15 @@ class RegisterTest extends BaseCustomTestCase
     use WithFaker;
 
     protected string $apiURL;
+    protected array $testUser;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->apiURL = "/api/front/v1/auth/register";
+
+        $this->testUser = $this->insertTestUser();
     }
 
     //  인증코드 없이 요청.
@@ -64,10 +68,6 @@ class RegisterTest extends BaseCustomTestCase
     public function test_front_v1_auth_register_휴대폰_인증하지_않은_상태로_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        }
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
@@ -89,19 +89,30 @@ class RegisterTest extends BaseCustomTestCase
     //  이미 인증이 끝난 인증 정보 요청.
     public function test_front_v1_auth_register_이미_인증이_끝난_인증_정보_요청()
     {
-        $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        }
-        PhoneVerifies::where('id', $randTask->id)->update(['user_id' => 1]);
-        $auth_index = $randTask->id;
+
+        $login_id = 'id'.uniqid();
+
+        $us = User::factory()->create([
+            'login_id' => $login_id,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        $pv = PhoneVerifies::factory()->create([
+            'user_id' => $us->id,
+            'phone_number' => Crypt::encryptString('01012340947'),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.attempt.auth_code.verified'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_id": "'.$pv->id.'",
                 "user_id": "aaaaaaaaa",
                 "user_password": "password",
                 "user_password_confirm": "password",
@@ -110,6 +121,9 @@ class RegisterTest extends BaseCustomTestCase
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+
+        PhoneVerifies::where('id', $pv->id)->forcedelete();
+        User::where('id', $us->id)->forcedelete();
     }
 
     //  아이디 없이 요청.
@@ -369,32 +383,16 @@ class RegisterTest extends BaseCustomTestCase
     //  중복 이메일 요청.
     public function test_front_v1_auth_register_중복_이메일_요청()
     {
-        $us = User::factory()->create([
-            'login_id' => 'id'.uniqid(),
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-        ]);
-
-        $pv = PhoneVerifies::factory()->create([
-            'user_id' => $us->id,
-            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
-            'auth_code' => Helper::generateAuthNumberCode(),
-            'verified' => 'Y',
-        ]);
-
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.attempt.email.unique'));
 
         $testPayload = '{
-                "auth_id": "'.$pv->id.'",
+                "auth_id": "'.$this->testUser['pv_id'].'",
                 "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "어둠의계정",
-                "user_email": "'.$us->email.'"
+                "user_email": "'.$this->testUser['email'].'"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
@@ -410,7 +408,6 @@ class RegisterTest extends BaseCustomTestCase
             'verified' => 'Y',
         ]);
 
-
         $testPayload = '{
                 "auth_id": "'.$result->id.'",
                 "user_id": "testuserid",
@@ -421,9 +418,6 @@ class RegisterTest extends BaseCustomTestCase
         }';
 
         $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
-        //            ->dump()
-//        $createTask = User::select()->where('login_id' , 'testuserid')->first();
-
         $response->assertStatus(201);
         $response->assertJsonStructure([
             'message',
@@ -438,7 +432,10 @@ class RegisterTest extends BaseCustomTestCase
             ]
         ]);
 
-        PhoneVerifies::where('id', $result->id)->forcedelete();
-        User::where('login_id', "testuserid")->forcedelete();
+        $task = User::where('login_id', 'testuserid')->first();
+        PhoneVerifies::where('user_id', $task->id)->forcedelete();
+        User::where('id', $task->id)->forcedelete();
+
+        $this->deleteTestUser();
     }
 }

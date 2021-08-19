@@ -12,17 +12,9 @@ use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
 use App\Models\User;
 use Helper;
+
 class BaseTest extends BaseCustomTestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
 
     /**
      * 마이그레이션 시드 체크

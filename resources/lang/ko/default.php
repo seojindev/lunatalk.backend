@@ -19,5 +19,6 @@ return [
         'send_phone_auth_code' => '인증코드를 발송 했습니다. 문자를 확인해 주세요.',
         'success_phone_auth_code' => '인증코드 확인이 완료 되었습니다.',
         'code_exits' => '존재 하는 코드가 아닙니다.',
+        'phone_number_exits' => '존재 하는 코드가 아닙니다.',
     ],
 ];

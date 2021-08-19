@@ -3,17 +3,24 @@
 namespace App\Services;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServiceErrorException;
 use App\Repositories\PhoneVerifyRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use Auth;
 use Crypt;
 use Hash;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
+use App\Supports\PassportTrait;
 
 class AuthServices
 {
+    use PassportTrait {
+        PassportTrait::newToken as PassportTraitNewToken;
+    }
+
     protected Request $currentRequest;
     protected UserRepositoryInterface $userRepository;
     protected PhoneVerifyRepositoryInterface $phoneVerifyRepository;
@@ -187,6 +194,42 @@ class AuthServices
             'type' => $createTask->type,
             'level' => $createTask->level,
             'status' => $createTask->status,
+        ];
+    }
+
+    public function attemptLogin() : array
+    {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'login_id' => 'required|exists:users,login_id',
+            'login_password' => 'required',
+        ],
+            [
+                'login_id.required' => __('login.login_id_required'),
+                'login_id.exists' => __('login.login_id_exists'),
+                'login_password.required' => __('login.password_required'),
+            ]);
+
+        if( $validator->fails() ) {
+            // 로그인 실패.
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        if(!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
+            // 비밀번호 실패.
+            throw new ClientErrorException(__('login.password_fail'));
+        }
+
+        // 차단 상태 체크
+        $userTask = $this->userRepository->defaultCustomFind('login_id', $this->currentRequest->input('login_id'));
+        if($userTask->status == config('extract.user_status.block.code')) {
+            throw new ClientErrorException(__('login.block_user'));
+        }
+
+        $tokenRequestResult = $this->PassportTraitNewToken($this->currentRequest->input('login_id'), $this->currentRequest->input('login_password'));
+
+        return [
+            'access_token' => $tokenRequestResult->access_token,
+            'refresh_token' => $tokenRequestResult->refresh_token
         ];
     }
 }

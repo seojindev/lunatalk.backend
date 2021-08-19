@@ -13,12 +13,16 @@ use Tests\BaseCustomTestCase;
 class PhoneAuthConfirmTest extends BaseCustomTestCase
 {
     protected string $apiURL;
+    protected array $testUser;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->apiURL = "/api/front/v1/auth/authIndex/phone-auth-confirm";
+
+        // 테스트 사용자 입력.
+        $this->testUser = $this->insertTestUser();
     }
 
 
@@ -26,7 +30,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     public function test_front_v1_auth_phone_auth_confirm_라우터_에러()
     {
         $this->expectException(NotFoundHttpException::class);
-
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', '', $this->apiURL));
     }
 
@@ -44,10 +47,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.phone_auth_confirm.auth_code_fail_verified'));
 
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        }
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', $randTask->id, $this->apiURL));
     }
 
@@ -71,10 +70,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     public function test_front_v1_auth_phone_auth_confirm_인증_코드_잘못된_자리수_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        }
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
@@ -92,10 +87,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     public function test_front_v1_auth_phone_auth_confirm_잘못된_인증_코드_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        }
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
@@ -113,10 +104,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     public function test_front_v1_auth_phone_auth_confirm_인증_코드가_다른_요청()
     {
         $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        }
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
@@ -134,10 +121,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
     public function test_front_v1_auth_phone_auth_confirm_정상_요청()
     {
         $randTask = PhoneVerifies::select()->where('verified' , 'Y')->inRandomOrder()->first();
-        if(!$randTask) {
-            PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-            $randTask = PhoneVerifies::select()->where('verified' , 'Y')->inRandomOrder()->first();
-        }
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
@@ -155,5 +138,7 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
                     'phone_number'
                 ]
             ]);
+
+        $this->deleteTestUser();
     }
 }

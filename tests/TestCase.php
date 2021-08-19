@@ -3,24 +3,9 @@
 namespace Tests;
 
 use App\Console\Kernel;
-use App\Models\MediaFiles;
-use App\Models\PhoneVerifies;
-use App\Models\ProductBadgeMasters;
-use App\Models\ProductBadges;
-use App\Models\ProductCategories;
-use App\Models\ProductImages;
-use App\Models\ProductMasters;
-use App\Models\ProductOptionMasters;
-use App\Models\ProductReviews;
-use App\Models\User;
-use App\Models\UserRegisterSelects;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -43,15 +28,12 @@ abstract class TestCase extends BaseTestCase
             }
         }
 
-        if ($checkFailed)
-        {
+        if ($checkFailed) {
 
             $this->artisan('db:wipe',['-vvv' => true]);
             $this->artisan('migrate:fresh',['-vvv' => true]);
             $this->artisan('db:seed',['-vvv' => true]);
             $this->artisan('passport:install',['-vvv' => true]);
-
-            $this->dbSeedHandle();
 
             $this->app[Kernel::class]->setArtisan(null);
         }
@@ -60,20 +42,5 @@ abstract class TestCase extends BaseTestCase
          * Exception 테스트시 에러 방지.
          */
         $this->withoutExceptionHandling();
-    }
-
-    protected function dbSeedHandle() : void
-    {
-        User::factory(2)->create();
-        PhoneVerifies::factory(3)->create();
-        UserRegisterSelects::factory(3)->create();
-        ProductCategories::factory(5)->create();
-        ProductMasters::factory(4)->create();
-        ProductOptionMasters::factory(4)->create();
-        MediaFiles::factory(16)->create();
-        ProductReviews::factory(16)->create();
-        ProductBadgeMasters::factory(2)->create();
-        ProductBadges::factory(2)->create();
-        ProductImages::factory(4)->create();
     }
 }

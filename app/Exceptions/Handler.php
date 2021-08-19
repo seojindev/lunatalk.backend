@@ -73,10 +73,12 @@ class Handler extends ExceptionHandler
 //            //
 //        });
 
+        $slackLogging = (env('APP_ENV') != "testing" && env('APP_ENV') != "local");
+
         /**
          * ServiceException
          */
-        $this->renderable(function (ServiceErrorException $e) {
+        $this->renderable(function (ServiceErrorException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'ServiceErrorException';
             $error_message = $e->getMessage() ?: __('exception.error_exception');
@@ -84,7 +86,7 @@ class Handler extends ExceptionHandler
 
             Log::channel('ServiceErrorExceptionLog')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->error($loggerMessage['slack']);
             }
 
@@ -115,10 +117,6 @@ class Handler extends ExceptionHandler
 
             Log::channel('NotFoundHttpException')->error($loggerMessage['file']);
 
-//            if (env('APP_ENV') != "testing") {
-//                Log::channel('slack')->error($loggerMessage['slack']);
-//            }
-
             return Response::error(404, $error_message);
         });
 
@@ -141,7 +139,7 @@ class Handler extends ExceptionHandler
         /**
          * ClientErrorException
          */
-        $this->renderable(function (ClientErrorException $e) {
+        $this->renderable(function (ClientErrorException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'ClientErrorException';
             $error_message = $e->getMessage() ?: __('exception.ClientErrorException');
@@ -149,7 +147,7 @@ class Handler extends ExceptionHandler
 
             Log::channel('ClientErrorException')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->error($loggerMessage['slack']);
             }
 
@@ -159,7 +157,7 @@ class Handler extends ExceptionHandler
         /**
          * ServerErrorException
          */
-        $this->renderable(function (ServerErrorException $e) {
+        $this->renderable(function (ServerErrorException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'ServerErrorException';
             $error_message = $e->getMessage() ?: __('exception.ServerErrorException');
@@ -167,7 +165,7 @@ class Handler extends ExceptionHandler
 
             Log::channel('ServerErrorException')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->error($loggerMessage['slack']);
             }
 
@@ -196,7 +194,7 @@ class Handler extends ExceptionHandler
         /**
          * AuthenticationException
          */
-        $this->renderable(function (AuthenticationException $e) {
+        $this->renderable(function (AuthenticationException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'AuthenticationException';
             $error_message = __('exception.AuthenticationException') ?: $e->getMessage();
@@ -204,7 +202,7 @@ class Handler extends ExceptionHandler
 
             Log::channel('AuthenticationException')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->debug($loggerMessage['slack']);
             }
 
@@ -215,7 +213,7 @@ class Handler extends ExceptionHandler
         /**
          * ThrottleRequestsException
          */
-        $this->renderable(function (ThrottleRequestsException $e) {
+        $this->renderable(function (ThrottleRequestsException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'ThrottleRequestsException';
             $error_message = ($e->getMessage()) ?: __('exception.ThrottleRequestsException');
@@ -223,7 +221,7 @@ class Handler extends ExceptionHandler
 
             Log::channel('ThrottleRequestsException')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->debug($loggerMessage['slack']);
             }
 
@@ -233,7 +231,7 @@ class Handler extends ExceptionHandler
         /**
          * PDOException
          */
-        $this->renderable(function (PDOException $e) {
+        $this->renderable(function (PDOException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'PDOException';
             $error_message = ($e->getMessage()) ?: __('exception.PDOException');
@@ -241,7 +239,7 @@ class Handler extends ExceptionHandler
 
             Log::channel('PDOException')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->debug($loggerMessage['slack']);
             }
 
@@ -254,7 +252,7 @@ class Handler extends ExceptionHandler
         /**
          * EtcException
          */
-        $this->renderable(function (Throwable $e) {
+        $this->renderable(function (Throwable $e) use ($slackLogging) {
 
             $this->loggingChannel = 'Throwable';
 
@@ -278,7 +276,7 @@ EOF;
 
             Log::channel('Throwable')->error($loggerMessage['file']);
 
-            if (env('APP_ENV') != "testing") {
+            if ($slackLogging) {
                 Log::channel('slack')->debug($loggerMessage['slack']);
             }
 

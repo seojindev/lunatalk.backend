@@ -2,49 +2,20 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\PhoneVerifies;
+use App\Models\User;
+use Crypt;
+use DB;
+use Hash;
+use Illuminate\Support\Str;
+use Illuminate\Foundation\Testing\WithFaker;
+use Helper;
 
 class BaseCustomTestCase extends TestCase
 {
-    /**
-     * 전체 테이블 리스트.
-     *
-     * @return array
-     */
-    public static function getTestTotalTablesList() : array
-    {
-        return DB::select("SELECT name FROM sqlite_master WHERE type IN ('table', 'view') AND name NOT LIKE 'sqlite_%' UNION ALL SELECT name FROM sqlite_temp_master WHERE type IN ('table', 'view') ORDER BY 1");
-    }
+    use WithFaker;
 
-    /**
-     * 전체 테이블 리스트.
-     */
-    public static function printTotalTableList() : void
-    {
-        echo PHP_EOL.PHP_EOL;
-        $tables = DB::select("SELECT name FROM sqlite_master WHERE type IN ('table', 'view') AND name NOT LIKE 'sqlite_%' UNION ALL SELECT name FROM sqlite_temp_master WHERE type IN ('table', 'view') ORDER BY 1");
-
-        foreach($tables as $table)
-        {
-            echo "table-name: ".$table->name.PHP_EOL;
-            echo "(".PHP_EOL;
-            foreach(DB::getSchemaBuilder()->getColumnListing($table->name) as $columnName) {
-                echo "\t".$columnName.PHP_EOL;
-            }
-            echo ")".PHP_EOL.PHP_EOL;
-        }
-        echo PHP_EOL;
-    }
-
-    /**
-     * 해당 테이블 컬럼 리스트.
-     * @param string $tableName
-     * @return array
-     */
-    public static function getTableColumnList(string $tableName = "") : array
-    {
-        return DB::getSchemaBuilder()->getColumnListing($tableName);
-    }
+    protected array $testUser;
 
     /**
      * Request Header.
@@ -93,5 +64,58 @@ class BaseCustomTestCase extends TestCase
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$response['result']['access_token']
         ];
+    }
+
+    protected function insertTestUser() : array
+    {
+        $testUser = [
+            'login_id' => 'id'.uniqid(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => Hash::make('password'),
+            'phone_number' => '01012340978',
+        ];
+
+
+        $us = User::factory()->create([
+            'login_id' => $testUser['login_id'],
+            'name' => $testUser['name'],
+            'email' => $testUser['email'],
+            'email_verified_at' => now(),
+            'password' => $testUser['password'],
+            'remember_token' => Str::random(10),
+        ]);
+
+        $pv = PhoneVerifies::factory()->create([
+            'user_id' => $us->id,
+            'phone_number' => Crypt::encryptString($testUser['phone_number']),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
+
+        $this->testUser = [
+            'login_id' => $testUser['login_id'],
+            'name' => $testUser['name'],
+            'email' => $testUser['email'],
+            'password' => $testUser['password'],
+            'phone_number' => $testUser['phone_number'],
+            'id' => $us->id,
+            'pv_id' => $pv->id,
+        ];
+
+        return $this->testUser;
+    }
+
+    protected function deleteTestUser() : void
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $users = User::select()->where('login_id', '<>', 'admin')->get()->toArray();
+        foreach ($users as $user):
+            PhoneVerifies::where('user_id', $user['id'])->forcedelete();
+            User::where('id', $user['id'])->forcedelete();
+        endforeach;
+
+        PhoneVerifies::where('user_id', NULL)->forcedelete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

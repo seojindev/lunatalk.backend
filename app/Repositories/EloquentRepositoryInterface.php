@@ -26,6 +26,13 @@ interface EloquentRepositoryInterface
      */
     public function findById(int $modelId, array $columns = ['*'], array $relations = [], array $appends = []): ?Model;
 
+
+    public function defaultCustomFind(string $columnsName, string $value): ?Model;
+
+    public function defaultFindById(int $modelId): ?Model;
+    public function defaultExistsColumn(string $columnsName, string $value): bool;
+
+
     /**
      * @param array $payload
      * @return Model|null

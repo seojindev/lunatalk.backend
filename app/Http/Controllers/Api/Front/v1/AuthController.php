@@ -35,7 +35,7 @@ class AuthController extends RootController
 
     public function login()
     {
-        return Response::success([]);
+        return Response::success($this->authServices->attemptLogin());
     }
 
     public function logout()
