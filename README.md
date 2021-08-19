@@ -27,13 +27,13 @@ composer app-clear
 2. unitest
 ```bash
 > 테스트 설정 리셋.
-composer unit-test:clear
+composer app-test:clear
 
 > 유닌 테스트 와치 실행. 
-composer unit-test:watch
+composer app-test:watch
 
 > 팩토리 데이터 실행 ( 데이터 베이스 리셋. )
-composer unit-test:factory
+composer app-test:factory
 
 ./vendor/bin/phpunit-watcher watch --filter=test_login_
 

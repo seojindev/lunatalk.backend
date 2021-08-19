@@ -80,7 +80,7 @@
         "app-test:watch": [
             "phpunit-watcher watch < /dev/tty"
         ],
-        "unit-test:clear": [
+        "app-test:clear": [
             "php artisan config:clear --env=testing"
         ]
     },

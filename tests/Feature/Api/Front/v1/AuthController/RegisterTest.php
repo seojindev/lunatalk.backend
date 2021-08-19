@@ -7,6 +7,7 @@ use App\Models\PhoneVerifies;
 use App\Models\User;
 use Crypt;
 use Helper;
+use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 
@@ -368,23 +369,32 @@ class RegisterTest extends BaseCustomTestCase
     //  중복 이메일 요청.
     public function test_front_v1_auth_register_중복_이메일_요청()
     {
-        PhoneVerifies::where('id', '>', 0)->update(['verified' => 'Y']);
-        $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        $auth_index = $randTask->id;
+        $us = User::factory()->create([
+            'login_id' => 'id'.uniqid(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
 
-        $userTask = User::select()->where([['level' , config('extract.default.user_level')],['status' , config('extract.default.user_status')]])->inRandomOrder()->first();
-        $test_email = $userTask->email;
+        $pv = PhoneVerifies::factory()->create([
+            'user_id' => $us->id,
+            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y',
+        ]);
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.attempt.email.unique'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
-                "user_id": "test1111",
+                "auth_id": "'.$pv->id.'",
+                "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "어둠의계정",
-                "user_email": "'.$test_email.'"
+                "user_email": "'.$us->email.'"
         }';
 
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
