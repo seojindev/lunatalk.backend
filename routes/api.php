@@ -51,7 +51,8 @@ Route::group(['as' => 'api.'], function () {
                 Route::post('{authIndex}/phone-auth-confirm', [AuthController::class, 'phoneAuthConfirm'])->name('phone.auth.confirm')->where('authIndex', '[0-9]+'); // 인증번호 확인.
                 Route::post('register', [AuthController::class, 'register'])->name('register'); // 회원가입.
                 Route::post('login', [AuthController::class, 'login'])->name('login'); // 로그인.
-                Route::post('logout', [AuthController::class, 'logout'])->name('logout'); // 로그아웃.
+                Route::delete('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
+                Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
             });
         });
     });

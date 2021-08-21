@@ -247,4 +247,20 @@ class AuthServices
             'refresh_token' => $tokenRequestResult->refresh_token
         ];
     }
+
+    public function attemptLogout() : string
+    {
+        Auth::user()->token()->revoke();
+
+        return "정상 처리 하였습니다.";
+    }
+
+    public function getTokenInfo()
+    {
+        // auth()->user()->token()->revoke();
+        $user = Auth::user();
+
+        return $user;
+    }
+
 }

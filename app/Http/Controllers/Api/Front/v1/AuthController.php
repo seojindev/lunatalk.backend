@@ -40,6 +40,11 @@ class AuthController extends RootController
 
     public function logout()
     {
-        return Response::success([]);
+        return Response::message_success($this->authServices->attemptLogout());
+    }
+
+    public function tokenInfo()
+    {
+        return Response::success($this->authServices->getTokenInfo());
     }
 }

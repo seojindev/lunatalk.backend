@@ -37,7 +37,7 @@ class BaseCustomTestCase extends TestCase
     protected function getTestAdminAccessTokenHeader() : array
     {
         $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/v1/admin/auth/login', [
-            "login_id" => \App\Models\User::where('user_level', 'S020900')->orderBy('id', 'ASC')->first()->login_id,
+            "login_id" => User::where('level', config('extract.user_level.guest.level_code'))->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);
         return [
@@ -54,8 +54,8 @@ class BaseCustomTestCase extends TestCase
      */
     protected function getTestNormalAccessTokenHeader() : array
     {
-        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/v1/service/auth/login', [
-            "login_id" => \App\Models\User::where('user_level', 'S020010')->orderBy('id', 'ASC')->first()->login_id,
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/front/v1/auth/login', [
+            "login_id" => User::where('level', config('extract.user_level.normal.level_code'))->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);
         return [
