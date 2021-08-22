@@ -24,6 +24,8 @@ class CreateMediaFilesTable extends Migration
             $table->bigInteger('file_size')->nullable(false)->comment('파일 용량.');
             $table->string('file_extension', 50)->nullable(false)->comment('파일 확장자.');
             $table->timestamps();
+
+            $table->index(['media_name', 'media_category' , 'file_name']);
         });
     }
 

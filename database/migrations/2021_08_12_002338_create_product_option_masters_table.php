@@ -15,7 +15,7 @@ class CreateProductOptionMastersTable extends Migration
     {
         Schema::create('product_option_masters', function (Blueprint $table) {
             $table->id();
-            $table->uuid('product_uuid')->nullable(false)->comment('상품 uuid');
+            $table->unsignedBigInteger('product_id')->nullable()->comment('상품 uuid');
             $table->unsignedBigInteger('color')->nullable(false)->comment('상품 색.');
             $table->unsignedBigInteger('wired')->nullable()->comment('유무선.');
             $table->enum('active' , ['Y', 'N'])->nullable(false)->default('Y')->comment('상태');
@@ -23,9 +23,9 @@ class CreateProductOptionMastersTable extends Migration
 
             $table->softDeletes();
 
-            $table->index(['product_uuid', 'color']);
+            $table->index(['product_id', 'color', 'wired']);
 
-            $table->foreign('product_uuid')->references('uuid')->on('product_masters')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('product_masters')->onDelete('cascade');
             $table->foreign('color')->references('id')->on('product_color_options')->onDelete('cascade');
             $table->foreign('wired')->references('id')->on('product_wired_options')->onDelete('cascade');
         });

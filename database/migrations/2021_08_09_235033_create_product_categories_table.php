@@ -14,12 +14,15 @@ class CreateProductCategoriesTable extends Migration
     public function up()
     {
         Schema::create('product_categories', function (Blueprint $table) {
-            $table->uuid('id')->primary()->unique()->default(DB::raw('(UUID())'))->comment('uuid');
+            $table->id();
+            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'))->comment('uuid');
             $table->string('name', 255)->nullable(false);
             $table->enum('active', ['Y', 'N'])->default('Y')->comment('상태');
             $table->timestamps();
 
             $table->softDeletes();
+
+            $table->index(['name']);
         });
     }
 

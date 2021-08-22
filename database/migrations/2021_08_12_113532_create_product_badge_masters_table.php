@@ -21,6 +21,9 @@ class CreateProductBadgeMastersTable extends Migration
             $table->timestamps();
 
             $table->softDeletes();
+
+            $table->index(['name', 'media_id']);
+
             $table->foreign('media_id')->references('id')->on('media_files')->onDelete('cascade');
         });
     }

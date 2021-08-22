@@ -27,6 +27,9 @@ class UpdateUsersTable extends Migration
             $table->foreign('type')->references('code_id')->on('codes')->onDelete('cascade');
             $table->foreign('level')->references('code_id')->on('codes')->onDelete('cascade');
             $table->foreign('status')->references('code_id')->on('codes')->onDelete('cascade');
+
+
+            $table->index(['uuid', 'login_id']);
         });
     }
 

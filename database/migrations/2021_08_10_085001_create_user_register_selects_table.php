@@ -22,6 +22,8 @@ class CreateUserRegisterSelectsTable extends Migration
 
             $table->softDeletes();
 
+            $table->index(['user_id', 'email' , 'message']);
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

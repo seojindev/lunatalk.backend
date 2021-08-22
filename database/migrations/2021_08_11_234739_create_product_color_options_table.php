@@ -20,6 +20,8 @@ class CreateProductColorOptionsTable extends Migration
             $table->enum('active', ['Y', 'N'])->default('Y')->comment('성태');
             $table->timestamps();
 
+            $table->index(['name']);
+
             $table->softDeletes();
         });
     }

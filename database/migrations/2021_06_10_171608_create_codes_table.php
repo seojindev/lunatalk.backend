@@ -23,6 +23,8 @@ class CreateCodesTable extends Migration
             $table->timestamps();
 
             $table->softDeletes();
+
+            $table->index(['group_id', 'code_id']);
         });
     }
 

@@ -22,6 +22,8 @@ class CreateProductBadgesTable extends Migration
 
             $table->softDeletes();
 
+            $table->index(['product_uuid', 'badge_id']);
+
             $table->foreign('product_uuid')->references('uuid')->on('product_masters')->onDelete('cascade');
             $table->foreign('badge_id')->references('id')->on('product_badge_masters')->onDelete('cascade');
         });

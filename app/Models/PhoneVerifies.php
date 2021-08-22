@@ -37,6 +37,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PhoneVerifies whereUpdatedAt($value)
  * @method static Builder|PhoneVerifies whereUserId($value)
  * @method static Builder|PhoneVerifies whereVerified($value)
+ * @property string $uuid uuid
+ * @property string $category 구분.
+ * @method static Builder|PhoneVerifies whereCategory($value)
+ * @method static Builder|PhoneVerifies whereUuid($value)
  */
 class PhoneVerifies extends Model
 {

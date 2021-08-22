@@ -15,7 +15,7 @@ class CreateProductReviewsTable extends Migration
     {
         Schema::create('product_reviews', function (Blueprint $table) {
             $table->id();
-            $table->uuid('product_uuid')->nullable(false)->comment('상품 uuid');
+            $table->unsignedBigInteger('product_id')->nullable()->comment('상품 uuid');
             $table->unsignedBigInteger('user_id')->nullable()->comment('회원 번호');
             $table->text('contents')->nullable(false)->comment('리뷰 내용.');
             $table->enum('active', ['Y', 'N'])->default('Y')->comment('상태');
@@ -23,7 +23,9 @@ class CreateProductReviewsTable extends Migration
 
             $table->softDeletes();
 
-            $table->foreign('product_uuid')->references('uuid')->on('product_masters')->onDelete('cascade');
+            $table->index(['product_id', 'user_id']);
+
+            $table->foreign('product_id')->references('id')->on('product_masters')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
