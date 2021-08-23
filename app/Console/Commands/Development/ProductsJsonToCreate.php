@@ -4,6 +4,7 @@ namespace App\Console\Commands\Development;
 
 use App\Models\ProductCategories;
 use App\Models\ProductColorOptions;
+use App\Models\ProductImages;
 use App\Models\ProductMasters;
 use App\Models\ProductOptionMasters;
 use App\Models\ProductWirelessOptions;
@@ -103,6 +104,26 @@ class ProductsJsonToCreate extends Command
                         'wireless' => $product['option']['step2']
                     ]);
                 }
+
+                if(!array_key_exists('rep', $product['product_images'])) {
+                    print_r($product);
+                }
+
+                foreach ($product['product_images']['rep'] as $element) :
+                    ProductImages::create([
+                        'product_id' => $pr->id,
+                        'media_category' => config('extract.mediaCategory.repImage.code'),
+                        'media_id' => $element,
+                    ]);
+                endforeach;
+
+                foreach ($product['product_images']['detail'] as $element) :
+                    ProductImages::create([
+                        'product_id' => $pr->id,
+                        'media_category' => config('extract.mediaCategory.detailImage.code'),
+                        'media_id' => $element,
+                    ]);
+                endforeach;
 
                 $bar->advance();
             endforeach;

@@ -5,7 +5,6 @@ namespace App\Console\Commands\Development;
 use App\Models\MediaFiles;
 use App\Models\ProductColorOptions;
 use App\Models\ProductWirelessOptions;
-use DOMDocument;
 use Http;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;

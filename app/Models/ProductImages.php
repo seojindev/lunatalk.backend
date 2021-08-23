@@ -46,7 +46,7 @@ class ProductImages extends Model
 
     protected $fillable = [
         'id',
-        'product_uuid',
+        'product_id',
         'media_category',
         'media_id',
         'active'
