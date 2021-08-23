@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ProductWiredOptionsSeeder extends Seeder
+class ProductWirelessOptionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +15,15 @@ class ProductWiredOptionsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('product_wired_options')->insert([
-            'wired' => 'Y',
+        DB::table('product_wireless_options')->insert([
+            'wireless' => 'Y',
             'active' => 'Y',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('product_wired_options')->insert([
-            'wired' => 'N',
+        DB::table('product_wireless_options')->insert([
+            'wireless' => 'N',
             'active' => 'Y',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

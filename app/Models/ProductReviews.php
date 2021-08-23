@@ -21,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static ProductReviewsFactory factory(...$parameters)
+ * @method static \Database\Factories\ProductReviewsFactory factory(...$parameters)
  * @method static Builder|ProductReviews newModelQuery()
  * @method static Builder|ProductReviews newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductReviews onlyTrashed()

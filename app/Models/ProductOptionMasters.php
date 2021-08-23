@@ -13,30 +13,30 @@ use Illuminate\Support\Carbon;
 /**
  * App\Models\ProductOptionMasters
  *
- * @method static ProductOptionMastersFactory factory(...$parameters)
- * @method static Builder|ProductOptionMasters newModelQuery()
- * @method static Builder|ProductOptionMasters newQuery()
- * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters onlyTrashed()
- * @method static Builder|ProductOptionMasters query()
- * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters withTrashed()
- * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters withoutTrashed()
- * @mixin Eloquent
  * @property int $id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @method static Builder|ProductOptionMasters whereCreatedAt($value)
- * @method static Builder|ProductOptionMasters whereId($value)
- * @method static Builder|ProductOptionMasters whereUpdatedAt($value)
  * @property string $product_uuid 상품 uuid
  * @property int $color 상품 색.
  * @property int|null $wired 유무선.
  * @property string $active 상태
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @method static \Database\Factories\ProductOptionMastersFactory factory(...$parameters)
+ * @method static Builder|ProductOptionMasters newModelQuery()
+ * @method static Builder|ProductOptionMasters newQuery()
+ * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters onlyTrashed()
+ * @method static Builder|ProductOptionMasters query()
  * @method static Builder|ProductOptionMasters whereActive($value)
  * @method static Builder|ProductOptionMasters whereColor($value)
+ * @method static Builder|ProductOptionMasters whereCreatedAt($value)
  * @method static Builder|ProductOptionMasters whereDeletedAt($value)
+ * @method static Builder|ProductOptionMasters whereId($value)
  * @method static Builder|ProductOptionMasters whereProductUuid($value)
+ * @method static Builder|ProductOptionMasters whereUpdatedAt($value)
  * @method static Builder|ProductOptionMasters whereWired($value)
+ * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters withoutTrashed()
+ * @mixin Eloquent
  */
 class ProductOptionMasters extends Model
 {
@@ -46,7 +46,7 @@ class ProductOptionMasters extends Model
         'id',
         'product_uuid',
         'color',
-        'wired',
+        'wireless',
         'active'
     ];
 }

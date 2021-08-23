@@ -30,12 +30,12 @@ class ProductImagesFactory extends Factory
         $thumbnailImageCode = config('extract.mediaCategory.thumbnailImage.code');
         $detailImageCode = config('extract.mediaCategory.detailImage.code');
 
-        $randUUID = ProductMasters::select('uuid')->inRandomOrder()->first()->uuid;
+        $product_id = ProductMasters::select('id')->inRandomOrder()->first()->id;
 
-        if(ProductImages::where([['product_uuid', $randUUID], ['media_category', $repImageCode]])->exists()) {
+        if(ProductImages::where([['product_id', $product_id], ['media_category', $repImageCode]])->exists()) {
             $media_category = $repImageCode;
         } else {
-            if(ProductImages::where([['product_uuid', $randUUID], ['media_category', $thumbnailImageCode]])->exists()) {
+            if(ProductImages::where([['product_id', $product_id], ['media_category', $thumbnailImageCode]])->exists()) {
                 $media_category = $detailImageCode;
             } else {
                 $media_category = $thumbnailImageCode;
@@ -43,7 +43,7 @@ class ProductImagesFactory extends Factory
         }
 
         return [
-            'product_uuid' => ProductMasters::select('uuid')->inRandomOrder()->first()->uuid,
+            'product_id' => ProductMasters::select('id')->inRandomOrder()->first()->id,
             'media_category' => $media_category,
             'media_id' => MediaFiles::select('id')->inRandomOrder()->first()->id,
             'active' => rand(0,100) < 99 ? 'Y' : 'N'

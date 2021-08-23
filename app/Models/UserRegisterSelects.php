@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @method static \Database\Factories\UserRegisterSelectsFactory factory(...$parameters)
  * @method static Builder|UserRegisterSelects newModelQuery()
  * @method static Builder|UserRegisterSelects newQuery()
  * @method static \Illuminate\Database\Query\Builder|UserRegisterSelects onlyTrashed()
@@ -34,7 +35,6 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|UserRegisterSelects withTrashed()
  * @method static \Illuminate\Database\Query\Builder|UserRegisterSelects withoutTrashed()
  * @mixin Eloquent
- * @method static UserRegisterSelectsFactory factory(...$parameters)
  */
 class UserRegisterSelects extends Model
 {

@@ -15,16 +15,14 @@ class CreateProductBadgesTable extends Migration
     {
         Schema::create('product_badges', function (Blueprint $table) {
             $table->id();
-            $table->uuid('product_uuid')->nullable(false)->comment('상품 uuid');
+            $table->unsignedBigInteger('product_id')->nullable(false)->comment('상품 uuid');
             $table->unsignedBigInteger('badge_id')->nullable(false)->comment('뱃지 아이디.');
             $table->enum('active' , ['Y', 'N'])->nullable(false)->default('Y')->comment('상태');
             $table->timestamps();
 
             $table->softDeletes();
 
-            $table->index(['product_uuid', 'badge_id']);
-
-            $table->foreign('product_uuid')->references('uuid')->on('product_masters')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('product_masters')->onDelete('cascade');
             $table->foreign('badge_id')->references('id')->on('product_badge_masters')->onDelete('cascade');
         });
     }

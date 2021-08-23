@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * App\Models\ProductMasters
  *
  * @property int $id
- * @property string $uuid 상품 uuid.
+ * @property string $uuid uuid
  * @property string $category 상품 카테고리.
  * @property string $name 상품명.
  * @property string|null $barcode 상품 비코드.
@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static ProductMastersFactory factory(...$parameters)
+ * @method static \Database\Factories\ProductMastersFactory factory(...$parameters)
  * @method static Builder|ProductMasters newModelQuery()
  * @method static Builder|ProductMasters newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductMasters onlyTrashed()

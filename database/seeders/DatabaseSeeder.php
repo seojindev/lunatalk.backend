@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CodesSeeder::class,
             ProductColorOptionsSeeder::class,
-            ProductWiredOptionsSeeder::class,
+            ProductWirelessOptionsSeeder::class,
         ]);
     }
 }

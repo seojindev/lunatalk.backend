@@ -18,9 +18,10 @@ use Illuminate\Support\Carbon;
  * @property string $active 성태
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property Carbon|null $deleted_at
  * @method static Builder|ProductColorOptions newModelQuery()
  * @method static Builder|ProductColorOptions newQuery()
+ * @method static \Illuminate\Database\Query\Builder|ProductColorOptions onlyTrashed()
  * @method static Builder|ProductColorOptions query()
  * @method static Builder|ProductColorOptions whereActive($value)
  * @method static Builder|ProductColorOptions whereCreatedAt($value)
@@ -29,10 +30,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductColorOptions whereId($value)
  * @method static Builder|ProductColorOptions whereName($value)
  * @method static Builder|ProductColorOptions whereUpdatedAt($value)
- * @mixin Eloquent
- * @method static \Illuminate\Database\Query\Builder|ProductColorOptions onlyTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductColorOptions withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductColorOptions withoutTrashed()
+ * @mixin Eloquent
  */
 class ProductColorOptions extends Model
 {

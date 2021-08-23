@@ -24,7 +24,7 @@ class ProductReviewsFactory extends Factory
     public function definition()
     {
         return [
-            'product_uuid' => ProductMasters::select('uuid')->inRandomOrder()->first()->uuid,
+            'product_id' => ProductMasters::select('id')->inRandomOrder()->first()->id,
             'user_id' => User::select('id')->inRandomOrder()->first(),
             'contents' => $this->faker->text(),
             'active' => rand(0,100) < 99 ? 'Y' : 'N'

@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static ProductBadgeMastersFactory factory(...$parameters)
+ * @method static \Database\Factories\ProductBadgeMastersFactory factory(...$parameters)
  * @method static Builder|ProductBadgeMasters newModelQuery()
  * @method static Builder|ProductBadgeMasters newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductBadgeMasters onlyTrashed()

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\ProductCategory
+ * App\Models\ProductCategories
  *
  * @property string $id uuid
  * @property string $name
@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static ProductCategoriesFactory factory(...$parameters)
+ * @method static \Database\Factories\ProductCategoriesFactory factory(...$parameters)
  * @method static Builder|ProductCategories newModelQuery()
  * @method static Builder|ProductCategories newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductCategories onlyTrashed()

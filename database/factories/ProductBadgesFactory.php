@@ -24,7 +24,7 @@ class ProductBadgesFactory extends Factory
     public function definition()
     {
         return [
-            'product_uuid' => ProductMasters::select('uuid')->inRandomOrder()->first()->uuid,
+            'product_id' => ProductMasters::select('id')->inRandomOrder()->first()->id,
             'badge_id' => ProductBadgeMasters::select('id')->inRandomOrder()->first()->id,
             'active' => rand(0, 100) < 99 ? 'Y' : 'N'
         ];
