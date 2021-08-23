@@ -39,6 +39,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|PhoneVerifies withTrashed()
  * @method static \Illuminate\Database\Query\Builder|PhoneVerifies withoutTrashed()
  * @mixin Eloquent
+ * @property int $id
+ * @method static Builder|PhoneVerifies whereId($value)
  */
 class PhoneVerifies extends Model
 {

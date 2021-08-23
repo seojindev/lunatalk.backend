@@ -37,6 +37,10 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductOptionMasters withoutTrashed()
  * @mixin Eloquent
+ * @property int $product_id 상품 id
+ * @property int|null $wireless 유무선.
+ * @method static Builder|ProductOptionMasters whereProductId($value)
+ * @method static Builder|ProductOptionMasters whereWireless($value)
  */
 class ProductOptionMasters extends Model
 {
@@ -44,6 +48,7 @@ class ProductOptionMasters extends Model
 
     protected $fillable = [
         'id',
+        'product_id',
         'product_uuid',
         'color',
         'wireless',

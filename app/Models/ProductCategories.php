@@ -33,6 +33,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|ProductCategories withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductCategories withoutTrashed()
  * @mixin Eloquent
+ * @property string $uuid uuid
+ * @method static Builder|ProductCategories whereUuid($value)
  */
 class ProductCategories extends Model
 {

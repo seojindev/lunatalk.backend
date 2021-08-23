@@ -43,4 +43,16 @@ use Illuminate\Support\Carbon;
 class MediaFiles extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'id',
+        'media_name',
+        'media_category',
+        'dest_path',
+        'file_name',
+        'original_name',
+        'file_type',
+        'file_size',
+        'file_extension'
+    ];
 }

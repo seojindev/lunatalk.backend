@@ -35,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|ProductBadges withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductBadges withoutTrashed()
  * @mixin Eloquent
+ * @property int $product_id 상품 uuid
+ * @method static Builder|ProductBadges whereProductId($value)
  */
 class ProductBadges extends Model
 {

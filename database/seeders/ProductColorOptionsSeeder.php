@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProductColorOptions;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -74,6 +75,8 @@ class ProductColorOptionsSeeder extends Seeder
             '라임옐로우',
         ];
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        ProductColorOptions::truncate();
 
         foreach ($colorItems as $item):
             DB::table('product_color_options')->insert([
@@ -84,5 +87,6 @@ class ProductColorOptionsSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         endforeach;
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

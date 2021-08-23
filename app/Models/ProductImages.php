@@ -37,6 +37,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|ProductImages withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductImages withoutTrashed()
  * @mixin Eloquent
+ * @property string $product_id 상품 uuid
+ * @method static Builder|ProductImages whereProductId($value)
  */
 class ProductImages extends Model
 {

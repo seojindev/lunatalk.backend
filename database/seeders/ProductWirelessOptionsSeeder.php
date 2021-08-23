@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProductWirelessOptions;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,9 @@ class ProductWirelessOptionsSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        ProductWirelessOptions::truncate();
+
         DB::table('product_wireless_options')->insert([
             'wireless' => 'Y',
             'active' => 'Y',
@@ -28,5 +32,7 @@ class ProductWirelessOptionsSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

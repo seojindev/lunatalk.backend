@@ -16,7 +16,7 @@ class CreateProductOptionMastersTable extends Migration
         Schema::create('product_option_masters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->nullable(false)->comment('상품 id');
-            $table->unsignedBigInteger('color')->nullable(false)->comment('상품 색.');
+            $table->unsignedBigInteger('color')->nullable()->comment('상품 색.');
             $table->unsignedBigInteger('wireless')->nullable()->comment('유무선.');
             $table->enum('active' , ['Y', 'N'])->nullable(false)->default('Y')->comment('상태');
             $table->timestamps();

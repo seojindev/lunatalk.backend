@@ -37,6 +37,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|ProductReviews withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductReviews withoutTrashed()
  * @mixin Eloquent
+ * @property int|null $product_id 상품 uuid
+ * @method static Builder|ProductReviews whereProductId($value)
  */
 class ProductReviews extends Model
 {
