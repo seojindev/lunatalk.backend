@@ -32,10 +32,10 @@ class RegisterTest extends BaseCustomTestCase
     public function test_front_v1_auth_register_인증_index_없이_요청()
     {
         $this->expectException(ClientErrorException::class);
-        $this->expectExceptionMessage(__('register.attempt.required.auth_id'));
+        $this->expectExceptionMessage(__('register.attempt.required.auth_index'));
 
         $testPayload = '{
-                "auth_id": "",
+                "auth_index": "",
                 "user_id": "",
                 "user_password": "",
                 "user_password_confirm": "",
@@ -53,7 +53,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.auth_code.exists'));
 
         $testPayload = '{
-                "auth_id": "111111",
+                "auth_index": "111111",
                 "user_id": "",
                 "user_password": "",
                 "user_password_confirm": "",
@@ -75,7 +75,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.auth_code.yet_verified'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "aaaaaaaaa",
                 "user_password": "password",
                 "user_password_confirm": "password",
@@ -114,7 +114,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.auth_code.verified'));
 
         $testPayload = '{
-                "auth_id": "'.$pv->id.'",
+                "auth_index": "'.$pv->id.'",
                 "user_id": "aaaaaaaaa",
                 "user_password": "password",
                 "user_password_confirm": "password",
@@ -140,7 +140,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_id'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "",
                 "user_password": "",
                 "user_password_confirm": "",
@@ -162,7 +162,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.user_id.check'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "t",
                 "user_password": "",
                 "user_password_confirm": "",
@@ -188,7 +188,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.user_id.unique'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "'.$test_login_id.'",
                 "user_password": "",
                 "user_password_confirm": "",
@@ -212,7 +212,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.prohibit_user_id'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "webmaster",
                 "user_password": "password",
                 "user_password_confirm": "password",
@@ -235,7 +235,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_password'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "testuser1",
                 "user_password": "",
                 "user_password_confirm": "",
@@ -258,7 +258,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.password.check'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "testuser1",
                 "user_password": "pass",
                 "user_password_confirm": "",
@@ -281,7 +281,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_password_confirm'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "testuser1",
                 "user_password": "password",
                 "user_password_confirm": "",
@@ -304,7 +304,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_password_same'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "testuser1",
                 "user_password": "password1",
                 "user_password_confirm": "password2",
@@ -327,7 +327,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_name'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "test1111",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -350,7 +350,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_email'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "test1111",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -373,7 +373,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.required.user_email'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "test1111",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -395,7 +395,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.email.check'));
 
         $testPayload = '{
-                "auth_id": "'.$auth_index.'",
+                "auth_index": "'.$auth_index.'",
                 "user_id": "test1111",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -415,7 +415,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.email.unique'));
 
         $testPayload = '{
-                "auth_id": "'.$this->testUser['pv_id'].'",
+                "auth_index": "'.$this->testUser['pv_id'].'",
                 "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -442,7 +442,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.select_email.required'));
 
         $testPayload = '{
-                "auth_id": "'.$result->id.'",
+                "auth_index": "'.$result->id.'",
                 "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -466,7 +466,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.select_email.in'));
 
         $testPayload = '{
-                "auth_id": "'.$result->id.'",
+                "auth_index": "'.$result->id.'",
                 "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -491,7 +491,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.select_message.required'));
 
         $testPayload = '{
-                "auth_id": "'.$result->id.'",
+                "auth_index": "'.$result->id.'",
                 "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -516,7 +516,7 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('register.attempt.select_message.in'));
 
         $testPayload = '{
-                "auth_id": "'.$result->id.'",
+                "auth_index": "'.$result->id.'",
                 "user_id": "'.'id'.uniqid().'",
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
@@ -540,7 +540,7 @@ class RegisterTest extends BaseCustomTestCase
         ]);
 
         $testPayload = '{
-                "auth_id": "'.$result->id.'",
+                "auth_index": "'.$result->id.'",
                 "user_id": "testuserid",
                 "user_password": "password",
                 "user_password_confirm": "password",
