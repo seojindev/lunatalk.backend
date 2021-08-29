@@ -113,7 +113,7 @@ class AuthServices
     public function attemptRegister() : array
     {
         $validator = Validator::make($this->currentRequest->all(), [
-            'auth_id' => 'required|exists:phone_verifies,id',
+            'auth_index' => 'required|exists:phone_verifies,id',
             'user_id' => 'required|between:5,20|regex:/^[a-z]/i|regex:/(^[A-Za-z0-9 ]+$)+/|unique:users,login_id',
             'user_password' => 'required|between:5,20',
             'user_password_confirm' => 'required|same:user_password|between:5,20',
@@ -124,8 +124,8 @@ class AuthServices
 
         ],
             [
-                'auth_id.required' => __('register.attempt.required.auth_id'),
-                'auth_id.exists' => __('register.attempt.auth_code.exists'),
+                'auth_index.required' => __('register.attempt.required.auth_index'),
+                'auth_index.exists' => __('register.attempt.auth_code.exists'),
                 'user_id.required' => __('register.attempt.required.user_id'),
                 'user_id.between' => __('register.attempt.user_id.check'),
                 'user_id.regex' => __('register.attempt.user_id.check'),
@@ -148,7 +148,7 @@ class AuthServices
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        $authTask = $this->phoneVerifyRepository->defaultFindById($this->currentRequest->input('auth_id'));
+        $authTask = $this->phoneVerifyRepository->defaultFindById($this->currentRequest->input('auth_index'));
 
         /**
          * 인증 받지 않은 auth index 인지.

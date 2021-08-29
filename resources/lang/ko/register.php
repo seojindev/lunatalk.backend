@@ -24,7 +24,7 @@ return [
     ],
     'attempt' => [
         'required' => [
-            'auth_id' => '휴대폰 인증 정보가 존재 하지 않습니다.',
+            'auth_index' => '휴대폰 인증을 해야 가입할수 있습니다.',
             'user_id' => '로그인 아이디를 입력해 주세요.',
             'user_password' => '패스워드를 입력해 주세요.',
             'user_password_confirm' => '패스워드 확인을 입력해 주세요.',
