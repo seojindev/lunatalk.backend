@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Development;
 
-use App\Models\MediaFiles;
-use App\Models\ProductColorOptions;
-use App\Models\ProductWirelessOptions;
+use App\Models\MediaFileMasters;
+use App\Models\ProductColorOptionMasters;
+use App\Models\ProductWirelessOptionMaster;
 use Http;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -94,11 +94,11 @@ class ProductsTxtToJson extends Command
             $products = array_map(function($element) use($bar) {
                 $arrayStep1 = explode("," , $element);
 
-                $optionStep1 = ProductColorOptions::select()->where('name', trim($arrayStep1[2]))->first();
+                $optionStep1 = ProductColorOptionMasters::select()->where('name', trim($arrayStep1[2]))->first();
 
                 if(trim($arrayStep1[3])) {
                     $wire = trim($arrayStep1[3]) == '무선' ? 'Y' : 'N';
-                    $optionStep2 = ProductWirelessOptions::select()->where('wireless', $wire)->first();
+                    $optionStep2 = ProductWirelessOptionMaster::select()->where('wireless', $wire)->first();
                 } else {
                     $optionStep2 = NULL;
                 }
@@ -256,7 +256,7 @@ class ProductsTxtToJson extends Command
 
         $result = json_decode($response->body())->data;
 
-        $task = MediaFiles::create([
+        $task = MediaFileMasters::create([
             'media_name' => $result->media_name,
             'media_category' => $result->media_category,
             'dest_path' => $result->dest_path,

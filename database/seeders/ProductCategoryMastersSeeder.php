@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductCategories;
+use App\Models\ProductCategoryMasters;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class ProductCategoriesSeeder extends Seeder
+class ProductCategoryMastersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +17,7 @@ class ProductCategoriesSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductCategories::truncate();
+        ProductCategoryMasters::truncate();
 
         $Categories = [
             'acc',
@@ -26,7 +26,7 @@ class ProductCategoriesSeeder extends Seeder
             'wallet'
         ];
         foreach ($Categories as $category) :
-            DB::table('product_categories')->insert([
+            DB::table('product_category_masters')->insert([
                 'name' => $category,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

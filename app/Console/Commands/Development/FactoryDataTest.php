@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands\Development;
 
-use App\Models\MediaFiles;
+use App\Models\MediaFileMasters;
 use App\Models\ProductBadgeMasters;
 use App\Models\ProductBadges;
 use App\Models\ProductImages;
 use App\Models\ProductReviews;
 use App\Models\User;
 use App\Models\PhoneVerifies;
-use App\Models\ProductCategories;
+use App\Models\ProductCategoryMasters;
 use App\Models\ProductMasters;
-use App\Models\ProductOptionMasters;
+use App\Models\ProductOptions;
 use App\Models\UserRegisterSelects;
 use Illuminate\Console\Command;
 
@@ -61,7 +61,7 @@ class FactoryDataTest extends Command
         echo " END ".PHP_EOL;
 
         echo "ProductCategories -> ";
-        ProductCategories::factory(20)->create();
+        ProductCategoryMasters::factory(20)->create();
         echo " END ".PHP_EOL;
 
         echo "ProductMasters -> ";
@@ -69,11 +69,11 @@ class FactoryDataTest extends Command
         echo " END ".PHP_EOL;
 
         echo "ProductOptionMasters -> ";
-        ProductOptionMasters::factory(20)->create();
+        ProductOptions::factory(20)->create();
         echo " END ".PHP_EOL;
 
         echo "MediaFiles -> ";
-        MediaFiles::factory(20)->create();
+        MediaFileMasters::factory(20)->create();
         echo " END ".PHP_EOL;
 
         echo "ProductReviews -> ";

@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductColorOptions;
+use App\Models\ProductColorOptionMasters;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ProductColorOptionsSeeder extends Seeder
+class ProductColorOptionMastersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -76,10 +76,10 @@ class ProductColorOptionsSeeder extends Seeder
         ];
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductColorOptions::truncate();
+        ProductColorOptionMasters::truncate();
 
         foreach ($colorItems as $item):
-            DB::table('product_color_options')->insert([
+            DB::table('product_color_option_masters')->insert([
                 'name' => $item,
                 'eng_name' => '',
                 'active' => 'Y',

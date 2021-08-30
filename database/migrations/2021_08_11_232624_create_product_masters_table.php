@@ -30,7 +30,7 @@ class CreateProductMastersTable extends Migration
 
             $table->index(['uuid', 'category', 'name']);
 
-            $table->foreign('category')->references('id')->on('product_categories')->onDelete('cascade');
+            $table->foreign('category')->references('id')->on('product_category_masters')->onDelete('cascade');
         });
     }
 

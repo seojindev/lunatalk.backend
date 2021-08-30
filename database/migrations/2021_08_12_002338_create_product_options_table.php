@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductOptionMastersTable extends Migration
+class CreateProductOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProductOptionMastersTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_option_masters', function (Blueprint $table) {
+        Schema::create('product_options', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id')->nullable(false)->comment('상품 id');
             $table->unsignedBigInteger('color')->nullable()->comment('상품 색.');
@@ -26,8 +26,8 @@ class CreateProductOptionMastersTable extends Migration
             $table->index(['product_id', 'color', 'wireless']);
 
             $table->foreign('product_id')->references('id')->on('product_masters')->onDelete('cascade');
-            $table->foreign('color')->references('id')->on('product_color_options')->onDelete('cascade');
-            $table->foreign('wireless')->references('id')->on('product_wireless_options')->onDelete('cascade');
+            $table->foreign('color')->references('id')->on('product_color_option_masters')->onDelete('cascade');
+            $table->foreign('wireless')->references('id')->on('product_wireless_option_masters')->onDelete('cascade');
         });
     }
 
@@ -38,6 +38,6 @@ class CreateProductOptionMastersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_option_masters');
+        Schema::dropIfExists('product_options');
     }
 }

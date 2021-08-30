@@ -49,7 +49,7 @@ namespace App\Models{
  * @property string $status 상태.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\MediaFiles|null $media_file
+ * @property-read \App\Models\MediaFileMasters|null $media_file
  * @property-read \App\Models\Products|null $product
  * @method static \Database\Factories\HomeMainsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|HomeMains newModelQuery()
@@ -108,20 +108,20 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\MediaFilesFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles query()
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereDestPath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereFileExtension($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereFileName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereFileSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereFileType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereMediaCategory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereMediaName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereOriginalName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFiles whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereDestPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereFileExtension($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereFileSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereFileType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereMediaCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereMediaName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereOriginalName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaFileMasters whereUpdatedAt($value)
  */
 	class MediaFiles extends \Eloquent {}
 }
@@ -137,7 +137,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Codes|null $category
- * @property-read \App\Models\MediaFiles|null $mediafile
+ * @property-read \App\Models\MediaFileMasters|null $mediafile
  * @method static \Database\Factories\ProductImagesFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductImages newQuery()

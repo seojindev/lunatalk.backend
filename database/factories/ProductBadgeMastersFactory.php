@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\MediaFiles;
+use App\Models\MediaFileMasters;
 use App\Models\ProductBadgeMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +24,7 @@ class ProductBadgeMastersFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'media_id' => MediaFiles::select('id')->inRandomOrder()->first()->id,
+            'media_id' => MediaFileMasters::select('id')->inRandomOrder()->first()->id,
             'active' => rand(0, 100) < 99 ? 'Y' : 'N'
         ];
     }

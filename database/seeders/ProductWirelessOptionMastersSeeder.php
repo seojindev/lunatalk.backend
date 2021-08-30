@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductWirelessOptions;
+use App\Models\ProductWirelessOptionMaster;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ProductWirelessOptionsSeeder extends Seeder
+class ProductWirelessOptionMastersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,16 +17,16 @@ class ProductWirelessOptionsSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductWirelessOptions::truncate();
+        ProductWirelessOptionMaster::truncate();
 
-        DB::table('product_wireless_options')->insert([
+        DB::table('product_wireless_option_masters')->insert([
             'wireless' => 'Y',
             'active' => 'Y',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('product_wireless_options')->insert([
+        DB::table('product_wireless_option_masters')->insert([
             'wireless' => 'N',
             'active' => 'Y',
             'created_at' => Carbon::now(),

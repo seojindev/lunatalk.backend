@@ -28,7 +28,7 @@ class CreateProductImagesTable extends Migration
 
             $table->foreign('product_id')->references('uuid')->on('product_masters')->onDelete('cascade');
             $table->foreign('media_category')->references('code_id')->on('codes')->onDelete('cascade');
-            $table->foreign('media_id')->references('id')->on('media_files')->onDelete('cascade');
+            $table->foreign('media_id')->references('id')->on('media_file_masters')->onDelete('cascade');
         });
     }
 

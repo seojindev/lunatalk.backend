@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\ProductCategories;
+use App\Models\ProductCategoryMasters;
 use App\Models\ProductMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +23,7 @@ class ProductMastersFactory extends Factory
     public function definition()
     {
         return [
-            'category' => ProductCategories::select('id')->inRandomOrder()->first()->id,
+            'category' => ProductCategoryMasters::select('id')->inRandomOrder()->first()->id,
             'name' => $this->faker->unique()->word(),
             'barcode' => $this->faker->unique()->randomNumber(),
             'price' => $this->faker->unique()->numberBetween(1000, 9000),

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMediaFilesTable extends Migration
+class CreateMediaFileMastersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMediaFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('media_files', function (Blueprint $table) {
+        Schema::create('media_file_masters', function (Blueprint $table) {
             $table->id();
             $table->string('media_name')->nullable(false)->comment('미디어명.');
             $table->string('media_category')->nullable(false)->comment('미디어 구분.');
@@ -36,6 +36,6 @@ class CreateMediaFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media_files');
+        Schema::dropIfExists('media_file_masters');
     }
 }

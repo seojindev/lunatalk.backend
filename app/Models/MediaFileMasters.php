@@ -24,23 +24,23 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static \Database\Factories\MediaFilesFactory factory(...$parameters)
- * @method static Builder|MediaFiles newModelQuery()
- * @method static Builder|MediaFiles newQuery()
- * @method static Builder|MediaFiles query()
- * @method static Builder|MediaFiles whereCreatedAt($value)
- * @method static Builder|MediaFiles whereDestPath($value)
- * @method static Builder|MediaFiles whereFileExtension($value)
- * @method static Builder|MediaFiles whereFileName($value)
- * @method static Builder|MediaFiles whereFileSize($value)
- * @method static Builder|MediaFiles whereFileType($value)
- * @method static Builder|MediaFiles whereId($value)
- * @method static Builder|MediaFiles whereMediaCategory($value)
- * @method static Builder|MediaFiles whereMediaName($value)
- * @method static Builder|MediaFiles whereOriginalName($value)
- * @method static Builder|MediaFiles whereUpdatedAt($value)
+ * @method static Builder|MediaFileMasters newModelQuery()
+ * @method static Builder|MediaFileMasters newQuery()
+ * @method static Builder|MediaFileMasters query()
+ * @method static Builder|MediaFileMasters whereCreatedAt($value)
+ * @method static Builder|MediaFileMasters whereDestPath($value)
+ * @method static Builder|MediaFileMasters whereFileExtension($value)
+ * @method static Builder|MediaFileMasters whereFileName($value)
+ * @method static Builder|MediaFileMasters whereFileSize($value)
+ * @method static Builder|MediaFileMasters whereFileType($value)
+ * @method static Builder|MediaFileMasters whereId($value)
+ * @method static Builder|MediaFileMasters whereMediaCategory($value)
+ * @method static Builder|MediaFileMasters whereMediaName($value)
+ * @method static Builder|MediaFileMasters whereOriginalName($value)
+ * @method static Builder|MediaFileMasters whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class MediaFiles extends Model
+class MediaFileMasters extends Model
 {
     use HasFactory;
 

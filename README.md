@@ -28,6 +28,7 @@ composer app-clear
 ```bash
 > 테스트 설정 리셋.
 composer app-test:clear
+php artisan db:wipe --env=testing && php artisan migrate --seed --env=testing && php artisan passport:install --force --env=testing
 
 > 유닌 테스트 와치 실행. 
 composer app-test:watch
@@ -38,12 +39,11 @@ composer app-test:factory
 ./vendor/bin/phpunit-watcher watch --filter=test_login_
 
 php artisan test
+php artisan test --stop-on-failure
+php artisan db:seed --class=CodesSeeder --force
 ```
 
-> php artisan db:seed --class=CodesSeeder --force
-
-
-> 기존 상품 정보 가지고 오기
+3. 기존 상품 정보 가지고 오기
 
 ```bash
 

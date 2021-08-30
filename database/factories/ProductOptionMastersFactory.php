@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\ProductCategories;
-use App\Models\ProductColorOptions;
+use App\Models\ProductCategoryMasters;
+use App\Models\ProductColorOptionMasters;
 use App\Models\ProductMasters;
-use App\Models\ProductOptionMasters;
-use App\Models\ProductWirelessOptions;
+use App\Models\ProductOptions;
+use App\Models\ProductWirelessOptionMaster;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductOptionMastersFactory extends Factory
@@ -16,7 +16,7 @@ class ProductOptionMastersFactory extends Factory
      *
      * @var string
      */
-    protected $model = ProductOptionMasters::class;
+    protected $model = ProductOptions::class;
 
     /**
      * Define the model's default state.
@@ -27,8 +27,8 @@ class ProductOptionMastersFactory extends Factory
     {
         return [
             'product_id' => ProductMasters::select('id')->inRandomOrder()->first()->id,
-            'color' => ProductColorOptions::select('id')->inRandomOrder()->first()->id,
-            'wireless' => ProductWirelessOptions::select('id')->inRandomOrder()->first()->id,
+            'color' => ProductColorOptionMasters::select('id')->inRandomOrder()->first()->id,
+            'wireless' => ProductWirelessOptionMaster::select('id')->inRandomOrder()->first()->id,
             'active' => rand(0, 100) < 99 ? 'Y' : 'N'
         ];
     }

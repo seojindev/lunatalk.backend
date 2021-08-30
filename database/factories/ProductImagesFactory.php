@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Codes;
-use App\Models\MediaFiles;
+use App\Models\MediaFileMasters;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -45,7 +45,7 @@ class ProductImagesFactory extends Factory
         return [
             'product_id' => ProductMasters::select('id')->inRandomOrder()->first()->id,
             'media_category' => $media_category,
-            'media_id' => MediaFiles::select('id')->inRandomOrder()->first()->id,
+            'media_id' => MediaFileMasters::select('id')->inRandomOrder()->first()->id,
             'active' => rand(0,100) < 99 ? 'Y' : 'N'
         ];
     }

@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Development;
 
-use App\Models\ProductCategories;
-use App\Models\ProductColorOptions;
+use App\Models\ProductCategoryMasters;
+use App\Models\ProductColorOptionMasters;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
-use App\Models\ProductOptionMasters;
-use App\Models\ProductWirelessOptions;
+use App\Models\ProductOptions;
+use App\Models\ProductWirelessOptionMaster;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Storage;
@@ -58,7 +58,7 @@ class ProductsJsonToCreate extends Command
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         ProductMasters::truncate();
-        ProductOptionMasters::truncate();
+        ProductOptions::truncate();
 
         $oldCategory = [
             'P010110' => 'acc',
@@ -78,7 +78,7 @@ class ProductsJsonToCreate extends Command
 
             foreach ($products as $product):
 
-                $category_id = ProductCategories::where('name', $oldCategory[$product['category']])->first()->id;
+                $category_id = ProductCategoryMasters::where('name', $oldCategory[$product['category']])->first()->id;
 
                 $pr = ProductMasters::create([
                     'category' => $category_id,
@@ -92,14 +92,14 @@ class ProductsJsonToCreate extends Command
                 ]);
 
                 if($product['option']['step1']) {
-                    ProductOptionMasters::create([
+                    ProductOptions::create([
                         'product_id' => $pr->id,
                         'color' => $product['option']['step1']
                     ]);
                 }
 
                 if($product['option']['step2']) {
-                    ProductOptionMasters::create([
+                    ProductOptions::create([
                         'product_id' => $pr->id,
                         'wireless' => $product['option']['step2']
                     ]);

@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CodesSeeder::class,
-            ProductColorOptionsSeeder::class,
-            ProductCategoriesSeeder::class,
-            ProductWirelessOptionsSeeder::class,
+            ProductColorOptionMastersSeeder::class,
+            ProductCategoryMastersSeeder::class,
+            ProductWirelessOptionMastersSeeder::class,
         ]);
     }
 }

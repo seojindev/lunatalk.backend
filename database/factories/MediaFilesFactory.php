@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\MediaFiles;
+use App\Models\MediaFileMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Helper;
 
@@ -13,7 +13,7 @@ class MediaFilesFactory extends Factory
      *
      * @var string
      */
-    protected $model = MediaFiles::class;
+    protected $model = MediaFileMasters::class;
 
     /**
      * Define the model's default state.
