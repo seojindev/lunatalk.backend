@@ -197,7 +197,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (AuthenticationException $e) use ($slackLogging) {
 
             $this->loggingChannel = 'AuthenticationException';
-            $error_message = __('exception.AuthenticationException') ?: $e->getMessage();
+            $error_message = $e->getMessage() == "Unauthenticated." ? __('exception.AuthenticationException'): $e->getMessage();
             $loggerMessage = $this->getLoggerMessage($error_message);
 
             Log::channel('AuthenticationException')->error($loggerMessage['file']);

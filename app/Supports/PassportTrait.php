@@ -9,6 +9,10 @@ use stdClass;
 
 trait PassportTrait
 {
+    /**
+     * @return object
+     * @throws ServerErrorException
+     */
     public function clientInfo() : object
     {
         $client = DB::table('oauth_clients')->where('id', 2)->first();
@@ -25,13 +29,18 @@ trait PassportTrait
 
         $returnObj = new stdClass();
 
-        // FIXME: id 경고
         $returnObj->client_id = $client->id;
         $returnObj->client_secret = $client->secret;
 
         return $returnObj;
     }
 
+    /**
+     * @param String $login_id
+     * @param String $login_password
+     * @return object
+     * @throws ServerErrorException
+     */
     public  function newToken(String $login_id, String $login_password) : object
     {
         $client = DB::table('oauth_clients')->where('id', 2)->first();
@@ -55,6 +64,11 @@ trait PassportTrait
         return $tokenRequestResult;
     }
 
+    /**
+     * @param String $refresh_token
+     * @return object
+     * @throws ServerErrorException
+     */
     public function tokenRefesh(String $refresh_token) : object
     {
         $client = DB::table('oauth_clients')->where('id', 2)->first();

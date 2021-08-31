@@ -48,7 +48,7 @@ class Kernel extends HttpKernel
         /**
          * Custom Setting
          *
-         * TODO: 테스트용 throttle 수정 요함.
+         * FIXME: 테스트용 throttle 수정 요함.
          */
         'api' => [
             \App\Http\Middleware\ApiBeforeMiddleware::class,

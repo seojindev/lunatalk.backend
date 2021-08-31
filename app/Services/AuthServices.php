@@ -7,6 +7,7 @@ use App\Exceptions\ClientErrorException;
 use App\Repositories\UserRegisterSelectsRepositoryInterface;
 use App\Repositories\PhoneVerifyRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -32,6 +33,21 @@ class AuthServices
         $this->userRepository = $userRepository;
         $this->phoneVerifyRepository = $phoneVerifyRepository;
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    protected function loginValidator() {
+        return Validator::make($this->currentRequest->all(), [
+            'login_id' => 'required|exists:users,login_id',
+            'login_password' => 'required',
+        ],
+            [
+                'login_id.required' => __('login.login_id_required'),
+                'login_id.exists' => __('login.login_id_exists'),
+                'login_password.required' => __('login.password_required'),
+            ]);
     }
 
     /**
@@ -75,6 +91,11 @@ class AuthServices
         ];
     }
 
+    /**
+     * @param Int $authIndex
+     * @return array
+     * @throws ClientErrorException
+     */
     public function phoneAuthConfirm(Int $authIndex) : array
     {
         $task = $this->phoneVerifyRepository->defaultFindById($authIndex);
@@ -110,6 +131,10 @@ class AuthServices
         ];
     }
 
+    /**
+     * @return array
+     * @throws ClientErrorException
+     */
     public function attemptRegister() : array
     {
         $validator = Validator::make($this->currentRequest->all(), [
@@ -212,17 +237,13 @@ class AuthServices
         ];
     }
 
+    /**
+     * @return array
+     * @throws ClientErrorException
+     */
     public function attemptLogin() : array
     {
-        $validator = Validator::make($this->currentRequest->all(), [
-            'login_id' => 'required|exists:users,login_id',
-            'login_password' => 'required',
-        ],
-            [
-                'login_id.required' => __('login.login_id_required'),
-                'login_id.exists' => __('login.login_id_exists'),
-                'login_password.required' => __('login.password_required'),
-            ]);
+        $validator = $this->loginValidator();
 
         if( $validator->fails() ) {
             // 로그인 실패.
@@ -248,6 +269,9 @@ class AuthServices
         ];
     }
 
+    /**
+     * @return string
+     */
     public function attemptLogout() : string
     {
         Auth::user()->token()->revoke();
@@ -255,6 +279,9 @@ class AuthServices
         return "정상 처리 하였습니다.";
     }
 
+    /**
+     * @return \App\Models\User|null
+     */
     public function getTokenInfo()
     {
         // auth()->user()->token()->revoke();
@@ -263,4 +290,48 @@ class AuthServices
         return $user;
     }
 
+    /**
+     * @return array
+     * @throws AuthenticationException
+     * @throws ClientErrorException|\App\Exceptions\ServerErrorException
+     */
+    public function attemptAdminLogin() : array
+    {
+        $validator = $this->loginValidator();
+
+        if( $validator->fails() ) {
+            // 로그인 실패.
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        if(!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
+            // 비밀번호 실패.
+            throw new ClientErrorException(__('login.password_fail'));
+        }
+
+        if(!(
+            Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password'), 'level' => config('extract.user_level.admin.level_code')]) ||
+            Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password'), 'level' => config('extract.user_level.root.level_code')])
+        )) {
+            // 비밀번호 실패.
+            throw new AuthenticationException(__('login.only_admin'));
+        }
+
+        $tokenRequestResult = $this->PassportTraitNewToken($this->currentRequest->input('login_id'), $this->currentRequest->input('login_password'));
+
+        return [
+            'access_token' => $tokenRequestResult->access_token,
+            'refresh_token' => $tokenRequestResult->refresh_token
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function attemptAdminLogout() : string
+    {
+        Auth::user()->token()->revoke();
+
+        return "정상 처리 하였습니다.";
+    }
 }
