@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductWirelessOptionMaster;
+use App\Models\ProductWirelessOptionMasters;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,7 @@ class ProductWirelessOptionMastersSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductWirelessOptionMaster::truncate();
+        ProductWirelessOptionMasters::truncate();
 
         DB::table('product_wireless_option_masters')->insert([
             'wireless' => 'Y',

@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\UserRegisterSelectsRepositoryInterface;
+use App\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserRegisterSelects;
 
-class UserRegisterSelectsRepository extends BaseRepository implements  UserRegisterSelectsRepositoryInterface
+class UserRegisterSelectsRepository extends BaseRepository implements UserRegisterSelectsRepositoryInterface
 {
     /**
      * @var Model
