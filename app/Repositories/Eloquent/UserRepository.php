@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\UserRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
-class UserRepository extends BaseRepository implements  UserRepositoryInterface
+class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     /**
      * @var Model

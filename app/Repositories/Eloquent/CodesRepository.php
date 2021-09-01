@@ -2,13 +2,10 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\CodesRepositoryInterface;
+use App\Repositories\Interfaces\CodesRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Codes;
 
-/**
- *
- */
 class CodesRepository extends BaseRepository implements CodesRepositoryInterface
 {
     /**

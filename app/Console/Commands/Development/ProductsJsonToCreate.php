@@ -7,7 +7,7 @@ use App\Models\ProductColorOptionMasters;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
 use App\Models\ProductOptions;
-use App\Models\ProductWirelessOptionMaster;
+use App\Models\ProductWirelessOptionMasters;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Storage;

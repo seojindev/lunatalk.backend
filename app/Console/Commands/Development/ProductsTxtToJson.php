@@ -4,7 +4,7 @@ namespace App\Console\Commands\Development;
 
 use App\Models\MediaFileMasters;
 use App\Models\ProductColorOptionMasters;
-use App\Models\ProductWirelessOptionMaster;
+use App\Models\ProductWirelessOptionMasters;
 use Http;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -98,7 +98,7 @@ class ProductsTxtToJson extends Command
 
                 if(trim($arrayStep1[3])) {
                     $wire = trim($arrayStep1[3]) == '무선' ? 'Y' : 'N';
-                    $optionStep2 = ProductWirelessOptionMaster::select()->where('wireless', $wire)->first();
+                    $optionStep2 = ProductWirelessOptionMasters::select()->where('wireless', $wire)->first();
                 } else {
                     $optionStep2 = NULL;
                 }

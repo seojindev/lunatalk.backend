@@ -4,10 +4,9 @@ namespace App\Services;
 
 use App\Supports\PassportTrait;
 use App\Exceptions\ClientErrorException;
-use App\Repositories\UserRegisterSelectsRepositoryInterface;
-use App\Repositories\PhoneVerifyRepositoryInterface;
-use App\Repositories\UserRepositoryInterface;
-use Illuminate\Auth\AuthenticationException;
+use App\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
+use App\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Auth;

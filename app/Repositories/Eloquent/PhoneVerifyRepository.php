@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\PhoneVerifyRepositoryInterface;
+use App\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PhoneVerifies;
 
