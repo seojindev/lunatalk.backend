@@ -7,6 +7,7 @@ use App\Exceptions\ClientErrorException;
 use App\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
 use App\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Auth;
