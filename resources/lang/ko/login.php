@@ -12,5 +12,6 @@ return [
     'password_required' => '패스워드를 입력해 주세요.',
     'password_fail' => '비밀번호를 확인해 주세요.',
     'block_user' => '로그인이 차단 상태인 사용자 입니다.',
+    'only_admin' => '관리자만 로그인 할수 있습니다.',
     'login_success' => '로그인에 성공했습니다.',
 ];

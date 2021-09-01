@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\Front\v1\AuthController;
+use App\Http\Controllers\Api\admin\v1\AuthController as AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,11 +42,10 @@ Route::group(['as' => 'api.'], function () {
     });
 
     /**
-     * api
+     * font api
      */
     Route::group(['namespace' => 'front', 'prefix' => 'front', 'as' => 'front.'], function () {
         Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
-
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::get('{phoneNumber}/phone-auth', [AuthController::class, 'phoneAuth'])->name('phone.auth'); // 인증번호 요청.
                 Route::post('{authIndex}/phone-auth-confirm', [AuthController::class, 'phoneAuthConfirm'])->name('phone.auth.confirm')->where('authIndex', '[0-9]+'); // 인증번호 확인.
@@ -53,6 +53,18 @@ Route::group(['as' => 'api.'], function () {
                 Route::post('login', [AuthController::class, 'login'])->name('login'); // 로그인.
                 Route::delete('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
                 Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
+            });
+        });
+    });
+
+    /**
+     * admin-font api
+     */
+    Route::group(['namespace' => 'admin', 'prefix' => 'admin-front', 'as' => 'admin-front.'], function () {
+        Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+            Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+                Route::post('login', [AdminAuthController::class, 'login'])->name('login'); // 로그인.
+                Route::delete('logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
             });
         });
     });
