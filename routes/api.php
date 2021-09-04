@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\Front\v1\AuthController;
 use App\Http\Controllers\Api\admin\v1\AuthController as AdminAuthController;
+use App\Http\Controllers\Api\admin\v1\ProductController as AdminProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,6 +66,12 @@ Route::group(['as' => 'api.'], function () {
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::post('login', [AdminAuthController::class, 'login'])->name('login'); // 로그인.
                 Route::delete('logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
+            });
+            Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+                Route::post('create-product-category', [AdminProductController::class, 'create_product_category'])->name('create.product.category');
+                Route::get('show-product-category', [AdminProductController::class, 'show_product_category'])->name('show.product.category');
+                Route::put('{productUUID}/update-product-category', [AdminProductController::class, 'update_product_category'])->name('update.product.category');
+                Route::delete('{productUUID}/delete-product-category', [AdminProductController::class, 'delete_product_category'])->name('delete.product.category');
             });
         });
     });

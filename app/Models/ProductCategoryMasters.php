@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Factories\ProductCategoriesFactory;
+use Database\Factories\ProductCategoryMastersFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static \Database\Factories\ProductCategoriesFactory factory(...$parameters)
+ * @method static \Database\Factories\ProductCategoryMastersFactory factory(...$parameters)
  * @method static Builder|ProductCategoryMasters newModelQuery()
  * @method static Builder|ProductCategoryMasters newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductCategoryMasters onlyTrashed()
@@ -40,13 +40,14 @@ class ProductCategoryMasters extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
     protected $fillable = [
         'id',
+        'uuid',
         'code',
         'name',
     ];
+
+    public function products() {
+        return $this->hasMany(ProductMasters::class, 'category' , 'id');
+    }
 }
