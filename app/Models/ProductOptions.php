@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Factories\ProductOptionMastersFactory;
+use Database\Factories\ProductOptionsFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static \Database\Factories\ProductOptionMastersFactory factory(...$parameters)
+ * @method static \Database\Factories\ProductOptionsFactory factory(...$parameters)
  * @method static Builder|ProductOptions newModelQuery()
  * @method static Builder|ProductOptions newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductOptions onlyTrashed()

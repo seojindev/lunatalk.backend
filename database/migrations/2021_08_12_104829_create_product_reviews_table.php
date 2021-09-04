@@ -15,7 +15,7 @@ class CreateProductReviewsTable extends Migration
     {
         Schema::create('product_reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable()->comment('상품 uuid');
+            $table->unsignedBigInteger('product_id')->nullable()->comment('상품 id');
             $table->unsignedBigInteger('user_id')->nullable()->comment('회원 번호');
             $table->text('contents')->nullable(false)->comment('리뷰 내용.');
             $table->enum('active', ['Y', 'N'])->default('Y')->comment('상태');

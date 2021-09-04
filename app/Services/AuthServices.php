@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\ServerErrorException;
+use App\Models\User;
 use App\Supports\PassportTrait;
 use App\Exceptions\ClientErrorException;
 use App\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
@@ -280,20 +282,17 @@ class AuthServices
     }
 
     /**
-     * @return \App\Models\User|null
+     * @return User|null
      */
-    public function getTokenInfo()
+    public function getTokenInfo(): ?User
     {
-        // auth()->user()->token()->revoke();
-        $user = Auth::user();
-
-        return $user;
+        return Auth::user();
     }
 
     /**
      * @return array
      * @throws AuthenticationException
-     * @throws ClientErrorException|\App\Exceptions\ServerErrorException
+     * @throws ClientErrorException|ServerErrorException
      */
     public function attemptAdminLogin() : array
     {

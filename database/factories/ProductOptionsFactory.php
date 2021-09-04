@@ -9,7 +9,7 @@ use App\Models\ProductOptions;
 use App\Models\ProductWirelessOptionMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProductOptionMastersFactory extends Factory
+class ProductOptionsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
