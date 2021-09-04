@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api\admin\v1;
 
+use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServerErrorException;
 use App\Http\Controllers\Api\RootController;
 use App\Services\AuthServices;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -24,8 +27,8 @@ class AuthController extends RootController
 
     /**
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws ClientErrorException
+     * @throws AuthenticationException|ServerErrorException
      */
     public function login()
     {

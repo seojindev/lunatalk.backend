@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Front\v1;
 
+use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Api\RootController;
 use App\Services\AuthServices;
 use Illuminate\Http\Request;
@@ -16,11 +17,17 @@ class AuthController extends RootController
         $this->authServices = $authServices;
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function phoneAuth(string $phoneNumber)
     {
         return Response::success($this->authServices->getPhoneAuthCode($phoneNumber));
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function phoneAuthConfirm(Int $authIndex)
     {
         !$authIndex ?? $authIndex = 0;
@@ -28,11 +35,17 @@ class AuthController extends RootController
         return Response::success($this->authServices->phoneAuthConfirm($authIndex));
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function register()
     {
         return Response::custom_success(201, __('register.register_success'), $this->authServices->attemptRegister());
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function login()
     {
         return Response::success($this->authServices->attemptLogin());

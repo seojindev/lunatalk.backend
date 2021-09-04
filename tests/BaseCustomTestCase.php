@@ -36,8 +36,8 @@ class BaseCustomTestCase extends TestCase
      */
     protected function getTestAdminAccessTokenHeader() : array
     {
-        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/v1/admin/auth/login', [
-            "login_id" => User::where('level', config('extract.user_level.guest.level_code'))->orderBy('id', 'ASC')->first()->login_id,
+        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/admin-front/v1/auth/login', [
+            "login_id" => User::where('level', config('extract.user_level.admin.level_code'))->orderBy('id', 'ASC')->first()->login_id,
             "login_password" => 'password'
         ]);
         return [
@@ -110,6 +110,7 @@ class BaseCustomTestCase extends TestCase
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         $users = User::select()->where('login_id', '<>', 'admin')->get()->toArray();
+
         foreach ($users as $user):
             PhoneVerifies::where('user_id', $user['id'])->forcedelete();
             User::where('id', $user['id'])->forcedelete();

@@ -20,4 +20,5 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     {
         parent::__construct($model);
     }
+
 }

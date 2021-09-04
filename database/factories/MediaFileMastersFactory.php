@@ -6,7 +6,7 @@ use App\Models\MediaFileMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Helper;
 
-class MediaFilesFactory extends Factory
+class MediaFileMastersFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.

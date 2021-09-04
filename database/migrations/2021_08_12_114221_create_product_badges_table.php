@@ -15,7 +15,7 @@ class CreateProductBadgesTable extends Migration
     {
         Schema::create('product_badges', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable(false)->comment('상품 uuid');
+            $table->unsignedBigInteger('product_id')->nullable(false)->comment('상품 id');
             $table->unsignedBigInteger('badge_id')->nullable(false)->comment('뱃지 아이디.');
             $table->enum('active' , ['Y', 'N'])->nullable(false)->default('Y')->comment('상태');
             $table->timestamps();
