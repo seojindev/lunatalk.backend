@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\admin\v1;
+namespace App\Http\Controllers\Api\Admin\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\AdminProductServices;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
