@@ -12,7 +12,8 @@ return [
         'error' => '오류가 발생 했습니다.',
     ],
 
-    'other' => [
+    'media' => [
+        'media_file' => '이미지를 등록해 주세요.',
         'image_check' => '이미지만 등록 가능합니다.',
         'image_mimes' => '업로드 가능한 이미지가 아닙니다. (jpeg,png,jpg,gif)',
         'image_max' => '업로드 이미지 용량 초과 입니다. (2048 byte)',

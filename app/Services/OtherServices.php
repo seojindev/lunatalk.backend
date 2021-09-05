@@ -44,10 +44,10 @@ class OtherServices
                 'media_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
             ],
                 [
-                    'media_file.required' => __('message.required.media_file'),
-                    'media_file.image' => __('message.other.image_check'),
-                    'media_file.mimes' => __('message.other.image_mimes'),
-                    'media_file.max' => __('message.other.image_max'),
+                    'media_file.required' => __('default.media.media_file'),
+                    'media_file.image' => __('default.media.image_check'),
+                    'media_file.mimes' => __('default.media.image_mimes'),
+                    'media_file.max' => __('default.media.image_max'),
                 ]);
 
             if( $validator->fails() ) {
@@ -105,6 +105,6 @@ class OtherServices
             ];
         }
 
-        throw new ClientErrorException(__('message.required.media_file'));
+        throw new ClientErrorException(__('default.media.media_file'));
     }
 }
