@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Other\v1\MediaController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\Front\v1\AuthController;
@@ -40,6 +41,17 @@ Route::group(['as' => 'api.'], function () {
         Route::get('check-notice', [SystemController::class, 'checkServerNotice'])->name('check.server.notice'); // 서버 공지 사항 체크
         Route::get('base-data', [SystemController::class, 'baseData'])->name('base.data'); // 공통 데이터.
 
+    });
+
+    /**
+     * Other
+     */
+    Route::group(['namespace' => 'other', 'prefix' => 'other', 'as' => 'other.'], function () {
+        Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+            Route::group(['prefix' => 'media', 'as' => 'media.'], function () {
+                Route::post('{mediaName}/{mediaCategory}/create', [MediaController::class, 'createMedia'])->name('create'); //파일 업로드.
+            });
+        });
     });
 
     /**
