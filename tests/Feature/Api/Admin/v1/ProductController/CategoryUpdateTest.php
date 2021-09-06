@@ -6,6 +6,7 @@ use App\Exceptions\ClientErrorException;
 use App\Models\ProductCategoryMasters;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
@@ -65,5 +66,11 @@ class CategoryUpdateTest extends BaseCustomTestCase
         $response->assertJsonStructure([
             'message',
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        ProductCategoryMasters::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        $this->artisan('db:seed',['--class' => 'ProductCategoryMastersSeeder']);
     }
 }

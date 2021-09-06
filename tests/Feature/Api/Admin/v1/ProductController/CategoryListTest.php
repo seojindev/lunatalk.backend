@@ -24,10 +24,20 @@ class CategoryListTest extends BaseCustomTestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_admin_front_v1_product_category_list_요청()
     {
-        $response = $this->get('/');
-
+        $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('GET', $this->apiURL);
         $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'message',
+            'result' => [
+                '*' => [
+                    "id",
+                    "uuid",
+                    "name",
+                    "products_count"
+                ],
+            ]
+        ]);
     }
 }

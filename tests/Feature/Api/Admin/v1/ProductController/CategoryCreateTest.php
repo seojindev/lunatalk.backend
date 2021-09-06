@@ -4,7 +4,10 @@ namespace Tests\Feature\Api\Admin\v1\ProductController;
 
 use App\Exceptions\ClientErrorException;
 use App\Models\ProductCategoryMasters;
+use App\Models\ProductMasters;
+use Database\Seeders\ProductCategoryMastersSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\BaseCustomTestCase;
 
 class CategoryCreateTest extends BaseCustomTestCase
@@ -64,5 +67,13 @@ EOF;
         ]);
         $res_array = (array)json_decode($response->content());
         ProductCategoryMasters::where('uuid', $res_array["result"]->uuid)->forceDelete();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        ProductCategoryMasters::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        $this->artisan('db:seed',['--class' => 'ProductCategoryMastersSeeder']);
+
+
     }
 }
