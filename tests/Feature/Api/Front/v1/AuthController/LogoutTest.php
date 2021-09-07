@@ -2,12 +2,7 @@
 
 namespace Tests\Feature\Api\Front\v1\AuthController;
 
-use App\Exceptions\ClientErrorException;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
 
 class LogoutTest extends BaseCustomTestCase

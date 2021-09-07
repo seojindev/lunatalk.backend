@@ -80,15 +80,15 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
             });
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
-                Route::post('create-product-category', [AdminProductController::class, 'create_product_category'])->name('create.product.category');
-                Route::get('show-product-category', [AdminProductController::class, 'show_product_category'])->name('show.product.category');
-                Route::put('{productUUID}/update-product-category', [AdminProductController::class, 'update_product_category'])->name('update.product.category');
-                Route::delete('{productUUID}/delete-product-category', [AdminProductController::class, 'delete_product_category'])->name('delete.product.category');
+                Route::post('create-product-category', [AdminProductController::class, 'createProductCategory'])->name('create.product.category');  // 상품 카테고리 추가.
+                Route::get('show-product-category', [AdminProductController::class, 'showProductCategory'])->name('show.product.category'); // 상품 카테고리 리스트.
+                Route::put('{productCategoryUUID}/update-product-category', [AdminProductController::class, 'updateProductCategory'])->name('update.product.category'); // 상품 카테고리 수정.
+                Route::delete('{productCategoryUUID}/delete-product-category', [AdminProductController::class, 'deleteProductCategory'])->name('delete.product.category'); // 상품 카테고리 삭제.
 
-                Route::post('create-product-category', [AdminProductController::class, 'create_product_category'])->name('create.product');
-                Route::get('show-product-category', [AdminProductController::class, 'show_product_category'])->name('show.product');
-                Route::put('{productUUID}/update-product-category', [AdminProductController::class, 'update_product_category'])->name('update.product');
-                Route::delete('{productUUID}/delete-product-category', [AdminProductController::class, 'delete_product_category'])->name('delete.product');
+                Route::post('create-product', [AdminProductController::class, 'createProduct'])->name('create.product'); // 상품 추가.
+                Route::get('show-product/{Page}', [AdminProductController::class, 'showProduct'])->name('show.product')->where('Page', '[0-9]+'); // 상품 리스트.
+                Route::put('{productUUID}/update-product', [AdminProductController::class, 'updateProduct'])->name('update.product');   // 상품 정보 수정.
+                Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제.
             });
         });
     });

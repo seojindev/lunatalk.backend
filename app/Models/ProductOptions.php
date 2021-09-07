@@ -7,6 +7,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -46,12 +47,30 @@ class ProductOptions extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'id',
         'product_id',
-        'product_uuid',
         'color',
         'wireless',
         'active'
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function color()
+    {
+        return $this->hasOne(ProductColorOptionMasters::class, 'id', 'color');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function wireless()
+    {
+        return $this->hasOne(ProductWirelessOptionMasters::class, 'id' , 'wireless');
+    }
 }

@@ -3,8 +3,6 @@
 namespace Tests\Feature\Api\Front\v1\AuthController;
 
 use App\Exceptions\ClientErrorException;
-use App\Models\PhoneVerifies;
-use App\Models\UserPhoneVerify;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 

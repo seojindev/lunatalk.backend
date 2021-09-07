@@ -3,7 +3,6 @@
 namespace Tests\Feature\Api\Other\v1\MediaController;
 
 use App\Exceptions\ClientErrorException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

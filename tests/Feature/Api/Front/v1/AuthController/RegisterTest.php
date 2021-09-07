@@ -5,6 +5,7 @@ namespace Tests\Feature\Api\Front\v1\AuthController;
 use App\Exceptions\ClientErrorException;
 use App\Models\PhoneVerifies;
 use App\Models\User;
+use App\Models\UserRegisterSelects;
 use Crypt;
 use Hash;
 use Helper;
@@ -567,6 +568,7 @@ class RegisterTest extends BaseCustomTestCase
 
         $task = User::where('login_id', 'testuserid')->first();
         PhoneVerifies::where('user_id', $task->id)->forcedelete();
+        UserRegisterSelects::where('user_id', $task->id)->forcedelete();
         User::where('id', $task->id)->forcedelete();
 
         $this->deleteTestUser();

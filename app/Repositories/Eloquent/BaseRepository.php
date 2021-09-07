@@ -111,4 +111,14 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         return $this->findById($modelId)->delete();
     }
+
+    /**
+     * @param string $columnsName
+     * @param string $value
+     * @return bool
+     */
+    public function deleteByCustomColumn(string $columnsName, string $value): bool
+    {
+        return $this->model->where($columnsName, $value)->delete();
+    }
 }

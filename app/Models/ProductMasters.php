@@ -47,6 +47,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|ProductMasters withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductMasters withoutTrashed()
  * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
+ * @property-read int|null $options_count
  */
 class ProductMasters extends Model
 {
@@ -64,4 +66,14 @@ class ProductMasters extends Model
         'sale',
         'active'
     ];
+
+    public function category()
+    {
+        return $this->hasOne(ProductCategoryMasters::class, 'id', 'category');
+    }
+
+    public function options()
+    {
+        return $this->hasMany(ProductOptions::class, 'product_id', 'id');
+    }
 }

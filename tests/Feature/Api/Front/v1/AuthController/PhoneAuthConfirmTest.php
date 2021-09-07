@@ -5,8 +5,6 @@ namespace Tests\Feature\Api\Front\v1\AuthController;
 use App\Exceptions\ClientErrorException;
 use App\Models\PhoneVerifies;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 

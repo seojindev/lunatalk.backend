@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api\Admin\v1\ProductController;
 
-use App\Exceptions\ClientErrorException;
 use App\Models\ProductCategoryMasters;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\WithFaker;

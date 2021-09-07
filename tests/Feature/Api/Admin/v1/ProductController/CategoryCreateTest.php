@@ -4,8 +4,6 @@ namespace Tests\Feature\Api\Admin\v1\ProductController;
 
 use App\Exceptions\ClientErrorException;
 use App\Models\ProductCategoryMasters;
-use App\Models\ProductMasters;
-use Database\Seeders\ProductCategoryMastersSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\BaseCustomTestCase;
