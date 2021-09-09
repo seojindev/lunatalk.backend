@@ -82,6 +82,7 @@ Route::group(['as' => 'api.'], function () {
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::post('create-product-category', [AdminProductController::class, 'createProductCategory'])->name('create.product.category');  // 상품 카테고리 추가.
                 Route::get('show-product-category', [AdminProductController::class, 'showProductCategory'])->name('show.product.category'); // 상품 카테고리 리스트.
+                Route::get('{productCategoryUUID}/detail-product-category', [AdminProductController::class, 'detailProductCategory'])->name('detail.product.category'); // 상품 카테고리 상세.
                 Route::put('{productCategoryUUID}/update-product-category', [AdminProductController::class, 'updateProductCategory'])->name('update.product.category'); // 상품 카테고리 수정.
                 Route::delete('{productCategoryUUID}/delete-product-category', [AdminProductController::class, 'deleteProductCategory'])->name('delete.product.category'); // 상품 카테고리 삭제.
 

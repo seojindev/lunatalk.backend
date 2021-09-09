@@ -34,6 +34,15 @@ class ProductController extends Controller
     /**
      * @param string $productCategoryUUID
      * @return mixed
+     */
+    public function detailProductCategory(string $productCategoryUUID)
+    {
+        return Response::custom_success(200, __('default.response.process_success'), $this->adminProductServices->detailProductCategory($productCategoryUUID));
+    }
+
+    /**
+     * @param string $productCategoryUUID
+     * @return mixed
      * @throws ClientErrorException
      */
     public function updateProductCategory(string $productCategoryUUID)

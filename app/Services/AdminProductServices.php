@@ -82,6 +82,20 @@ class AdminProductServices
 
     /**
      * @param string $productCategoryUUID
+     * @return array
+     */
+    public function detailProductCategory(string $productCategoryUUID) : array
+    {
+        $task = $this->productCategoryMastersRepository->defaultCustomFind('uuid', $productCategoryUUID);
+
+        return [
+            'uuid' => $task->uuid,
+            'name' => $task->name
+        ];
+    }
+
+    /**
+     * @param string $productCategoryUUID
      * @throws ClientErrorException
      */
     public function updateProductCategotry(string $productCategoryUUID) : void
