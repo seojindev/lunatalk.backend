@@ -3,13 +3,10 @@
 namespace Tests\Feature\Api\Admin\v1\ProductController;
 
 use App\Models\ProductCategoryMasters;
-use App\Models\ProductMasters;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
-class productDetailTest extends BaseCustomTestCase
+class categoryDetailTest extends BaseCustomTestCase
 {
     protected string $apiURL;
 
@@ -20,7 +17,7 @@ class productDetailTest extends BaseCustomTestCase
         $this->apiURL = "/api/admin-front/v1/product/:uuid:/detail-product-category";
     }
 
-    public function test_admin_front_v1_product_detail_존재하지_않은_uuid_요청()
+    public function test_admin_front_v1_product_category_detail_존재하지_않은_uuid_요청()
     {
         $this->expectException(ModelNotFoundException::class);
 
