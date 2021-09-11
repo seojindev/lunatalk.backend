@@ -355,4 +355,40 @@ class AdminProductServices
             ];
         }, $taskResult);
     }
+
+    /**
+     * @param string $productUUID
+     * @return array
+     */
+    public function detailProduct(string $productUUID) : array
+    {
+        $task = $this->productMastersRepository->getAdminDetailProductMasters($productUUID)->toArray();
+
+        return [
+            'uuid' => $task['uuid'],
+            'category' => [
+                'uuid' => $task['category']['uuid'],
+                'name' => $task['category']['name']
+            ],
+            'name' => $task['name'],
+            "barcode" => $task['barcode'],
+            "price" => [
+                'number' => $task['price'],
+                'string' => number_format($task['price'])
+            ],
+            "stock" => [
+                'number' => $task['stock'],
+                'string' => number_format($task['stock'])
+            ],
+            "memo" => $task['memo'],
+            "sale" => $task['sale'],
+            "active" => $task['active'],
+            "options" => array_map(function($item) {
+                return [
+                    "color" => $item['color']['name'],
+                    "wireless" => $item['wireless']['wireless'],
+                ];
+            } , $task['options']),
+        ];
+    }
 }

@@ -38,4 +38,21 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
             $query->select(['id','wireless']);
         }])->get();
     }
+
+    /**
+     * @param string $uuid
+     * @return Builder|Model
+     */
+    public function getAdminDetailProductMasters(string $uuid)
+    {
+        return $this->model->with(['category' => function($query){
+            $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
+        }, 'options' => function($query) {
+            $query->select(['id', 'product_id', 'color', 'wireless']);
+        }, 'options.color' => function($query) {
+            $query->select(['id', 'name']);
+        }, 'options.wireless' => function($query) {
+            $query->select(['id','wireless']);
+        }])->where('uuid' , $uuid)->firstOrFail();
+    }
 }

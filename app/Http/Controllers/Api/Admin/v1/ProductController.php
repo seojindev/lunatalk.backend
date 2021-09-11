@@ -108,4 +108,13 @@ class ProductController extends Controller
     {
         return Response::success($this->adminProductServices->defaultShowProduct($Page));
     }
+
+    /**
+     * @param string $productUUID
+     * @return mixed
+     */
+    public function detailProduct(string $productUUID)
+    {
+        return Response::custom_success(200, __('default.response.process_success'), $this->adminProductServices->detailProduct($productUUID));
+    }
 }

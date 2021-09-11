@@ -90,6 +90,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('show-product/{Page}', [AdminProductController::class, 'showProduct'])->name('show.product')->where('Page', '[0-9]+'); // 상품 리스트.
                 Route::put('{productUUID}/update-product', [AdminProductController::class, 'updateProduct'])->name('update.product');   // 상품 정보 수정.
                 Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제.
+                Route::get('{productUUID}/detail-product', [AdminProductController::class, 'detailProduct'])->name('detail.product'); // 상품 상세.
             });
         });
     });
