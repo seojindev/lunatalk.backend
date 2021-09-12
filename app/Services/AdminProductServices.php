@@ -427,8 +427,8 @@ class AdminProductServices
             "active" => $task['active'],
             "options" => array_map(function($item) {
                 return [
-                    "color" => $item['color']['name'],
-                    "wireless" => $item['wireless']['wireless'],
+                    "color" => isset($item['color']) && $item['color'] ? $item['color']['name'] : null,
+                    "wireless" => isset($item['wireless']) && $item['wireless'] ? $item['wireless'] : null,
                 ];
             } , $task['options']),
         ];
