@@ -29,6 +29,7 @@ composer app-clear
 > 테스트 설정 리셋.
 composer app-test:clear
 php artisan db:wipe --env=testing && php artisan migrate --seed --env=testing && php artisan passport:install --force --env=testing
+php artisan db:wipe && php artisan migrate --seed && php artisan passport:install --force
 
 > 유닌 테스트 와치 실행. 
 composer app-test:watch

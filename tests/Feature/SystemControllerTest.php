@@ -72,9 +72,37 @@ class SystemControllerTest extends BaseCustomTestCase
         $response->assertJsonStructure([
             'message',
             'result' => [
-                "codes" => [
-                    "code_name",
-                    "code_group"
+                'codes' => [
+                    'code_name',
+                    'code_group'
+                ],
+                'products' => [
+                    'list' => [
+                        '*' => [
+                            'id',
+                            'uuid',
+                            'name',
+                            'category' => [
+                                'id',
+                                'uuid',
+                                'name'
+                            ],
+                            'options'=> [
+                                '*' => [
+                                    'id',
+                                    'product_id',
+                                    'color' => [
+                                        'id',
+                                        'name'
+                                    ],
+                                    'wireless' => [
+                                        'id',
+                                        'wireless'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
                 ]
             ]
         ]);

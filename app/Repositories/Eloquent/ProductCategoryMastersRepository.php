@@ -22,6 +22,9 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
         parent::__construct($model);
     }
 
+    /**
+     * @return Collection
+     */
     public function getWithProductCount() : Collection
     {
         return $this->model->withCount('products')->get();

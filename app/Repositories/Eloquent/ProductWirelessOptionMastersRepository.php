@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Repositories\Interfaces\ProductWirelessOptionMastersInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductWirelessOptionMasters;
 
@@ -19,5 +20,13 @@ class ProductWirelessOptionMastersRepository extends BaseRepository implements P
     public function __construct(ProductWirelessOptionMasters $model)
     {
         parent::__construct($model);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getActiveAll() : Collection
+    {
+        return $this->model->where('active', 'Y')->get();
     }
 }
