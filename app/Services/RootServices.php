@@ -2,6 +2,8 @@
 
 
 namespace App\Services;
+use App\Models\ProductCategoryMasters;
+use App\Repositories\Eloquent\ProductCategoryMastersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -44,8 +46,14 @@ class RootServices
     protected ProductWirelessOptionMastersRepository $productWirelessOptionMastersRepository;
 
     /**
+     * @var ProductCategoryMastersRepository
+     */
+    protected ProductCategoryMastersRepository $productCategoryMastersRepository;
+
+    /**
      * @param Request $request
      * @param CodesRepository $codesRepository
+     * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      * @param ProductMastersRepository $productMastersRepository
      * @param ProductColorOptionMastersRepository $productColorOptionMastersRepository
      * @param ProductWirelessOptionMastersRepository $productWirelessOptionMastersRepository
@@ -53,12 +61,14 @@ class RootServices
     function __construct(
         Request $request,
         CodesRepository $codesRepository,
+        ProductCategoryMastersRepository $productCategoryMastersRepository,
         ProductMastersRepository $productMastersRepository,
         ProductColorOptionMastersRepository $productColorOptionMastersRepository,
         ProductWirelessOptionMastersRepository $productWirelessOptionMastersRepository
     ){
         $this->currentRequest = $request;
         $this->codesRepository = $codesRepository;
+        $this->productCategoryMastersRepository = $productCategoryMastersRepository;
         $this->productMastersRepository = $productMastersRepository;
         $this->productColorOptionMastersRepository = $productColorOptionMastersRepository;
         $this->productWirelessOptionMastersRepository = $productWirelessOptionMastersRepository;
@@ -136,6 +146,12 @@ class RootServices
     public function getProducts() : array {
 
         return [
+            'category' => array_map(function($item) {
+                return [
+                    'uuid' => $item['uuid'],
+                    'name' => $item['name']
+                ];
+            }, $this->productCategoryMastersRepository->getActiveAll()->toArray()),
             'list' => array_map(function ($item) {
                 return [
                     'id' => $item['id'],

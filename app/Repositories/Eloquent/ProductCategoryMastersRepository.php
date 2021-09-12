@@ -29,4 +29,12 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
     {
         return $this->model->withCount('products')->get();
     }
+
+    /**
+     * @return Collection
+     */
+    public function getActiveAll() : Collection
+    {
+        return $this->model->where('active' , 'Y')->get();
+    }
 }

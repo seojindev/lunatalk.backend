@@ -77,6 +77,12 @@ class SystemControllerTest extends BaseCustomTestCase
                     'code_group'
                 ],
                 'products' => [
+                    'category' => [
+                        '*' => [
+                            'uuid',
+                            'name'
+                        ]
+                    ],
                     'list' => [
                         '*' => [
                             'id',
@@ -101,6 +107,19 @@ class SystemControllerTest extends BaseCustomTestCase
                                     ]
                                 ]
                             ]
+                        ]
+                    ],
+                    'color_options' => [
+                        '*' => [
+                            'id',
+                            'name',
+                            'eng_name'
+                        ]
+                    ],
+                    'wireless_options' => [
+                        '*' => [
+                            'id',
+                            'wireless'
                         ]
                     ],
                 ]
