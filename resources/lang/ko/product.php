@@ -24,6 +24,15 @@ return [
                     'required' => '제목을 입력해 주세요.',
                 ]
             ],
+            'delete' => [
+                'uuid' => [
+                    'required' => 'uuid 정보가 존재 하지 않습니다.',
+                    'exits' => '존재하는 카테고리정보가 아닙니다.',
+                ],
+                'name' => [
+                    'required' => '제목을 입력해 주세요.',
+                ]
+            ],
         ],
         'product' =>[
             'service' => [

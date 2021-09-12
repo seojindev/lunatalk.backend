@@ -130,7 +130,7 @@ class AdminProductServices
      * @param string $productCategoryUUID
      * @throws ClientErrorException
      */
-    public function deleteProductCategotry(string $productCategoryUUID) : void
+    public function deleteProductCategory(string $productCategoryUUID) : void
     {
         if(empty($productCategoryUUID)) {
             throw new ClientErrorException(__('product.admin.update.uuid.required'));
@@ -143,6 +143,26 @@ class AdminProductServices
         }
 
         $this->productCategoryMastersRepository->deleteById($findTask->id);
+    }
+
+    /**
+     * @throws ClientErrorException
+     */
+    public function deleteProductCategories() : void
+    {
+        $taskUUID = $this->currentRequest->input('uuid');
+
+        if(empty($taskUUID)) {
+            throw new ClientErrorException(__('product.admin.category.delete.uuid.required'));
+        }
+
+        foreach ($taskUUID as $uuid) {
+            $this->productCategoryMastersRepository->defaultCustomFind('uuid', $uuid);
+        }
+
+        foreach ($taskUUID as $uuid) {
+            $this->productCategoryMastersRepository->deleteByCustomColumn('uuid', $uuid);
+        }
     }
 
     /**
@@ -331,6 +351,7 @@ class AdminProductServices
      */
     public function deleteProduct(string $productUUID) : void
     {
+        // TODO: 상품 단건 삭제 처리.
         $product = $this->productMastersRepository->defaultCustomFind('uuid', $productUUID);
         $this->productMastersRepository->deleteById($product->id);
         $this->productOptionsRepository->deleteByCustomColumn('product_id', $product->id);

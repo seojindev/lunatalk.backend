@@ -58,7 +58,17 @@ class ProductController extends Controller
      */
     public function deleteProductCategory(string $productCategoryUUID)
     {
-        $this->adminProductServices->deleteProductCategotry($productCategoryUUID);
+        $this->adminProductServices->deleteProductCategory($productCategoryUUID);
+        return Response::success_only_message(200);
+    }
+
+    /**
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function deleteProductCategories()
+    {
+        $this->adminProductServices->deleteProductCategories();
         return Response::success_only_message(200);
     }
 
