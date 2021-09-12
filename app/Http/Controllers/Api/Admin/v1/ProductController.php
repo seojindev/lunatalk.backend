@@ -111,6 +111,16 @@ class ProductController extends Controller
     }
 
     /**
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function deleteProducts()
+    {
+        $this->adminProductServices->deleteProducts();
+        return Response::success_only_message(200);
+    }
+
+    /**
      * @param Int $Page
      * @return mixed
      */

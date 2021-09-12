@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
-class productDeleteTest extends BaseCustomTestCase
+class ProductDeleteTest extends BaseCustomTestCase
 {
     protected string $apiURL;
 

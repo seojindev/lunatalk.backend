@@ -8,7 +8,7 @@ use App\Models\ProductOptions;
 use Illuminate\Support\Facades\DB;
 use Tests\BaseCustomTestCase;
 
-class productListTest extends BaseCustomTestCase
+class ProductListTest extends BaseCustomTestCase
 {
     protected string $apiURL;
 

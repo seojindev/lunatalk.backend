@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\BaseCustomTestCase;
 
-class productCreateTest extends BaseCustomTestCase
+class ProductCreateTest extends BaseCustomTestCase
 {
     use WithFaker;
 
