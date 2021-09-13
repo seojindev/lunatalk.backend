@@ -148,6 +148,7 @@ class RootServices
         return [
             'category' => array_map(function($item) {
                 return [
+                    'id' => $item['id'],
                     'uuid' => $item['uuid'],
                     'name' => $item['name']
                 ];

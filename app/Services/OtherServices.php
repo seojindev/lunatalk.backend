@@ -6,6 +6,7 @@ use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Eloquent\MediaFileMastersRepository;
@@ -79,6 +80,8 @@ class OtherServices
 
             Storage::delete('app/upload_tmp_images' . '/' . $origialName);
 
+            Log::debug($response->body());
+
             if(!$response->successful()) {
                 $result = $response->json();
                 throw new ServiceErrorException($result['message']);
@@ -101,6 +104,7 @@ class OtherServices
                 'media_id' => $task->id,
                 'media_name' => $result->media_name,
                 'media_category' => $result->media_category,
+                'file_name' => $result->new_file_name,
                 'media_full_url' => $result->media_full_url,
             ];
         }

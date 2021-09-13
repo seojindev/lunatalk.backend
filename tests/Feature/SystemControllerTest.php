@@ -79,6 +79,7 @@ class SystemControllerTest extends BaseCustomTestCase
                 'products' => [
                     'category' => [
                         '*' => [
+                            'id',
                             'uuid',
                             'name'
                         ]
