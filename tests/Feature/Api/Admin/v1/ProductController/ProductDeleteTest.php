@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Admin\v1\ProductController;
 
+use App\Exceptions\ClientErrorException;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
 use App\Models\ProductOptions;

@@ -42,7 +42,8 @@ class ProductsDeleteTest extends BaseCustomTestCase
     public function test_admin_front_v1_products_delete_존재하지_않은_uuid_요청()
     {
 
-        $this->expectException(ModelNotFoundException::class);
+        $this->expectException(ClientErrorException::class);
+        $this->expectExceptionMessage(__('product.admin.product.service.uuid.exists'));
 
         $payload = [
             "uuid" => [

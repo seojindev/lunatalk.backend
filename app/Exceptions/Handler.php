@@ -76,6 +76,8 @@ class Handler extends ExceptionHandler
         $slackLogging = (env('APP_ENV') != "testing" && env('APP_ENV') != "local");
 
         /**
+         * 정상 이지만 에러 메시지를 보낼 경우.
+         *
          * ServiceException
          */
         $this->renderable(function (ServiceErrorException $e) use ($slackLogging) {
@@ -90,7 +92,7 @@ class Handler extends ExceptionHandler
                 Log::channel('slack')->error($loggerMessage['slack']);
             }
 
-            return Response::error(400, $error_message);
+            return Response::error(200, $error_message);
         });
 
         // 토큰 정보 처리중 발생하는 exception 인데 캐치를 못하네.

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServiceErrorException;
 use App\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Repositories\Eloquent\ProductMastersRepository;
 use App\Repositories\Eloquent\ProductOptionsRepository;
@@ -168,10 +169,15 @@ class AdminProductServices
 
     /**
      * @return array
+     * @throws ServiceErrorException
      */
     public function showProductCategotry() : array
     {
         $task = $this->productCategoryMastersRepository->getWithProductCount()->toArray();
+
+        if(empty($task)) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
 
         return array_map(function($item) {
             return [
@@ -356,7 +362,7 @@ class AdminProductServices
         $product = $this->productMastersRepository->defaultCustomFind('uuid', $productUUID);
         $this->productMastersRepository->deleteById($product->id);
         $this->productOptionsRepository->deleteByCustomColumn('product_id', $product->id);
-        $this->productImagesRepository->deleteByCustomColumn('product_id', $product->id);;
+        $this->productImagesRepository->deleteByCustomColumn('product_id', $product->id);
     }
 
     /**
@@ -364,28 +370,40 @@ class AdminProductServices
      */
     public function deleteProducts() : void
     {
-        $taskUUID = $this->currentRequest->input('uuid');
+        $validator = Validator::make($this->currentRequest->all(), [
+            'uuid' => 'required|array|min:1',
+            'uuid.*' => 'exists:product_masters,uuid'
+        ],
+            [
+                'uuid.required' => __('product.admin.product.service.uuid.required'),
+                'uuid.array' => __('product.admin.product.service.uuid.array'),
+                'uuid.*.exists' => __('product.admin.product.service.uuid.exists'),
+            ]);
 
-        if(empty($taskUUID)) {
-            throw new ClientErrorException(__('product.admin.product.service.uuid.required'));
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
         }
 
-        foreach ($taskUUID as $uuid) {
-            $this->productMastersRepository->defaultCustomFind('uuid', $uuid);
-        }
-
-        foreach ($taskUUID as $uuid) {
-            $this->productMastersRepository->deleteByCustomColumn('uuid', $uuid);
+        foreach ($this->currentRequest->input('uuid') as $uuid) {
+            $product = $this->productMastersRepository->defaultCustomFind('uuid', $uuid);
+            $this->productMastersRepository->deleteById($product->id);
+            $this->productOptionsRepository->deleteByCustomColumn('product_id', $product->id);
+            $this->productImagesRepository->deleteByCustomColumn('product_id', $product->id);
         }
     }
 
     /**
      * @param Int $page
      * @return array
+     * @throws ServiceErrorException
      */
     public function defaultShowProduct(Int $page = 1) : array
     {
         $taskResult = $this->productMastersRepository->getAdminProductMasters()->toArray();
+
+        if(empty($taskResult)) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
 
         return array_map(function($item){
             return [
