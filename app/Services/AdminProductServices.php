@@ -199,7 +199,7 @@ class AdminProductServices
             'category' => 'required|exists:product_category_masters,id',
 //            'barcode' => 'nullable|string',
             'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'quantity' => 'required|numeric',
             'sale' => 'required|in:Y,N|max:1',
             'active' => 'required|in:Y,N|max:1',
             'color' => 'required',
@@ -217,8 +217,8 @@ class AdminProductServices
 //                'barcode.required'=> __('product.admin.product.service.tags_required'),
                 'price.required'=> __('product.admin.product.service.price.required'),
                 'price.numeric'=> __('product.admin.product.service.price.numeric'),
-                'stock.required'=> __('product.admin.product.service.stock.required'),
-                'stock.numeric'=> __('product.admin.product.service.stock.numeric'),
+                'quantity.required'=> __('product.admin.product.service.quantity.required'),
+                'quantity.numeric'=> __('product.admin.product.service.quantity.numeric'),
                 'sale.required'=> __('product.admin.product.service.sale.required'),
                 'sale.in'=> __('product.admin.product.service.sale.in'),
                 'active.required'=> __('product.admin.product.service.active.required'),
@@ -253,7 +253,7 @@ class AdminProductServices
             'name' => $this->currentRequest->input('name'),
             'barcode' => $this->currentRequest->input('barcode'),
             'price' => $this->currentRequest->input('price'),
-            'stock' => $this->currentRequest->input('stock'),
+            'quantity' => $this->currentRequest->input('quantity'),
             'memo' => $this->currentRequest->input('memo'),
             'sale' => $this->currentRequest->input('sale'),
             'active' => $this->currentRequest->input('active')
@@ -313,7 +313,7 @@ class AdminProductServices
             'name' => $this->currentRequest->input('name'),
             'barcode' => $this->currentRequest->input('barcode'),
             'price' => $this->currentRequest->input('price'),
-            'stock' => $this->currentRequest->input('stock'),
+            'quantity' => $this->currentRequest->input('quantity'),
             'memo' => $this->currentRequest->input('memo'),
             'sale' => $this->currentRequest->input('sale'),
             'active' => $this->currentRequest->input('active')
@@ -393,11 +393,10 @@ class AdminProductServices
     }
 
     /**
-     * @param Int $page
      * @return array
      * @throws ServiceErrorException
      */
-    public function defaultShowProduct(Int $page = 1) : array
+    public function defaultShowProduct() : array
     {
         $taskResult = $this->productMastersRepository->getAdminProductMasters()->toArray();
 
@@ -405,13 +404,32 @@ class AdminProductServices
             throw new ServiceErrorException(__('response.success_not_found'));
         }
 
-        return array_map(function($item){
+        return array_map(function($item) {
             return [
                 'id' => $item['id'],
                 'uuid' => $item['uuid'],
                 'name' => $item['name'],
+                'quantity' => [
+                    'number' => $item['quantity'],
+                    'string' => number_format($item['quantity']),
+                ],
+                'price' => [
+                    'number' => $item['price'],
+                    'string' => number_format($item['price']),
+                ],
                 'category' => $item['category'],
-                'options' => $item['options']
+                'color' => array_map(function($item) {
+                    return [
+                        'id' => $item['color']['id'],
+                        'name' => $item['color']['name']
+                    ];
+                }, $item['color']),
+                'wireless' => array_map(function($item) {
+                    return [
+                        'id' => $item['wireless']['id'],
+                        'wireless' => $item['wireless']['wireless']
+                    ];
+                } , $item['wireless'])
             ];
         }, $taskResult);
     }
@@ -423,11 +441,10 @@ class AdminProductServices
     public function detailProduct(string $productUUID) : array
     {
         $task = $this->productMastersRepository->getAdminDetailProductMasters($productUUID)->toArray();
-
         return [
             'uuid' => $task['uuid'],
             'category' => [
-                'uuid' => $task['category']['uuid'],
+                'id' => $task['category']['id'],
                 'name' => $task['category']['name']
             ],
             'name' => $task['name'],
@@ -436,19 +453,40 @@ class AdminProductServices
                 'number' => $task['price'],
                 'string' => number_format($task['price'])
             ],
-            "stock" => [
-                'number' => $task['stock'],
-                'string' => number_format($task['stock'])
+            "quantity" => [
+                'number' => $task['quantity'],
+                'string' => number_format($task['quantity'])
             ],
             "memo" => $task['memo'],
             "sale" => $task['sale'],
             "active" => $task['active'],
-            "options" => array_map(function($item) {
+            'color' => array_map(function($item) {
                 return [
-                    "color" => isset($item['color']) && $item['color'] ? $item['color']['name'] : null,
-                    "wireless" => isset($item['wireless']) && $item['wireless'] ? $item['wireless'] : null,
+                    'id' => $item['color']['id'],
+                    'name' => $item['color']['name'],
                 ];
-            } , $task['options']),
+            }, $task['color']),
+            'wireless' => array_map(function($item) {
+                return [
+                    'id' => $item['wireless']['id'],
+                    'wireless' => $item['wireless']['wireless']
+                ];
+            } , $task['wireless']),
+            'rep_images' => array_map(function($item) {
+                return [
+                    'id' => $item['image']['id'],
+                    'file_name' => $item['image']['file_name'],
+                    'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+                ];
+            } , $task['rep_images']),
+            'detail_images' => array_map(function($item) {
+                return [
+                    'id' => $item['image']['id'],
+                    'file_name' => $item['image']['file_name'],
+                    'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+                ];
+            } , $task['detail_images']),
+
         ];
     }
 }

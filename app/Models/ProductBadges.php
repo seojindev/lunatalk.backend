@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * App\Models\ProductBadges
  *
  * @property int $id
- * @property string $product_uuid 상품 uuid
+ * @property int $product_id 상품 id
  * @property int $badge_id 뱃지 아이디.
  * @property string $active 상태
  * @property Carbon|null $created_at
@@ -30,13 +30,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductBadges whereCreatedAt($value)
  * @method static Builder|ProductBadges whereDeletedAt($value)
  * @method static Builder|ProductBadges whereId($value)
- * @method static Builder|ProductBadges whereProductUuid($value)
+ * @method static Builder|ProductBadges whereProductId($value)
  * @method static Builder|ProductBadges whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|ProductBadges withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductBadges withoutTrashed()
  * @mixin Eloquent
- * @property int $product_id 상품 uuid
- * @method static Builder|ProductBadges whereProductId($value)
  */
 class ProductBadges extends Model
 {

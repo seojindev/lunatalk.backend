@@ -53,7 +53,7 @@ return [
                 'price' => [
                     'required' => '금액을 입력해 주세요.',
                 ],
-                'stock' => [
+                'quantity' => [
                     'required' => '수량을 입력해 주세요.',
                 ],
                 'sale' => [

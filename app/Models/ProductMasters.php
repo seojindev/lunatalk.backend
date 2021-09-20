@@ -15,17 +15,27 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $uuid uuid
- * @property string $category 상품 카테고리.
+ * @property \App\Models\ProductCategoryMasters|null $category 상품 카테고리.
  * @property string $name 상품명.
  * @property string|null $barcode 상품 비코드.
  * @property int $price 상품 가격.
- * @property int $stock 상품 재고 수량.
+ * @property int $quantity 상품 재고 수량.
  * @property string|null $memo 상품 메모.
  * @property string $sale 상품 판매 유무.
  * @property string $active 상품 상태.
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $color
+ * @property-read int|null $color_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $detailImages
+ * @property-read int|null $detail_images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
+ * @property-read int|null $options_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $repImages
+ * @property-read int|null $rep_images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $wireless
+ * @property-read int|null $wireless_count
  * @method static \Database\Factories\ProductMastersFactory factory(...$parameters)
  * @method static Builder|ProductMasters newModelQuery()
  * @method static Builder|ProductMasters newQuery()
@@ -40,15 +50,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductMasters whereMemo($value)
  * @method static Builder|ProductMasters whereName($value)
  * @method static Builder|ProductMasters wherePrice($value)
+ * @method static Builder|ProductMasters whereQuantity($value)
  * @method static Builder|ProductMasters whereSale($value)
- * @method static Builder|ProductMasters whereStock($value)
  * @method static Builder|ProductMasters whereUpdatedAt($value)
  * @method static Builder|ProductMasters whereUuid($value)
  * @method static \Illuminate\Database\Query\Builder|ProductMasters withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductMasters withoutTrashed()
  * @mixin Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
- * @property-read int|null $options_count
  */
 class ProductMasters extends Model
 {
@@ -61,7 +69,7 @@ class ProductMasters extends Model
         'name',
         'barcode',
         'price',
-        'stock',
+        'quantity',
         'memo',
         'sale',
         'active'
@@ -75,5 +83,25 @@ class ProductMasters extends Model
     public function options()
     {
         return $this->hasMany(ProductOptions::class, 'product_id', 'id');
+    }
+
+    public function color()
+    {
+        return $this->hasMany(ProductOptions::class, 'product_id', 'id')->whereNotNull('color');
+    }
+
+    public function wireless()
+    {
+        return $this->hasMany(ProductOptions::class, 'product_id', 'id')->whereNotNull('wireless');
+    }
+
+    public function repImages()
+    {
+        return $this->hasMany(ProductImages::class, 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'));
+    }
+
+    public function detailImages()
+    {
+        return $this->hasMany(ProductImages::class, 'product_id', 'id')->where('media_category', config('extract.mediaCategory.detailImage.code'));
     }
 }

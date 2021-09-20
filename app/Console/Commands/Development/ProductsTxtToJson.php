@@ -216,7 +216,7 @@ class ProductsTxtToJson extends Command
                         'step2' => $optionStep2 ? $optionStep2->id : NULL,
                     ],
                     'price' => trim($arrayStep1[4]),
-                    'stock' => trim($arrayStep1[5]),
+                    'quantity' => trim($arrayStep1[5]),
                     'barcode' => trim($arrayStep1[6]),
                     'product_url' => trim($arrayStep1[7]),
                     'product_images' => $images,

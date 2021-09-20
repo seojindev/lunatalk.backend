@@ -12,12 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\ProductOptionMasters
+ * App\Models\ProductOptions
  *
  * @property int $id
- * @property string $product_uuid 상품 uuid
- * @property int $color 상품 색.
- * @property int|null $wired 유무선.
+ * @property int $product_id 상품 id
+ * @property \App\Models\ProductColorOptionMasters|null $color 상품 색.
+ * @property \App\Models\ProductWirelessOptionMasters|null $wireless 유무선.
  * @property string $active 상태
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -32,16 +32,12 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductOptions whereCreatedAt($value)
  * @method static Builder|ProductOptions whereDeletedAt($value)
  * @method static Builder|ProductOptions whereId($value)
- * @method static Builder|ProductOptions whereProductUuid($value)
+ * @method static Builder|ProductOptions whereProductId($value)
  * @method static Builder|ProductOptions whereUpdatedAt($value)
- * @method static Builder|ProductOptions whereWired($value)
+ * @method static Builder|ProductOptions whereWireless($value)
  * @method static \Illuminate\Database\Query\Builder|ProductOptions withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductOptions withoutTrashed()
  * @mixin Eloquent
- * @property int $product_id 상품 id
- * @property int|null $wireless 유무선.
- * @method static Builder|ProductOptions whereProductId($value)
- * @method static Builder|ProductOptions whereWireless($value)
  */
 class ProductOptions extends Model
 {

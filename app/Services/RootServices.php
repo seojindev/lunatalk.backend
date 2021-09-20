@@ -145,6 +145,7 @@ class RootServices
      */
     public function getProducts() : array {
 
+
         return [
             'category' => array_map(function($item) {
                 return [
@@ -158,8 +159,27 @@ class RootServices
                     'id' => $item['id'],
                     'uuid' => $item['uuid'],
                     'name' => $item['name'],
+                    'quantity' => [
+                        'number' => $item['quantity'],
+                        'string' => number_format($item['quantity']),
+                    ],
+                    'price' => [
+                        'number' => $item['price'],
+                        'string' => number_format($item['price']),
+                    ],
                     'category' => $item['category'],
-                    'options' => $item['options']
+                    'color' => array_map(function($item) {
+                        return [
+                            'id' => $item['color']['id'],
+                            'name' => $item['color']['name']
+                        ];
+                    }, $item['color']),
+                    'wireless' => array_map(function($item) {
+                        return [
+                            'id' => $item['wireless']['id'],
+                            'wireless' => $item['wireless']['wireless']
+                        ];
+                    } , $item['wireless'])
                 ];
             }, $this->productMastersRepository->getAdminProductMasters()->toArray()),
             'color_options' => array_map(function($item) {

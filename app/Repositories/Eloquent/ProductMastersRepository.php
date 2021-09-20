@@ -26,17 +26,11 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     /**
      * @return Builder[]|Collection
      */
-    public function getAdminProductMasters()
+    public function getAdminProductMasters() : Collection
     {
         return $this->model->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
-        }, 'options' => function($query) {
-            $query->select(['id', 'product_id', 'color', 'wireless']);
-        }, 'options.color' => function($query) {
-            $query->select(['id', 'name']);
-        }, 'options.wireless' => function($query) {
-            $query->select(['id','wireless']);
-        }])->get();
+        }, 'color', 'color.color', 'wireless', 'wireless.wireless'])->orderBy('id', 'desc')->get();
     }
 
     /**
@@ -47,12 +41,7 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     {
         return $this->model->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
-        }, 'options' => function($query) {
-            $query->select(['id', 'product_id', 'color', 'wireless']);
-        }, 'options.color' => function($query) {
-            $query->select(['id', 'name']);
-        }, 'options.wireless' => function($query) {
-            $query->select(['id','wireless']);
-        }])->where('uuid' , $uuid)->firstOrFail();
+        }, 'color', 'color.color', 'wireless', 'wireless.wireless', 'repImages','repImages.image', 'detailImages', 'detailImages.image'])->where('uuid' , $uuid)->firstOrFail();
+
     }
 }

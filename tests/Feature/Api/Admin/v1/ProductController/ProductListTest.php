@@ -16,7 +16,7 @@ class ProductListTest extends BaseCustomTestCase
     {
         parent::setUp();
 
-        $this->apiURL = "/api/admin-front/v1/product/show-product/1";
+        $this->apiURL = "/api/admin-front/v1/product/show-product";
     }
 
     public function test_admin_front_v1_product_list_요청()
@@ -34,25 +34,29 @@ class ProductListTest extends BaseCustomTestCase
                     "id",
                     "uuid",
                     "name",
+                    "quantity" => [
+                        'number',
+                        'string'
+                    ],
+                    "price" => [
+                        'number',
+                        'string'
+                    ],
                     "category" => [
                         "id",
                         "uuid",
                         "name"
                     ],
-                    "options" => [
+                    'color' => [
                         '*' => [
-                            "id",
-                            "product_id",
-                            "color" => [
-                                "id",
-                                "name",
-                            ],
-                            "wireless" => [
-                                "id",
-                                "wireless"
-                            ]
-                        ],
-                    ]
+                            'name',
+                        ]
+                    ],
+                    'wireless' => [
+                        '*' => [
+                            'wireless'
+                        ]
+                    ],
                 ],
             ]
         ]);

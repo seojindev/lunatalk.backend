@@ -13,15 +13,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\ProductCategories
+ * App\Models\ProductCategoryMasters
  *
- * @property string $id uuid
+ * @property int $id
+ * @property string $uuid uuid
  * @property string $name
  * @property string $active 상태
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @method static ProductCategoryMastersFactory factory(...$parameters)
+ * @property-read Collection|\App\Models\ProductMasters[] $products
+ * @property-read int|null $products_count
+ * @method static \Database\Factories\ProductCategoryMastersFactory factory(...$parameters)
  * @method static Builder|ProductCategoryMasters newModelQuery()
  * @method static Builder|ProductCategoryMasters newQuery()
  * @method static \Illuminate\Database\Query\Builder|ProductCategoryMasters onlyTrashed()
@@ -32,13 +35,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductCategoryMasters whereId($value)
  * @method static Builder|ProductCategoryMasters whereName($value)
  * @method static Builder|ProductCategoryMasters whereUpdatedAt($value)
+ * @method static Builder|ProductCategoryMasters whereUuid($value)
  * @method static \Illuminate\Database\Query\Builder|ProductCategoryMasters withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductCategoryMasters withoutTrashed()
  * @mixin Eloquent
- * @property string $uuid uuid
- * @method static Builder|ProductCategoryMasters whereUuid($value)
- * @property-read Collection|ProductMasters[] $products
- * @property-read int|null $products_count
  */
 class ProductCategoryMasters extends Model
 {

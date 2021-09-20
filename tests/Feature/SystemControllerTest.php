@@ -89,25 +89,29 @@ class SystemControllerTest extends BaseCustomTestCase
                             'id',
                             'uuid',
                             'name',
+                            'quantity' => [
+                                'number',
+                                'string',
+                            ],
+                            'price' => [
+                                'number',
+                                'string',
+                            ],
                             'category' => [
                                 'id',
                                 'uuid',
                                 'name'
                             ],
-                            'options'=> [
+                            'color' => [
                                 '*' => [
-                                    'id',
-                                    'product_id',
-                                    'color' => [
-                                        'id',
-                                        'name'
-                                    ],
-                                    'wireless' => [
-                                        'id',
-                                        'wireless'
-                                    ]
+                                    'name',
                                 ]
-                            ]
+                            ],
+                            'wireless' => [
+                                '*' => [
+                                    'wireless'
+                                ]
+                            ],
                         ]
                     ],
                     'color_options' => [

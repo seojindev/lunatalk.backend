@@ -27,7 +27,7 @@ class ProductMastersFactory extends Factory
             'name' => $this->faker->unique()->word(),
             'barcode' => $this->faker->unique()->randomNumber(),
             'price' => $this->faker->unique()->numberBetween(1000, 9000),
-            'stock' => $this->faker->unique()->numberBetween(30, 100),
+            'quantity' => $this->faker->unique()->numberBetween(30, 100),
             'memo' => $this->faker->unique()->text(200),
             'sale' => 'Y',
             'active' => 'Y'

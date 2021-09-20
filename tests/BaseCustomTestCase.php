@@ -172,7 +172,7 @@ class BaseCustomTestCase extends TestCase
             "category" => 1,
             "barcode" => 123123123,
             "price" => 3000,
-            "stock" => 20,
+            "quantity" => 20,
             "memo" => "테스트 메모 입니다.",
             "sale" => "Y",
             "active" => "Y",

@@ -88,7 +88,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('delete-product-categories', [AdminProductController::class, 'deleteProductCategories'])->name('delete.product.categories'); // 상품 카테고리 삭제(한건).
 
                 Route::post('create-product', [AdminProductController::class, 'createProduct'])->name('create.product'); // 상품 추가.
-                Route::get('show-product/{Page}', [AdminProductController::class, 'showProduct'])->name('show.product')->where('Page', '[0-9]+'); // 상품 리스트.
+                Route::get('show-product', [AdminProductController::class, 'showProduct'])->name('show.product'); // 상품 리스트.
                 Route::put('{productUUID}/update-product', [AdminProductController::class, 'updateProduct'])->name('update.product');   // 상품 정보 수정.
                 Route::get('{productUUID}/detail-product', [AdminProductController::class, 'detailProduct'])->name('detail.product'); // 상품 상세.
                 Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제(한건).

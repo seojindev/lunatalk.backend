@@ -121,12 +121,12 @@ class ProductController extends Controller
     }
 
     /**
-     * @param Int $Page
      * @return mixed
+     * @throws \App\Exceptions\ServiceErrorException
      */
-    public function showProduct(Int $Page)
+    public function showProduct()
     {
-        return Response::success($this->adminProductServices->defaultShowProduct($Page));
+        return Response::success($this->adminProductServices->defaultShowProduct());
     }
 
     /**

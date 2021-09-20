@@ -85,7 +85,7 @@ class ProductsJsonToCreate extends Command
                     'name' => $product['name'],
                     'barcode' => $product['barcode'],
                     'price' => $product['price'],
-                    'stock' => $product['stock'],
+                    'quantity' => $product['quantity'],
                     'memo' => '',
                     'sale' => 'Y',
                     'active' => 'Y'

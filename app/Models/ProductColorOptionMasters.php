@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\ProductColorOptions
+ * App\Models\ProductColorOptionMasters
  *
  * @property int $id
  * @property string $name 컬러명

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Factories\MediaFilesFactory;
+use Database\Factories\MediaFileMastersFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\MediaFiles
+ * App\Models\MediaFileMasters
  *
  * @property int $id
  * @property string $media_name 미디어명.
@@ -23,7 +23,7 @@ use Illuminate\Support\Carbon;
  * @property string $file_extension 파일 확장자.
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static \Database\Factories\MediaFilesFactory factory(...$parameters)
+ * @method static \Database\Factories\MediaFileMastersFactory factory(...$parameters)
  * @method static Builder|MediaFileMasters newModelQuery()
  * @method static Builder|MediaFileMasters newQuery()
  * @method static Builder|MediaFileMasters query()

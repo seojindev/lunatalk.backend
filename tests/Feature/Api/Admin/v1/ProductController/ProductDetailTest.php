@@ -39,7 +39,7 @@ class ProductDetailTest extends BaseCustomTestCase
             'result' =>  [
                 'uuid',
                 'category' => [
-                    'uuid',
+                    'id',
                     'name'
                 ],
                 'name',
@@ -48,19 +48,39 @@ class ProductDetailTest extends BaseCustomTestCase
                     'number',
                     'string'
                 ],
-                "stock" => [
+                "quantity" => [
                     'number',
                     'string'
                 ],
                 "memo",
                 "sale",
                 "active",
-                "options" => [
+                'color' => [
                     '*' => [
-                        "color",
-                        "wireless",
+                        'id',
+                        'name',
                     ]
                 ],
+                'wireless' => [
+                    '*' => [
+                        'id',
+                        'wireless'
+                    ]
+                ],
+                'rep_images' => [
+                    '*' => [
+                        'id',
+                        'file_name',
+                        'url'
+                    ]
+                ],
+                'detail_images' => [
+                    '*' => [
+                        'id',
+                        'file_name',
+                        'url'
+                    ]
+                ]
             ]
         ]);
 

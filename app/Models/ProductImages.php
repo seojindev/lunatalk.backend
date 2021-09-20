@@ -14,13 +14,14 @@ use Illuminate\Support\Carbon;
  * App\Models\ProductImages
  *
  * @property int $id
- * @property string $product_uuid 상품 uuid
+ * @property int $product_id 상품 id
  * @property string|null $media_category 이미지 카테고리.
  * @property int|null $media_id 제품 썸네일 이미지.
  * @property string $active 상태.
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \App\Models\MediaFileMasters|null $image
  * @method static \Database\Factories\ProductImagesFactory factory(...$parameters)
  * @method static Builder|ProductImages newModelQuery()
  * @method static Builder|ProductImages newQuery()
@@ -32,13 +33,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductImages whereId($value)
  * @method static Builder|ProductImages whereMediaCategory($value)
  * @method static Builder|ProductImages whereMediaId($value)
- * @method static Builder|ProductImages whereProductUuid($value)
+ * @method static Builder|ProductImages whereProductId($value)
  * @method static Builder|ProductImages whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|ProductImages withTrashed()
  * @method static \Illuminate\Database\Query\Builder|ProductImages withoutTrashed()
  * @mixin Eloquent
- * @property string $product_id 상품 uuid
- * @method static Builder|ProductImages whereProductId($value)
  */
 class ProductImages extends Model
 {
@@ -51,4 +50,8 @@ class ProductImages extends Model
         'media_id',
         'active'
     ];
+
+    public function image() {
+        return $this->hasOne(MediaFileMasters::class , 'id', 'media_id');
+    }
 }
