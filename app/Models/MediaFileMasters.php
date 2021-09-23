@@ -19,6 +19,8 @@ use Illuminate\Support\Carbon;
  * @property string $file_name 파일명.
  * @property string $original_name 원본 파일명.
  * @property string $file_type 원본 파일 타입.
+ * @property int $width 파일 넓이.
+ * @property int $height 파일 높이.
  * @property int $file_size 파일 용량.
  * @property string $file_extension 파일 확장자.
  * @property Carbon|null $created_at
@@ -33,11 +35,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MediaFileMasters whereFileName($value)
  * @method static Builder|MediaFileMasters whereFileSize($value)
  * @method static Builder|MediaFileMasters whereFileType($value)
+ * @method static Builder|MediaFileMasters whereHeight($value)
  * @method static Builder|MediaFileMasters whereId($value)
  * @method static Builder|MediaFileMasters whereMediaCategory($value)
  * @method static Builder|MediaFileMasters whereMediaName($value)
  * @method static Builder|MediaFileMasters whereOriginalName($value)
  * @method static Builder|MediaFileMasters whereUpdatedAt($value)
+ * @method static Builder|MediaFileMasters whereWidth($value)
  * @mixin Eloquent
  */
 class MediaFileMasters extends Model
@@ -51,6 +55,8 @@ class MediaFileMasters extends Model
         'dest_path',
         'file_name',
         'original_name',
+        'width',
+        'height',
         'file_type',
         'file_size',
         'file_extension'
