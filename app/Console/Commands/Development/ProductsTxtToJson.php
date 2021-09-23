@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Development;
 
-use App\Models\MediaFileMasters;
 use App\Models\ProductColorOptionMasters;
 use App\Models\ProductWirelessOptionMasters;
-use Http;
+use DOMDocument;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Intervention\Image\Facades\Image;
 use Storage;
 use Str;
 
@@ -83,10 +83,8 @@ class ProductsTxtToJson extends Command
                 mkdir($this->imagetTargetRoot, 0777, true);
             }
 
-            $noImageUrl = "http://img.echosting.cafe24.com/thumb/img_product_big.gif";
-            $targetBaseName = Str::random(40).'.gif';
-            $this->repNoimage = $this->getProductImage('rep', 'true', $noImageUrl, $targetBaseName);
-            $this->detailNoimage = $this->getProductImage('detail', 'false', $noImageUrl, $targetBaseName);
+//            $noImageUrl = "http://img.echosting.cafe24.com/thumb/img_product_big.gif";
+//            $targetBaseName = Str::random(40).'.gif';
 
             $bar = $this->output->createProgressBar(count(array_filter(explode("\n", $fileContents), fn($value) => !is_null($value) && $value !== '')));
             $bar->start();
@@ -111,7 +109,7 @@ class ProductsTxtToJson extends Command
 
                 if (preg_match($pattern, $product_url)) {
                     $htmlString = file_get_contents($product_url);
-                    $htmlDom = new \DOMDocument();
+                    $htmlDom = new DOMDocument();
                     @$htmlDom->loadHTML($htmlString);
                     $imageTags = $htmlDom->getElementsByTagName('img');
                     $extractedImages = array();
@@ -175,7 +173,7 @@ class ProductsTxtToJson extends Command
                         print_r($productImage);
 
                         echo PHP_EOL;
-                        exit;
+//                        exit;
                     }
 
                     $images = array();
@@ -183,21 +181,15 @@ class ProductsTxtToJson extends Command
                     //mac ulimit -Sn 4096
                     foreach ($productImage as $element) :
                         $sourceURL = $element;
-                        $sourceBaseName = basename($element);
-                        $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
-
                         if(@file_get_contents($sourceURL,false,NULL,0,1)) {
-                            $images['rep'][] = $this->getProductImage('rep', 'true', $sourceURL,$targetBaseName);
+                            $images['rep'][] = $this->initProductImage('rep', 'true', $sourceURL);
                         }
                     endforeach;
 
                     foreach ($detailImage as $element) :
                         $sourceURL = $element;
-                        $sourceBaseName = basename($element);
-                        $targetBaseName = Str::random(40).'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
-
                         if(@file_get_contents($sourceURL,false,NULL,0,1)) {
-                            $images['detail'][] = $this->getProductImage('detail', 'false', $sourceURL, $targetBaseName);
+                            $images['detail'][] = $this->initProductImage('detail', 'false', $sourceURL);
                         }
                     endforeach;
 
@@ -224,7 +216,7 @@ class ProductsTxtToJson extends Command
 
             }, array_filter(explode("\n", $fileContents), fn($value) => !is_null($value) && $value !== ''));
 
-            Storage::disk('inside-temp')->put($this->jsonFileName, json_encode($products));
+            Storage::disk('inside-temp')->put("products/" . $this->jsonFileName, json_encode($products));
 
             $bar->finish();
         }
@@ -233,40 +225,25 @@ class ProductsTxtToJson extends Command
         return 0;
     }
 
-    public function getProductImage($category, $need_thumb, $sourceURL, $targetBaseName)
+    public function initProductImage($category, $need_thumb, $sourceURL) : array
     {
-        file_put_contents($this->imagetTargetRoot . '/' . $targetBaseName, file_get_contents($sourceURL));
-        $mediaFile = fopen($this->imagetTargetRoot . '/' . $targetBaseName, 'r');
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Client-Token' => env('APP_MEDIA_CLIENT_KEY')
-        ])
-            ->attach('media_file', $mediaFile)
-            ->post(env('APP_MEDIA_URL') . '/media-upload', [
-                'media_name' => 'products',
-                'media_category' => $category,
-                'need_thumbnail' => $need_thumb
-            ]);
+        $sourceBaseName = basename($sourceURL);
+        $targetPath = storage_path('inside/temp/products/images');
+        $randomFilename = Str::random(40);
+        $targetFileName = $randomFilename.'.'.pathinfo($sourceBaseName, PATHINFO_EXTENSION);
 
-        if(!$response->successful()) {
-            echo "rep".PHP_EOL;
-            print_r($response->json());
-            exit;
-        }
+        $taskImage = Image::make($sourceURL);
+        $imageExif = $taskImage->exif();
+        $taskImage->save($targetPath . '/' . $targetFileName);
 
-        $result = json_decode($response->body())->data;
-
-        $task = MediaFileMasters::create([
-            'media_name' => $result->media_name,
-            'media_category' => $result->media_category,
-            'dest_path' => $result->dest_path,
-            'file_name' => $result->new_file_name,
-            'original_name' => $result->original_name,
-            'file_type' => $result->file_type,
-            'file_size' => $result->file_size,
-            'file_extension' => $result->file_extension,
-        ]);
-
-        return $task->id;
+        return [
+            'path' => 'inside/temp/product/image',
+            'filename' => $targetFileName,
+            'height' => $imageExif['COMPUTED']['Height'],
+            'width' => $imageExif['COMPUTED']['Width'],
+            'type' => $imageExif['MimeType'],
+            'size' => $imageExif['FileSize'],
+            'extension' => pathinfo($sourceBaseName, PATHINFO_EXTENSION)
+        ];
     }
 }

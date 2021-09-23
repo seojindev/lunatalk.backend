@@ -54,7 +54,7 @@ P010130,세리프 시스템폴더 L ,아이보리,,19800,361,8809308170055,http:
 P010130,세리프 시스템폴더 L ,블랙,,19800,123,8809308170024,http://lunatalk.co.kr/product/detail.html?product_no=83&cate_no=28&display_group=1
 P010130,세리프 시스템폴더 L ,브라운,,19800,0,8809308170017,http://lunatalk.co.kr/product/detail.html?product_no=80&cate_no=28&display_group=1
 P010130,세리프 시스템폴더 L ,블랙에나멜,,22000,1,8809308170154,http://lunatalk.co.kr/product/detail.html?product_no=78&cate_no=28&display_group=1
-P010130,세리프 시스템폴더 L ,아이보리에나멜,,22000,0,,'
+P010130,세리프 시스템폴더 L ,아이보리에나멜,,22000,0,,''
 P010130,세리프 시스템폴더 L ,레드에나멜,,29800,58,8809308170130,http://lunatalk.co.kr/product/detail.html?product_no=77&cate_no=28&display_group=1
 P010130,세리프 제시카 펜슬파우치 ,아이보리,,19800,90,8809308170185,http://lunatalk.co.kr/product/detail.html?product_no=71&cate_no=28&display_group=1
 P010130,세리프 제시카 펜슬파우치 ,블랙,,19800,140,8809308170178,http://lunatalk.co.kr/product/detail.html?product_no=72&cate_no=28&display_group=1
