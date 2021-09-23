@@ -64,6 +64,17 @@ return [
             'driver' => 'local',
             'root' => storage_path('inside/temp'),
         ],
+        'media-server' => [
+            'driver' => 'sftp',
+            'host' => env('MEDIA_SERVER_HOST'),
+            'port' => env('MEDIA_SERVER_SFTP_POST'),
+            'username' => env('MEDIA_SERVER_SFTP_USER'),
+            'password' => env('MEDIA_SERVER_SFTP_PASSWORD'),
+            'privateKey' => env('MEDIA_SERVER_SFTP_PRIVATEKEY'),
+            'root' => env('MEDIA_SERVER_PRODUCT_ROOT_PATH'),
+            'timeout' => 30,
+            'directoryPerm' => 0755,
+        ],
 
     ],
 
