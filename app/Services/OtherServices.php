@@ -95,6 +95,8 @@ class OtherServices
                 'dest_path' => $result->dest_path,
                 'file_name' => $result->new_file_name,
                 'original_name' => $result->original_name,
+                'width' => $result->width,
+                'height' => $result->height,
                 'file_type' => $result->file_type,
                 'file_size' => $result->file_size,
                 'file_extension' => $result->file_extension,
