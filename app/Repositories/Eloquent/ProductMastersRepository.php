@@ -41,7 +41,11 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     {
         return $this->model->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
-        }, 'color', 'color.color', 'wireless', 'wireless.wireless', 'repImages','repImages.image', 'detailImages', 'detailImages.image'])->where('uuid' , $uuid)->firstOrFail();
+        }, 'color', 'color.color', 'wireless', 'wireless.wireless', 'repImages' => function($query) {
+            $query->where('media_id', '>', 0);
+        },'repImages.image', 'detailImages' => function($query) {
+            $query->where('media_id', '>', 0);
+        }, 'detailImages.image'])->where('uuid' , $uuid)->firstOrFail();
 
     }
 }
