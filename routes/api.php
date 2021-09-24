@@ -94,6 +94,13 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제(한건).
                 Route::delete('delete-products', [AdminProductController::class, 'deleteProducts'])->name('delete.products'); // 상품 삭제(복수).
             });
+            Route::group(['prefix' => 'main-slide', 'as' => 'main-slide'], function () {
+                Route::post('create-main-slide',[AdminProductController::class, 'createMainSlide'])->name('create.main.slide');
+                Route::get('show-main-slide',[AdminProductController::class, 'showMainSlide'])->name('show.main.slide');
+                Route::get('{mainSlideUUID}/detail-main-slide',[AdminProductController::class, 'detailMainSlide'])->name('detail.main.slide');
+                Route::put('{mainSlideUUID}/update-main-slide',[AdminProductController::class, 'updateMainSlide'])->name('update.main.slide');
+                Route::delete('delete-main-slides',[AdminProductController::class, 'deleteMainSlide'])->name('delete.main.slides');
+            });
         });
     });
 });

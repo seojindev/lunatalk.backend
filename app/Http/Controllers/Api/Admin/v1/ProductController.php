@@ -137,4 +137,29 @@ class ProductController extends Controller
     {
         return Response::custom_success(200, __('default.response.process_success'), $this->adminProductServices->detailProduct($productUUID));
     }
+
+    public function createMainSlide()
+    {
+        return Response::success_only_message(200);
+    }
+
+    public function showMainSlide()
+    {
+        return Response::success_only_message(200);
+    }
+
+    public function detailMainSlide()
+    {
+        return Response::success_only_message(200);
+    }
+
+    public function updateMainSlide()
+    {
+        return Response::success_only_message(200);
+    }
+    
+    public function deleteMainSlide()
+    {
+        return Response::success_only_message(200);
+    }
 }
