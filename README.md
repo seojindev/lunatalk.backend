@@ -51,6 +51,9 @@ php artisan db:seed --class=CodesSeeder --force
 # php artisan products:txt-to-json
 # php artisan products:json-to-create
 
+php artisan dev:product-create-json
+php artisan dev:product-create
+
 ```
 
 > tinker factory
