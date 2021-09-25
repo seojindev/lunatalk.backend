@@ -9,4 +9,10 @@ class MainSlideMasters extends Model
 {
     use HasFactory;
 
-}
+    protected $fillable = [
+        'id',
+        'uuid',
+        'name',
+        'active'
+    ];
+};

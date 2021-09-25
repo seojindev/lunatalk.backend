@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class MainSlides extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'id',
+        'media_id',
+        'main_slide_id',
+        'link',
+        'active'
+    ];
 }

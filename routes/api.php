@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\v1\PageManageController as AdminPageManageController;
 use App\Http\Controllers\Api\Other\v1\MediaController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
@@ -94,12 +95,12 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제(한건).
                 Route::delete('delete-products', [AdminProductController::class, 'deleteProducts'])->name('delete.products'); // 상품 삭제(복수).
             });
-            Route::group(['prefix' => 'main-slide', 'as' => 'main-slide'], function () {
-                Route::post('create-main-slide',[AdminProductController::class, 'createMainSlide'])->name('create.main.slide');
-                Route::get('show-main-slide',[AdminProductController::class, 'showMainSlide'])->name('show.main.slide');
-                Route::get('{mainSlideUUID}/detail-main-slide',[AdminProductController::class, 'detailMainSlide'])->name('detail.main.slide');
-                Route::put('{mainSlideUUID}/update-main-slide',[AdminProductController::class, 'updateMainSlide'])->name('update.main.slide');
-                Route::delete('delete-main-slides',[AdminProductController::class, 'deleteMainSlide'])->name('delete.main.slides');
+            Route::group(['prefix' => 'page-manage', 'as' => 'page-manage'], function () {
+                Route::post('create-main-slide',[AdminPageManageController::class, 'createMainSlide'])->name('create.main.slide');
+                Route::get('show-main-slide',[AdminPageManageController::class, 'showMainSlide'])->name('show.main.slide');
+                Route::get('{mainSlideUUID}/detail-main-slide',[AdminPageManageController::class, 'detailMainSlide'])->name('detail.main.slide');
+                Route::put('{mainSlideUUID}/update-main-slide',[AdminPageManageController::class, 'updateMainSlide'])->name('update.main.slide');
+                Route::delete('delete-main-slides',[AdminPageManageController::class, 'deleteMainSlide'])->name('delete.main.slides');
             });
         });
     });
