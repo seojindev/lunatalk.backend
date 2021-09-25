@@ -110,4 +110,30 @@ class AdminPageManageServices
             },$task['image']),
         ];
     }
+
+    public function updateMainSlide(string $mainSlideUUID) : void
+    {
+        $mainSlide = $this->mainSlideMastersReposity->defaultCustomFind('uuid', $mainSlideUUID);
+
+        $validator = $this->mainSlideValidator();
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+        $this->mainSlideMastersReposity->update($mainSlide->id, [
+            'name' => $this->currentRequest->input('name'),
+            'active' => $this->currentRequest->input('active')
+        ]);
+
+        // 기존 이미지 삭제.
+        $this->mainSlidesReposity->deleteByCustomColumn('main_slide_id',$mainSlide->id);
+
+        foreach ($this->currentRequest->input('main_slide') as $media) :
+            $this->mainSlidesReposity->create([
+                'main_slide_id' => $mainSlide->id,
+                'media_id' => $media['id'],
+                'link' => $media['link']
+            ]);
+        endforeach;
+    }
 }

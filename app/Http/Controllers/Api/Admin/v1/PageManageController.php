@@ -31,8 +31,9 @@ class PageManageController extends Controller
         return Response::custom_success(200, __('default.response.process_success'), $this->adminPageManageServices->detailMainSlide($mainSlideUUID));
     }
 
-    public function updateMainSlide()
+    public function updateMainSlide(string $mainSlideUUID)
     {
+        $this->adminPageManageServices->updateMainSlide($mainSlideUUID);
         return Response::success_only_message(200);
     }
 
