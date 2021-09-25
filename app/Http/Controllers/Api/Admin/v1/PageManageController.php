@@ -23,7 +23,7 @@ class PageManageController extends Controller
 
     public function showMainSlide()
     {
-        return Response::success_only_message(200);
+        return Response::custom_success(200, __('default.response.process_success'), $this->adminPageManageServices->showMainSlide());
     }
 
     public function detailMainSlide()
@@ -35,7 +35,7 @@ class PageManageController extends Controller
     {
         return Response::success_only_message(200);
     }
-    
+
     public function deleteMainSlide()
     {
         return Response::success_only_message(200);

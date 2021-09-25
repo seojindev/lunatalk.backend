@@ -497,48 +497,4 @@ class AdminProductServices
 
         ];
     }
-
-    public function mainSlideValidator()
-    {
-        // dd($this->currentRequest->all());
-         return Validator::make($this->currentRequest->all(), [
-            'name' => 'required|string|min:1',
-            'active' => 'required|in:Y,N|max:1',
-            'main_slide' => 'required|array',
-        ],
-            [
-                'name.required'=> __('page-manage.admin.main-slide.name.required'),
-                'active.required'=> __('page-manage.admin.main-slide.active.required'),
-                'active.in'=> __('page-manage.admin.main-slide.active.in'),
-                'main_slide.*.array'=> __('product.admin.main-slide.main_slide'),
-            ]);
-    }
-
-    public function createMainSlide() : array
-    {
-         $validator = $this->mainSlideValidator();
-
-        if( $validator->fails() ) {
-            throw new ClientErrorException($validator->errors()->first());
-        }
-
-        $createTask = $this->mainSlideMastersReposity->create([
-            'name' => $this->currentRequest->input('name'),
-            'active' => $this->currentRequest->input('active')
-        ]);
-
-
-        foreach ($this->currentRequest->input('main_slide') as $media) :
-            $this->mainSlidesReposity->create([
-                'main_slide_id' => $createTask->id,
-                'media_id' => $media['id'],
-                'link' => $media['link']
-            ]);
-        endforeach;
-
-
-        return [
-            'uuid' => $createTask->uuid
-        ];
-    }
 }

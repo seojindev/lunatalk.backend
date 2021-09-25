@@ -15,4 +15,9 @@ class MainSlideMasters extends Model
         'name',
         'active'
     ];
+
+    public function image()
+    {
+        return $this->hasOne(MainSlides::class,'main_slide_id','id');
+    }
 };

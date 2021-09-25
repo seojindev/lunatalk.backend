@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServiceErrorException;
 use App\Repositories\Eloquent\MainSlideMastersRepository;
 use App\Repositories\Eloquent\MainSlidesRepository;
 use Illuminate\Http\Request;
@@ -72,5 +73,23 @@ class AdminPageManageServices
         return [
             'uuid' => $createTask->uuid
         ];
+    }
+
+    public function showMainSlide() : array
+    {
+        $task = $this->mainSlideMastersReposity->getAdminMainSlideMasters()->toArray();
+
+        if(empty($task)) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
+
+       return array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'uuid' => $item['uuid'],
+                'name' => $item['name'],
+                'active' => $item['active']
+            ];
+       },$task);
     }
 }
