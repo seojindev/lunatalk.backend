@@ -43,7 +43,7 @@ class AdminPageManageServices
                 'name.required'=> __('page-manage.admin.main-slide.name.required'),
                 'active.required'=> __('page-manage.admin.main-slide.active.required'),
                 'active.in'=> __('page-manage.admin.main-slide.active.in'),
-                'main_slide.*.array'=> __('product.admin.main-slide.main_slide'),
+                'main_slide.*'=> __('page-manage.admin.main-slide.main_slide'),
             ]);
     }
 
