@@ -18,6 +18,6 @@ class MainSlideMasters extends Model
 
     public function image()
     {
-        return $this->hasOne(MainSlides::class,'main_slide_id','id');
+        return $this->hasMany(MainSlides::class,'main_slide_id','id');
     }
 };

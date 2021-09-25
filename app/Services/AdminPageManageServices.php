@@ -92,4 +92,22 @@ class AdminPageManageServices
             ];
        },$task);
     }
+
+    public function detailMainSlide(string $mainSlideUUID) : array
+    {
+        $task = $this->mainSlideMastersReposity->getAdminDetailMainSlideMasters($mainSlideUUID)->toArray();
+        return [
+            'uuid' => $task['uuid'],
+            'name' => $task['name'],
+            'active' => $task['active'],
+            'image' => array_map(function($item) {
+              return [
+                  'link' => $item['link'],
+                  'active' => $item['active'],
+                  'file_name' => $item['image']['file_name'],
+                  'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+              ];
+            },$task['image']),
+        ];
+    }
 }

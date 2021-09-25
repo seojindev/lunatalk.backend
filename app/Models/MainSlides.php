@@ -16,4 +16,8 @@ class MainSlides extends Model
         'link',
         'active'
     ];
+
+    public function image() {
+        return $this->hasOne(MediaFileMasters::class,'id','media_id');
+    }
 }

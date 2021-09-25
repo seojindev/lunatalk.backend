@@ -26,4 +26,9 @@ class MainSlideMastersRepository extends BaseRepository implements MainSlideMast
     {
         return $this->model->get();
     }
+
+    public function getAdminDetailMainSlideMasters(string $uuid)
+    {
+        return $this->model->with(['image','image.image'])->where('uuid',$uuid)->firstOrFail();
+    }
 }
