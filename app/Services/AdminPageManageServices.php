@@ -136,4 +136,27 @@ class AdminPageManageServices
             ]);
         endforeach;
     }
+
+    public function deleteMainSlides() : void
+    {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'uuid' => 'required|array|min:1',
+            'uuid.*' => 'exists:main_slide_masters,uuid'
+        ],
+            [
+                'uuid.required' => __('page-manage.admin.main-slide.uuid.required'),
+                'uuid.array' => __('page-manage.admin.main-slide.uuid.array'),
+                'uuid.*.exists' => __('page-manage.admin.main-slide.uuid.exists'),
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        foreach ($this->currentRequest->input('uuid') as $uuid) {
+            $mainSlide = $this->mainSlideMastersReposity->defaultCustomFind('uuid', $uuid);
+            $this->mainSlideMastersReposity->deleteById($mainSlide->id);
+            $this->mainSlidesReposity->deleteByCustomColumn('main_slide_id', $mainSlide->id);
+        }
+    }
 }

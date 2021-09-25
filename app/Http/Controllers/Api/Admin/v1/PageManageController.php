@@ -39,6 +39,7 @@ class PageManageController extends Controller
 
     public function deleteMainSlide()
     {
+        $this->adminPageManageServices->deleteMainSlides();
         return Response::success_only_message(200);
     }
 }
