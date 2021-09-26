@@ -13,13 +13,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property string $uuid uuid
- * @property string $category 공지사랑 카테고리.
+ * @property \App\Models\Codes|null $category 공지사랑 카테고리.
  * @property string $title 제목.
  * @property string|null $content 내용.
  * @property string $active 상태
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NoticeImages[] $images
+ * @property-read int|null $images_count
  * @method static \Database\Factories\NoticeMastersFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|NoticeMasters newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|NoticeMasters newQuery()

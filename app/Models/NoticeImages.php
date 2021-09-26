@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\MediaFileMasters|null $image
  * @method static \Database\Factories\NoticeImagesFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|NoticeImages newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|NoticeImages newQuery()
