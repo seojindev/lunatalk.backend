@@ -18,6 +18,7 @@ return [
         'ios_code' => '0100020',
         'android_code' => '0100030',
         'service_front_code' => '0100040',
+        'site_notice_code' => '2200000',
     ],
 
     'notification' => [
