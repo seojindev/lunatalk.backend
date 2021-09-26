@@ -18,18 +18,20 @@ use Illuminate\Support\Carbon;
  * @property string $dest_path 저장 디렉토리 경로.
  * @property string $file_name 파일명.
  * @property string $original_name 원본 파일명.
- * @property string $file_type 원본 파일 타입.
  * @property int $width 파일 넓이.
  * @property int $height 파일 높이.
+ * @property string $file_type 원본 파일 타입.
  * @property int $file_size 파일 용량.
  * @property string $file_extension 파일 확장자.
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
  * @method static \Database\Factories\MediaFileMastersFactory factory(...$parameters)
  * @method static Builder|MediaFileMasters newModelQuery()
  * @method static Builder|MediaFileMasters newQuery()
  * @method static Builder|MediaFileMasters query()
  * @method static Builder|MediaFileMasters whereCreatedAt($value)
+ * @method static Builder|MediaFileMasters whereDeletedAt($value)
  * @method static Builder|MediaFileMasters whereDestPath($value)
  * @method static Builder|MediaFileMasters whereFileExtension($value)
  * @method static Builder|MediaFileMasters whereFileName($value)

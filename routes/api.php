@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\Front\v1\AuthController;
 use App\Http\Controllers\Api\Admin\v1\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\Admin\v1\ProductController as AdminProductController;
+use App\Http\Controllers\Api\Admin\v1\SiteManageController as AdminSiteManageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,11 +75,14 @@ Route::group(['as' => 'api.'], function () {
      * admin-font api
      */
     Route::group(['namespace' => 'admin', 'prefix' => 'admin-front', 'as' => 'admin-front.'], function () {
+
         Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::post('login', [AdminAuthController::class, 'login'])->name('login'); // 로그인.
                 Route::delete('logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
             });
+
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::post('create-product-category', [AdminProductController::class, 'createProductCategory'])->name('create.product.category');  // 상품 카테고리 추가.
                 Route::get('show-product-category', [AdminProductController::class, 'showProductCategory'])->name('show.product.category'); // 상품 카테고리 리스트.
@@ -94,6 +98,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제(한건).
                 Route::delete('delete-products', [AdminProductController::class, 'deleteProducts'])->name('delete.products'); // 상품 삭제(복수).
             });
+
             Route::group(['prefix' => 'main-slide', 'as' => 'main-slide'], function () {
                 Route::post('create-main-slide',[AdminProductController::class, 'createMainSlide'])->name('create.main.slide');
                 Route::get('show-main-slide',[AdminProductController::class, 'showMainSlide'])->name('show.main.slide');
@@ -101,6 +106,15 @@ Route::group(['as' => 'api.'], function () {
                 Route::put('{mainSlideUUID}/update-main-slide',[AdminProductController::class, 'updateMainSlide'])->name('update.main.slide');
                 Route::delete('delete-main-slides',[AdminProductController::class, 'deleteMainSlide'])->name('delete.main.slides');
             });
+
+            Route::group(['prefix' => 'site-manage', 'as' => 'site-manage'], function () {
+                Route::post('create-notice',[AdminSiteManageController::class, 'createNotice'])->name('create.notice'); // 싸이트 공지사항 등록.
+                Route::put('{noticeUUID}/update-notice',[AdminSiteManageController::class, 'updateNotice'])->name('update.notice'); // 싸이트 공지사항 수정.
+                Route::delete('delete-notice',[AdminSiteManageController::class, 'deleteNotice'])->name('delete.notice'); // 싸이트 공지 사항 삭제.
+                Route::get('{noticeUUID}/detail-notice',[AdminSiteManageController::class, 'detailNotice'])->name('detail.notice'); // 싸이트 공지사항 디테일
+                Route::get('show-notice', [AdminSiteManageController::class, 'showNotice'])->name('show.notice'); // 싸이트 공지 사항 리스트.
+            });
+
         });
     });
 });

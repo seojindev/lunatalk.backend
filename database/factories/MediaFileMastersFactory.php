@@ -46,8 +46,11 @@ class MediaFileMastersFactory extends Factory
             'dest_path' => '/storage/'.$randMediaName.'/'.$randCategory.'/'.sha1(date("Ymd")),
             'file_name' => Helper::uuidSecure().'.jpeg',
             'original_name' => 'test.jpeg',
+            'width' => 500,
+            'height' => 500,
             'file_type' => 'image/jpeg',
             'file_size' => '106639',
+
             'file_extension' => 'jpeg',
         ];
     }
