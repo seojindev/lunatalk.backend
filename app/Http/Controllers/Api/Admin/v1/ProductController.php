@@ -157,7 +157,7 @@ class ProductController extends Controller
     {
         return Response::success_only_message(200);
     }
-    
+
     public function deleteMainSlide()
     {
         return Response::success_only_message(200);
