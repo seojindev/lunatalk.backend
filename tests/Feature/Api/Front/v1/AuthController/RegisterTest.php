@@ -501,7 +501,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_select_email": "Y"
         }';
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true))->dump();
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
     }
     // 메시지 선택 사항 다른 데이터 일떄.
     public function test_front_v1_auth_register_메시지_선택사항_다른_데이터_요청()
@@ -527,7 +527,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_select_message": "ASD"
         }';
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true))->dump();
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
     }
 
     //  정상 요청.

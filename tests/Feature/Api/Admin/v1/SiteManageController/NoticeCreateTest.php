@@ -121,7 +121,7 @@ class NoticeCreateTest extends BaseCustomTestCase
         $payload['content'] = $this->faker->text(200);
         $payload['image'] = ['asdasd'];
 
-        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload)->dump();
+        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload);
     }
 
     public function test_admin_front_v1_site_manage_notice_create_존재하지_않은_이미지_요청() {
@@ -131,9 +131,9 @@ class NoticeCreateTest extends BaseCustomTestCase
         $payload['category'] = Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id;
         $payload['title'] = $this->faker->word();
         $payload['content'] = $this->faker->text(200);
-        $payload['image'] = [100];
+        $payload['image'] = [0];
 
-        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload)->dump();
+        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload);
     }
 
     // 정상 요청.

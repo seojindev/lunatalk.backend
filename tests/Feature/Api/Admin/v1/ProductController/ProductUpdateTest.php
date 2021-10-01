@@ -41,7 +41,7 @@ class ProductUpdateTest extends BaseCustomTestCase
     {
         $this->expectException(ModelNotFoundException::class);
 
-        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', str_replace(':uuid:', 'asdasdasdasd', $this->apiURL))->dump();
+        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', str_replace(':uuid:', 'asdasdasdasd', $this->apiURL));
     }
 
     public function test_admin_front_v1_product_update_상품명_없이_요청()
@@ -418,7 +418,7 @@ class ProductUpdateTest extends BaseCustomTestCase
             "detail_image" => ['asdasd']
         ];
 
-        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', str_replace(':uuid:', $this->uuid, $this->apiURL), $payload)->dump();
+        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', str_replace(':uuid:', $this->uuid, $this->apiURL), $payload);
 
         MediaFileMasters::where('id', $mfm->id)->forceDelete();
     }

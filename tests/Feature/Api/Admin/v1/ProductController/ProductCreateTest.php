@@ -420,7 +420,7 @@ class ProductCreateTest extends BaseCustomTestCase
             "detail_image" => ['asdasd']
         ];
 
-        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload)->dump();
+        $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload);
 
         MediaFileMasters::where('id', $mfm->id)->forceDelete();
     }
