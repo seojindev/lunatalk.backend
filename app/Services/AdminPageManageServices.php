@@ -102,6 +102,7 @@ class AdminPageManageServices
             'active' => $task['active'],
             'image' => array_map(function($item) {
               return [
+                  'id' => $item['id'],
                   'link' => $item['link'],
                   'active' => $item['active'],
                   'file_name' => $item['image']['file_name'],
