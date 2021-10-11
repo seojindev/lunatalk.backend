@@ -119,6 +119,7 @@ class NoticeCreateTest extends BaseCustomTestCase
         $payload['category'] = Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id;
         $payload['title'] = $this->faker->word();
         $payload['content'] = $this->faker->text(200);
+        $payload['active'] = 'Y';
         $payload['image'] = ['asdasd'];
 
         $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload);
@@ -131,6 +132,7 @@ class NoticeCreateTest extends BaseCustomTestCase
         $payload['category'] = Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id;
         $payload['title'] = $this->faker->word();
         $payload['content'] = $this->faker->text(200);
+        $payload['active'] = 'Y';
         $payload['image'] = [0];
 
         $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload);
@@ -172,7 +174,8 @@ class NoticeCreateTest extends BaseCustomTestCase
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => $this->faker->word(),
             'content' => $this->faker->unique()->text(200),
-            'image' => $images
+            'image' => $images,
+            'active' => 'Y'
         ];
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('POST', $this->apiURL, $payload);
