@@ -445,6 +445,7 @@ class AdminProductServices
             'uuid' => $task['uuid'],
             'category' => [
                 'id' => $task['category']['id'],
+
                 'name' => $task['category']['name']
             ],
             'name' => $task['name'],

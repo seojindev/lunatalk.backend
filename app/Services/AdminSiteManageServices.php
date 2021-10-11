@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\ClientErrorException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Eloquent\NoticeMastersRepository;
 use App\Repositories\Eloquent\NoticeImagesRepository;
@@ -47,6 +48,7 @@ class AdminSiteManageServices
             'category' => 'required|exists:codes,code_id',
             'title' => 'required',
             'content' => 'required',
+            'active' => 'required|in:Y,N|max:1',
             'image.*' => 'integer|exists:media_file_masters,id',
         ],
             [
@@ -54,6 +56,8 @@ class AdminSiteManageServices
                 'category.exists' => __('admin-site-manage.notice.category.exists'),
                 'title.required' => __('admin-site-manage.notice.title.required'),
                 'content.required' => __('admin-site-manage.notice.content.required'),
+                'active.required'=> __('admin-site-manage.notice.active.required'),
+                'active.in'=> __('admin-site-manage.notice.active.in'),
                 'image.*.integer' => __('admin-site-manage.notice.image.integer'),
                 'image.*.exists' => __('admin-site-manage.notice.image.exists')
             ]);
@@ -66,6 +70,7 @@ class AdminSiteManageServices
             'category' => $this->currentRequest->input('category'),
             'title' => $this->currentRequest->input('title'),
             'content' => $this->currentRequest->input('content'),
+            'active' => $this->currentRequest->input('active'),
         ]);
 
         if($this->currentRequest->has('image')) {
@@ -163,7 +168,7 @@ class AdminSiteManageServices
         return [
             'uuid' => $task['uuid'],
             'category' => [
-                'code_id' => $task['category']['id'],
+                'code_id' => $task['category']['code_id'],
                 'code_name' => $task['category']['code_name']
             ],
             'title' => $task['title'],
@@ -172,8 +177,14 @@ class AdminSiteManageServices
             ],
             'active' => $task['active'],
             'images' => array_map(function($item) {
-                return env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'];
+                return [
+                    'uid' => $item['image']['id'],
+                    'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'],
+                    'file_name' => $item['image']['file_name'],
+                ];
             } , $task['images']),
+            'created_at' => Carbon::parse($task['created_at'])->format('Y년 m월 d일'),
+            'updated_at' => Carbon::parse($task['updated_at'])->format('Y년 m월 d일'),
         ];
     }
 
@@ -183,6 +194,7 @@ class AdminSiteManageServices
     public function defaultShowNotice() : array {
         return array_map(function($item) {
             return [
+                'id' => $item['id'],
                 'uuid' => $item['uuid'],
                 'category' => [
                     'code_id' => $item['category']['id'],
@@ -196,6 +208,8 @@ class AdminSiteManageServices
                 'images' => array_map(function($item) {
                     return env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'];
                 } , $item['images']),
+                'created_at' => Carbon::parse($item['created_at'])->format('Y년 m월 d일'),
+                'updated_at' => Carbon::parse($item['updated_at'])->format('Y년 m월 d일'),
             ];
         }, $this->noticeMastersRepository->getAdminNoticeListMaster()->toArray());
     }

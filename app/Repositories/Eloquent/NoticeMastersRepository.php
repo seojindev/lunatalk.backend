@@ -38,6 +38,7 @@ class NoticeMastersRepository extends BaseRepository implements NoticeMastersInt
     public function getAdminNoticeListMaster() {
         return $this->model
             ->with(['category', 'images', 'images.image'])
+            ->orderBy('id', 'desc')
             ->get();
     }
 }
