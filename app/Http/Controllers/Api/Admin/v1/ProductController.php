@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin\v1;
 
 use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Controller;
-use App\Services\AdminProductServices;
+use App\Http\Services\AdminProductServices;
 use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller

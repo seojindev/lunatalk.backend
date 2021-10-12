@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Other\v1;
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Http\Controllers\Controller;
-use App\Services\OtherServices;
+use App\Http\Services\OtherServices;
 use Illuminate\Support\Facades\Response;
 
 class MediaController extends Controller

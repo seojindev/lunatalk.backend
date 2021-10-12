@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin\v1;
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServerErrorException;
 use App\Http\Controllers\Api\RootController;
-use App\Services\AuthServices;
+use App\Http\Services\AuthServices;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Response;
 

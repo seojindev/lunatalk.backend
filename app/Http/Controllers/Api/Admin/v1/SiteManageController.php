@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
-use App\Services\AdminSiteManageServices;
+use App\Http\Services\AdminSiteManageServices;
 
 class SiteManageController extends Controller
 {

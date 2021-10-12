@@ -238,7 +238,7 @@ return [
         /**
          * Custom Setting
          */
-        'Helper' => App\Repositories\CustomFacades::class,
+        'Helper' => App\Http\Repositories\CustomFacades::class,
     ],
 
 ];

@@ -4,37 +4,37 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Repositories\Eloquent\BaseRepository;
-use App\Repositories\Eloquent\CodesRepository;
-use App\Repositories\Eloquent\MediaFileMastersRepository;
-use App\Repositories\Eloquent\PhoneVerifyRepository;
-use App\Repositories\Eloquent\UserRegisterSelectsRepository;
-use App\Repositories\Eloquent\ProductBadgeMastersRepository;
-use App\Repositories\Eloquent\ProductBadgesRepository;
-use App\Repositories\Eloquent\ProductCategoryMastersRepository;
-use App\Repositories\Eloquent\ProductColorOptionMastersRepository;
-use App\Repositories\Eloquent\ProductImagesRepository;
-use App\Repositories\Eloquent\ProductMastersRepository;
-use App\Repositories\Eloquent\ProductOptionsRepository;
-use App\Repositories\Eloquent\ProductReviewsRepository;
-use App\Repositories\Eloquent\ProductWirelessOptionMastersRepository;
-use App\Repositories\Eloquent\UserRepository;
+use App\Http\Repositories\Eloquent\BaseRepository;
+use App\Http\Repositories\Eloquent\CodesRepository;
+use App\Http\Repositories\Eloquent\MediaFileMastersRepository;
+use App\Http\Repositories\Eloquent\PhoneVerifyRepository;
+use App\Http\Repositories\Eloquent\UserRegisterSelectsRepository;
+use App\Http\Repositories\Eloquent\ProductBadgeMastersRepository;
+use App\Http\Repositories\Eloquent\ProductBadgesRepository;
+use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
+use App\Http\Repositories\Eloquent\ProductColorOptionMastersRepository;
+use App\Http\Repositories\Eloquent\ProductImagesRepository;
+use App\Http\Repositories\Eloquent\ProductMastersRepository;
+use App\Http\Repositories\Eloquent\ProductOptionsRepository;
+use App\Http\Repositories\Eloquent\ProductReviewsRepository;
+use App\Http\Repositories\Eloquent\ProductWirelessOptionMastersRepository;
+use App\Http\Repositories\Eloquent\UserRepository;
 
-use App\Repositories\Interfaces\EloquentRepositoryInterface;
-use App\Repositories\Interfaces\CodesRepositoryInterface;
-use App\Repositories\Interfaces\MediaFileMastersInterface;
-use App\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
-use App\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
-use App\Repositories\Interfaces\ProductBadgeMastersInterface;
-use App\Repositories\Interfaces\ProductBadgesInterface;
-use App\Repositories\Interfaces\ProductCategoryMastersInterface;
-use App\Repositories\Interfaces\ProductColorOptionMastersInterface;
-use App\Repositories\Interfaces\ProductImagesInterface;
-use App\Repositories\Interfaces\ProductMastersInterface;
-use App\Repositories\Interfaces\ProductOptionsInterface;
-use App\Repositories\Interfaces\ProductReviewsInterface;
-use App\Repositories\Interfaces\ProductWirelessOptionMastersInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Repositories\Interfaces\EloquentRepositoryInterface;
+use App\Http\Repositories\Interfaces\CodesRepositoryInterface;
+use App\Http\Repositories\Interfaces\MediaFileMastersInterface;
+use App\Http\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
+use App\Http\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
+use App\Http\Repositories\Interfaces\ProductBadgeMastersInterface;
+use App\Http\Repositories\Interfaces\ProductBadgesInterface;
+use App\Http\Repositories\Interfaces\ProductCategoryMastersInterface;
+use App\Http\Repositories\Interfaces\ProductColorOptionMastersInterface;
+use App\Http\Repositories\Interfaces\ProductImagesInterface;
+use App\Http\Repositories\Interfaces\ProductMastersInterface;
+use App\Http\Repositories\Interfaces\ProductOptionsInterface;
+use App\Http\Repositories\Interfaces\ProductReviewsInterface;
+use App\Http\Repositories\Interfaces\ProductWirelessOptionMastersInterface;
+use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
 
 

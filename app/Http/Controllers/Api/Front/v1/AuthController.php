@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api\Front\v1;
 
 use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Api\RootController;
-use App\Services\AuthServices;
-use Illuminate\Http\Request;
+use App\Http\Services\AuthServices;
 use Illuminate\Support\Facades\Response;
 
 class AuthController extends RootController

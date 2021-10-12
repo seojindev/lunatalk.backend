@@ -4,7 +4,7 @@
 namespace App\Http\Composers;
 
 use Illuminate\View\View;
-use App\Services\RootServices;
+use App\Http\Services\RootServices;
 
 /**
  * Class ViewBaseComposer
