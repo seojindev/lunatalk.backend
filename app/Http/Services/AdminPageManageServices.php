@@ -4,8 +4,8 @@ namespace App\Http\Services;
 
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
-use App\Repositories\Eloquent\MainSlideMastersRepository;
-use App\Repositories\Eloquent\MainSlidesRepository;
+use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
+use App\Http\Repositories\Eloquent\MainSlidesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
