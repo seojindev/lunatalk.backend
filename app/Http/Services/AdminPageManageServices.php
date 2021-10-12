@@ -100,7 +100,7 @@ class AdminPageManageServices
             'uuid' => $task['uuid'],
             'name' => $task['name'],
             'active' => $task['active'],
-            'image' => array_map(function($item) {
+            'images' => array_map(function($item) {
               return [
                   'id' => $item['id'],
                   'link' => $item['link'],
@@ -108,7 +108,7 @@ class AdminPageManageServices
                   'file_name' => $item['image']['file_name'],
                   'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
               ];
-            },$task['image']),
+            },$task['images']),
         ];
     }
 

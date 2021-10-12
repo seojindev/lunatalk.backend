@@ -36,6 +36,14 @@ class MainSlideMastersRepository extends BaseRepository implements MainSlideMast
      */
     public function getAdminDetailMainSlideMasters(string $uuid)
     {
-        return $this->model->with(['image','image.image'])->where('uuid',$uuid)->firstOrFail();
+        return $this->model->with(['images','images.image'])->where('uuid',$uuid)->firstOrFail();
+    }
+
+    public function createMainSldesList() : Collection {
+        return $this->model->with(['image' => function($query) {
+            $query->where('active', 'Y');
+        },'image.image'])
+            ->where('active', 'Y')
+            ->get();
     }
 }

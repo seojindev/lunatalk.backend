@@ -69,6 +69,15 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
                 Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
             });
+            Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
+                Route::group(['prefix' => 'main', 'as' => 'main.'], function () {
+                    Route::get('main-slide', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainSlide'])->name('main.slide'); // 홈 메인 슬라이드.
+                    Route::get('main-product-category', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainProductCategory'])->name('main.product.category'); // 홈 메인 상품 카테고리.
+                    Route::get('main-best-item', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainBestItem'])->name('main.best.item'); // 메인 베스트 아이템.
+                    Route::get('main-new-item', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
+                    Route::get('main-notice', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
+                });
+            });
         });
     });
 
