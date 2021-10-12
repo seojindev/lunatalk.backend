@@ -15603,7 +15603,7 @@
      
 }
 
-        namespace App\Repositories { 
+        namespace App\Http\Repositories { 
             /**
      * 
      *
@@ -19600,7 +19600,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
-            class Helper extends \App\Repositories\CustomFacades {}
+            class Helper extends \App\Http\Repositories\CustomFacades {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
             class Image extends \Intervention\Image\Facades\Image {}
      
