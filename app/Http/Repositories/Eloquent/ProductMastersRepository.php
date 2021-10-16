@@ -46,6 +46,5 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
         },'repImages.image', 'detailImages' => function($query) {
             $query->where('media_id', '>', 0);
         }, 'detailImages.image'])->where('uuid' , $uuid)->firstOrFail();
-
     }
 }

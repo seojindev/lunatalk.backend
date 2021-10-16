@@ -118,6 +118,7 @@ class BaseTest extends BaseCustomTestCase
         $remember_token = Str::random(10);
 
         $admin = User::factory()->create([
+            'uuid' => Str::uuid(),
             'login_id' => $login_id,
             'name' => $name,
             'level' => $level,
@@ -128,6 +129,7 @@ class BaseTest extends BaseCustomTestCase
         ]);
 
         PhoneVerifies::factory()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $admin->id,
             'phone_number' => $phone_number,
             'auth_code' => $auth_code,
@@ -190,6 +192,7 @@ class BaseTest extends BaseCustomTestCase
         $remember_token = Str::random(10);
 
         $user = User::factory()->create([
+            'uuid' => Str::uuid(),
             'login_id' => $login_id,
             'name' => $name,
             'level' => $level,
@@ -200,6 +203,7 @@ class BaseTest extends BaseCustomTestCase
         ]);
 
         PhoneVerifies::factory()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $user->id,
             'phone_number' => $phone_number,
             'auth_code' => $auth_code,

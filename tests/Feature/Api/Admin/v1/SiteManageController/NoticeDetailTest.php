@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
@@ -57,7 +58,9 @@ class NoticeDetailTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_site_manage_notice_detail_정상_요청()
     {
-        $tmp = NoticeMasters::factory()->count(1)->create()->first()->toArray();
+        $tmp = NoticeMasters::factory()->count(1)->create([
+            'uuid' => Str::uuid()
+        ])->first()->toArray();
         $imageTask = MediaFileMasters::factory()->create([
             'media_name' => 'site-manage',
             'media_category' => 'notice',

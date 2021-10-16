@@ -45,6 +45,7 @@ class PhoneVerifies extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'uuid',
         'user_id',
         'phone_number',
         'auth_code',

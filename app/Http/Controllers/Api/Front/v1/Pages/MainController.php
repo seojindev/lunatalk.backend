@@ -20,7 +20,7 @@ class MainController extends RootController
     }
 
     public function mainProductCategory() {
-
+        return Response::success($this->frontPageServices->mainProductCategory());
     }
 
     public function mainBestItem() {

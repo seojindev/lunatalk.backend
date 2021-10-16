@@ -47,8 +47,7 @@ class ProductDeleteTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_delete_정상_요청()
     {
-        $productData = $this->insertTestProductMaster();
-        $uuid = ProductMasters::select('uuid')->where('id', $productData->id)->first()->uuid;
+        $uuid = ProductMasters::select('uuid')->latest()->first()->uuid;
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('DELETE', str_replace(':uuid:', $uuid, $this->apiURL));
         $response->assertStatus(200);
@@ -56,10 +55,5 @@ class ProductDeleteTest extends BaseCustomTestCase
             'message',
         ]);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductImages::truncate();
-        ProductOptions::truncate();
-        ProductMasters::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

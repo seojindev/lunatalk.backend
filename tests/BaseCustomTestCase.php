@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\MediaFileMasters;
 use App\Models\PhoneVerifies;
+use App\Models\ProductCategoryMasters;
 use App\Models\ProductColorOptionMasters;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
@@ -85,6 +86,7 @@ class BaseCustomTestCase extends TestCase
 
 
         $us = User::factory()->create([
+            'uuid' => Str::uuid(),
             'login_id' => $testUser['login_id'],
             'name' => $testUser['name'],
             'email' => $testUser['email'],
@@ -94,6 +96,7 @@ class BaseCustomTestCase extends TestCase
         ]);
 
         $pv = PhoneVerifies::factory()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $us->id,
             'phone_number' => Crypt::encryptString($testUser['phone_number']),
             'auth_code' => Helper::generateAuthNumberCode(),
@@ -115,15 +118,15 @@ class BaseCustomTestCase extends TestCase
 
     protected function deleteTestUser() : void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        $user = User::select()->where('login_id', 'admin')->get()->first();
-
-        PhoneVerifies::where('user_id', '<>', $user['id'])->forcedelete();
-        UserRegisterSelects::where('user_id', '<>', $user['id'])->forcedelete();
-        User::where('id', '<>', $user['id'])->forcedelete();
-
-        PhoneVerifies::where('user_id', NULL)->forcedelete();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+//        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+//        $user = User::select()->where('login_id', 'admin')->get()->first();
+//
+//        PhoneVerifies::where('user_id', '<>', $user['id'])->forcedelete();
+//        UserRegisterSelects::where('user_id', '<>', $user['id'])->forcedelete();
+//        User::where('id', '<>', $user['id'])->forcedelete();
+//
+//        PhoneVerifies::where('user_id', NULL)->forcedelete();
+//        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     protected function insertTestRepImage() {
@@ -172,8 +175,9 @@ class BaseCustomTestCase extends TestCase
         $detailImage = $this->insertTestDetailImage();
 
         $productData = ProductMasters::factory()->create([
+            'uuid' => Str::uuid(),
             "name" => "테스트 상품",
-            "category" => 1,
+            "category" => ProductCategoryMasters::select('id')->inRandomOrder()->first()->id,
             "barcode" => 123123123,
             "price" => 3000,
             "quantity" => 20,

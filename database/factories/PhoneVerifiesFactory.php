@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Helper;
 use Crypt;
+use Illuminate\Support\Str;
 
 class PhoneVerifiesFactory extends Factory
 {
@@ -25,6 +26,7 @@ class PhoneVerifiesFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => Str::uuid(),
             'user_id' => User::select('id')->inRandomOrder()->first(),
             'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
             'auth_code' => Helper::generateAuthNumberCode(),

@@ -6,6 +6,7 @@ use App\Models\ProductCategoryMasters;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class ProductCategoryMastersSeeder extends Seeder
 {
@@ -16,8 +17,10 @@ class ProductCategoryMastersSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductCategoryMasters::truncate();
+        if (env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            ProductCategoryMasters::truncate();
+        }
 
         $Categories = [
             'acc',
@@ -26,13 +29,25 @@ class ProductCategoryMastersSeeder extends Seeder
             'wallet'
         ];
         foreach ($Categories as $category) :
-            DB::table('product_category_masters')->insert([
-                'name' => $category,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+
+            if (env('APP_ENV') == 'testing') {
+                DB::table('product_category_masters')->insert([
+                    'uuid' => Str::uuid(),
+                    'name' => $category,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            } else {
+                DB::table('product_category_masters')->insert([
+                    'name' => $category,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
         endforeach;
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if (env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
     }
 }

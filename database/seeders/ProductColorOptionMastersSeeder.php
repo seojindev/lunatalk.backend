@@ -75,8 +75,10 @@ class ProductColorOptionMastersSeeder extends Seeder
             '라임옐로우',
         ];
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductColorOptionMasters::truncate();
+        if (env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            ProductColorOptionMasters::truncate();
+        }
 
         foreach ($colorItems as $item):
             DB::table('product_color_option_masters')->insert([
@@ -87,6 +89,9 @@ class ProductColorOptionMastersSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         endforeach;
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        if (env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
     }
 }

@@ -65,11 +65,5 @@ class CategoryUpdateTest extends BaseCustomTestCase
         $response->assertJsonStructure([
             'message',
         ]);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductCategoryMasters::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $this->artisan('db:seed',['--class' => 'ProductCategoryMastersSeeder']);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\NoticeImages;
 use App\Models\NoticeMasters;
 use Helper;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class NoticeImagesFactory extends Factory
 {
@@ -24,7 +25,9 @@ class NoticeImagesFactory extends Factory
      */
     public function definition(): array
     {
-        $taskNotice = NoticeMasters::factory()->create();
+        $taskNotice = NoticeMasters::factory()->create([
+            'uuid' => Str::uuid()
+        ]);
         $taskImage = MediaFileMasters::factory()->create([
             'media_name' => 'manage',
             'media_category' => 'notice',

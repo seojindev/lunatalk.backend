@@ -95,6 +95,11 @@ class ProductMasters extends Model
         return $this->hasMany(ProductOptions::class, 'product_id', 'id')->whereNotNull('wireless');
     }
 
+    public function repImage()
+    {
+        return $this->hasOne(ProductImages::class, 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'))->latest();
+    }
+
     public function repImages()
     {
         return $this->hasMany(ProductImages::class, 'product_id', 'id')->where('media_category', config('extract.mediaCategory.repImage.code'));

@@ -6,6 +6,7 @@ use App\Models\ProductCategoryMasters;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
@@ -41,21 +42,14 @@ class CategoryDeleteTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_category_delete_정상_요청()
     {
-        $pcm = ProductCategoryMasters::factory()->create();
-
-        $this->expectException(NotFoundHttpException::class);
+        $pcm = ProductCategoryMasters::factory()->create([
+            'uuid' => Str::uuid()
+        ]);
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('DELETE', str_replace(':uuid:', $pcm->uuid, $this->apiURL));
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'message',
         ]);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductCategoryMasters::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $this->artisan('db:seed',['--class' => 'ProductCategoryMastersSeeder']);
     }
-
 }

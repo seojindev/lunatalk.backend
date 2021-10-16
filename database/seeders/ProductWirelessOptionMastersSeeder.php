@@ -16,8 +16,10 @@ class ProductWirelessOptionMastersSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductWirelessOptionMasters::truncate();
+        if(env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            ProductWirelessOptionMasters::truncate();
+        }
 
         DB::table('product_wireless_option_masters')->insert([
             'wireless' => 'Y',
@@ -33,6 +35,8 @@ class ProductWirelessOptionMastersSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if(env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
     }
 }

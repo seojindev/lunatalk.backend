@@ -96,6 +96,7 @@ class RegisterTest extends BaseCustomTestCase
         $login_id = 'id'.uniqid();
 
         $us = User::factory()->create([
+            'uuid' => Str::uuid(),
             'login_id' => $login_id,
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),

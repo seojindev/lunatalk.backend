@@ -10,6 +10,7 @@ use App\Http\Repositories\Eloquent\ProductOptionsRepository;
 use App\Http\Repositories\Eloquent\ProductImagesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Str;
 
 class AdminProductServices
 {
@@ -73,6 +74,7 @@ class AdminProductServices
         }
 
         $task = $this->productCategoryMastersRepository->create([
+            'uuid' => Str::uuid(),
             'name' => $this->currentRequest->input('name')
         ])->uuid;
 
@@ -249,6 +251,7 @@ class AdminProductServices
         }
 
         $createTask = $this->productMastersRepository->create([
+            'uuid' => Str::uuid(),
             'category' => $this->currentRequest->input('category'),
             'name' => $this->currentRequest->input('name'),
             'barcode' => $this->currentRequest->input('barcode'),

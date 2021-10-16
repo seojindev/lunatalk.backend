@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Repositories\Eloquent\NoticeMastersRepository;
 use App\Http\Repositories\Eloquent\NoticeImagesRepository;
+use Illuminate\Support\Str;
 
 class AdminSiteManageServices
 {
@@ -67,6 +68,7 @@ class AdminSiteManageServices
         }
 
         $noticeTask = $this->noticeMastersRepository->create([
+            'uuid' => Str::uuid(),
             'category' => $this->currentRequest->input('category'),
             'title' => $this->currentRequest->input('title'),
             'content' => $this->currentRequest->input('content'),

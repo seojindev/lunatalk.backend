@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Front\v1\Pages\MainController;
 use App\Http\Controllers\Api\Other\v1\MediaController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\SystemController;
@@ -71,11 +72,11 @@ Route::group(['as' => 'api.'], function () {
             });
             Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
                 Route::group(['prefix' => 'main', 'as' => 'main.'], function () {
-                    Route::get('main-slide', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainSlide'])->name('main.slide'); // 홈 메인 슬라이드.
-                    Route::get('main-product-category', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainProductCategory'])->name('main.product.category'); // 홈 메인 상품 카테고리.
-                    Route::get('main-best-item', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainBestItem'])->name('main.best.item'); // 메인 베스트 아이템.
-                    Route::get('main-new-item', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
-                    Route::get('main-notice', [\App\Http\Controllers\Api\Front\v1\Pages\MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
+                    Route::get('main-slide', [MainController::class, 'mainSlide'])->name('main.slide'); // 홈 메인 슬라이드.
+                    Route::get('main-product-category', [MainController::class, 'mainProductCategory'])->name('main.product.category'); // 홈 메인 상품 카테고리.
+                    Route::get('main-product-best-item', [MainController::class, 'mainBestItem'])->name('main.best.item'); // 메인 베스트 아이템.
+                    Route::get('main-product-new-item', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
+                    Route::get('main-notice', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
                 });
             });
         });

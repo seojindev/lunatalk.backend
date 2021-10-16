@@ -37,4 +37,11 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
     {
         return $this->model->where('active' , 'Y')->get();
     }
+
+    public function getRandomCategoryProduct() : Collection {
+        return $this->model
+            ->where('active', 'Y')
+            ->with(['random_products', 'random_products.repImage.image'])
+            ->get();
+    }
 }

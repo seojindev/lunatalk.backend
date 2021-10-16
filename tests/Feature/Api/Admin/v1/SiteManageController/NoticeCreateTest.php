@@ -10,6 +10,7 @@ use App\Models\NoticeMasters;
 use Helper;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
 
 class NoticeCreateTest extends BaseCustomTestCase
@@ -28,6 +29,7 @@ class NoticeCreateTest extends BaseCustomTestCase
     public function test_admin_front_v1_site_manage_notice_create_factory_테스트()
     {
         $data = [
+            'uuid' => Str::uuid(),
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => $this->faker->unique()->word(),
             'content' => $this->faker->unique()->text(200),
@@ -186,17 +188,5 @@ class NoticeCreateTest extends BaseCustomTestCase
                 'uuid',
             ]
         ]);
-    }
-
-    // 테스트 데이터 리셋.
-    public function test_admin_front_v1_site_manage_notice_create_데이터_리셋()
-    {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        NoticeMasters::truncate();
-        NoticeImages::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $response = $this->get('/');
-        $response->assertStatus(200);
     }
 }

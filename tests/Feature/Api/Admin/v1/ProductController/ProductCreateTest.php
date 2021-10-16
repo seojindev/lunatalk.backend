@@ -547,13 +547,5 @@ class ProductCreateTest extends BaseCustomTestCase
                 'uuid',
             ]
         ]);
-        $this->deleteTestRepImage($rep_mfm->id);
-        $this->deleteTestDetailImage($detail_mfm->id);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductImages::truncate();
-        ProductOptions::truncate();
-        ProductMasters::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

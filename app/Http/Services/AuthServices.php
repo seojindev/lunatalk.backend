@@ -74,12 +74,14 @@ class AuthServices
         $authCode = Helper::generateAuthNumberCode();
 
         $task = $this->phoneVerifyRepository->create([
+            'uuid' => Str::uuid(),
             'phone_number' => Crypt::encryptString($phoneNumber),
             'auth_code' => $authCode
         ]);
 
         if(env('APP_ENV') == "production") {
             return [
+                'uuid' => Str::uuid(),
                 'phone_number' => $this->currentRequest->input('phone_number'),
                 'auth_index' => $task->id
             ];

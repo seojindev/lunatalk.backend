@@ -158,10 +158,5 @@ class NoticeUpdateTest extends BaseCustomTestCase
         $response->assertJsonStructure([
             'message',
         ]);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        NoticeMasters::truncate();
-        NoticeImages::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

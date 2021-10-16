@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\BaseCustomTestCase;
 
@@ -68,14 +69,11 @@ class NoticeDeleteTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_site_manage_notice_delete_정상_요청()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        NoticeMasters::truncate();
-        NoticeImages::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        NoticeMasters::factory()->count(1)->create([
+            'uuid' => Str::uuid()
+        ]);
 
-        NoticeMasters::factory()->count(5)->create();
-
-        $task = NoticeMasters::orderBy('id', 'desc')->take(5)->get()->toArray();
+        $task = NoticeMasters::orderBy('id', 'desc')->take(1)->get()->toArray();
 
         $uuids = array_map(function($item) {
             return $item['uuid'];
@@ -91,10 +89,5 @@ class NoticeDeleteTest extends BaseCustomTestCase
         $response->assertJsonStructure([
             'message',
         ]);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        NoticeMasters::truncate();
-        NoticeImages::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

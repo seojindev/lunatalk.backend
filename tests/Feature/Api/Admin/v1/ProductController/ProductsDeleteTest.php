@@ -84,11 +84,5 @@ class ProductsDeleteTest extends BaseCustomTestCase
                 'uuid' => $uuid,
             ]);
         }
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductImages::truncate();
-        ProductOptions::truncate();
-        ProductMasters::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

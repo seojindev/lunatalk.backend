@@ -16,8 +16,10 @@ class CodesSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Codes::truncate();
+        if(env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            Codes::truncate();
+        }
 
         $arrayGroupCodesList = $this->initGroupCodesList();
         $arrayCodesList = $this->initCodesList();
@@ -53,7 +55,10 @@ class CodesSeeder extends Seeder
             endforeach;
         endforeach;
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if(env('APP_ENV') !== 'testing') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
+
     }
     /**
      * 그룹 코드 리스트

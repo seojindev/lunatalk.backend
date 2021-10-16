@@ -7,6 +7,7 @@ use App\Models\ProductCategoryMasters;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
 
 class CategoriesDeleteTest extends BaseCustomTestCase
@@ -51,7 +52,9 @@ class CategoriesDeleteTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_categories_delete_정상_요청()
     {
-        $pcm = ProductCategoryMasters::factory()->count(5)->create();
+        $pcm = ProductCategoryMasters::factory()->count(1)->create([
+            'uuid' => Str::uuid()
+        ]);
 
         $pcms = $pcm->toArray();
 
@@ -71,12 +74,6 @@ class CategoriesDeleteTest extends BaseCustomTestCase
                 'uuid' => $uuid,
             ]);
         }
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        ProductCategoryMasters::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $this->artisan('db:seed',['--class' => 'ProductCategoryMastersSeeder']);
     }
 
 }
