@@ -9,27 +9,6 @@ jobs:
     name: Laravel Workflows
     runs-on: ubuntu-latest
 
-    env:
-      DB_DATABASE: laravel
-      DB_USERNAME: root
-      DB_HOST: 127.0.0.1
-      DB_PORT: 32574
-      REDIS_PORT: 6379
-      BROADCAST_DRIVER: log
-      CACHE_DRIVER: redis
-      QUEUE_CONNECTION: redis
-      SESSION_DRIVER: redis
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-      MYSQL_DATABASE: laravel
-    services:
-      mariadb:
-        image: mariadb:10.4
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_DATABASE: laravel
-        ports:
-          - 32574:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       fail-fast: false
       matrix:
@@ -67,12 +46,6 @@ jobs:
           php artisan key:generate
       - name: Clear Config
         run: php artisan config:clear
-
-      - name: Run Migration
-        run: php artisan migrate --seed -v
-
-      - name: Run Passport Install
-        run: php artisan passport:install --force
 
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
