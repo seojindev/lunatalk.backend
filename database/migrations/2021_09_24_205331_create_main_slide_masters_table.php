@@ -15,7 +15,7 @@ class CreateMainSlideMastersTable extends Migration
     {
         Schema::create('main_slide_masters', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'))->comment('uuid');
+            $table->uuid('uuid')->unique()->nullable(false)->default('')->comment('uuid');
             $table->string('name')->comment('메인 슬라이드 이름');
             $table->enum('active',['Y','N'])->default('Y')->comment('전체 상태');
 

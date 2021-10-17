@@ -15,7 +15,7 @@ class CreateProductCategoryMastersTable extends Migration
     {
         Schema::create('product_category_masters', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'))->comment('uuid');
+            $table->uuid('uuid')->unique()->nullable(false)->default('')->comment('uuid');
             $table->string('name', 255)->nullable(false);
             $table->enum('active', ['Y', 'N'])->default('Y')->comment('상태');
             $table->timestamps();

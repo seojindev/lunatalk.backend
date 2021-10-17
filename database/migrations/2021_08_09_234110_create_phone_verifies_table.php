@@ -15,7 +15,7 @@ class CreatePhoneVerifiesTable extends Migration
     {
         Schema::create('phone_verifies', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'))->comment('uuid');
+            $table->uuid('uuid')->unique()->nullable(false)->default('')->comment('uuid');
             $table->unsignedBigInteger('user_id')->nullable()->comment('회원 번호');
             $table->string('phone_number')->nullable(false)->comment('인증 전화 번호');
             $table->string('auth_code', 10)->nullable(false)->comment('인증 코드');

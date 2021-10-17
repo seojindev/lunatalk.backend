@@ -15,7 +15,7 @@ class CreateProductMastersTable extends Migration
     {
         Schema::create('product_masters', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->default(DB::raw('(UUID())'))->comment('uuid');
+            $table->uuid('uuid')->unique()->nullable(false)->default('')->comment('uuid');
             $table->unsignedBigInteger('category')->nullable()->comment('상품 카테고리.');
             $table->string('name')->nullable(false)->comment('상품명.');
             $table->string('barcode', 50)->nullable()->comment('상품 비코드.');
