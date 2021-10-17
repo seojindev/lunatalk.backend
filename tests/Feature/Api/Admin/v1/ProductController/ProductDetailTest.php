@@ -29,8 +29,7 @@ class ProductDetailTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_detail_정상_요청()
     {
-        $productData = $this->insertTestProductMaster();
-        $uuid = ProductMasters::select('uuid')->where('id', $productData->id)->first()->uuid;
+        $uuid = ProductMasters::select('uuid')->latest()->first()->uuid;
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('GET', str_replace(':uuid:', $uuid, $this->apiURL));
         $response->assertStatus(200);

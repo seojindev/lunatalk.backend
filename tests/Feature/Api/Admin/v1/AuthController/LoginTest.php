@@ -22,7 +22,7 @@ class LoginTest extends BaseCustomTestCase
         $this->apiURL = "/api/admin-front/v1/auth/login";
 
         // 테스트 사용자 입력.
-        $this->testUser = $this->insertTestUser();
+//        $this->testUser = $this->insertTestUser();
     }
 
     public function test_admin_v1_auth_login_아이디_없이_요청()
@@ -59,7 +59,7 @@ class LoginTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('login.password_required'));
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": ""
         }';
 
@@ -73,7 +73,7 @@ class LoginTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('login.password_fail'));
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": "1111"
         }';
 
@@ -82,13 +82,13 @@ class LoginTest extends BaseCustomTestCase
 
     public function test_admin_v1_auth_login_관리자_권한_없는_사용자()
     {
-        User::where('id', $this->testUser['id'])->update(['level' => config('extract.user_level.normal.level_code')]);
+        User::where('login_id', 'testuser')->update(['level' => config('extract.user_level.normal.level_code')]);
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage(__('login.only_admin'));
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": "password"
         }';
 
@@ -98,10 +98,12 @@ class LoginTest extends BaseCustomTestCase
     // 성공.
     public function test_admin_v1_auth_login_정상_요청()
     {
-        User::where('id', $this->testUser['id'])->update(['level' => config('extract.user_level.admin.level_code')]);
+        User::where('login_id', 'testuser')->update([
+            'level' => config('extract.user_level.admin.level_code')
+        ]);
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": "password"
         }';
 
@@ -116,6 +118,6 @@ class LoginTest extends BaseCustomTestCase
             ]);
 
 
-        $this->deleteTestUser();
+//        $this->deleteTestUser();
     }
 }

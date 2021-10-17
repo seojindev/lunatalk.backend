@@ -18,9 +18,6 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         parent::setUp();
 
         $this->apiURL = "/api/front/v1/auth/authIndex/phone-auth-confirm";
-
-        // 테스트 사용자 입력.
-        $this->testUser = $this->insertTestUser();
     }
 
 
@@ -55,14 +52,14 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testPayload = '{
-            "auth_code": ""
-        }';
+        $testPayload = [
+            "auth_code" => ""
+        ];
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.phone_auth_confirm.required'));
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', $auth_index, $this->apiURL), json_decode($testPayload, true));
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', $auth_index, $this->apiURL), $testPayload);
     }
 
     public function test_front_v1_auth_phone_auth_confirm_인증_코드_잘못된_자리수_요청()
@@ -122,11 +119,11 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
         PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
         $auth_index = $randTask->id;
 
-        $testPayload = '{
-            "auth_code": "'.$randTask->auth_code.'"
-        }';
+        $testPayload = [
+            "auth_code" => $randTask->auth_code
+        ];
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', $auth_index, $this->apiURL), json_decode($testPayload, true))
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', str_replace('authIndex', $auth_index, $this->apiURL), $testPayload)
 //            ->dump()
             ->assertStatus(200)
             ->assertJsonStructure([
@@ -136,7 +133,5 @@ class PhoneAuthConfirmTest extends BaseCustomTestCase
                     'phone_number'
                 ]
             ]);
-
-        $this->deleteTestUser();
     }
 }

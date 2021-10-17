@@ -15,18 +15,11 @@ class ProductDeleteTest extends BaseCustomTestCase
 {
     protected string $apiURL;
 
-    protected Object $productData;
-    protected string $uuid;
-
     public function setUp(): void
     {
         parent::setUp();
 
         $this->apiURL = "/api/admin-front/v1/product/:uuid:/delete-product";
-
-        $this->productData = $this->insertTestProductMaster();
-
-        $this->uuid = ProductMasters::select('uuid')->where('id', $this->productData->id)->first()->uuid;
     }
 
     public function test_admin_front_v1_product_delete_uuid_없이_요청()

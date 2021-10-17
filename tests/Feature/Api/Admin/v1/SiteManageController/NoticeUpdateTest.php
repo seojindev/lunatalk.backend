@@ -19,8 +19,6 @@ class NoticeUpdateTest extends BaseCustomTestCase
 
     protected string $apiURL;
 
-    public Int $task_id;
-
     public function setUp(): void
     {
         parent::setUp();

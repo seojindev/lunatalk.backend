@@ -17,8 +17,6 @@ class PhoneAuthTest extends BaseCustomTestCase
 
         $this->apiURL = "/api/front/v1/auth/phone-number/phone-auth";
 
-        // 테스트 사용자 입력.
-        $this->testUser = $this->insertTestUser();
     }
 
     // 전화 번호 없이 요청.
@@ -60,8 +58,5 @@ class PhoneAuthTest extends BaseCustomTestCase
                     "auth_code"
                 ]
             ]);
-
-        // 테스트 인증 삭제.
-        $this->deleteTestUser();
     }
 }

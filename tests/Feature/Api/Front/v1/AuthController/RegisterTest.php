@@ -25,8 +25,6 @@ class RegisterTest extends BaseCustomTestCase
         parent::setUp();
 
         $this->apiURL = "/api/front/v1/auth/register";
-
-        $this->testUser = $this->insertTestUser();
     }
 
     //  인증코드 없이 요청.
@@ -416,18 +414,24 @@ class RegisterTest extends BaseCustomTestCase
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('register.attempt.email.unique'));
 
-        $testPayload = '{
-                "auth_index": "'.$this->testUser['pv_id'].'",
-                "user_id": "'.'id'.uniqid().'",
-                "user_password": "asdfasdf",
-                "user_password_confirm": "asdfasdf",
-                "user_name": "어둠의계정",
-                "user_email": "'.$this->testUser['email'].'",
-                "user_select_email": "Y",
-                "user_select_message": "Y"
-        }';
+        $randTask = PhoneVerifies::select('id')->inRandomOrder()->first();
+        PhoneVerifies::where('id' , $randTask->id)->update([
+            'verified' => 'Y',
+            'user_id' => null
+        ]);
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+        $testPayload = [
+                "auth_index" => $randTask->id,
+                "user_id" => 'id'.uniqid(),
+                "user_password"=> "asdfasdf",
+                "user_password_confirm" => "asdfasdf",
+                "user_name" => "어둠의계정",
+                "user_email" => "testuser@test.com",
+                "user_select_email" => "Y",
+                "user_select_message" => "Y"
+        ];
+
+        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, $testPayload)->dump();
     }
 
     // 이메일 선택 사항 데이터 없을떄.
@@ -566,12 +570,5 @@ class RegisterTest extends BaseCustomTestCase
                 'status'
             ]
         ]);
-
-        $task = User::where('login_id', 'testuserid')->first();
-        PhoneVerifies::where('user_id', $task->id)->forcedelete();
-        UserRegisterSelects::where('user_id', $task->id)->forcedelete();
-        User::where('id', $task->id)->forcedelete();
-
-        $this->deleteTestUser();
     }
 }

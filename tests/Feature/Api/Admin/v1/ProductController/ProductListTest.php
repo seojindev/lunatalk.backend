@@ -21,10 +21,6 @@ class ProductListTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_list_요청()
     {
-        $this->insertTestProductMaster();
-        $this->insertTestProductMaster();
-        $this->insertTestProductMaster();
-
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('GET', $this->apiURL);
         $response->assertStatus(200);
         $response->assertJsonStructure([

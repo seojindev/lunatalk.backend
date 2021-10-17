@@ -14,7 +14,6 @@ class LogoutTest extends BaseCustomTestCase
         parent::setUp();
 
         $this->apiURL = "/api/admin-front/v1/auth/logout";
-        $this->insertTestUser();
     }
 
     /**
@@ -36,7 +35,5 @@ class LogoutTest extends BaseCustomTestCase
             ->assertJsonStructure([
                 'message',
             ]);
-
-        $this->deleteTestUser();
     }
 }

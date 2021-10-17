@@ -7,6 +7,7 @@ use App\Models\MediaFileMasters;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
 use App\Models\ProductOptions;
+use Helper;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\BaseCustomTestCase;
@@ -25,7 +26,6 @@ class ProductCreateTest extends BaseCustomTestCase
     protected string $memo = "테스트 메모 입니다";
     protected string $sale = "Y";
     protected string $active = "Y";
-
 
     public function setUp(): void
     {
@@ -47,6 +47,36 @@ class ProductCreateTest extends BaseCustomTestCase
             "rep_image" => ['asdasd'],
             "detail_image" => ""
         ];
+    }
+
+    public function insertTestRepImage() {
+        return MediaFileMasters::factory()->create([
+            'media_name' => 'products',
+            'media_category' => 'rep',
+            'dest_path' => '/storage/products/'.'/rep/'.sha1(date("Ymd")),
+            'file_name' => Helper::uuidSecure().'.jpeg',
+            'original_name' => Helper::uuidSecure().'.jpeg',
+            'width' => '500',
+            'height' => '500',
+            'file_type' => 'image/jpeg',
+            'file_size' => '106639',
+            'file_extension' => 'jpeg',
+        ]);
+    }
+
+    public function insertTestDetailImage() {
+        return MediaFileMasters::factory()->create([
+            'media_name' => 'products',
+            'media_category' => 'detail',
+            'dest_path' => '/storage/products/'.'/rep/'.sha1(date("Ymd")),
+            'file_name' => Helper::uuidSecure().'.jpeg',
+            'original_name' => Helper::uuidSecure().'.jpeg',
+            'width' => '500',
+            'height' => '500',
+            'file_type' => 'image/jpeg',
+            'file_size' => '106639',
+            'file_extension' => 'jpeg',
+        ]);
     }
 
     public function test_admin_front_v1_product_create_상품명_없이_요청()
@@ -480,9 +510,6 @@ class ProductCreateTest extends BaseCustomTestCase
                 'uuid',
             ]
         ]);
-
-        $this->deleteTestRepImage($rep_mfm->id);
-        $this->deleteTestDetailImage($detail_mfm->id);
     }
 
     public function test_admin_front_v1_product_create_옵션_메모_있을때_요청()
@@ -513,9 +540,6 @@ class ProductCreateTest extends BaseCustomTestCase
                 'uuid',
             ]
         ]);
-
-        $this->deleteTestRepImage($rep_mfm->id);
-        $this->deleteTestDetailImage($detail_mfm->id);
     }
 
     public function test_admin_front_v1_product_create_정상_요청()

@@ -19,9 +19,6 @@ class LoginTest extends BaseCustomTestCase
         parent::setUp();
 
         $this->apiURL = "/api/front/v1/auth/login";
-
-        // 테스트 사용자 입력.
-        $this->testUser = $this->insertTestUser();
     }
 
     // 아이디 없이 요청.
@@ -59,7 +56,7 @@ class LoginTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('login.password_required'));
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": ""
         }';
 
@@ -73,7 +70,7 @@ class LoginTest extends BaseCustomTestCase
         $this->expectExceptionMessage(__('login.password_fail'));
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": "1111"
         }';
 
@@ -83,13 +80,13 @@ class LoginTest extends BaseCustomTestCase
     //  차단 상태 사용자 요청.
     public function test_front_v1_auth_login_차단_상태_사용자_요청()
     {
-        User::where('id', $this->testUser['id'])->update(['status' => config('extract.user_status.block.code')]);
+        User::where('login_id', 'testuser')->update(['status' => config('extract.user_status.block.code')]);
 
         $this->expectException(ClientErrorException::class);
         $this->expectExceptionMessage(__('login.block_user'));
 
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": "password"
         }';
 
@@ -100,7 +97,7 @@ class LoginTest extends BaseCustomTestCase
     public function test_front_v1_auth_login_정상_요청()
     {
         $testPayload = '{
-            "login_id": "'.$this->testUser['login_id'].'",
+            "login_id": "testuser",
             "login_password": "password"
         }';
 
@@ -113,8 +110,5 @@ class LoginTest extends BaseCustomTestCase
                     'refresh_token'
                 ]
             ]);
-
-
-        $this->deleteTestUser();
     }
 }

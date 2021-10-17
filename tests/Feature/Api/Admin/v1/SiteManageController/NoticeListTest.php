@@ -22,8 +22,8 @@ class NoticeListTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_site_manage_notice_list_정상_요청()
     {
-        NoticeMasters::factory()->count(10)->create();
-        NoticeImages::factory()->count(20)->create();
+        NoticeMasters::factory()->count(5)->create();
+        NoticeImages::factory()->count(10)->create();
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('GET', $this->apiURL);
         $response->assertStatus(200);

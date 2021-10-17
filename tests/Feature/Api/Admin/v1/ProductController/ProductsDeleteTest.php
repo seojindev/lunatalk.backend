@@ -24,10 +24,6 @@ class ProductsDeleteTest extends BaseCustomTestCase
         parent::setUp();
 
         $this->apiURL = "/api/admin-front/v1/product/delete-products";
-
-        $this->productData = $this->insertTestProductMaster();
-
-        $this->uuid = ProductMasters::select('uuid')->where('id', $this->productData->id)->first()->uuid;
     }
 
     public function test_admin_front_v1_products_delete_uuid_없이_요청()
@@ -59,17 +55,10 @@ class ProductsDeleteTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_products_delete_정상_요청()
     {
-        $tmpArray = array_fill(0, 5, '');
-
-        $uuid = array_map(function(){
-            $productData = $this->insertTestProductMaster();
-            $uuid = ProductMasters::select('uuid')->where('id', $productData->id)->first()->uuid;
-
-            return $uuid;
-        }, $tmpArray);
-
         $payload = [
-            "uuid" => $uuid
+            "uuid" => array_map(function($item) {
+                return $item['uuid'];
+            } , ProductMasters::latest(10)->get()->toArray())
         ];
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('DELETE', $this->apiURL, $payload);
@@ -78,11 +67,5 @@ class ProductsDeleteTest extends BaseCustomTestCase
             'message',
         ]);
 
-
-        foreach ($payload['uuid'] as $uuid) {
-            $this->assertSoftDeleted(ProductMasters::class, [
-                'uuid' => $uuid,
-            ]);
-        }
     }
 }

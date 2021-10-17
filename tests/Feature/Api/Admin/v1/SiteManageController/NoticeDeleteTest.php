@@ -27,18 +27,6 @@ class NoticeDeleteTest extends BaseCustomTestCase
         $this->apiURL = "/api/admin-front/v1/site-manage/delete-notice";
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function test_admin_front_v1_site_manage_notice_delete_uuid_없이_요청()
     {
 

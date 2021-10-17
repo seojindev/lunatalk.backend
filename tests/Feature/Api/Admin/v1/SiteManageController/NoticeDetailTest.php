@@ -28,18 +28,6 @@ class NoticeDetailTest extends BaseCustomTestCase
         $this->apiURL = "/api/admin-front/v1/site-manage/:uuid:/detail-notice";
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function test_admin_front_v1_site_manage_notice_detail_uuid_없이_요청()
     {
         $this->expectException(NotFoundHttpException::class);
