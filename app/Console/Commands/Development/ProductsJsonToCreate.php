@@ -84,6 +84,7 @@ class ProductsJsonToCreate extends Command
                 $category_id = ProductCategoryMasters::where('name', $oldCategory[$product['category']])->first()->id;
 
                 $pr = ProductMasters::create([
+                    'uuid' => Str::uuid(),
                     'category' => $category_id,
                     'name' => $product['name'],
                     'barcode' => $product['barcode'],

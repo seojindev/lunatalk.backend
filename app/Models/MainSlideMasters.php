@@ -37,17 +37,18 @@ class MainSlideMasters extends Model
         'id',
         'uuid',
         'name',
+        'media_id',
+        'product_id',
+        'slide_url',
+        'memo',
         'active'
     ];
 
-    public function images()
-    {
-        return $this->hasMany(MainSlides::class,'main_slide_id','id');
+    public function image() {
+        return $this->hasOne(MediaFileMasters::class, 'id', 'media_id');
     }
 
-    public function image()
-    {
-        return $this->hasOne(MainSlides::class,'main_slide_id','id');
+    public function product() {
+        return $this->hasOne(ProductMasters::class, 'id', 'product_id');
     }
-
 }

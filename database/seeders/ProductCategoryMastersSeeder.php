@@ -30,20 +30,13 @@ class ProductCategoryMastersSeeder extends Seeder
         ];
         foreach ($Categories as $category) :
 
-            if (env('APP_ENV') == 'testing') {
-                DB::table('product_category_masters')->insert([
-                    'uuid' => Str::uuid(),
-                    'name' => $category,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
-            } else {
-                DB::table('product_category_masters')->insert([
-                    'name' => $category,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
-            }
+            DB::table('product_category_masters')->insert([
+                'uuid' => Str::uuid(),
+                'name' => $category,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
         endforeach;
 
         if (env('APP_ENV') !== 'testing') {

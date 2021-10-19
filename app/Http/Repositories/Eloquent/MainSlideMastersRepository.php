@@ -3,6 +3,7 @@
 namespace App\Http\Repositories\Eloquent;
 
 use App\Models\MainSlideMasters;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Repositories\Interfaces\MainSlideMastersInterface;
@@ -32,17 +33,18 @@ class MainSlideMastersRepository extends BaseRepository implements MainSlideMast
 
     /**
      * @param string $uuid
-     * @return \Illuminate\Database\Eloquent\Builder|Model
+     * @return Builder|Model
      */
     public function getAdminDetailMainSlideMasters(string $uuid)
     {
-        return $this->model->with(['images','images.image'])->where('uuid',$uuid)->firstOrFail();
+        return $this->model->with(['image', 'product'])->where('uuid',$uuid)->firstOrFail();
     }
 
+    /**
+     * @return Collection
+     */
     public function createMainSldesList() : Collection {
-        return $this->model->with(['image' => function($query) {
-            $query->where('active', 'Y');
-        },'image.image'])
+        return $this->model->with(['image'])
             ->where('active', 'Y')
             ->get();
     }

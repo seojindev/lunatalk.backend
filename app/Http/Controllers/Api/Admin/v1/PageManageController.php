@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin\v1;
 
+use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Services\AdminPageManageServices;
 use Illuminate\Support\Facades\Response;
@@ -16,7 +17,11 @@ class PageManageController extends Controller
         $this->adminPageManageServices = $adminPageManageServices;
     }
 
-        public function createMainSlide()
+    /**
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function createMainSlide()
     {
         return Response::custom_success(201, __('default.response.process_success'), $this->adminPageManageServices->createMainSlide());
     }
@@ -42,7 +47,7 @@ class PageManageController extends Controller
     /**
      * @param string $mainSlideUUID
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function updateMainSlide(string $mainSlideUUID)
     {
@@ -52,7 +57,7 @@ class PageManageController extends Controller
 
     /**
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function deleteMainSlide()
     {

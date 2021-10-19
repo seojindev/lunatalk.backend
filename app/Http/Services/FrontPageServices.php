@@ -24,7 +24,7 @@ class FrontPageServices
 
         return array_map(function($item) {
 
-            $slide_image = $item['image']['image'];
+            $slide_image = $item['image'];
             return [
                 'name' => $item['name'],
                 'image' => [

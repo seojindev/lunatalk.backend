@@ -8,6 +8,7 @@ use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
 use App\Http\Repositories\Eloquent\MainSlidesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AdminPageManageServices
 {
@@ -18,35 +19,39 @@ class AdminPageManageServices
 
     protected MainSlideMastersRepository $mainSlideMastersReposity;
 
-    protected MainSlidesRepository $mainSlidesReposity;
-
-    /**
-     * @param Request $request
-     */
-    function __construct(Request $request,  MainSlideMastersRepository $mainSlideMastersRepository, MainSlidesRepository $mainSlidesReposity)
+    function __construct(Request $request,  MainSlideMastersRepository $mainSlideMastersRepository)
     {
         $this->currentRequest = $request;
         $this->mainSlideMastersReposity = $mainSlideMastersRepository;
-        $this->mainSlidesReposity = $mainSlidesReposity;
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
     public function mainSlideValidator()
     {
-        // dd($this->currentRequest->all());
          return Validator::make($this->currentRequest->all(), [
             'name' => 'required|string|min:1',
             'active' => 'required|in:Y,N|max:1',
-            'main_slide' => 'required|array',
+            'media_id' => 'required|integer|exists:media_file_masters,id',
+            'product_id' => 'integer|exists:media_file_masters,id',
         ],
             [
-                'name.required'=> __('page-manage.admin.main-slide.name.required'),
-                'active.required'=> __('page-manage.admin.main-slide.active.required'),
-                'active.in'=> __('page-manage.admin.main-slide.active.in'),
-                'main_slide.*'=> __('page-manage.admin.main-slide.main_slide'),
+                'name.required'=> __('admin-page-manage.main-slide.name.required'),
+                'active.required'=> __('admin-page-manage.main-slide.active.required'),
+                'active.in'=> __('admin-page-manage.main-slide.active.in'),
+                'media_id.required'=> __('admin-page-manage.main-slide.media_id.required'),
+                'media_id.integer'=> __('admin-page-manage.main-slide.media_id.integer'),
+                'media_id.exists'=> __('admin-page-manage.main-slide.media_id.exists'),
+                'product_id.integer'=> __('admin-page-manage.main-slide.product_id.integer'),
+                'product_id.exists'=> __('admin-page-manage.main-slide.product_id.exists'),
             ]);
     }
 
+    /**
+     * @return array
+     * @throws ClientErrorException
+     */
     public function createMainSlide() : array
     {
          $validator = $this->mainSlideValidator();
@@ -55,63 +60,25 @@ class AdminPageManageServices
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        $createTask = $this->mainSlideMastersReposity->create([
+        $task = $this->mainSlideMastersReposity->create([
+            'uuid' => Str::uuid(),
             'name' => $this->currentRequest->input('name'),
-            'active' => $this->currentRequest->input('active')
+            'media_id' => $this->currentRequest->input('media_id'),
+            'product_id' => $this->currentRequest->input('product_id'),
+            'link' => $this->currentRequest->input('link'),
+            'memo' => $this->currentRequest->input('memo'),
+            'active' => $this->currentRequest->input('active'),
         ]);
 
-
-        foreach ($this->currentRequest->input('main_slide') as $media) :
-            $this->mainSlidesReposity->create([
-                'main_slide_id' => $createTask->id,
-                'media_id' => $media['id'],
-                'link' => $media['link']
-            ]);
-        endforeach;
-
-
         return [
-            'uuid' => $createTask->uuid
+            'uuid' => $task->uuid
         ];
     }
 
-    public function showMainSlide() : array
-    {
-        $task = $this->mainSlideMastersReposity->getAdminMainSlideMasters()->toArray();
-
-        if(empty($task)) {
-            throw new ServiceErrorException(__('response.success_not_found'));
-        }
-
-       return array_map(function ($item) {
-            return [
-                'id' => $item['id'],
-                'uuid' => $item['uuid'],
-                'name' => $item['name'],
-                'active' => $item['active']
-            ];
-       },$task);
-    }
-
-    public function detailMainSlide(string $mainSlideUUID) : array
-    {
-        $task = $this->mainSlideMastersReposity->getAdminDetailMainSlideMasters($mainSlideUUID)->toArray();
-        return [
-            'uuid' => $task['uuid'],
-            'name' => $task['name'],
-            'active' => $task['active'],
-            'images' => array_map(function($item) {
-              return [
-                  'id' => $item['id'],
-                  'link' => $item['link'],
-                  'active' => $item['active'],
-                  'file_name' => $item['image']['file_name'],
-                  'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
-              ];
-            },$task['images']),
-        ];
-    }
-
+    /**
+     * @param string $mainSlideUUID
+     * @throws ClientErrorException
+     */
     public function updateMainSlide(string $mainSlideUUID) : void
     {
         $mainSlide = $this->mainSlideMastersReposity->defaultCustomFind('uuid', $mainSlideUUID);
@@ -121,23 +88,20 @@ class AdminPageManageServices
         if( $validator->fails() ) {
             throw new ClientErrorException($validator->errors()->first());
         }
+
         $this->mainSlideMastersReposity->update($mainSlide->id, [
             'name' => $this->currentRequest->input('name'),
-            'active' => $this->currentRequest->input('active')
+            'media_id' => $this->currentRequest->input('media_id'),
+            'product_id' => $this->currentRequest->input('product_id'),
+            'link' => $this->currentRequest->input('link'),
+            'memo' => $this->currentRequest->input('memo'),
+            'active' => $this->currentRequest->input('active'),
         ]);
-
-        // 기존 이미지 삭제.
-        $this->mainSlidesReposity->deleteByCustomColumn('main_slide_id',$mainSlide->id);
-
-        foreach ($this->currentRequest->input('main_slide') as $media) :
-            $this->mainSlidesReposity->create([
-                'main_slide_id' => $mainSlide->id,
-                'media_id' => $media['id'],
-                'link' => $media['link']
-            ]);
-        endforeach;
     }
 
+    /**
+     * @throws ClientErrorException
+     */
     public function deleteMainSlides() : void
     {
         $validator = Validator::make($this->currentRequest->all(), [
@@ -157,7 +121,51 @@ class AdminPageManageServices
         foreach ($this->currentRequest->input('uuid') as $uuid) {
             $mainSlide = $this->mainSlideMastersReposity->defaultCustomFind('uuid', $uuid);
             $this->mainSlideMastersReposity->deleteById($mainSlide->id);
-            $this->mainSlidesReposity->deleteByCustomColumn('main_slide_id', $mainSlide->id);
         }
+    }
+
+    /**
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function showMainSlide() : array
+    {
+        $task = $this->mainSlideMastersReposity->getAdminMainSlideMasters()->toArray();
+
+        if(empty($task)) {
+            throw new ClientErrorException(__('response.success_not_found'));
+        }
+
+        return array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'uuid' => $item['uuid'],
+                'name' => $item['name'],
+                'active' => $item['active']
+            ];
+        },$task);
+    }
+
+    /**
+     * @param string $mainSlideUUID
+     * @return array
+     */
+    public function detailMainSlide(string $mainSlideUUID) : array
+    {
+        $task = $this->mainSlideMastersReposity->getAdminDetailMainSlideMasters($mainSlideUUID)->toArray();
+        return [
+            'uuid' => $task['uuid'],
+            'name' => $task['name'],
+            'product_id' => $task['product_id'],
+            'product_uuid' => $task['product']['uuid'],
+            'product_name' => $task['product']['name'],
+            'memo' => $task['memo'],
+            'active' => $task['active'],
+            'image' => [
+                'id' => $task['image']['id'],
+                'file_name' => $task['image']['file_name'],
+                'url' => env('APP_MEDIA_URL') . $task['image']['dest_path'] . '/' . $task['image']['file_name']
+            ],
+        ];
     }
 }

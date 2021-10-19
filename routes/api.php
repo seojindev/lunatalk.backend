@@ -111,11 +111,11 @@ Route::group(['as' => 'api.'], function () {
             });
 
             Route::group(['prefix' => 'page-manage', 'as' => 'page-manage'], function () {
-                Route::post('create-main-slide',[AdminPageManageController::class, 'createMainSlide'])->name('create.main.slide');
-                Route::get('show-main-slide',[AdminPageManageController::class, 'showMainSlide'])->name('show.main.slide');
-                Route::get('{mainSlideUUID}/detail-main-slide',[AdminPageManageController::class, 'detailMainSlide'])->name('detail.main.slide');
-                Route::put('{mainSlideUUID}/update-main-slide',[AdminPageManageController::class, 'updateMainSlide'])->name('update.main.slide');
-                Route::delete('delete-main-slides',[AdminPageManageController::class, 'deleteMainSlide'])->name('delete.main.slides');
+                Route::post('create-main-slide',[AdminPageManageController::class, 'createMainSlide'])->name('create.main.slide'); // 메인 슬아이드 생성.
+                Route::get('show-main-slide',[AdminPageManageController::class, 'showMainSlide'])->name('show.main.slide'); // 메인 슬라이드 리스트
+                Route::get('{mainSlideUUID}/detail-main-slide',[AdminPageManageController::class, 'detailMainSlide'])->name('detail.main.slide'); // 메인 슬라이드 상세
+                Route::put('{mainSlideUUID}/update-main-slide',[AdminPageManageController::class, 'updateMainSlide'])->name('update.main.slide'); // 메인 슬라이드 수정.
+                Route::delete('delete-main-slides',[AdminPageManageController::class, 'deleteMainSlide'])->name('delete.main.slides'); // 메인 슬라이드 삭제.
             });
 
             Route::group(['prefix' => 'site-manage', 'as' => 'site-manage'], function () {
