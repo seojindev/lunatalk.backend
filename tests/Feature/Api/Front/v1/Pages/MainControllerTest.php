@@ -47,6 +47,10 @@ class MainControllerTest extends BaseCustomTestCase
                 'result' => [
                     '*' => [
                         'name',
+                        'url' => [
+                            'product_uuid',
+                            'slide_url',
+                        ],
                         'image' => [
                             'file_name',
                             'url',

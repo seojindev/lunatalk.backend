@@ -44,7 +44,7 @@ class MainSlideMastersRepository extends BaseRepository implements MainSlideMast
      * @return Collection
      */
     public function createMainSldesList() : Collection {
-        return $this->model->with(['image'])
+        return $this->model->with(['image', 'product'])
             ->where('active', 'Y')
             ->get();
     }

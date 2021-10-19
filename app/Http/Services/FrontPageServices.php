@@ -2,8 +2,10 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\ServerErrorException;
 use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 
 class FrontPageServices
 {
@@ -15,18 +17,25 @@ class FrontPageServices
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
     }
 
+    /**
+     * @return array
+     * @throws ServerErrorException
+     */
     public function mainSlide() : array {
         $task = $this->mainSlideMastersRepository->createMainSldesList();
 
         if(!$task) {
-            return [];
+            throw new ServerErrorException();
         }
 
         return array_map(function($item) {
-
             $slide_image = $item['image'];
             return [
                 'name' => $item['name'],
+                'url' => [
+                    'product_uuid' => isset($item['product']) ? $item['product']['uuid'] : '',
+                    'slide_url' => $item['slide_url']
+                ],
                 'image' => [
                     'file_name' => $slide_image['file_name'],
                     'url' => env('APP_MEDIA_URL') . '/' . $slide_image['dest_path'] . '/' . $slide_image['file_name'],
@@ -37,6 +46,9 @@ class FrontPageServices
         } , $task->toArray());
     }
 
+    /**
+     * @return array
+     */
     public function mainProductCategory() : array {
         return array_map(function($item) {
 
@@ -67,6 +79,4 @@ class FrontPageServices
             }
         } , $this->productCategoryMastersRepository->getRandomCategoryProduct()->toArray());
     }
-
-
 }
