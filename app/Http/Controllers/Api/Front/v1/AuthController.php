@@ -17,6 +17,7 @@ class AuthController extends RootController
     }
 
     /**
+     * 휴대폰 인증.
      * @throws ClientErrorException
      */
     public function phoneAuth(string $phoneNumber)
@@ -25,6 +26,7 @@ class AuthController extends RootController
     }
 
     /**
+     * 휴대폰 인증 확인.
      * @throws ClientErrorException
      */
     public function phoneAuthConfirm(Int $authIndex)
@@ -35,6 +37,7 @@ class AuthController extends RootController
     }
 
     /**
+     * 회원 가입.
      * @throws ClientErrorException
      */
     public function register()
@@ -43,6 +46,7 @@ class AuthController extends RootController
     }
 
     /**
+     * 로그인.
      * @throws ClientErrorException
      */
     public function login()
@@ -50,11 +54,19 @@ class AuthController extends RootController
         return Response::success($this->authServices->attemptLogin());
     }
 
+    /**
+     * 로그아웃.
+     * @return mixed
+     */
     public function logout()
     {
         return Response::message_success($this->authServices->attemptLogout());
     }
 
+    /**
+     * 토큰 사용자 정보(임시)
+     * @return mixed
+     */
     public function tokenInfo()
     {
         return Response::success($this->authServices->getTokenInfo());

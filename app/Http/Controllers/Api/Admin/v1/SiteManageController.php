@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin\v1;
 
+use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use App\Http\Services\AdminSiteManageServices;
@@ -21,17 +22,19 @@ class SiteManageController extends Controller
     }
 
     /**
+     * 싸이트 공지 사항 추가.
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function createNotice() {
         return Response::custom_success(201, __('default.response.process_success'), $this->adminSiteManageServices->noticeCreate());
     }
 
     /**
+     * 싸이트 공지 사항 업데이트.
      * @param String $noticeUUID
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function updateNotice(String $noticeUUID) {
         $this->adminSiteManageServices->noticeUpdate($noticeUUID);
@@ -39,8 +42,9 @@ class SiteManageController extends Controller
     }
 
     /**
+     * 싸이트 공지 사항 삭제.
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function deleteNotice() {
         $this->adminSiteManageServices->noticeDelete();
@@ -48,6 +52,7 @@ class SiteManageController extends Controller
     }
 
     /**
+     * 상품 공지 사항 상세.
      * @param String $noticeUUID
      * @return mixed
      */
@@ -56,6 +61,7 @@ class SiteManageController extends Controller
     }
 
     /**
+     * 싸이트 공지 사항 리스트.
      * @return mixed
      */
     public function showNotice() {

@@ -8,13 +8,24 @@ use Illuminate\Support\Facades\Response;
 
 class MainController extends RootController
 {
+    /**
+     * @var FrontPageServices
+     */
     protected FrontPageServices $frontPageServices;
 
+    /**
+     * @param FrontPageServices $frontPageServices
+     */
     function __construct(FrontPageServices $frontPageServices)
     {
         $this->frontPageServices = $frontPageServices;
     }
 
+    /**
+     * 메인 슬라이드 리스트.
+     * @return mixed
+     * @throws \App\Exceptions\ServerErrorException
+     */
     public function mainSlide() {
         return Response::success($this->frontPageServices->mainSlide());
     }

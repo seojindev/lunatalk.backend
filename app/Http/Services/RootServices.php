@@ -141,6 +141,7 @@ class RootServices
     }
 
     /**
+     * 상품 리스트 생성 함수.
      * @return array
      */
     public function getProducts() : array {

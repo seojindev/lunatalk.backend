@@ -10,14 +10,21 @@ use Illuminate\Support\Facades\Response;
 
 class MediaController extends Controller
 {
+    /**
+     * @var OtherServices
+     */
     protected OtherServices $otherServices;
 
+    /**
+     * @param OtherServices $otherServices
+     */
     public function __construct(OtherServices $otherServices)
     {
         $this->otherServices = $otherServices;
     }
 
     /**
+     * 이미지 등록.
      * @param string $mediaName
      * @param string $mediaCategory
      * @return mixed

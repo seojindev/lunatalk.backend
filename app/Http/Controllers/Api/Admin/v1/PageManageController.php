@@ -18,6 +18,7 @@ class PageManageController extends Controller
     }
 
     /**
+     * 메인 슬라이드 생성.
      * @return mixed
      * @throws ClientErrorException
      */
@@ -27,8 +28,9 @@ class PageManageController extends Controller
     }
 
     /**
+     * 메인 슬라이드 리스트.
      * @return mixed
-     * @throws \App\Exceptions\ServiceErrorException
+     * @throws ClientErrorException
      */
     public function showMainSlide()
     {
@@ -36,6 +38,7 @@ class PageManageController extends Controller
     }
 
     /**
+     * 메인 슬라이드 상세.
      * @param string $mainSlideUUID
      * @return mixed
      */
@@ -45,6 +48,7 @@ class PageManageController extends Controller
     }
 
     /**
+     * 메인 슬라이드 업데이트.
      * @param string $mainSlideUUID
      * @return mixed
      * @throws ClientErrorException
@@ -56,6 +60,7 @@ class PageManageController extends Controller
     }
 
     /**
+     * 메인 슬라이드 삭제.
      * @return mixed
      * @throws ClientErrorException
      */

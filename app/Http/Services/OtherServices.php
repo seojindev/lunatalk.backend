@@ -31,6 +31,7 @@ class OtherServices
     }
 
     /**
+     * 이미지 등록. ( 이미지 서버에 등록 )
      * @param string $mediaName
      * @param string $mediaCategory
      * @return array

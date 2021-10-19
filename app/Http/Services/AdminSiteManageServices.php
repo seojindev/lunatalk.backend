@@ -40,6 +40,7 @@ class AdminSiteManageServices
     }
 
     /**
+     * 싸이트 공지사항 추가.
      * @return array
      * @throws ClientErrorException
      */
@@ -90,6 +91,7 @@ class AdminSiteManageServices
     }
 
     /**
+     * 싸이트 공지 사항 수정.
      * @param String $noticeUUID
      * @throws ClientErrorException
      */
@@ -133,6 +135,7 @@ class AdminSiteManageServices
     }
 
     /**
+     * 싸이트 공지 사항 삭제.
      * @throws ClientErrorException
      */
     public function noticeDelete() : void {
@@ -160,6 +163,7 @@ class AdminSiteManageServices
     }
 
     /**
+     * 싸이트 공지사항 상세.
      * @param String $noticeUUID
      * @return array
      */
@@ -191,6 +195,7 @@ class AdminSiteManageServices
     }
 
     /**
+     * 싸이트 공지 사항 리스트 - 기본.
      * @return array
      */
     public function defaultShowNotice() : array {

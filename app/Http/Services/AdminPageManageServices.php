@@ -17,8 +17,15 @@ class AdminPageManageServices
      */
     protected Request $currentRequest;
 
+    /**
+     * @var MainSlideMastersRepository
+     */
     protected MainSlideMastersRepository $mainSlideMastersReposity;
 
+    /**
+     * @param Request $request
+     * @param MainSlideMastersRepository $mainSlideMastersRepository
+     */
     function __construct(Request $request,  MainSlideMastersRepository $mainSlideMastersRepository)
     {
         $this->currentRequest = $request;
@@ -26,6 +33,7 @@ class AdminPageManageServices
     }
 
     /**
+     * 메인 슬라이드 input 값 확인.
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
     public function mainSlideValidator()
@@ -49,6 +57,7 @@ class AdminPageManageServices
     }
 
     /**
+     * 메인 슬라이드 생성.
      * @return array
      * @throws ClientErrorException
      */
@@ -76,6 +85,7 @@ class AdminPageManageServices
     }
 
     /**
+     * 메인 슬라이드 업데이트.
      * @param string $mainSlideUUID
      * @throws ClientErrorException
      */
@@ -100,6 +110,7 @@ class AdminPageManageServices
     }
 
     /**
+     * 메인 슬라이드 삭제.
      * @throws ClientErrorException
      */
     public function deleteMainSlides() : void
@@ -125,6 +136,7 @@ class AdminPageManageServices
     }
 
     /**
+     * 메인 슬라이드 리스트.
      * @return array
      * @throws ClientErrorException
      */
@@ -147,6 +159,7 @@ class AdminPageManageServices
     }
 
     /**
+     * 메인 슬라이드 상세.
      * @param string $mainSlideUUID
      * @return array
      */

@@ -38,6 +38,7 @@ class AuthServices
     }
 
     /**
+     * 로그인 확인.
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
     protected function loginValidator() {
@@ -53,6 +54,7 @@ class AuthServices
     }
 
     /**
+     * 휴대폰 인증 코드 생성.
      * @throws ClientErrorException
      */
     public function getPhoneAuthCode(string $phoneNumber) : array
@@ -96,6 +98,7 @@ class AuthServices
     }
 
     /**
+     * 휴대폰 인증 코드 확인.
      * @param Int $authIndex
      * @return array
      * @throws ClientErrorException
@@ -136,6 +139,7 @@ class AuthServices
     }
 
     /**
+     * 회원 가입 시도.
      * @return array
      * @throws ClientErrorException
      */
@@ -242,8 +246,9 @@ class AuthServices
     }
 
     /**
+     * 로그인 시도.
      * @return array
-     * @throws ClientErrorException
+     * @throws ClientErrorException|ServerErrorException
      */
     public function attemptLogin() : array
     {
@@ -274,6 +279,7 @@ class AuthServices
     }
 
     /**
+     * 로그아웃.
      * @return string
      */
     public function attemptLogout() : string
@@ -284,6 +290,7 @@ class AuthServices
     }
 
     /**
+     * 토큰 사용자 정보.
      * @return User|null
      */
     public function getTokenInfo(): ?User
@@ -292,6 +299,7 @@ class AuthServices
     }
 
     /**
+     * 어드민용 로그인
      * @return array
      * @throws AuthenticationException
      * @throws ClientErrorException|ServerErrorException
@@ -327,6 +335,7 @@ class AuthServices
     }
 
     /**
+     * 어드민용 로그아웃.
      * @return string
      */
     public function attemptAdminLogout() : string

@@ -56,6 +56,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 카테고리 벨리데이션.
      * @return array
      * @throws ClientErrorException
      */
@@ -84,6 +85,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 카테고리 상세.
      * @param string $productCategoryUUID
      * @return array
      */
@@ -98,6 +100,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 카테고리 업데이트
      * @param string $productCategoryUUID
      * @throws ClientErrorException
      */
@@ -130,6 +133,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 카테고리 삭제.
      * @param string $productCategoryUUID
      * @throws ClientErrorException
      */
@@ -150,6 +154,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 카테고리 삭제(복수)
      * @throws ClientErrorException
      */
     public function deleteProductCategories() : void
@@ -170,6 +175,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 카테고리 리스트.
      * @return array
      * @throws ServiceErrorException
      */
@@ -192,6 +198,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 등록, 수정 벨리데이션
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
     public function productValidator()
@@ -239,6 +246,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 등록.
      * @return array
      * @throws ClientErrorException
      */
@@ -298,6 +306,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 정보 업데이트.
      * @param string $productUUID
      * @throws ClientErrorException
      */
@@ -357,6 +366,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 삭제.
      * @param string $productUUID
      */
     public function deleteProduct(string $productUUID) : void
@@ -369,6 +379,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 삭제 복수.
      * @throws ClientErrorException
      */
     public function deleteProducts() : void
@@ -396,6 +407,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 리스트 기본.
      * @return array
      * @throws ServiceErrorException
      */
@@ -438,6 +450,7 @@ class AdminProductServices
     }
 
     /**
+     * 상품 상세
      * @param string $productUUID
      * @return array
      */

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin\v1;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServiceErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Services\AdminProductServices;
 use Illuminate\Support\Facades\Response;
@@ -23,6 +24,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 카테고리 추가.
      * @return mixed
      * @throws ClientErrorException
      */
@@ -32,6 +34,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 카테고리 상세.
      * @param string $productCategoryUUID
      * @return mixed
      */
@@ -41,6 +44,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 카테고리 수정.
      * @param string $productCategoryUUID
      * @return mixed
      * @throws ClientErrorException
@@ -52,6 +56,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 카테고리 삭제 - 단건.
      * @param string $productCategoryUUID
      * @return mixed
      * @throws ClientErrorException
@@ -63,6 +68,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 카테고리 삭제.
      * @return mixed
      * @throws ClientErrorException
      */
@@ -73,7 +79,9 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 카테고리 리스트.
      * @return mixed
+     * @throws ServiceErrorException
      */
     public function showProductCategory()
     {
@@ -81,6 +89,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 추가.
      * @return mixed
      * @throws ClientErrorException
      */
@@ -90,6 +99,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 정보 업데이트
      * @param string $productUUID
      * @return mixed
      * @throws ClientErrorException
@@ -101,6 +111,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 삭제 - 단건.
      * @param string $productUUID
      * @return mixed
      */
@@ -111,6 +122,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 삭제.
      * @return mixed
      * @throws ClientErrorException
      */
@@ -121,8 +133,9 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 리스트.
      * @return mixed
-     * @throws \App\Exceptions\ServiceErrorException
+     * @throws ServiceErrorException
      */
     public function showProduct()
     {
@@ -130,6 +143,7 @@ class ProductController extends Controller
     }
 
     /**
+     * 상품 상세.
      * @param string $productUUID
      * @return mixed
      */

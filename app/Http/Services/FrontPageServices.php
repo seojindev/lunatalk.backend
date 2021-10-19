@@ -9,15 +9,27 @@ use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 
 class FrontPageServices
 {
+    /**
+     * @var MainSlideMastersRepository
+     */
     protected MainSlideMastersRepository $mainSlideMastersRepository;
+
+    /**
+     * @var ProductCategoryMastersRepository
+     */
     protected ProductCategoryMastersRepository $productCategoryMastersRepository;
 
+    /**
+     * @param MainSlideMastersRepository $mainSlideMastersRepository
+     * @param ProductCategoryMastersRepository $productCategoryMastersRepository
+     */
     function __construct(MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository) {
         $this->mainSlideMastersRepository = $mainSlideMastersRepository;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
     }
 
     /**
+     * 홈 메인 슬라이드.
      * @return array
      * @throws ServerErrorException
      */
