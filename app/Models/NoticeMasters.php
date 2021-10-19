@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property string $uuid uuid
- * @property \App\Models\Codes|null $category 공지사랑 카테고리.
+ * @property \App\Models\Codes|null $category 공지사항 카테고리.
  * @property string $title 제목.
  * @property string|null $content 내용.
  * @property string $active 상태

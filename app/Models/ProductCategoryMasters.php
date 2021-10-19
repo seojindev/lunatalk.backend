@@ -25,6 +25,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $deleted_at
  * @property-read Collection|\App\Models\ProductMasters[] $products
  * @property-read int|null $products_count
+ * @property-read \App\Models\ProductMasters|null $random_products
  * @method static \Database\Factories\ProductCategoryMastersFactory factory(...$parameters)
  * @method static Builder|ProductCategoryMasters newModelQuery()
  * @method static Builder|ProductCategoryMasters newQuery()

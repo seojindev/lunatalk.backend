@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $detail_images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
  * @property-read int|null $options_count
+ * @property-read \App\Models\ProductImages|null $repImage
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $repImages
  * @property-read int|null $rep_images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $wireless

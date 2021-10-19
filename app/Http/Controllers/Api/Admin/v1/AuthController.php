@@ -25,6 +25,7 @@ class AuthController extends RootController
     }
 
     /**
+     * 로그인.
      * @return mixed
      * @throws ClientErrorException
      * @throws AuthenticationException|ServerErrorException
@@ -35,6 +36,7 @@ class AuthController extends RootController
     }
 
     /**
+     * 로그아웃.
      * @return mixed
      */
     public function logout()

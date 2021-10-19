@@ -11,12 +11,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $uuid uuid
  * @property string $name 메인 슬라이드 이름
- * @property string $active 전체 상태
+ * @property int $media_id 메인 슬라이드 이미지
+ * @property int|null $product_id 상품 ID
+ * @property string|null $slide_url 이동 url
+ * @property string|null $memo 메모.
+ * @property string $active 사용 유무
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MainSlides[] $image
- * @property-read int|null $image_count
+ * @property-read \App\Models\MediaFileMasters|null $image
+ * @property-read \App\Models\ProductMasters|null $product
+ * @method static \Database\Factories\MainSlideMastersFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters query()
@@ -24,7 +29,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereMediaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereMemo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereSlideUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MainSlideMasters whereUuid($value)
  * @mixin \Eloquent
