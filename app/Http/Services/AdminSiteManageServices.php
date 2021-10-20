@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServerErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -199,6 +200,12 @@ class AdminSiteManageServices
      * @return array
      */
     public function defaultShowNotice() : array {
+        $task = $this->noticeMastersRepository->getAdminNoticeListMaster()->toArray();
+
+        if(empty($task)) {
+            throw new ServerErrorException('데이터가 존재 하지 않습니다.');
+        }
+
         return array_map(function($item) {
             return [
                 'id' => $item['id'],
