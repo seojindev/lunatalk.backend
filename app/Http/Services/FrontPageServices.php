@@ -186,6 +186,10 @@ class FrontPageServices
             return [
                 'uuid' => $item['uuid'],
                 'title' => $item['title'],
+                'category' => [
+                    'code_id' => $item['category']['code_id'],
+                    'code_name' => $item['category']['code_name'],
+                ],
                 'created_at' => Carbon::parse($item['created_at'])->format('Y-m-d'),
             ];
         }, $this->noticeMastersRepository->getMainNoticeList()->toArray());
