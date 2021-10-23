@@ -200,13 +200,27 @@ class RootServices
     }
 
     /**
+     * 공통 상품 카테고리.
+     * @return array
+     */
+    public function getProductCategory() : array {
+        return array_map(function($item) {
+            return [
+                'uuid' => $item['uuid'],
+                'name' => $item['name'],
+            ];
+        } , $this->productCategoryMastersRepository->defaultAll()->toArray());
+    }
+
+    /**
      * 공통 데이터 생성.
      * @return array
      */
     public function createBaseData() : array {
         return [
             'codes' => $this->getCommonCodeList(),
-            'products' => $this->getProducts()
+            'product_category' => $this->getProductCategory(),
+            'products' => $this->getProducts(),
         ];
     }
 
