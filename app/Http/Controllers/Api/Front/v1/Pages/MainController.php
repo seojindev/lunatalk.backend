@@ -35,11 +35,11 @@ class MainController extends RootController
     }
 
     public function mainBestItem() {
-
+        return Response::success($this->frontPageServices->mainBestProductItem());
     }
 
     public function mainNewItem() {
-
+        return Response::success($this->frontPageServices->mainNewProductItem());
     }
 
     public function mainNotice() {

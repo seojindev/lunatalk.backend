@@ -5,8 +5,7 @@ namespace App\Http\Services;
 use App\Exceptions\ServerErrorException;
 use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
-
+use App\Http\Repositories\Eloquent\MainItemsRepository;
 class FrontPageServices
 {
     /**
@@ -19,13 +18,16 @@ class FrontPageServices
      */
     protected ProductCategoryMastersRepository $productCategoryMastersRepository;
 
+    protected MainItemsRepository $mainItemsRepository;
+
     /**
      * @param MainSlideMastersRepository $mainSlideMastersRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      */
-    function __construct(MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository) {
+    function __construct(MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository) {
         $this->mainSlideMastersRepository = $mainSlideMastersRepository;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
+        $this->mainItemsRepository = $mainItemsRepository;
     }
 
     /**
@@ -90,5 +92,75 @@ class FrontPageServices
                 ];
             }
         } , $this->productCategoryMastersRepository->getRandomCategoryProduct()->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function mainBestProductItem() : array {
+        return array_map(function($item) {
+            $productItem = $item['product'];
+
+            $randDiscount = $productItem['price'] + rand(1000, 20000);
+
+            $randReviewCount = rand(50, 200);
+
+            return [
+                'uuid' => $item['uuid'],
+                'product' => [
+                    'uuid' => $productItem['uuid'],
+                    'name' => $productItem['name'],
+                    'discount_price' => $randDiscount,
+                    'price' => $productItem['price'],
+                    'color' => $productItem['color']['color']['name'],
+                    'review_count' => [
+                        'number' => $randReviewCount,
+                        'string' => number_format($randReviewCount)
+                    ],
+                    'rep_image' => [
+                        'file_name' => $productItem['rep_image']['image'] ? $productItem['rep_image']['image']['file_name'] : null,
+                        'url' => $productItem['rep_image']['image'] ? env('APP_MEDIA_URL') . $productItem['rep_image']['image']['dest_path'] . '/' . $productItem['rep_image']['image']['file_name'] : null,
+                    ],
+                ],
+
+
+
+            ];
+        }, $this->mainItemsRepository->getFrontMainBestItems()->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function mainNewProductItem() : array {
+        return array_map(function($item) {
+            $productItem = $item['product'];
+
+            $randDiscount = $productItem['price'] + rand(1000, 20000);
+
+            $randReviewCount = rand(50, 200);
+
+            return [
+                'uuid' => $item['uuid'],
+                'product' => [
+                    'uuid' => $productItem['uuid'],
+                    'name' => $productItem['name'],
+                    'discount_price' => $randDiscount,
+                    'price' => $productItem['price'],
+                    'color' => $productItem['color']['color']['name'],
+                    'review_count' => [
+                        'number' => $randReviewCount,
+                        'string' => number_format($randReviewCount)
+                    ],
+                    'rep_image' => [
+                        'file_name' => $productItem['rep_image']['image'] ? $productItem['rep_image']['image']['file_name'] : null,
+                        'url' => $productItem['rep_image']['image'] ? env('APP_MEDIA_URL') . $productItem['rep_image']['image']['dest_path'] . '/' . $productItem['rep_image']['image']['file_name'] : null,
+                    ],
+                ],
+
+
+
+            ];
+        }, $this->mainItemsRepository->getFrontMainNewItems()->toArray());
     }
 }

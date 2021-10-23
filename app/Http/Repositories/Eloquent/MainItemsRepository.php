@@ -3,6 +3,7 @@
 namespace App\Http\Repositories\Eloquent;
 
 use App\Models\MainItem;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Repositories\Interfaces\MainItemsRepositoryInterface;
 
@@ -67,5 +68,27 @@ class MainItemsRepository extends BaseRepository implements MainItemsRepositoryI
         return $this->model->where('category', config('extract.main_item.newItem.code'))
             ->with(['product.repImage.image'])
             ->get()->toArray();
+    }
+
+    /**
+     * front 메인 베스트 아이템.
+     * @return Collection
+     */
+    public function getFrontMainBestItems() : Collection {
+        return $this->model->where('category', config('extract.main_item.bestItem.code'))
+            ->with(['product.repImage.image', 'product.color.color'])
+            ->inRandomOrder()
+            ->get();
+    }
+
+    /**
+     * front 메인 뉴 아이템.
+     * @return Collection
+     */
+    public function getFrontMainNewItems() : Collection {
+        return $this->model->where('category', config('extract.main_item.newItem.code'))
+            ->with(['product.repImage.image', 'product.color.color'])
+            ->inRandomOrder()
+            ->get();
     }
 }

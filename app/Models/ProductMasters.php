@@ -88,6 +88,11 @@ class ProductMasters extends Model
 
     public function color()
     {
+        return $this->hasOne(ProductOptions::class, 'product_id', 'id')->whereNotNull('color');
+    }
+
+    public function colors()
+    {
         return $this->hasMany(ProductOptions::class, 'product_id', 'id')->whereNotNull('color');
     }
 
