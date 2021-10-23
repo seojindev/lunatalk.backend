@@ -26,8 +26,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $color
- * @property-read int|null $color_count
+ * @property-read \App\Models\ProductOptions|null $color
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $colors
+ * @property-read int|null $colors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $detailImages
  * @property-read int|null $detail_images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
