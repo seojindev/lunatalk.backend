@@ -174,7 +174,7 @@ class RootServices
                             'id' => $item['color']['id'],
                             'name' => $item['color']['name']
                         ];
-                    }, $item['color']),
+                    }, $item['colors']),
                     'wireless' => array_map(function($item) {
                         return [
                             'id' => $item['wireless']['id'],
