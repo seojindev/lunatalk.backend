@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\ProductCategoryMasters;
 use App\Models\ProductMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ProductMastersFactory extends Factory
 {
@@ -23,6 +24,7 @@ class ProductMastersFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => Str::uuid(),
             'category' => ProductCategoryMasters::select('id')->inRandomOrder()->first()->id,
             'name' => $this->faker->unique()->word(),
             'barcode' => $this->faker->unique()->randomNumber(),

@@ -78,6 +78,10 @@ Route::group(['as' => 'api.'], function () {
                     Route::get('main-product-new-item', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
                     Route::get('main-notice', [MainController::class, 'mainNotice'])->name('main.new.item'); // 메인 뉴 아이템.
                 });
+
+                Route::group(['prefix' => 'product-category', 'as' => 'product-category.'], function () {
+                    Route::get('{uuid}/list', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productCategoryList'])->name('product.category.list'); // 홈 상품 카테고리 리스트
+                });
             });
         });
     });

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\ProductCategoryMasters;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ProductCategoryMastersFactory extends Factory
 {
@@ -22,6 +23,7 @@ class ProductCategoryMastersFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => Str::uuid(),
             'name' => $this->faker->word()
         ];
     }

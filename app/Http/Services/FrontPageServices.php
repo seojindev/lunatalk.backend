@@ -122,8 +122,14 @@ class FrontPageServices
                 'product' => [
                     'uuid' => $productItem['uuid'],
                     'name' => $productItem['name'],
-                    'discount_price' => $randDiscount,
-                    'price' => $productItem['price'],
+                    'discount_price' => [
+                        'number' => $randDiscount,
+                        'string' => number_format($randDiscount),
+                    ],
+                    'price' => [
+                        'number' => $productItem['price'],
+                        'string' => number_format($productItem['price'])
+                    ],
                     'color' => $productItem['color']['color']['name'],
                     'review_count' => [
                         'number' => $randReviewCount,
@@ -158,8 +164,14 @@ class FrontPageServices
                 'product' => [
                     'uuid' => $productItem['uuid'],
                     'name' => $productItem['name'],
-                    'discount_price' => $randDiscount,
-                    'price' => $productItem['price'],
+                    'discount_price' => [
+                        'number' => $randDiscount,
+                        'string' => number_format($randDiscount),
+                    ],
+                    'price' => [
+                        'number' => $productItem['price'],
+                        'string' => number_format($productItem['price'])
+                    ],
                     'color' => $productItem['color']['color']['name'],
                     'review_count' => [
                         'number' => $randReviewCount,
@@ -193,5 +205,44 @@ class FrontPageServices
                 'created_at' => Carbon::parse($item['created_at'])->format('Y-m-d'),
             ];
         }, $this->noticeMastersRepository->getMainNoticeList()->toArray());
+    }
+
+    /**
+     * 상품 카테고리 리스트( 상단 텝 ).
+     */
+    public function productCategoryList(String $category_uuid) : array {
+
+        $task = $this->productCategoryMastersRepository->getProductCategoryList($category_uuid)->first()->toArray();
+
+        return [
+            'uuid' => $task['uuid'],
+            'products' => array_map(function($item) {
+                $randDiscount = $item['price'] + rand(1000, 20000);
+
+                $randReviewCount = rand(50, 200);
+
+                return [
+                    'uuid' => $item['uuid'],
+                    'name' => $item['name'],
+                    'discount_price' => [
+                        'number' => $randDiscount,
+                        'string' => number_format($randDiscount),
+                    ],
+                    'price' => [
+                        'number' => $item['price'],
+                        'string' => number_format($item['price'])
+                    ],
+                    'color' => $item['color']['color']['name'],
+                    'review_count' => [
+                        'number' => $randReviewCount,
+                        'string' => number_format($randReviewCount)
+                    ],
+                    'rep_image' => [
+                        'file_name' => $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
+                        'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
+                    ],
+                ];
+            }, $task['products'])
+        ];
     }
 }
