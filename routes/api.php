@@ -116,6 +116,14 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('{mainSlideUUID}/detail-main-slide',[AdminPageManageController::class, 'detailMainSlide'])->name('detail.main.slide'); // 메인 슬라이드 상세
                 Route::put('{mainSlideUUID}/update-main-slide',[AdminPageManageController::class, 'updateMainSlide'])->name('update.main.slide'); // 메인 슬라이드 수정.
                 Route::delete('delete-main-slides',[AdminPageManageController::class, 'deleteMainSlide'])->name('delete.main.slides'); // 메인 슬라이드 삭제.
+
+                Route::post('{uuid}/create-best-item',[AdminPageManageController::class, 'createBestItem'])->name('create.best.item'); // Best Item 추가.
+                Route::delete('{uuid}/delete-best-item',[AdminPageManageController::class, 'deleteBestItem'])->name('create.best.item'); // Best Item 삭제.
+                Route::get('show-best-item',[AdminPageManageController::class, 'showBestItem'])->name('create.best.item'); // Best Item 리스트.
+
+                Route::post('{uuid}/create-new-item',[AdminPageManageController::class, 'createNewItem'])->name('create.new.item'); // Best Item 추가.
+                Route::delete('{uuid}/delete-new-item',[AdminPageManageController::class, 'deleteNewItem'])->name('create.new.item'); // Best Item 삭제.
+                Route::get('show-new-item',[AdminPageManageController::class, 'showNewItem'])->name('create.new.item'); // Best Item 리스트.
             });
 
             Route::group(['prefix' => 'site-manage', 'as' => 'site-manage'], function () {

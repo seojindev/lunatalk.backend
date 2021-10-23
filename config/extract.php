@@ -63,6 +63,17 @@ return [
         ]
     ],
 
+    'main_item' => [
+        'bestItem' => [
+            'name' => '베스트 아이템',
+            'code' => '2300000'
+        ],
+        'newItem' => [
+            'name' => '뉴 아이템',
+            'code' => '2300010',
+        ],
+    ],
+
     'client' => [
         '0100010' => 'Front',
         '0100020' => 'iOS',

@@ -5,7 +5,9 @@ namespace App\Http\Services;
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
-use App\Http\Repositories\Eloquent\MainSlidesRepository;
+use App\Http\Repositories\Eloquent\MainItemsRepository;
+use App\Http\Repositories\Eloquent\ProductMastersRepository;
+use App\Models\ProductMasters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -20,16 +22,24 @@ class AdminPageManageServices
     /**
      * @var MainSlideMastersRepository
      */
-    protected MainSlideMastersRepository $mainSlideMastersReposity;
+    protected MainSlideMastersRepository $mainSlideMastersRepository;
+
+    protected MainItemsRepository $mainItemsRepository;
+
+    protected ProductMastersRepository $productMastersRepository;
 
     /**
      * @param Request $request
      * @param MainSlideMastersRepository $mainSlideMastersRepository
+     * @param MainItemsRepository $mainItemsRepository
      */
-    function __construct(Request $request,  MainSlideMastersRepository $mainSlideMastersRepository)
+    function __construct(Request $request, MainSlideMastersRepository $mainSlideMastersRepository, MainItemsRepository $mainItemsRepository, ProductMastersRepository $productMastersRepository)
     {
         $this->currentRequest = $request;
-        $this->mainSlideMastersReposity = $mainSlideMastersRepository;
+        $this->mainSlideMastersRepository = $mainSlideMastersRepository;
+        $this->mainItemsRepository = $mainItemsRepository;
+        $this->productMastersRepository = $productMastersRepository;
+
     }
 
     /**
@@ -69,7 +79,7 @@ class AdminPageManageServices
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        $task = $this->mainSlideMastersReposity->create([
+        $task = $this->mainSlideMastersRepository->create([
             'uuid' => Str::uuid(),
             'name' => $this->currentRequest->input('name'),
             'media_id' => $this->currentRequest->input('media_id'),
@@ -91,7 +101,7 @@ class AdminPageManageServices
      */
     public function updateMainSlide(string $mainSlideUUID) : void
     {
-        $mainSlide = $this->mainSlideMastersReposity->defaultCustomFind('uuid', $mainSlideUUID);
+        $mainSlide = $this->mainSlideMastersRepository->defaultCustomFind('uuid', $mainSlideUUID);
 
         $validator = $this->mainSlideValidator();
 
@@ -99,7 +109,7 @@ class AdminPageManageServices
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        $this->mainSlideMastersReposity->update($mainSlide->id, [
+        $this->mainSlideMastersRepository->update($mainSlide->id, [
             'name' => $this->currentRequest->input('name'),
             'media_id' => $this->currentRequest->input('media_id'),
             'product_id' => $this->currentRequest->input('product_id'),
@@ -130,8 +140,8 @@ class AdminPageManageServices
         }
 
         foreach ($this->currentRequest->input('uuid') as $uuid) {
-            $mainSlide = $this->mainSlideMastersReposity->defaultCustomFind('uuid', $uuid);
-            $this->mainSlideMastersReposity->deleteById($mainSlide->id);
+            $mainSlide = $this->mainSlideMastersRepository->defaultCustomFind('uuid', $uuid);
+            $this->mainSlideMastersRepository->deleteById($mainSlide->id);
         }
     }
 
@@ -142,7 +152,7 @@ class AdminPageManageServices
      */
     public function showMainSlide() : array
     {
-        $task = $this->mainSlideMastersReposity->getAdminMainSlideMasters()->toArray();
+        $task = $this->mainSlideMastersRepository->getAdminMainSlideMasters()->toArray();
 
         if(empty($task)) {
             throw new ClientErrorException(__('response.success_not_found'));
@@ -165,7 +175,7 @@ class AdminPageManageServices
      */
     public function detailMainSlide(string $mainSlideUUID) : array
     {
-        $task = $this->mainSlideMastersReposity->getAdminDetailMainSlideMasters($mainSlideUUID)->toArray();
+        $task = $this->mainSlideMastersRepository->getAdminDetailMainSlideMasters($mainSlideUUID)->toArray();
         return [
             'uuid' => $task['uuid'],
             'name' => $task['name'],
@@ -180,5 +190,117 @@ class AdminPageManageServices
                 'url' => env('APP_MEDIA_URL') . $task['image']['dest_path'] . '/' . $task['image']['file_name']
             ],
         ];
+    }
+
+    /**
+     * 메인 베스트 아이템 추가
+     * @param String $uuid
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function createBestItem(String $uuid) : array {
+
+        $productTask = $this->productMastersRepository->defaultCustomFind('uuid', $uuid);
+
+        $checkTask = $this->mainItemsRepository->mainBestItemExits($productTask->id);
+
+        if($checkTask) {
+            throw new ClientErrorException('이미지 등록되어 있는 상품 입니다.');
+        }
+
+        $createTask = $this->mainItemsRepository->create([
+            'uuid' => Str::uuid(),
+            'category' => config('extract.main_item.bestItem.code'),
+            'product_id' => $productTask->id
+        ]);
+
+        return [
+            'uuid' => $createTask->uuid
+        ];
+    }
+
+    /**
+     * 메인 베스트 아이템 삭제.
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function deleteBestItem(String $uuid) : void {
+
+        $checkTask = $this->mainItemsRepository->defaultExistsColumn('uuid', $uuid);
+
+        if($checkTask === false) {
+            throw new ClientErrorException('등록되어 있지 않은 상품 입니다.');
+        }
+
+        $this->mainItemsRepository->deleteByCustomColumn('uuid', $uuid);
+    }
+
+    public function showBestItem() : array {
+        return array_map(function($item) {
+            return [
+                'uuid' => $item['uuid'],
+                'prodcut' => [
+                    'uuid' => $item['product']['uuid']
+                ]
+            ];
+        } , $this->mainItemsRepository->showMainBestItems());
+    }
+
+    /**
+     * 메인 뉴 아이템 추가
+     * @param String $uuid
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function createNewItem(String $uuid) : array {
+
+        $productTask = $this->productMastersRepository->defaultCustomFind('uuid', $uuid);
+
+        $checkTask = $this->mainItemsRepository->mainNewItemExits($productTask->id);
+
+        if($checkTask) {
+            throw new ClientErrorException('이미지 등록되어 있는 상품 입니다.');
+        }
+
+        $createTask = $this->mainItemsRepository->create([
+            'uuid' => Str::uuid(),
+            'category' => config('extract.main_item.bestItem.code'),
+            'product_id' => $productTask->id
+        ]);
+
+        return [
+            'uuid' => $createTask->uuid
+        ];
+    }
+
+    /**
+     * 메인 뉴 아이템 삭제.ㄴ
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function deleteNewItem(String $uuid) : void {
+
+        $checkTask = $this->mainItemsRepository->defaultExistsColumn('uuid', $uuid);
+
+        if($checkTask === false) {
+            throw new ClientErrorException('등록되어 있지 않은 상품 입니다.');
+        }
+
+        $this->mainItemsRepository->deleteByCustomColumn('uuid', $uuid);
+    }
+
+    /**
+     * 메인 뉴 아이템 리스트
+     * @return array
+     */
+    public function showNewItem() : array {
+        return array_map(function($item) {
+            return [
+                'uuid' => $item['uuid'],
+                'prodcut' => [
+                    'uuid' => $item['product']['uuid']
+                ]
+            ];
+        } , $this->mainItemsRepository->showMainBestItems());
     }
 }

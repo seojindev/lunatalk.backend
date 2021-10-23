@@ -73,6 +73,7 @@ class CodesSeeder extends Seeder
             [ 'group_id' => '130', 'group_name' => '사용자 상태.' ],
             [ 'group_id' => '210', 'group_name' => '상태.' ],
             [ 'group_id' => '220', 'group_name' => '싸이트 공지 사항 카테고리.' ],
+            [ 'group_id' => '230', 'group_name' => '메인 아이템 카테고리.' ],
             [ 'group_id' => '300', 'group_name' => '메디아 파일 카테고리.' ],
             [ 'group_id' => '400', 'group_name' => '이메일 리스트.' ],
 
@@ -120,6 +121,10 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0010', 'code_name' => '긴급' ],
                 [ 'code_id' => '0020', 'code_name' => '작업' ],
                 [ 'code_id' => '0030', 'code_name' => '이벤트' ],
+            ],
+            '230' => [
+                [ 'code_id' => '0000', 'code_name' => 'best item' ],
+                [ 'code_id' => '0010', 'code_name' => 'new item' ],
             ],
             '300' => [
                 [ 'code_id' => '0010', 'code_name' => '상품 이미지' ],
