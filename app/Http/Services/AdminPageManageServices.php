@@ -264,7 +264,7 @@ class AdminPageManageServices
 
         $createTask = $this->mainItemsRepository->create([
             'uuid' => Str::uuid(),
-            'category' => config('extract.main_item.bestItem.code'),
+            'category' => config('extract.main_item.newItem.code'),
             'product_id' => $productTask->id
         ]);
 
@@ -301,6 +301,6 @@ class AdminPageManageServices
                     'uuid' => $item['product']['uuid']
                 ]
             ];
-        } , $this->mainItemsRepository->showMainBestItems());
+        } , $this->mainItemsRepository->showMainNewItems());
     }
 }
