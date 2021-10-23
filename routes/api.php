@@ -76,7 +76,7 @@ Route::group(['as' => 'api.'], function () {
                     Route::get('main-product-category', [MainController::class, 'mainProductCategory'])->name('main.product.category'); // 홈 메인 상품 카테고리.
                     Route::get('main-product-best-item', [MainController::class, 'mainBestItem'])->name('main.best.item'); // 메인 베스트 아이템.
                     Route::get('main-product-new-item', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
-                    Route::get('main-notice', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
+                    Route::get('main-notice', [MainController::class, 'mainNotice'])->name('main.new.item'); // 메인 뉴 아이템.
                 });
             });
         });

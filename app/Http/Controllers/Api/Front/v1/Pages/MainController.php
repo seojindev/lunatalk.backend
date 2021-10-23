@@ -43,6 +43,6 @@ class MainController extends RootController
     }
 
     public function mainNotice() {
-
+        return Response::success($this->frontPageServices->mainNoticeList());
     }
 }

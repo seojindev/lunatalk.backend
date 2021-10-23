@@ -3,6 +3,8 @@
 namespace App\Http\Repositories\Eloquent;
 
 use App\Http\Repositories\Interfaces\NoticeMastersInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\NoticeMasters;
 
@@ -23,7 +25,7 @@ class NoticeMastersRepository extends BaseRepository implements NoticeMastersInt
 
     /**
      * @param String $modelUUID
-     * @return \Illuminate\Database\Eloquent\Builder|Model
+     * @return Builder|Model
      */
     public function defaultDetail(String $modelUUID) {
         return $this->model
@@ -33,12 +35,22 @@ class NoticeMastersRepository extends BaseRepository implements NoticeMastersInt
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return Builder[]|Collection
      */
     public function getAdminNoticeListMaster() {
         return $this->model
             ->with(['category', 'images', 'images.image'])
             ->orderBy('id', 'desc')
+            ->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getMainNoticeList() : Collection {
+        return $this->model
+            ->orderBy('id', 'desc')
+            ->take(5)
             ->get();
     }
 }

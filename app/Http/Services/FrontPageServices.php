@@ -4,8 +4,12 @@ namespace App\Http\Services;
 
 use App\Exceptions\ServerErrorException;
 use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
+use App\Http\Repositories\Eloquent\NoticeMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\MainItemsRepository;
+use App\Http\Repositories\Eloquent\NoticeImagesRepository;
+use Illuminate\Support\Carbon;
+
 class FrontPageServices
 {
     /**
@@ -18,16 +22,23 @@ class FrontPageServices
      */
     protected ProductCategoryMastersRepository $productCategoryMastersRepository;
 
+    /**
+     * @var MainItemsRepository
+     */
     protected MainItemsRepository $mainItemsRepository;
+
+    protected NoticeMastersRepository $noticeMastersRepository;
 
     /**
      * @param MainSlideMastersRepository $mainSlideMastersRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
+     * @param MainItemsRepository $mainItemsRepository
      */
-    function __construct(MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository) {
+    function __construct(MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository, NoticeMastersRepository $noticeMastersRepository) {
         $this->mainSlideMastersRepository = $mainSlideMastersRepository;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
         $this->mainItemsRepository = $mainItemsRepository;
+        $this->noticeMastersRepository = $noticeMastersRepository;
     }
 
     /**
@@ -95,6 +106,7 @@ class FrontPageServices
     }
 
     /**
+     * 메인 베스트 아이템.
      * @return array
      */
     public function mainBestProductItem() : array {
@@ -130,6 +142,7 @@ class FrontPageServices
     }
 
     /**
+     * 메인 뉴 아이템
      * @return array
      */
     public function mainNewProductItem() : array {
@@ -162,5 +175,19 @@ class FrontPageServices
 
             ];
         }, $this->mainItemsRepository->getFrontMainNewItems()->toArray());
+    }
+
+    /**
+     * 메인 공지 사항 5개
+     * @return array
+     */
+    public function mainNoticeList() : array {
+        return array_map(function($item) {
+            return [
+                'uuid' => $item['uuid'],
+                'title' => $item['title'],
+                'created_at' => Carbon::parse($item['created_at'])->format('Y-m-d'),
+            ];
+        }, $this->noticeMastersRepository->getMainNoticeList()->toArray());
     }
 }
