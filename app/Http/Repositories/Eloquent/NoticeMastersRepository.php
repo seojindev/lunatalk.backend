@@ -50,6 +50,7 @@ class NoticeMastersRepository extends BaseRepository implements NoticeMastersInt
     public function getMainNoticeList() : Collection {
         return $this->model
             ->with(['category'])
+            ->where('active',"Y")
             ->orderBy('id', 'desc')
             ->take(5)
             ->get();

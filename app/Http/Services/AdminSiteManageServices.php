@@ -102,12 +102,14 @@ class AdminSiteManageServices
             'category' => 'required|exists:codes,code_id',
             'title' => 'required',
             'content' => 'required',
+            'active' => 'required',
             'image.*' => 'integer|exists:media_file_masters,id',
         ],
             [
                 'category.required' => __('admin-site-manage.notice.category.required'),
                 'category.exists' => __('admin-site-manage.notice.category.exists'),
                 'title.required' => __('admin-site-manage.notice.title.required'),
+                'active.required' => __('admin-site-manage.notice.active.required'),
                 'content.required' => __('admin-site-manage.notice.content.required'),
                 'image.*.integer' => __('admin-site-manage.notice.image.integer'),
                 'image.*.exists' => __('admin-site-manage.notice.image.exists')
@@ -121,6 +123,7 @@ class AdminSiteManageServices
             'category' => $this->currentRequest->input('category'),
             'title' => $this->currentRequest->input('title'),
             'content' => $this->currentRequest->input('content'),
+            'active' => $this->currentRequest->input('active')
         ]);
 
 
