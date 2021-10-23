@@ -47,6 +47,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => '',
             'title' => '',
             'content' => '',
+            'active' => 'Y',
         ];
 
         $endpoint = str_replace(':uuid:', $noticeTask->uuid, $this->apiURL);
@@ -62,6 +63,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => 'asdasd',
             'title' => '',
             'content' => '',
+            'active' => 'Y',
         ];
         NoticeMasters::factory()->create();
         $noticeTask = NoticeMasters::orderBy('id', 'desc')->get()->first();
@@ -78,6 +80,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => '',
             'content' => '',
+            'active' => 'Y',
         ];
 
         NoticeMasters::factory()->create();
@@ -95,6 +98,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => $this->faker->word(),
             'content' => '',
+            'active' => 'Y',
         ];
 
         NoticeMasters::factory()->create();
@@ -112,6 +116,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => $this->faker->word(),
             'content' => $this->faker->text(200),
+            'active' => 'Y',
             'image' => ['asdasd']
         ];
 
@@ -130,6 +135,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => $this->faker->word(),
             'content' => $this->faker->text(200),
+            'active' => 'Y',
             'image' => ['10000']
         ];
 
@@ -145,6 +151,7 @@ class NoticeUpdateTest extends BaseCustomTestCase
             'category' => Codes::select('code_id')->whereNotNull('code_id')->where('group_id', '220')->inRandomOrder()->first()->code_id,
             'title' => $this->faker->word(),
             'content' => $this->faker->text(200),
+            'active' => 'Y',
             'image' => ['1', '2']
         ];
 
