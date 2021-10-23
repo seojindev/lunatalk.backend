@@ -26,11 +26,13 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \App\Models\MainItem|null $bestItem
  * @property-read \App\Models\ProductOptions|null $color
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $colors
  * @property-read int|null $colors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $detailImages
  * @property-read int|null $detail_images_count
+ * @property-read \App\Models\MainItem|null $newItem
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $options
  * @property-read int|null $options_count
  * @property-read \App\Models\ProductImages|null $repImage
@@ -115,5 +117,13 @@ class ProductMasters extends Model
     public function detailImages()
     {
         return $this->hasMany(ProductImages::class, 'product_id', 'id')->where('media_category', config('extract.mediaCategory.detailImage.code'));
+    }
+
+    public function bestItem() {
+        return $this->hasOne(MainItem::class, 'product_id', 'id')->where('category', config('extract.main_item.bestItem.code'));
+    }
+
+    public function newItem() {
+        return $this->hasOne(MainItem::class, 'product_id', 'id')->where('category', config('extract.main_item.newItem.code'));
     }
 }

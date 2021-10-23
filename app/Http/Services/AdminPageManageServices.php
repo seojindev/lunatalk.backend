@@ -24,14 +24,21 @@ class AdminPageManageServices
      */
     protected MainSlideMastersRepository $mainSlideMastersRepository;
 
+    /**
+     * @var MainItemsRepository
+     */
     protected MainItemsRepository $mainItemsRepository;
 
+    /**
+     * @var ProductMastersRepository
+     */
     protected ProductMastersRepository $productMastersRepository;
 
     /**
      * @param Request $request
      * @param MainSlideMastersRepository $mainSlideMastersRepository
      * @param MainItemsRepository $mainItemsRepository
+     * @param ProductMastersRepository $productMastersRepository
      */
     function __construct(Request $request, MainSlideMastersRepository $mainSlideMastersRepository, MainItemsRepository $mainItemsRepository, ProductMastersRepository $productMastersRepository)
     {
@@ -226,15 +233,22 @@ class AdminPageManageServices
      */
     public function deleteBestItem(String $uuid) : void {
 
-        $checkTask = $this->mainItemsRepository->defaultExistsColumn('uuid', $uuid);
+        $product = $this->productMastersRepository->defaultCustomFind('uuid' , $uuid);
+
+        $checkTask = $this->mainItemsRepository->defaultExistsColumn('product_id', $product->id);
 
         if($checkTask === false) {
             throw new ClientErrorException('등록되어 있지 않은 상품 입니다.');
         }
 
-        $this->mainItemsRepository->deleteByCustomColumn('uuid', $uuid);
+        // FIXME: 추후 한번만 날리게 수정.
+        $this->mainItemsRepository->mainBestItemForceDelete($product->id);
     }
 
+    /**
+     * 메인 베스트 아이템 리스트.
+     * @return array
+     */
     public function showBestItem() : array {
         return array_map(function($item) {
             return [
@@ -274,19 +288,21 @@ class AdminPageManageServices
     }
 
     /**
-     * 메인 뉴 아이템 삭제.ㄴ
+     * 메인 뉴 아이템 삭제
      * @param String $uuid
      * @throws ClientErrorException
      */
     public function deleteNewItem(String $uuid) : void {
 
-        $checkTask = $this->mainItemsRepository->defaultExistsColumn('uuid', $uuid);
+        $product = $this->productMastersRepository->defaultCustomFind('uuid' , $uuid);
+
+        $checkTask = $this->mainItemsRepository->defaultExistsColumn('product_id', $product->id);
 
         if($checkTask === false) {
             throw new ClientErrorException('등록되어 있지 않은 상품 입니다.');
         }
 
-        $this->mainItemsRepository->deleteByCustomColumn('uuid', $uuid);
+        $this->mainItemsRepository->mainNewItemForceDelete($product->id);
     }
 
     /**

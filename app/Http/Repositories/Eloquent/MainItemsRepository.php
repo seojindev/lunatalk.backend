@@ -23,7 +23,7 @@ class MainItemsRepository extends BaseRepository implements MainItemsRepositoryI
     }
 
     /**
-     * 메인 아이템 중복 체크
+     * 메인 베스트 아이템 중복 체크
      * @param Int $product_id
      * @return bool
      */
@@ -34,6 +34,20 @@ class MainItemsRepository extends BaseRepository implements MainItemsRepositoryI
                 ['product_id', $product_id],
             ])
             ->exists();
+    }
+
+    public function mainBestItemForceDelete(Int $product_id) {
+        return $this->model
+            ->where('category', config('extract.main_item.bestItem.code'))
+            ->where('product_id', $product_id)
+            ->forceDelete();
+    }
+
+    public function mainNewItemForceDelete(Int $product_id) {
+        return $this->model
+            ->where('category', config('extract.main_item.newItem.code'))
+            ->where('product_id', $product_id)
+            ->forceDelete();
     }
 
     /**

@@ -198,6 +198,7 @@ class AdminSiteManageServices
     /**
      * 싸이트 공지 사항 리스트 - 기본.
      * @return array
+     * @throws ServerErrorException
      */
     public function defaultShowNotice() : array {
         $task = $this->noticeMastersRepository->getAdminNoticeListMaster()->toArray();

@@ -30,7 +30,7 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     {
         return $this->model->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
-        }, 'colors', 'colors.color', 'wireless', 'wireless.wireless'])->orderBy('id', 'desc')->get();
+        }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem'])->orderBy('id', 'desc')->get();
     }
 
     /**

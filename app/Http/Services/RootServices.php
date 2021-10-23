@@ -2,7 +2,6 @@
 
 
 namespace App\Http\Services;
-use App\Models\ProductCategoryMasters;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -180,7 +179,9 @@ class RootServices
                             'id' => $item['wireless']['id'],
                             'wireless' => $item['wireless']['wireless']
                         ];
-                    } , $item['wireless'])
+                    } , $item['wireless']),
+                    'best_item' => !empty($item['best_item']),
+                    'new_item' => !empty($item['new_item'])
                 ];
             }, $this->productMastersRepository->getAdminProductMasters()->toArray()),
             'color_options' => array_map(function($item) {

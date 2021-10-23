@@ -5,7 +5,6 @@ namespace Tests\Feature\Api\Admin\v1\PageManageController;
 use App\Models\MainItem;
 use App\Models\MediaFileMasters;
 use App\Models\ProductMasters;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\BaseCustomTestCase;
@@ -43,6 +42,7 @@ class MainNewItemTest extends BaseCustomTestCase
         $media = MediaFileMasters::latest()->get()->first()->toArray();
 
         $productid = $product['id'];
+        $productuuid = $product['uuid'];
 
         $uuid = Str::uuid();
 
@@ -54,7 +54,7 @@ class MainNewItemTest extends BaseCustomTestCase
 
 
 
-        $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('DELETE', "/api/admin-front/v1/page-manage/${uuid}/delete-new-item");
+        $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('DELETE', "/api/admin-front/v1/page-manage/${productuuid}/delete-new-item");
         $response->assertStatus(200);
 //        $response->dump();
         $response->assertJsonStructure([

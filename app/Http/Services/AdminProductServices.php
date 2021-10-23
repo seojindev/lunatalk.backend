@@ -444,8 +444,10 @@ class AdminProductServices
                         'id' => $item['wireless']['id'],
                         'wireless' => $item['wireless']['wireless']
                     ];
-                } , $item['wireless'])
-            ];
+                } , $item['wireless']),
+                'best_item' => !empty($item['best_item']),
+                'new_item' => !empty($item['new_item'])
+             ];
         }, $taskResult);
     }
 
