@@ -47,4 +47,16 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
             $query->where('media_id', '>', 0);
         }, 'detailImages.image'])->where('uuid' , $uuid)->firstOrFail();
     }
+
+    /**
+     * front 용 상품 상세 정보.
+     * @param String $uuid
+     * @return mixed
+     */
+    public function getProductDetailInfo(String $uuid) {
+        return $this->model
+            ->where([['uuid', $uuid], ['active', 'Y']])
+            ->with(['category', 'options.color', 'options.wireless', 'repImages.image', 'detailImages.image'])
+            ->get();
+    }
 }

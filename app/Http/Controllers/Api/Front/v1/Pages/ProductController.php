@@ -23,9 +23,20 @@ class ProductController extends Controller
     /**
      * 메인 상품 카테고리 리스트.
      * @param String $category
+     * @return mixed
      */
     public function productCategoryList(String $category) {
 
         return Response::success($this->frontPageServices->productCategoryList($category));
+    }
+
+    /**
+     * 상품 상세 정보.
+     * @param String $uuid
+     * @return mixed
+     * @throws \App\Exceptions\ClientErrorException
+     */
+    public function productDetail(String $uuid) {
+        return Response::success($this->frontPageServices->productDetail($uuid));
     }
 }
