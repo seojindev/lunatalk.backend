@@ -207,6 +207,7 @@ class AdminProductServices
             'name' => 'required|string|min:1',
             'category' => 'required|exists:product_category_masters,id',
 //            'barcode' => 'nullable|string',
+            'original_price' => 'required|numeric',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'sale' => 'required|in:Y,N|max:1',
@@ -224,6 +225,7 @@ class AdminProductServices
                 'category.required'=> __('product.admin.product.service.category.required'),
                 'category.exists'=> __('product.admin.product.service.category.exists'),
 //                'barcode.required'=> __('product.admin.product.service.tags_required'),
+                'original_price.required'=> __('product.admin.product.service.original_price.required'),
                 'price.required'=> __('product.admin.product.service.price.required'),
                 'price.numeric'=> __('product.admin.product.service.price.numeric'),
                 'quantity.required'=> __('product.admin.product.service.quantity.required'),
@@ -263,6 +265,7 @@ class AdminProductServices
             'category' => $this->currentRequest->input('category'),
             'name' => $this->currentRequest->input('name'),
             'barcode' => $this->currentRequest->input('barcode'),
+            'original_price' => $this->currentRequest->input('original_price'),
             'price' => $this->currentRequest->input('price'),
             'quantity' => $this->currentRequest->input('quantity'),
             'memo' => $this->currentRequest->input('memo'),
@@ -324,6 +327,7 @@ class AdminProductServices
             'category' => $this->currentRequest->input('category'),
             'name' => $this->currentRequest->input('name'),
             'barcode' => $this->currentRequest->input('barcode'),
+            'original_price' => $this->currentRequest->input('original_price'),
             'price' => $this->currentRequest->input('price'),
             'quantity' => $this->currentRequest->input('quantity'),
             'memo' => $this->currentRequest->input('memo'),
@@ -428,6 +432,10 @@ class AdminProductServices
                     'number' => $item['quantity'],
                     'string' => number_format($item['quantity']),
                 ],
+                'original_price' => [
+                    'number' => $item['original_price'],
+                    'string' => number_format($item['original_price']),
+                ],
                 'price' => [
                     'number' => $item['price'],
                     'string' => number_format($item['price']),
@@ -468,6 +476,10 @@ class AdminProductServices
             ],
             'name' => $task['name'],
             "barcode" => $task['barcode'],
+            "original_price" => [
+                'number' => $task['original_price'],
+                'string' => number_format($task['original_price'])
+            ],
             "price" => [
                 'number' => $task['price'],
                 'string' => number_format($task['price'])

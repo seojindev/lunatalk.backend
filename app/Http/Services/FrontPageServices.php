@@ -112,9 +112,6 @@ class FrontPageServices
     public function mainBestProductItem() : array {
         return array_map(function($item) {
             $productItem = $item['product'];
-
-            $randDiscount = $productItem['price'] + rand(1000, 20000);
-
             $randReviewCount = rand(50, 200);
 
             return [
@@ -122,9 +119,9 @@ class FrontPageServices
                 'product' => [
                     'uuid' => $productItem['uuid'],
                     'name' => $productItem['name'],
-                    'discount_price' => [
-                        'number' => $randDiscount,
-                        'string' => number_format($randDiscount),
+                    'original_price' => [
+                        'number' => $productItem['original_price'],
+                        'string' => number_format($productItem['original_price'])
                     ],
                     'price' => [
                         'number' => $productItem['price'],
@@ -154,9 +151,6 @@ class FrontPageServices
     public function mainNewProductItem() : array {
         return array_map(function($item) {
             $productItem = $item['product'];
-
-            $randDiscount = $productItem['price'] + rand(1000, 20000);
-
             $randReviewCount = rand(50, 200);
 
             return [
@@ -164,9 +158,9 @@ class FrontPageServices
                 'product' => [
                     'uuid' => $productItem['uuid'],
                     'name' => $productItem['name'],
-                    'discount_price' => [
-                        'number' => $randDiscount,
-                        'string' => number_format($randDiscount),
+                    'original_price' => [
+                        'number' => $productItem['original_price'],
+                        'string' => number_format($productItem['original_price'])
                     ],
                     'price' => [
                         'number' => $productItem['price'],
@@ -217,16 +211,13 @@ class FrontPageServices
         return [
             'uuid' => $task['uuid'],
             'products' => array_map(function($item) {
-                $randDiscount = $item['price'] + rand(1000, 20000);
-
                 $randReviewCount = rand(50, 200);
-
                 return [
                     'uuid' => $item['uuid'],
                     'name' => $item['name'],
-                    'discount_price' => [
-                        'number' => $randDiscount,
-                        'string' => number_format($randDiscount),
+                    'original_price' => [
+                        'number' => $item['original_price'],
+                        'string' => number_format($item['original_price'])
                     ],
                     'price' => [
                         'number' => $item['price'],

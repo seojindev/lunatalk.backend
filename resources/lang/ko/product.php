@@ -50,6 +50,9 @@ return [
                 'wireless' => [
                     'required' => '카테고리를 선택해 주세요.',
                 ],
+                'original_price' => [
+                    'required' => '원래 금액을 입력해 주세요.',
+                ],
                 'price' => [
                     'required' => '금액을 입력해 주세요.',
                 ],

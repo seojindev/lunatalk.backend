@@ -72,6 +72,7 @@ class ProductMasters extends Model
         'category',
         'name',
         'barcode',
+        'original_price',
         'price',
         'quantity',
         'memo',

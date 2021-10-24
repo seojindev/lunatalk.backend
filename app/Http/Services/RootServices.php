@@ -163,6 +163,10 @@ class RootServices
                         'number' => $item['quantity'],
                         'string' => number_format($item['quantity']),
                     ],
+                    'original_price' => [
+                        'number' => $item['original_price'],
+                        'string' => number_format($item['original_price']),
+                    ],
                     'price' => [
                         'number' => $item['price'],
                         'string' => number_format($item['price']),
