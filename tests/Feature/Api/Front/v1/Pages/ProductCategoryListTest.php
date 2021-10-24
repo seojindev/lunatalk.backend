@@ -2,12 +2,7 @@
 
 namespace Tests\Feature\Api\Front\v1\Pages;
 
-use App\Models\MediaFileMasters;
 use App\Models\ProductCategoryMasters;
-use App\Models\ProductMasters;
-use App\Models\ProductOptions;
-use Database\Factories\ProductOptionsFactory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\BaseCustomTestCase;
 
@@ -15,12 +10,8 @@ class ProductCategoryListTest extends BaseCustomTestCase
 {
     use WithFaker;
 
-    protected string $apiURL;
-    protected array $testUser;
-
     public function setUp(): void {
         parent::setUp();
-
     }
 
     public function test_front_v1_pages_product_category_list()
