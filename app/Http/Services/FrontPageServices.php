@@ -235,7 +235,7 @@ class FrontPageServices
                         'number' => $item['price'],
                         'string' => number_format($item['price'])
                     ],
-                    'color' => $item['color']['color']['name'],
+                    'color' => isset($item['color']['color']['name']) && $item['color']['color']['name'] ? $item['color']['color']['name'] : null,
                     'review_count' => [
                         'number' => $randReviewCount,
                         'string' => number_format($randReviewCount)
