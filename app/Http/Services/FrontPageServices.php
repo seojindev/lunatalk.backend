@@ -94,7 +94,7 @@ class FrontPageServices
 
                 return [
                     'name' => $item['name'],
-                    'uuid' => $item['random_products']['uuid'],
+                    'uuid' => $item['uuid'],
                     'image' => [
                         'file_name' => $rep_image['file_name'],
                         'url' => env('APP_MEDIA_URL') . '/' . $rep_image['dest_path'] . '/' . $rep_image['file_name'],
