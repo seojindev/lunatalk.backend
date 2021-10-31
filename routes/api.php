@@ -118,7 +118,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('delete-products', [AdminProductController::class, 'deleteProducts'])->name('delete.products'); // 상품 삭제(복수).
             });
 
-            Route::group(['prefix' => 'page-manage', 'as' => 'page-manage'], function () {
+            Route::group(['prefix' => 'page-manage', 'as' => 'page-manage.'], function () {
                 Route::post('create-main-slide',[AdminPageManageController::class, 'createMainSlide'])->name('create.main.slide'); // 메인 슬아이드 생성.
                 Route::get('show-main-slide',[AdminPageManageController::class, 'showMainSlide'])->name('show.main.slide'); // 메인 슬라이드 리스트
                 Route::get('{mainSlideUUID}/detail-main-slide',[AdminPageManageController::class, 'detailMainSlide'])->name('detail.main.slide'); // 메인 슬라이드 상세
@@ -134,12 +134,17 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('show-new-item',[AdminPageManageController::class, 'showNewItem'])->name('create.new.item'); // Best Item 리스트.
             });
 
-            Route::group(['prefix' => 'site-manage', 'as' => 'site-manage'], function () {
+            Route::group(['prefix' => 'site-manage', 'as' => 'site-manage.'], function () {
                 Route::post('create-notice',[AdminSiteManageController::class, 'createNotice'])->name('create.notice'); // 싸이트 공지사항 등록.
                 Route::put('{noticeUUID}/update-notice',[AdminSiteManageController::class, 'updateNotice'])->name('update.notice'); // 싸이트 공지사항 수정.
                 Route::delete('delete-notice',[AdminSiteManageController::class, 'deleteNotice'])->name('delete.notice'); // 싸이트 공지 사항 삭제.
                 Route::get('{noticeUUID}/detail-notice',[AdminSiteManageController::class, 'detailNotice'])->name('detail.notice'); // 싸이트 공지사항 디테일
                 Route::get('show-notice', [AdminSiteManageController::class, 'showNotice'])->name('show.notice'); // 싸이트 공지 사항 리스트.
+            });
+
+            Route::group(['prefix' => 'user-manage', 'as' => 'user-manage.'], function () {
+                Route::get('show-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'showUser'])->name('show.user'); // 사용자 리스트.
+                Route::get('{uuid}/detail-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'detailUser'])->name('detail.user'); // 사용자 상세.
             });
 
         });

@@ -123,24 +123,31 @@ class User extends Authenticatable
     /**
      * @return HasOne
      */
-    public function user_type(): HasOne
-    {
+    public function type(): HasOne {
         return $this->hasOne('App\Models\Codes' , 'code_id', 'type');
     }
 
     /**
      * @return HasOne
      */
-    public function user_level(): HasOne
-    {
+    public function level(): HasOne {
         return $this->hasOne('App\Models\Codes' , 'code_id', 'level');
     }
 
     /**
      * @return HasOne
      */
-    public function user_state(): HasOne
-    {
-        return $this->hasOne('App\Models\Codes' , 'code_id', 'state');
+    public function status(): HasOne {
+        return $this->hasOne('App\Models\Codes' , 'code_id', 'status');
     }
+
+    /**
+     * @return HasOne
+     */
+    public function client(): HasOne {
+        return $this->hasOne('App\Models\Codes' , 'code_id', 'client');
+    }
+
+
+
 }
