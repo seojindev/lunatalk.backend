@@ -104,6 +104,18 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * @param string $targetColumnsName
+     * @param string $columnName
+     * @param array $payload
+     * @return bool
+     */
+    public function updateByCustomColumn(string $targetColumnsName, string $columnName, array $payload): bool
+    {
+
+        return $this->model->where($targetColumnsName, $columnName)->update($payload);
+    }
+
+    /**
      * @param int $modelId
      * @return bool
      */

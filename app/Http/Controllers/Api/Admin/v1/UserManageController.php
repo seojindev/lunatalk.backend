@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Api\Admin\v1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Http\Services\UserManageServices;
 
 class UserManageController extends Controller
 {
+    /**
+     * @var UserManageServices
+     */
     protected UserManageServices $userManageServices;
 
+    /**
+     * @param UserManageServices $userManageServices
+     */
     function __construct(UserManageServices $userManageServices) {
         $this->userManageServices = $userManageServices;
     }
@@ -24,17 +29,31 @@ class UserManageController extends Controller
     }
 
     /**
-     * 사용자 상세.
+     * 사용자 상세
+     * @param String $uuid
+     * @return mixed
      */
     public function detailUser(String $uuid) {
+        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->detailtUser($uuid));
+    }
 
+    /**
+     * 사용자 수정.
+     */
+    public function updateUser($uuid) {
+        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->updateUser($uuid));
     }
 
     /**
      * 사용자 등록.
      */
+    public function createUser($uuid) {
+        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->createUser());
+    }
 
-    /**
-     * 사용자 수정.
-     */
+
+    public function deleteUser($uuid) {
+        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->deleteUser());
+    }
+
 }

@@ -148,6 +148,17 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Codes' , 'code_id', 'client');
     }
 
+    /**
+     * @return HasOne
+     */
+    public function user_select(): HasOne {
+        return $this->hasOne('App\Models\UserRegisterSelects', 'user_id', 'id');
+    }
 
-
+    /**
+     * @return HasOne
+     */
+    public function phone_verifies(): HasOne {
+        return $this->hasOne('App\Models\PhoneVerifies', 'user_id', 'id');
+    }
 }

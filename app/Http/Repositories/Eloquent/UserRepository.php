@@ -23,11 +23,25 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
+     * 사용자 전체 리스트용.
      * @return Collection
      */
     public function getTotalUsers() : Collection {
         return $this->model
             ->with(['client', 'type', 'level', 'status'])
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
+    /**
+     * 사용자 상세 정보용.
+     * @param String $uuid
+     * @return Collection
+     */
+    public function getUserDetail(String $uuid) : Collection {
+        return $this->model
+            ->where('uuid', $uuid)
+            ->with(['client', 'type', 'level', 'status', 'user_select', 'phone_verifies'])
             ->orderBy('id', 'desc')
             ->get();
     }
