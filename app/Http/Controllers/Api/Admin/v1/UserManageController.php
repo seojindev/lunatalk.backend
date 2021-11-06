@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Api\Admin\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
-use App\Http\Services\UserManageServices;
+use App\Http\Services\AdminUserManageServices;
 
 class UserManageController extends Controller
 {
     /**
-     * @var UserManageServices
+     * @var AdminUserManageServices
      */
-    protected UserManageServices $userManageServices;
+    protected AdminUserManageServices $userManageServices;
 
     /**
-     * @param UserManageServices $userManageServices
+     * @param AdminUserManageServices $userManageServices
      */
-    function __construct(UserManageServices $userManageServices) {
+    function __construct(AdminUserManageServices $userManageServices) {
         $this->userManageServices = $userManageServices;
     }
 
