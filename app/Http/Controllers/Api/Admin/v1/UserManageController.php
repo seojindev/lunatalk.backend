@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin\v1;
 
+use App\Exceptions\ClientErrorException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use App\Http\Services\AdminUserManageServices;
@@ -39,6 +40,9 @@ class UserManageController extends Controller
 
     /**
      * 사용자 수정.
+     * @param String $uuid
+     * @return mixed
+     * @throws ClientErrorException
      */
     public function updateUser(String $uuid) {
         return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->updateUser($uuid));
@@ -46,14 +50,17 @@ class UserManageController extends Controller
 
     /**
      * 사용자 등록.
+     * @return mixed
+     * @throws ClientErrorException
      */
     public function createUser() {
         return Response::custom_success(201, __('default.response.process_success'), $this->userManageServices->createUser());
     }
 
     /**
-     * @param $uuid
+     * @param String $uuid
      * @return mixed
+     * @throws ClientErrorException
      */
     public function deleteUser(String $uuid) {
         $this->userManageServices->deleteUser($uuid);
