@@ -290,10 +290,11 @@ class AdminUserManageServices
      * @throws ClientErrorException
      */
     public function deleteUser($uuid): void {
-        $validator = Validator::make([ 'uuid' => $uuid ], [
+        $validator = Validator::make([
+            'uuid' => $uuid
+        ], [
             'uuid' => 'required|exists:users,uuid',
-        ],
-        [
+        ], [
                 'uuid.exists' => '존재 하는 사용자가 아닙니다.',
         ]);
 
@@ -307,5 +308,34 @@ class AdminUserManageServices
         $this->userRegisterSelectsRepository->deleteByCustomColumn('user_id', $task->id);
         $this->phoneVerifyRepository->deleteByCustomColumn('user_id', $task->id);
 
+    }
+
+    /**
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
+    public function updateUserPassword(String $uuid) : void {
+        $validator = Validator::make(collect($this->currentRequest->all())->put('uuid', $uuid)->toArray(), [
+            'uuid' => 'required|exists:users,uuid',
+            'user_password' => 'required|between:5,20',
+            'user_password.required' => __('admin-users-manage.create.user_password.required'),
+            'user_password.between' => __('admin-users-manage.create.user_password.check'),
+        ], [
+            'uuid.exists' => '존재 하는 사용자가 아닙니다.',
+            'user_password.required' => __('admin-users-manage.create.user_password.required'),
+            'user_password.between' => __('admin-users-manage.create.user_password.check'),
+        ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $this->userRepository->updateByCustomColumn('uuid', $uuid, [
+            'password' => Hash::make($this->currentRequest->input('user_password')),
+        ]);
+    }
+
+    public function updateUserPhoneNumber(String $uuid) : void {
+        //
     }
 }

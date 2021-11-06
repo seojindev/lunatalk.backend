@@ -148,6 +148,8 @@ Route::group(['as' => 'api.'], function () {
                 Route::put('{uuid}/update-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'updateUser'])->name('update.user'); // 사용자 정보 수정.
                 Route::post('create-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'createUser'])->name('create.user'); // 사용자 생성.
                 Route::delete('{uuid}/delete-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'deleteUser'])->name('delete.user'); // 사용자 삭제 탈퇴처리.
+                Route::put('{uuid}/update-user-password', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'updateUserPassword'])->name('update.user.password'); // 사용자 비밀 번호 변경.
+                Route::put('{uuid}/update-user-phone-number', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'updateUserPhoneNumber'])->name('update.user.phone.number'); // 사용자 전화 번호 변경.
             });
 
         });

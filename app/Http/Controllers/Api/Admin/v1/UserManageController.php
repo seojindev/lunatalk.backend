@@ -67,4 +67,22 @@ class UserManageController extends Controller
         return Response::success_only_message(200);
     }
 
+    /**
+     * @param String $uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function updateUserPassword(String $uuid) {
+        $this->userManageServices->updateUserPassword($uuid);
+        return Response::success_only_message(200);
+    }
+
+    /**
+     * @param String $uuid
+     * @return mixed
+     */
+    public function updateUserPhoneNumber(String $uuid) {
+        $this->userManageServices->updateUserPhoneNumber($uuid);
+        return Response::success_only_message(200);
+    }
 }
