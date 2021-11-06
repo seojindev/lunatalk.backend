@@ -92,5 +92,19 @@ return [
         'uuid' => [
             'exists' => '존재 하는 사용자가 아닙니다.'
         ],
-    ]
+        'user_password' => [
+            'required' => '비밀 번호를 입력해 주세요.',
+            'check' => '정확한 패스워드를 입력해 주세요. (길이 : 5~20자)',
+        ],
+    ],
+    'update_phone_number' => [
+        'uuid' => [
+            'exists' => '존재 하는 사용자가 아닙니다.'
+        ],
+        'user_phone_number' => [
+            'required' => '휴대폰 번호를 입력해 주세요.',
+            'minmax' => '휴대폰 번호의 자리수를 확인해 주세요.',
+            'numeric' => '휴대폰 번호는 숫자로만 입력해 주세요.',
+        ],
+    ],
 ];

@@ -318,12 +318,10 @@ class AdminUserManageServices
         $validator = Validator::make(collect($this->currentRequest->all())->put('uuid', $uuid)->toArray(), [
             'uuid' => 'required|exists:users,uuid',
             'user_password' => 'required|between:5,20',
-            'user_password.required' => __('admin-users-manage.create.user_password.required'),
-            'user_password.between' => __('admin-users-manage.create.user_password.check'),
         ], [
-            'uuid.exists' => '존재 하는 사용자가 아닙니다.',
-            'user_password.required' => __('admin-users-manage.create.user_password.required'),
-            'user_password.between' => __('admin-users-manage.create.user_password.check'),
+            'uuid.exists' => __('admin-users-manage.update_password.uuid.exists'),
+            'user_password.required' => __('admin-users-manage.update_password.user_password.required'),
+            'user_password.between' => __('admin-users-manage.update_password.user_password.check'),
         ]);
 
         if( $validator->fails() ) {
@@ -335,7 +333,34 @@ class AdminUserManageServices
         ]);
     }
 
+    /**
+     * @param String $uuid
+     * @throws ClientErrorException
+     */
     public function updateUserPhoneNumber(String $uuid) : void {
-        //
+        $validator = Validator::make(collect($this->currentRequest->all())->put('uuid', $uuid)->toArray(), [
+            'uuid' => 'required|exists:users,uuid',
+            'user_phone_number' => 'required|numeric|digits_between:8,11',
+        ], [
+            'uuid.exists' => '존재 하는 사용자가 아닙니다.',
+            'user_phone_number.required' => __('admin-users-manage.update_phone_number.user_phone_number.required'),
+            'user_phone_number.min' => __('admin-users-manage.update_phone_number.user_phone_number.minmax'),
+            'user_phone_number.digits_between' => __('admin-users-manage.update_phone_number.user_phone_number.minmax'),
+            'user_phone_number.numeric' => __('admin-users-manage.update_phone_number.user_phone_number.numeric'),
+        ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $this->userRepository->updateByCustomColumn('uuid', $uuid, [
+            'password' => Hash::make($this->currentRequest->input('user_password')),
+        ]);
+
+        $task = $this->userRepository->defaultCustomFind('uuid', $uuid);
+
+        $this->phoneVerifyRepository->updateByCustomColumn('user_id', $task->id, [
+            'phone_number' => Crypt::encryptString($this->currentRequest->input('user_phone_number')),
+        ]);
     }
 }
