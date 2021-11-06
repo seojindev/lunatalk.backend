@@ -284,7 +284,28 @@ class AdminUserManageServices
         ];
     }
 
-    public function deleteUser($uuid): array {
-        return [];
+    /**
+     * @param $uuid
+     * @return void
+     * @throws ClientErrorException
+     */
+    public function deleteUser($uuid): void {
+        $validator = Validator::make([ 'uuid' => $uuid ], [
+            'uuid' => 'required|exists:users,uuid',
+        ],
+        [
+                'uuid.exists' => '존재 하는 사용자가 아닙니다.',
+        ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $task = $this->userRepository->defaultCustomFind('uuid', $uuid);
+
+        $this->userRepository->deleteById($task->id);
+        $this->userRegisterSelectsRepository->deleteByCustomColumn('user_id', $task->id);
+        $this->phoneVerifyRepository->deleteByCustomColumn('user_id', $task->id);
+
     }
 }

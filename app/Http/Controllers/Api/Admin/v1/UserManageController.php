@@ -40,7 +40,7 @@ class UserManageController extends Controller
     /**
      * 사용자 수정.
      */
-    public function updateUser($uuid) {
+    public function updateUser(String $uuid) {
         return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->updateUser($uuid));
     }
 
@@ -55,8 +55,9 @@ class UserManageController extends Controller
      * @param $uuid
      * @return mixed
      */
-    public function deleteUser($uuid) {
-        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->deleteUser($uuid));
+    public function deleteUser(String $uuid) {
+        $this->userManageServices->deleteUser($uuid);
+        return Response::success_only_message(200);
     }
 
 }
