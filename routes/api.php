@@ -146,7 +146,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('show-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'showUser'])->name('show.user'); // 사용자 리스트.
                 Route::get('{uuid}/detail-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'detailUser'])->name('detail.user'); // 사용자 상세.
                 Route::put('{uuid}/update-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'updateUser'])->name('update.user'); // 사용자 정보 수정.
-                Route::post('create-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'createUserUser'])->name('create.user'); // 사용자 생성.
+                Route::post('create-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'createUser'])->name('create.user'); // 사용자 생성.
                 Route::delete('{uuid}/delete-user', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'deleteUser'])->name('delete.user'); // 사용자 삭제 탈퇴처리.
             });
 

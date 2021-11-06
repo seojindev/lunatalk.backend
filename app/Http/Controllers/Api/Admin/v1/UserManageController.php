@@ -47,13 +47,16 @@ class UserManageController extends Controller
     /**
      * 사용자 등록.
      */
-    public function createUser($uuid) {
-        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->createUser());
+    public function createUser() {
+        return Response::custom_success(201, __('default.response.process_success'), $this->userManageServices->createUser());
     }
 
-
+    /**
+     * @param $uuid
+     * @return mixed
+     */
     public function deleteUser($uuid) {
-        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->deleteUser());
+        return Response::custom_success(200, __('default.response.process_success'), $this->userManageServices->deleteUser($uuid));
     }
 
 }

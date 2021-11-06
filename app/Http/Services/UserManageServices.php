@@ -5,11 +5,15 @@ namespace App\Http\Services;
 use App\Exceptions\ClientErrorException;
 use App\Http\Repositories\Eloquent\UserRepository;
 use App\Http\Repositories\Eloquent\UserRegisterSelectsRepository;
+use App\Http\Repositories\Eloquent\PhoneVerifyRepository;
 use Crypt;
+use Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserManageServices
 {
@@ -28,15 +32,19 @@ class UserManageServices
      */
     protected UserRegisterSelectsRepository $userRegisterSelectsRepository;
 
+    protected PhoneVerifyRepository $phoneVerifyRepository;
+
     /**
      * @param Request $currentRequest
      * @param UserRepository $userRepository
      * @param UserRegisterSelectsRepository $userRegisterSelectsRepository
+     * @param PhoneVerifyRepository $phoneVerifyRepository
      */
-    function __construct(Request $currentRequest, UserRepository $userRepository, UserRegisterSelectsRepository $userRegisterSelectsRepository) {
+    function __construct(Request $currentRequest, UserRepository $userRepository, UserRegisterSelectsRepository $userRegisterSelectsRepository, PhoneVerifyRepository $phoneVerifyRepository) {
         $this->currentRequest = $currentRequest;
         $this->userRepository = $userRepository;
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
+        $this->phoneVerifyRepository = $phoneVerifyRepository;
     }
 
     /**
@@ -195,8 +203,85 @@ class UserManageServices
         ];
     }
 
+    /**
+     * @return array
+     * @throws ClientErrorException
+     */
     public function createUser() : array {
-        return [];
+        $validator = Validator::make($this->currentRequest->all(), [
+            'type' => 'required|exists:codes,code_id',
+            'level' => 'required|exists:codes,code_id',
+            'status' => 'required|exists:codes,code_id',
+            'user_id' => 'required|between:5,20|regex:/^[a-z]/i|regex:/(^[A-Za-z0-9 ]+$)+/|unique:users,login_id',
+            'user_password' => 'required|between:5,20',
+            'user_phone_number' => 'required|numeric|digits_between:8,11',
+            'user_name' => 'required',
+            'user_email' => 'required|email|unique:users,email',
+            'user_select_email' => 'required|in:Y,N|max:1',
+            'user_select_message' => 'required|in:Y,N|max:1'
+        ],
+            [
+                'type.required' => __('admin-users-manage.create.type.required'),
+                'type.exists' => __('admin-users-manage.create.uuid.exists'),
+                'level.required' => __('admin-users-manage.create.level.required'),
+                'level.exists' => __('admin-users-manage.create.level.exists'),
+                'status.required' => __('admin-users-manage.create.status.required'),
+                'status.exists' => __('admin-users-manage.create.status.exists'),
+                'user_id.required' => __('admin-users-manage.create.user_id.reqquired'),
+                'user_id.between' => __('admin-users-manage.create.user_id.check'),
+                'user_id.regex' => __('admin-users-manage.create.user_id.check'),
+                'user_id.unique' => __('admin-users-manage.create.user_id.unique'),
+                'user_password.required' => __('admin-users-manage.create.user_password.required'),
+                'user_password.between' => __('admin-users-manage.create.user_password.check'),
+                'user_phone_number.required' => __('admin-users-manage.create.user_phone_number.required'),
+                'user_phone_number.min' => __('admin-users-manage.create.user_phone_number.minmax'),
+                'user_phone_number.digits_between' => __('admin-users-manage.create.user_phone_number.minmax'),
+                'user_phone_number.numeric' => __('admin-users-manage.create.user_phone_number.numeric'),
+                'user_name.required' => __('admin-users-manage.create.user_name.required'),
+                'user_email.required' => __('admin-users-manage.create.email.required'),
+                'user_email.unique' => __('admin-users-manage.create.email.unique'),
+                'user_select_email.required'=> __('admin-users-manage.create.select_email.required'),
+                'user_select_email.unique'=> __('admin-users-manage.create.select_email.unique'),
+                'user_select_message.required'=> __('admin-users-manage.create.select_message.required'),
+                'user_select_message.in'=> __('admin-users-manage.create.select_message.in'),
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+
+        $usr_uuid = Str::uuid()->toString();
+
+        // 각 코드들 때문에 웹 외엔 추가 수정 필요.
+        $createTask = $this->userRepository->create([
+            'uuid' => $usr_uuid,
+            'type' => $this->currentRequest->input('type'),
+            'level' => $this->currentRequest->input('level'),
+            'status' => $this->currentRequest->input('status'),
+            'login_id' => $this->currentRequest->input('user_id'),
+            'name' => $this->currentRequest->input('user_name'),
+            'email' => $this->currentRequest->input('user_email'),
+            'password' => Hash::make($this->currentRequest->input('user_password')),
+        ]);
+
+        $this->userRegisterSelectsRepository->create([
+            'user_id' => $createTask->id,
+            'email' => $this->currentRequest->input('user_select_email'),
+            'message' => $this->currentRequest->input('user_select_message')
+        ]);
+
+        $this->phoneVerifyRepository->create([
+            'uuid' => Str::uuid()->toString(),
+            'user_id' => $createTask->id,
+            'phone_number' => Crypt::encryptString($this->currentRequest->input('phone_number')),
+            'auth_code' => Helper::generateAuthNumberCode(),
+            'verified' => 'Y'
+        ]);
+
+        return [
+            "uuid" => $usr_uuid
+        ];
     }
 
     public function deleteUser($uuid): array {
