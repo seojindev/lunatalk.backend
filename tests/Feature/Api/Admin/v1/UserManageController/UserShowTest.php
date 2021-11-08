@@ -29,7 +29,7 @@ class UserShowTest extends BaseCustomTestCase
                         "code_id",
                         "code_name"
                     ],
-                        "status" => [
+                    "status" => [
                         "code_id",
                         "code_name"
                     ],

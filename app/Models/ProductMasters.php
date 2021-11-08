@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property \App\Models\ProductCategoryMasters|null $category 상품 카테고리.
  * @property string $name 상품명.
  * @property string|null $barcode 상품 비코드.
+ * @property int $original_price 상품 원해 가격.
  * @property int $price 상품 가격.
  * @property int $quantity 상품 재고 수량.
  * @property string|null $memo 상품 메모.
@@ -53,6 +54,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductMasters whereId($value)
  * @method static Builder|ProductMasters whereMemo($value)
  * @method static Builder|ProductMasters whereName($value)
+ * @method static Builder|ProductMasters whereOriginalPrice($value)
  * @method static Builder|ProductMasters wherePrice($value)
  * @method static Builder|ProductMasters whereQuantity($value)
  * @method static Builder|ProductMasters whereSale($value)

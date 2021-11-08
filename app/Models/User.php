@@ -24,29 +24,29 @@ use Laravel\Passport\Token;
  *
  * @property int $id
  * @property string $uuid 회원 uuid
- * @property string $client 회원 타입
- * @property string $type 회원 타입
- * @property string $level 회원 레벨
+ * @property \App\Models\Codes|null $client 회원 타입
+ * @property \App\Models\Codes|null $type 회원 타입
+ * @property \App\Models\Codes|null $level 회원 레벨
  * @property string $login_id 로그인 아이디
  * @property string $name
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
- * @property string $status 회원 상태.
+ * @property \App\Models\Codes|null $status 회원 상태.
  * @property string $active 회원 상태
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Collection|Client[] $clients
  * @property-read int|null $clients_count
+ * @property-read \App\Models\UserMemo|null $memo
  * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \App\Models\PhoneVerifies|null $phone_verifies
  * @property-read Collection|Token[] $tokens
  * @property-read int|null $tokens_count
- * @property-read \App\Models\Codes|null $user_level
- * @property-read \App\Models\Codes|null $user_state
- * @property-read \App\Models\Codes|null $user_type
+ * @property-read \App\Models\UserRegisterSelects|null $user_select
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -160,5 +160,12 @@ class User extends Authenticatable
      */
     public function phone_verifies(): HasOne {
         return $this->hasOne('App\Models\PhoneVerifies', 'user_id', 'id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function memo(): HasOne {
+        return $this->hasOne('App\Models\UserMemo', 'user_id', 'id');
     }
 }

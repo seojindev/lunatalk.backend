@@ -6,6 +6,7 @@ use App\Exceptions\ClientErrorException;
 use App\Http\Repositories\Eloquent\UserRepository;
 use App\Http\Repositories\Eloquent\UserRegisterSelectsRepository;
 use App\Http\Repositories\Eloquent\PhoneVerifyRepository;
+use App\Http\Repositories\Eloquent\UserMemoRepository;
 use Crypt;
 use Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -32,19 +33,29 @@ class AdminUserManageServices
      */
     protected UserRegisterSelectsRepository $userRegisterSelectsRepository;
 
+    /**
+     * @var PhoneVerifyRepository
+     */
     protected PhoneVerifyRepository $phoneVerifyRepository;
+
+    /**
+     * @var UserMemoRepository
+     */
+    protected UserMemoRepository $userMemoRepository;
 
     /**
      * @param Request $currentRequest
      * @param UserRepository $userRepository
      * @param UserRegisterSelectsRepository $userRegisterSelectsRepository
      * @param PhoneVerifyRepository $phoneVerifyRepository
+     * @param UserMemoRepository $userMemoRepository
      */
-    function __construct(Request $currentRequest, UserRepository $userRepository, UserRegisterSelectsRepository $userRegisterSelectsRepository, PhoneVerifyRepository $phoneVerifyRepository) {
+    function __construct(Request $currentRequest, UserRepository $userRepository, UserRegisterSelectsRepository $userRegisterSelectsRepository, PhoneVerifyRepository $phoneVerifyRepository, UserMemoRepository $userMemoRepository) {
         $this->currentRequest = $currentRequest;
         $this->userRepository = $userRepository;
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
         $this->phoneVerifyRepository = $phoneVerifyRepository;
+        $this->userMemoRepository = $userMemoRepository;
     }
 
     /**
@@ -83,6 +94,7 @@ class AdminUserManageServices
                 'name' => $item['name'],
                 'email' => $item['email'],
                 'active' => $item['active'],
+                'phone_number' => !empty($item['phone_verifies']['phone_number']) ? Crypt::decryptString($item['phone_verifies']['phone_number']) : null,
                 'created_at' => Carbon::parse($item['created_at'])->format('Y-m-d'),
                 'updated_at' => Carbon::parse($item['updated_at'])->format('Y-m-d'),
             ];
@@ -137,6 +149,7 @@ class AdminUserManageServices
                 'auth_code' => $item['phone_verifies']['auth_code'],
                 'verified' => $item['phone_verifies']['verified'],
             ],
+            'memo' => !empty($item['memo']) ? $item['memo']['memo'] : null,
             'created_at' => Carbon::parse($item['created_at'])->format('Y-m-d'),
             'updated_at' => Carbon::parse($item['updated_at'])->format('Y-m-d'),
         ];
@@ -157,7 +170,7 @@ class AdminUserManageServices
             'level' => 'required|exists:codes,code_id',
             'status' => 'required|exists:codes,code_id',
             'user_name' => 'required',
-            'user_email' => 'required',
+            'user_email' => 'required|email',
             'user_select_email' => 'required|in:Y,N|max:1',
             'user_select_message' => 'required|in:Y,N|max:1'
 
@@ -173,6 +186,7 @@ class AdminUserManageServices
                 'status.exists' => __('admin-users-manage.update.status.exists'),
                 'user_name.required' => __('admin-users-manage.update.user_name.required'),
                 'user_email.required' => __('admin-users-manage.update.email.required'),
+                'user_email.email' => __('admin-users-manage.update.email.check'),
                 'user_select_email.required'=> __('admin-users-manage.update.select_email.required'),
                 'user_select_email.in'=> __('admin-users-manage.update.select_email.in'),
                 'user_select_message.required'=> __('admin-users-manage.update.select_message.required'),
@@ -185,18 +199,41 @@ class AdminUserManageServices
 
         $findTask = $this->userRepository->defaultCustomFind('uuid', $uuid);
 
+        if($findTask->email === $this->currentRequest->input('user_email')) {
+            $email = $this->currentRequest->input('user_email');
+        } else {
+            if($this->userRepository->defaultExistsColumn('email', $this->currentRequest->input('user_email'))) {
+                throw new ClientErrorException(__('admin-users-manage.update.email.unique'));
+            } else {
+                $email = $this->currentRequest->input('user_email');
+            }
+        }
+
         $this->userRepository->updateByCustomColumn('id', $findTask->id, [
             'type' => $this->currentRequest->input('type'),
             'level' => $this->currentRequest->input('level'),
             'status' => $this->currentRequest->input('status'),
             'name' => $this->currentRequest->input('user_name'),
-            'email' => $this->currentRequest->input('user_email'),
+            'email' => $email,
         ]);
 
         $this->userRegisterSelectsRepository->updateByCustomColumn('user_id', $findTask->id, [
             'email' => $this->currentRequest->input('user_select_email'),
             'message' => $this->currentRequest->input('user_select_message')
         ]);
+
+        $memoFind = $this->userMemoRepository->defaultGetCustomFind('user_id', $findTask->id);
+
+        if($memoFind->isEmpty()) {
+            $this->userMemoRepository->create([
+                'user_id' => $findTask->id,
+                'memo' => $this->currentRequest->input('user_memo'),
+            ]);
+        } else {
+            $this->userMemoRepository->updateByCustomColumn('user_id', $findTask->id, [
+                'memo' => $this->currentRequest->input('user_memo'),
+            ]);
+        }
 
         return [
             'uuid' => $uuid
@@ -274,7 +311,7 @@ class AdminUserManageServices
         $this->phoneVerifyRepository->create([
             'uuid' => Str::uuid()->toString(),
             'user_id' => $createTask->id,
-            'phone_number' => Crypt::encryptString($this->currentRequest->input('phone_number')),
+            'phone_number' => Crypt::encryptString($this->currentRequest->input('user_phone_number')),
             'auth_code' => Helper::generateAuthNumberCode(),
             'verified' => 'Y'
         ]);

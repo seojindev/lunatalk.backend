@@ -28,7 +28,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      */
     public function getTotalUsers() : Collection {
         return $this->model
-            ->with(['client', 'type', 'level', 'status'])
+            ->with(['client', 'type', 'level', 'status', 'phone_verifies'])
             ->orderBy('id', 'desc')
             ->get();
     }
@@ -41,7 +41,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getUserDetail(String $uuid) : Collection {
         return $this->model
             ->where('uuid', $uuid)
-            ->with(['client', 'type', 'level', 'status', 'user_select', 'phone_verifies'])
+            ->with(['client', 'type', 'level', 'status', 'user_select', 'phone_verifies', 'memo'])
             ->orderBy('id', 'desc')
             ->get();
     }

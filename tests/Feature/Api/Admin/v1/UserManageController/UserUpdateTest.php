@@ -3,8 +3,6 @@
 namespace Tests\Feature\Api\Admin\v1\UserManageController;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\BaseCustomTestCase;
 
 class UserUpdateTest extends BaseCustomTestCase
@@ -20,7 +18,8 @@ class UserUpdateTest extends BaseCustomTestCase
             "user_name" => "test-user",
             "user_email" => "test@test.com",
             "user_select_email" => "Y",
-            "user_select_message" => "N"
+            "user_select_message" => "N",
+            "user_memo" => "테스트 메모 입니다\n보이나요?"
         ];
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', "/api/admin-front/v1/user-manage/".$task->uuid."/update-user", $payload);

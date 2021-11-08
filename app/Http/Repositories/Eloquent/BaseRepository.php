@@ -62,6 +62,16 @@ class BaseRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * @param string $columnsName
+     * @param string $value
+     * @return Collection|null
+     */
+    public function defaultGetCustomFind(string $columnsName, string $value): ?Collection
+    {
+        return $this->model->where($columnsName, $value)->get();
+    }
+
+    /**
      * @param int $modelId
      * @return Model|null
      */
