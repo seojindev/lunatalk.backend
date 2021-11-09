@@ -316,6 +316,11 @@ class AdminUserManageServices
             'verified' => 'Y'
         ]);
 
+        $this->userMemoRepository->create([
+            'user_id' => $createTask->id,
+            'memo' => $this->currentRequest->input('user_memo')
+        ]);
+
         return [
             "uuid" => $usr_uuid
         ];
