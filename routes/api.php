@@ -72,6 +72,11 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
             });
 
+            Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+                Route::get('total-products', [\App\Http\Controllers\Api\Front\v1\ProductController::class, 'totalProducts'])->name('total.product.list')->middleware('auth:api'); // 상품 전체 상세 리스트.
+            });
+
+
             Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
                 Route::group(['prefix' => 'main', 'as' => 'main.'], function () {
                     Route::get('main-slide', [MainController::class, 'mainSlide'])->name('main.slide'); // 홈 메인 슬라이드.
