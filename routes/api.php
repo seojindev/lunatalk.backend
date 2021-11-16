@@ -62,6 +62,7 @@ Route::group(['as' => 'api.'], function () {
      */
     Route::group(['namespace' => 'front', 'prefix' => 'front', 'as' => 'front.'], function () {
         Route::group(['namespace' => 'v1', 'prefix' => 'v1', 'as' => 'v1.'], function () {
+
             Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
                 Route::get('{phoneNumber}/phone-auth', [AuthController::class, 'phoneAuth'])->name('phone.auth'); // 인증번호 요청.
                 Route::post('{authIndex}/phone-auth-confirm', [AuthController::class, 'phoneAuthConfirm'])->name('phone.auth.confirm')->where('authIndex', '[0-9]+'); // 인증번호 확인.
@@ -70,6 +71,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
                 Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
             });
+
             Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
                 Route::group(['prefix' => 'main', 'as' => 'main.'], function () {
                     Route::get('main-slide', [MainController::class, 'mainSlide'])->name('main.slide'); // 홈 메인 슬라이드.
@@ -86,7 +88,16 @@ Route::group(['as' => 'api.'], function () {
                 Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                     Route::get('{uuid}/detail', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productDetail'])->name('product.category.list'); // 상품 상세 정보
                 });
+
+                Route::group(['prefix' => 'wish', 'as' => 'wish.'], function () {
+                    Route::get('list', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'list'])->name('wish.list')->middleware('auth:api'); // 위시 리스트.
+                    Route::post('{product_uuid}/create', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'create'])->name('create.wish.list')->middleware('auth:api'); // 위시 리스트 추가.
+                    Route::delete('{wish_uuid}/delete', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'delete'])->name('delete.wish.list')->middleware('auth:api'); // 위시 리스트 삭제 단건.
+                    Route::delete('many-delete', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'manyDelete'])->name('many.delete.wish.list')->middleware('auth:api'); // 위시 리스트 삭제 단건.
+                });
             });
+
+
         });
     });
 

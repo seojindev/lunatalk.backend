@@ -22,4 +22,8 @@ return [
         'code_exits' => '존재 하는 코드가 아닙니다.',
         'phone_number_exits' => '존재 하는 코드가 아닙니다.',
     ],
+
+    'error' => [
+        'exits_item' => '이미 등록되어 있습니다.'
+    ]
 ];

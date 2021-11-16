@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\Front\v1\Pages;
 
 use App\Models\ProductCategoryMasters;
+use App\Models\ProductMasters;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\BaseCustomTestCase;
 
@@ -27,7 +28,7 @@ class ProductCategoryListTest extends BaseCustomTestCase
         $this->insertTestProductMaster();
 
 
-        $pcm = ProductCategoryMasters::inRandomOrder()->first();
+        $pcm = ProductCategoryMasters::where('id', 1)->get()->first();
 
         $uuid = $pcm->uuid;
 

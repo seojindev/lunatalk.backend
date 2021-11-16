@@ -9,6 +9,8 @@ use App\Http\Repositories\Eloquent\NoticeMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\MainItemsRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
+use App\Http\Repositories\Eloquent\WishsRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 
 class FrontPageServices
@@ -39,18 +41,25 @@ class FrontPageServices
     protected ProductMastersRepository $productMastersRepository;
 
     /**
+     * @var WishsRepository
+     */
+    protected WishsRepository $wishsRepository;
+
+    /**
+     * @param WishsRepository $wishsRepository
      * @param ProductMastersRepository $productMastersRepository
      * @param MainSlideMastersRepository $mainSlideMastersRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      * @param MainItemsRepository $mainItemsRepository
      * @param NoticeMastersRepository $noticeMastersRepository
      */
-    function __construct(ProductMastersRepository $productMastersRepository, MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository, NoticeMastersRepository $noticeMastersRepository) {
+    function __construct(WishsRepository $wishsRepository, ProductMastersRepository $productMastersRepository, MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository, NoticeMastersRepository $noticeMastersRepository) {
         $this->mainSlideMastersRepository = $mainSlideMastersRepository;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
         $this->mainItemsRepository = $mainItemsRepository;
         $this->noticeMastersRepository = $noticeMastersRepository;
         $this->productMastersRepository = $productMastersRepository;
+        $this->wishsRepository = $wishsRepository;
     }
 
     /**
@@ -218,10 +227,16 @@ class FrontPageServices
      */
     public function productCategoryList(String $category_uuid) : array {
 
-        $task = $this->productCategoryMastersRepository->getProductCategoryList($category_uuid)->first()->toArray();
+        $task = $this->productCategoryMastersRepository->getProductCategoryList($category_uuid);
+
+        if($task->isEmpty()) {
+            throw new ModelNotFoundException();
+        }
+
+        $categoryList = $task->first()->toArray();
 
         return [
-            'uuid' => $task['uuid'],
+            'uuid' => $category_uuid,
             'products' => array_map(function($item) {
                 $randReviewCount = rand(50, 200);
                 return [
@@ -245,7 +260,7 @@ class FrontPageServices
                         'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
                     ],
                 ];
-            }, $task['products'])
+            }, $categoryList['products'])
         ];
     }
 
@@ -333,5 +348,31 @@ class FrontPageServices
                 'type3' => Carbon::parse($product['created_at'])->format('Y년 m월 d일'),
             ],
         ];
+    }
+
+    /**
+     * 위시 리스트 생성.
+     * @param String $product_uuid
+     * @throws ClientErrorException
+     */
+    public function createWishList(String $product_uuid) : void {
+        $productTask = $this->productMastersRepository->defaultGetCustomFind('uuid', $product_uuid);
+
+        if($productTask->isEmpty()) {
+            throw new ModelNotFoundException();
+        }
+
+        $user_id = Auth()->id();
+
+        $checkTask = $this->wishsRepository->getUserWish($user_id, $productTask->first()->id);
+
+        if($checkTask->isEmpty()) {
+            $this->wishsRepository->create([
+                'user_id' => $user_id,
+                'product_id' => $productTask->first()->id
+            ]);
+        } else {
+            throw new ClientErrorException(__('default.error.exits_item'));
+        }
     }
 }

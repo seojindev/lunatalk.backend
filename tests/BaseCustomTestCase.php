@@ -177,7 +177,7 @@ class BaseCustomTestCase extends TestCase
         $productData = ProductMasters::factory()->create([
             'uuid' => Str::uuid(),
             "name" => "테스트 상품",
-            "category" => ProductCategoryMasters::select('id')->inRandomOrder()->first()->id,
+            "category" => ProductCategoryMasters::select('id')->first()->id,
             "barcode" => 123123123,
             "price" => 3000,
             "quantity" => 20,
@@ -188,7 +188,7 @@ class BaseCustomTestCase extends TestCase
 
         ProductOptions::factory()->create([
             'product_id' => $productData->id,
-            'color' => ProductColorOptionMasters::select('id')->inRandomOrder()->first()->id,
+            'color' => ProductColorOptionMasters::select('id')->first()->id,
             'wireless' => ProductWirelessOptionMasters::select('id')->inRandomOrder()->first()->id,
         ]);
 
