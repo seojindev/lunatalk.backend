@@ -74,6 +74,7 @@ Route::group(['as' => 'api.'], function () {
 
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::get('total-products', [\App\Http\Controllers\Api\Front\v1\ProductController::class, 'totalProducts'])->name('total.product.list')->middleware('auth:api'); // 상품 전체 상세 리스트.
+                Route::get('{uuid}/detail', [\App\Http\Controllers\Api\Front\v1\ProductController::class, 'productDetail'])->name('product.category.list'); // 상품 상세 정보
             });
 
 

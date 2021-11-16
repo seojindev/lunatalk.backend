@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Front\v1\Etc;
 
+use App\Models\ProductMasters;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\BaseCustomTestCase;
@@ -68,6 +69,26 @@ class ProductControllerTest extends BaseCustomTestCase
                             ]
                         ]
                     ]
+                ]
+            ]);
+    }
+
+    public function test_front_v1_pages_etc_전체_상품_상세()
+    {
+
+        $this->insertTestProductMaster();
+
+
+        $pcm = ProductMasters::inRandomOrder()->first();
+        $uuid = $pcm->uuid;
+
+        $this->withHeaders($this->getTestNormalAccessTokenHeader())->json('GET', 'api/front/v1/product/'.$uuid.'/detail')
+            ->assertStatus(200)
+//            ->dump()
+            ->assertJsonStructure([
+                'message',
+                'result' => [
+
                 ]
             ]);
     }

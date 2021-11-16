@@ -24,4 +24,13 @@ class ProductController extends Controller
         return Response::success($this->productServices->productTotalList());
     }
 
+    /**
+     * 상품 상세 정보.
+     * @param String $uuid
+     * @return mixed
+     * @throws \App\Exceptions\ClientErrorException
+     */
+    public function productDetail(String $uuid) {
+        return Response::success($this->productServices->productDetail($uuid));
+    }
 }

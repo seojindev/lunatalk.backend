@@ -2,8 +2,10 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
+use Illuminate\Support\Carbon;
 
 class ProductServices {
 
@@ -80,5 +82,91 @@ class ProductServices {
                 }, $item['detail_images']),
             ];
         }, $taskResult);
+    }
+
+    /**
+     * 상품 상세 정보.
+     * @param String $uuid
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function productDetail(String $uuid) : array {
+        $task = $this->productMastersRepository->getProductDetailInfo($uuid)->first();
+
+        if(!$task) {
+            throw new ClientErrorException('존재 하지 않은 상품 입니다.');
+        }
+
+        $product = $task->toArray();
+
+        $options = $product['options'];
+
+        $colors = array();
+        $wireless = array();
+        foreach ($options as $option) :
+            if($option['color']) {
+                $colors[] = [
+                    'id' => $option['color']['id'],
+                    'name' => $option['color']['name']
+                ];
+            }
+
+            if($option['wireless']) {
+                $wireless[] = [
+                    'id' => $option['wireless']['id'],
+                    'wireless' => $option['wireless']['wireless']
+                ];
+            }
+        endforeach;
+
+
+        return [
+            'uuid' => $product['uuid'],
+            'category' => [
+                'uuid' => $product['category']['uuid'],
+                'name' => $product['category']['name'],
+            ],
+            'name' => $product['name'],
+            'barcode' => $product['barcode'],
+            'original_price' => [
+                'number' => $product['original_price'],
+                'string' => number_format($product['original_price'])
+            ],
+            'price' => [
+                'number' => $product['price'],
+                'string' => number_format($product['price'])
+            ],
+            'quantity' => [
+                'number' => $product['quantity'],
+                'string' => number_format($product['quantity']),
+            ],
+            'options' => [
+                'color' => $colors,
+                'wireless' => $wireless,
+            ],
+            'image' => [
+                'rep' => array_map(function($item) {
+                    return [
+                        'id' => $item['image']['id'],
+                        'file_name' => $item['image']['file_name'],
+                        'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'],
+                    ];
+                }, $product['rep_images']),
+                'detail' => array_map(function($item) {
+                    return [
+                        'id' => $item['image']['id'],
+                        'file_name' => $item['image']['file_name'],
+                        'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'],
+                    ];
+                }, $product['detail_images'])
+            ],
+            'sale' => $product['sale'],
+            'active' => $product['active'],
+            'created_at' => [
+                'type1' => Carbon::parse($product['created_at'])->format('Y-m-d H:i:s'),
+                'type2' => Carbon::parse($product['created_at'])->format('Y-m-d'),
+                'type3' => Carbon::parse($product['created_at'])->format('Y년 m월 d일'),
+            ],
+        ];
     }
 }
