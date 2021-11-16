@@ -9,12 +9,14 @@ use App\Http\Repositories\Eloquent\NoticeMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\MainItemsRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
-use App\Http\Repositories\Eloquent\WishsRepository;
+use App\Http\Repositories\Eloquent\CartsRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 
 class FrontPageServices
 {
+    protected Request $currentRequest;
     /**
      * @var MainSlideMastersRepository
      */
@@ -41,25 +43,26 @@ class FrontPageServices
     protected ProductMastersRepository $productMastersRepository;
 
     /**
-     * @var WishsRepository
+     * @var CartsRepository
      */
-    protected WishsRepository $wishsRepository;
+    protected CartsRepository $cartsRepository;
 
     /**
-     * @param WishsRepository $wishsRepository
+     * @param CartsRepository $cartsRepository
      * @param ProductMastersRepository $productMastersRepository
      * @param MainSlideMastersRepository $mainSlideMastersRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      * @param MainItemsRepository $mainItemsRepository
      * @param NoticeMastersRepository $noticeMastersRepository
      */
-    function __construct(WishsRepository $wishsRepository, ProductMastersRepository $productMastersRepository, MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository, NoticeMastersRepository $noticeMastersRepository) {
+    function __construct(Request $request, CartsRepository $cartsRepository, ProductMastersRepository $productMastersRepository, MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository, NoticeMastersRepository $noticeMastersRepository) {
+        $this->currentRequest = $request;
         $this->mainSlideMastersRepository = $mainSlideMastersRepository;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
         $this->mainItemsRepository = $mainItemsRepository;
         $this->noticeMastersRepository = $noticeMastersRepository;
         $this->productMastersRepository = $productMastersRepository;
-        $this->wishsRepository = $wishsRepository;
+        $this->cartsRepository = $cartsRepository;
     }
 
     /**
@@ -351,11 +354,11 @@ class FrontPageServices
     }
 
     /**
-     * 위시 리스트 생성.
+     * 장바구니 리스트 상품 추가.
      * @param String $product_uuid
      * @throws ClientErrorException
      */
-    public function createWishList(String $product_uuid) : void {
+    public function createCartList(String $product_uuid) : void {
         $productTask = $this->productMastersRepository->defaultGetCustomFind('uuid', $product_uuid);
 
         if($productTask->isEmpty()) {
@@ -364,15 +367,75 @@ class FrontPageServices
 
         $user_id = Auth()->id();
 
-        $checkTask = $this->wishsRepository->getUserWish($user_id, $productTask->first()->id);
+        $checkTask = $this->cartsRepository->getUserCart($user_id, $productTask->first()->id);
 
         if($checkTask->isEmpty()) {
-            $this->wishsRepository->create([
+            $this->cartsRepository->create([
                 'user_id' => $user_id,
                 'product_id' => $productTask->first()->id
             ]);
         } else {
             throw new ClientErrorException(__('default.error.exits_item'));
         }
+    }
+
+    /**
+     * 사용자 장바구니 리스트.
+     * @return array
+     */
+    public function cartList() : array {
+
+        $cartTask = $this->cartsRepository->userCarts(Auth()->id());
+
+        if($cartTask->isEmpty()) {
+            throw new ModelNotFoundException();
+        }
+
+        return array_map(function($item) {
+            return [
+                'cart_id' => $item['id'],
+                'product_uuid' => $item['product']['uuid'],
+                'name' => $item['product']['name'],
+                'price' => [
+                    'number' => $item['product']['price'],
+                    'string' => number_format($item['product']['price']),
+                ],
+                'rep_image' => [
+                    'id' => $item['product']['rep_image']['image']['id'],
+                    'file_name' => $item['product']['rep_image']['image']['file_name'],
+                    'url' => env('APP_MEDIA_URL') . $item['product']['rep_image']['image']['dest_path'] . '/' . $item['product']['rep_image']['image']['file_name']
+                ],
+            ];
+        }, $cartTask->toArray());
+    }
+
+    /**
+     * 사용자 장바구니 단품 삭제.
+     * @param Int $cart_id
+     */
+    public function deleteCart(Int $cart_id) : void {
+        $user_id = Auth()->id();
+        $cartTask = $this->cartsRepository->getUserCartById($user_id, $cart_id);
+
+        if($cartTask->isEmpty()) {
+            throw new ModelNotFoundException();
+        }
+
+        $this->cartsRepository->deleteByCustomColumn('id', $cart_id);
+    }
+
+    public function deletesCart() : void {
+
+        $cartIds = $this->currentRequest->all();
+
+        $user_id = Auth()->id();
+
+        if(empty($cartIds)) {
+            throw new ClientErrorException('삭제할 상품을 선택해 주세요.');
+        }
+
+        foreach ($cartIds as $id) :
+            $this->cartsRepository->deleteCart($user_id, $id);
+        endforeach;
     }
 }

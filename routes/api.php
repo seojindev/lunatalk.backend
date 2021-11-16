@@ -94,11 +94,11 @@ Route::group(['as' => 'api.'], function () {
                     Route::get('{uuid}/detail', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productDetail'])->name('product.category.list'); // 상품 상세 정보
                 });
 
-                Route::group(['prefix' => 'wish', 'as' => 'wish.'], function () {
-                    Route::get('list', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'list'])->name('wish.list')->middleware('auth:api'); // 위시 리스트.
-                    Route::post('{product_uuid}/create', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'create'])->name('create.wish.list')->middleware('auth:api'); // 위시 리스트 추가.
-                    Route::delete('{wish_uuid}/delete', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'delete'])->name('delete.wish.list')->middleware('auth:api'); // 위시 리스트 삭제 단건.
-                    Route::delete('many-delete', [\App\Http\Controllers\Api\Front\v1\Pages\WishController::class, 'manyDelete'])->name('many.delete.wish.list')->middleware('auth:api'); // 위시 리스트 삭제 단건.
+                Route::group(['prefix' => 'cart', 'as' => 'cart.'], function () {
+                    Route::get('list', [\App\Http\Controllers\Api\Front\v1\Pages\CartController::class, 'list'])->name('wish.list')->middleware('auth:api'); // 장바구니 리스트.
+                    Route::post('{product_uuid}/create', [\App\Http\Controllers\Api\Front\v1\Pages\CartController::class, 'create'])->name('create.cart.list')->middleware('auth:api'); // 장바구니 추가.
+                    Route::delete('{cart_id}/delete', [\App\Http\Controllers\Api\Front\v1\Pages\CartController::class, 'delete'])->name('delete.cart.list')->where('cart_id', '[0-9]+')->middleware('auth:api'); // 장바구니 삭제 단건.
+                    Route::delete('many-delete', [\App\Http\Controllers\Api\Front\v1\Pages\CartController::class, 'manyDelete'])->name('many.delete.cart.list')->middleware('auth:api'); // 장바구니 삭제 복수.
                 });
             });
 

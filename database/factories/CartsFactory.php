@@ -4,17 +4,17 @@ namespace Database\Factories;
 
 use App\Models\ProductMasters;
 use App\Models\User;
-use App\Models\Wishs;
+use App\Models\Carts;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class WishsFactory extends Factory
+class CartsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Wishs::class;
+    protected $model = Carts::class;
 
     /**
      * Define the model's default state.

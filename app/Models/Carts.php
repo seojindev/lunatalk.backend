@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Wishs extends Model
+class Carts extends Model
 {
     use HasFactory;
 
@@ -13,5 +13,9 @@ class Wishs extends Model
         'user_id',
         'product_id'
     ];
+
+    public function product() {
+        return $this->hasOne(ProductMasters::class, 'id', 'product_id');
+    }
 
 }

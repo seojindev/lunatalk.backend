@@ -62,15 +62,18 @@ class BaseCustomTestCase extends TestCase
      */
     protected function getTestNormalAccessTokenHeader() : array
     {
+        $user = User::where('level', config('extract.user_level.normal.level_code'))->orderBy('id', 'ASC')->first()->toArray();
         $response = $this->withHeaders($this->getTestDefaultApiHeaders())->postjson('/api/front/v1/auth/login', [
-            "login_id" => User::where('level', config('extract.user_level.normal.level_code'))->orderBy('id', 'ASC')->first()->login_id,
+            "login_id" => $user['login_id'],
             "login_password" => 'password'
         ]);
+
         return [
             'Request-Client-Type' => config('extract.default.front_code'),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer '.$response['result']['access_token']
+            'Authorization' => 'Bearer '.$response['result']['access_token'],
+            'user_id' => $user['id']
         ];
     }
 
