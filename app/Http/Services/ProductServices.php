@@ -169,4 +169,73 @@ class ProductServices {
             ],
         ];
     }
+
+    /**
+     * 상품 상세 검색.
+     * @param String $search
+     * @return array
+     * @throws ClientErrorException
+     * @throws ServiceErrorException
+     */
+    public function productTotalSearchList (String $search) : array {
+
+        if(empty($search)) {
+            throw new ClientErrorException('검색어를 입력해 주세요.');
+        }
+
+        $taskResult = $this->productMastersRepository->getProductListSearchMasters(urldecode($search))->toArray();
+
+        if(empty($taskResult)) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
+
+        return array_map(function($item) {
+            return [
+                'id' => $item['id'],
+                'uuid' => $item['uuid'],
+                'name' => $item['name'],
+                'quantity' => [
+                    'number' => $item['quantity'],
+                    'string' => number_format($item['quantity']),
+                ],
+                'original_price' => [
+                    'number' => $item['original_price'],
+                    'string' => number_format($item['original_price']),
+                ],
+                'price' => [
+                    'number' => $item['price'],
+                    'string' => number_format($item['price']),
+                ],
+                'category' => $item['category'],
+                'color' => array_map(function($item) {
+                    return [
+                        'id' => $item['color']['id'],
+                        'name' => $item['color']['name']
+                    ];
+                }, $item['colors']),
+                'wireless' => array_map(function($item) {
+                    return [
+                        'id' => $item['wireless']['id'],
+                        'wireless' => $item['wireless']['wireless']
+                    ];
+                } , $item['wireless']),
+                'best_item' => !empty($item['best_item']),
+                'new_item' => !empty($item['new_item']),
+                'rep_images' => array_map(function($item) {
+                    return [
+                        'id' => $item['image']['id'],
+                        'file_name' => $item['image']['file_name'],
+                        'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+                    ];
+                } , $item['rep_images']),
+                'detail_images' => array_map(function($item) {
+                    return [
+                        'id' => $item['image']['id'],
+                        'file_name' => $item['image']['file_name'],
+                        'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+                    ];
+                }, $item['detail_images']),
+            ];
+        }, $taskResult);
+    }
 }

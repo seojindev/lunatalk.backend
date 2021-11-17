@@ -76,4 +76,23 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
             ->with(['category', 'options.color', 'options.wireless', 'repImages.image', 'detailImages.image'])
             ->get();
     }
+
+
+    /**
+     * 상품 검색
+     * @param String $search
+     * @return Collection
+     */
+    public function getProductListSearchMasters(String $search) : Collection
+    {
+        return $this->model
+            ->where('name', 'like', '%'.$search.'%')
+            ->with(['category' => function($query){
+            $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
+        }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem', 'repImages' => function($query) {
+            $query->where('media_id', '>', 0);
+        },'repImages.image', 'detailImages' => function($query) {
+            $query->where('media_id', '>', 0);
+        }, 'detailImages.image'])->orderBy('id', 'desc')->get();
+    }
 }
