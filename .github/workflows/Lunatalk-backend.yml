@@ -37,11 +37,11 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Clear Config
-        run: chmod -R 777 bootstrap/cache/
+      - name: make cache directory
+        run: mkdir -p bootstrap/cache/ && chmod -R 777 bootstrap/cache/
       - name: Clear Config
         run: php artisan config:clear
-      - name: Clear Config
+      - name: Clear cache
         run: php artisan config:cache
 
       - name: Install Composer dependencies
