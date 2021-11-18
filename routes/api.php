@@ -77,6 +77,8 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('{uuid}/detail', [\App\Http\Controllers\Api\Front\v1\ProductController::class, 'productDetail'])->name('product.detail'); // 상품 상세 정보
 
                 Route::get('{search}/search-list', [\App\Http\Controllers\Api\Front\v1\ProductController::class, 'productSearch'])->name('product.search.list'); // 상품 검색
+
+                Route::post('{uuid}/create-review', [\App\Http\Controllers\Api\Front\v1\ProductController::class, 'createProductReview'])->name('product.review.create')->middleware('auth:api'); // 리뷰 등록.
             });
 
 

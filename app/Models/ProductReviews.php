@@ -16,11 +16,13 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int|null $product_id 상품 id
  * @property int|null $user_id 회원 번호
+ * @property int|null $review_id 원본 id.
  * @property string $contents 리뷰 내용.
  * @property string $active 상태
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ProductReviewsFactory factory(...$parameters)
  * @method static Builder|ProductReviews newModelQuery()
  * @method static Builder|ProductReviews newQuery()
@@ -32,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductReviews whereDeletedAt($value)
  * @method static Builder|ProductReviews whereId($value)
  * @method static Builder|ProductReviews whereProductId($value)
+ * @method static Builder|ProductReviews whereReviewId($value)
  * @method static Builder|ProductReviews whereUpdatedAt($value)
  * @method static Builder|ProductReviews whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|ProductReviews withTrashed()
@@ -44,9 +47,15 @@ class ProductReviews extends Model
 
     protected $fillable = [
         'id',
+        'product_id',
         'user_id',
-        'product_uuid',
+        'review_id',
         'contents',
         'active'
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

@@ -39,6 +39,8 @@ use Illuminate\Support\Carbon;
  * @property-read \App\Models\ProductImages|null $repImage
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductImages[] $repImages
  * @property-read int|null $rep_images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductReviews[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $wireless
  * @property-read int|null $wireless_count
  * @method static \Database\Factories\ProductMastersFactory factory(...$parameters)
@@ -128,5 +130,10 @@ class ProductMasters extends Model
 
     public function newItem() {
         return $this->hasOne(MainItem::class, 'product_id', 'id')->where('category', config('extract.main_item.newItem.code'));
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ProductReviews::class, 'product_id', 'id');
     }
 }

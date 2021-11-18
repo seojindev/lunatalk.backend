@@ -44,4 +44,15 @@ class ProductController extends Controller
     public function productSearch(String $search) {
         return Response::success($this->productServices->productTotalSearchList($search));
     }
+
+    /**
+     * 리뷰 등록.
+     * @param String $product_uuid
+     * @return mixed
+     * @throws \App\Exceptions\ClientErrorException
+     */
+    public function createProductReview(String $product_uuid) {
+        $this->productServices->createProductReview($product_uuid);
+        return Response::success_only_message();
+    }
 }

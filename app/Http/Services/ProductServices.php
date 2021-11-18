@@ -5,7 +5,10 @@ namespace App\Http\Services;
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
+use App\Http\Repositories\Eloquent\ProductReviewsRepository;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
+
 
 class ProductServices {
 
@@ -14,11 +17,21 @@ class ProductServices {
      */
     protected ProductMastersRepository $productMastersRepository;
 
+    protected ProductReviewsRepository $productReviewsRepository;
+
+    /**
+     * @var Request
+     */
+    protected Request $currentRequest;
+
     /**
      * @param ProductMastersRepository $productMastersRepository
+     * @param Request $currentRequest
      */
-    function __construct(ProductMastersRepository $productMastersRepository) {
+    function __construct(Request $currentRequest, ProductMastersRepository $productMastersRepository, ProductReviewsRepository $productReviewsRepository) {
         $this->productMastersRepository = $productMastersRepository;
+        $this->currentRequest = $currentRequest;
+        $this->productReviewsRepository = $productReviewsRepository;
     }
 
     /**
@@ -167,6 +180,18 @@ class ProductServices {
                 'type2' => Carbon::parse($product['created_at'])->format('Y-m-d'),
                 'type3' => Carbon::parse($product['created_at'])->format('Y년 m월 d일'),
             ],
+            'reviews' => array_map(function($item) {
+                return [
+                    'id'=> $item['id'],
+                    'content' => $item['contents'],
+                    'user_name' => $item['user']['name'],
+                    'created_at' => [
+                        'type1' => Carbon::parse($item['created_at'])->format('Y-m-d H:i:s'),
+                        'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
+                        'type3' => Carbon::parse($item['created_at'])->format('Y년 m월 d일'),
+                    ],
+                ];
+            }, $product['reviews'])
         ];
     }
 
@@ -237,5 +262,25 @@ class ProductServices {
                 }, $item['detail_images']),
             ];
         }, $taskResult);
+    }
+
+    public function createProductReview(String $product_uuid) : void {
+        $task = $this->productMastersRepository->getProductDetailInfo($product_uuid)->first();
+
+        if(!$task) {
+            throw new ClientErrorException('존재 하지 않은 상품 입니다.');
+        }
+
+        $reviewContent = $this->currentRequest->input('review');
+
+        if(empty($reviewContent)) {
+            throw new ClientErrorException('리뷰를 등록해 주세요.');
+        }
+
+        $this->productReviewsRepository->create([
+            'product_id' => $task->id,
+            'user_id' => Auth()->id(),
+            'contents' => $reviewContent
+        ]);
     }
 }

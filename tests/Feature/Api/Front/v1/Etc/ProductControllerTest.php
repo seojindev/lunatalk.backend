@@ -97,8 +97,6 @@ class ProductControllerTest extends BaseCustomTestCase
     {
 
         $this->insertTestProductMaster();
-
-
         $pcm = ProductMasters::inRandomOrder()->first();
         $name = urlencode($pcm->name);
 
@@ -153,6 +151,35 @@ class ProductControllerTest extends BaseCustomTestCase
                         ]
                     ]
                 ]
+            ]);
+    }
+
+    public function test_front_v1_pages_etc_회원_리뷰_등록()
+    {
+
+        $requestHeader = $this->getTestNormalAccessTokenHeader();
+
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+
+        $product = ProductMasters::inRandomOrder()->get()->first()->toArray();
+
+
+        $payload = [
+            'review' => '안녕하세요 너무 잘 맞네요 감사합니다.',
+        ];
+
+        $this->withHeaders($requestHeader)->json('POST', '/api/front/v1/product/'.$product['uuid'].'/create-review', $payload)
+            ->assertStatus(201)
+//            ->dump()
+            ->assertJsonStructure([
+                'message',
             ]);
     }
 }
