@@ -45,10 +45,12 @@ jobs:
           php -r "copy('.env.github', '.env');"
           php artisan key:generate
       - name: Clear Config
-        run: php artisan config:clear
+        run: mkdir -p bootstrap/cache && chmod -R 777 bootstrap/cache/
 
       - name: Clear Config
-        run: mkdir -p bootstrap/cache && chmod -R 777 bootstrap/cache/
+        run: php artisan config:clear
+      - name: Clear Config
+        run: php artisan config:cache
 
       - name: Test with phpunit
         env:
