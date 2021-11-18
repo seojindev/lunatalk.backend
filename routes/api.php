@@ -86,7 +86,7 @@ Route::group(['as' => 'api.'], function () {
                     Route::get('main-product-category', [MainController::class, 'mainProductCategory'])->name('main.product.category'); // 홈 메인 상품 카테고리.
                     Route::get('main-product-best-item', [MainController::class, 'mainBestItem'])->name('main.best.item'); // 메인 베스트 아이템.
                     Route::get('main-product-new-item', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
-                    Route::get('main-notice', [MainController::class, 'mainNotice'])->name('main.new.item'); // 메인 뉴 아이템.
+                    Route::get('main-notice', [MainController::class, 'mainNotice'])->name('main.notice'); // 메인 공지사항.
                 });
 
                 Route::group(['prefix' => 'product-category', 'as' => 'product-category.'], function () {
@@ -145,12 +145,12 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('delete-main-slides',[AdminPageManageController::class, 'deleteMainSlide'])->name('delete.main.slides'); // 메인 슬라이드 삭제.
 
                 Route::post('{uuid}/create-best-item',[AdminPageManageController::class, 'createBestItem'])->name('create.best.item'); // Best Item 추가.
-                Route::delete('{uuid}/delete-best-item',[AdminPageManageController::class, 'deleteBestItem'])->name('create.best.item'); // Best Item 삭제.
-                Route::get('show-best-item',[AdminPageManageController::class, 'showBestItem'])->name('create.best.item'); // Best Item 리스트.
+                Route::delete('{uuid}/delete-best-item',[AdminPageManageController::class, 'deleteBestItem'])->name('delete.best.item'); // Best Item 삭제.
+                Route::get('show-best-item',[\App\Http\Controllers\Api\Admin\v1\PageManageController::class, 'showBestItem'])->name('show.best.item'); // Best Item 리스트.
 
                 Route::post('{uuid}/create-new-item',[AdminPageManageController::class, 'createNewItem'])->name('create.new.item'); // Best Item 추가.
-                Route::delete('{uuid}/delete-new-item',[AdminPageManageController::class, 'deleteNewItem'])->name('create.new.item'); // Best Item 삭제.
-                Route::get('show-new-item',[AdminPageManageController::class, 'showNewItem'])->name('create.new.item'); // Best Item 리스트.
+                Route::delete('{uuid}/delete-new-item',[AdminPageManageController::class, 'deleteNewItem'])->name('delete.new.item'); // Best Item 삭제.
+                Route::get('show-new-item',[AdminPageManageController::class, 'showNewItem'])->name('show.new.item'); // Best Item 리스트.
             });
 
             Route::group(['prefix' => 'site-manage', 'as' => 'site-manage.'], function () {

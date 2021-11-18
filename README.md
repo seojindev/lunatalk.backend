@@ -3,7 +3,8 @@
 ## Lunatalk Back-End Source.
 
 ### app script
-1. app app-reset
+
+####app-reset
 
 ```bash
 composer app-reset
@@ -19,19 +20,19 @@ php artisan db:seed --class=CodesSeeder --force
 
 > 데이베이스 초기화 조심해야함.
 
-2. app clear
+####app clear
 ```bash
 composer app-clear
 ```
 
-2. unitest
+####unitest
 ```bash
 > 테스트 설정 리셋.
 composer app-test:clear
 php artisan db:wipe --env=testing && php artisan migrate --seed --env=testing && php artisan passport:install --force --env=testing
 php artisan db:wipe && php artisan migrate --seed && php artisan passport:install --force
 
-> 유닌 테스트 와치 실행. 
+> 유닛 테스트 와치 실행. 
 composer app-test:watch
 
 > 팩토리 데이터 실행 ( 데이터 베이스 리셋. )
@@ -44,7 +45,7 @@ php artisan test --stop-on-failure
 php artisan db:seed --class=CodesSeeder --force
 ```
 
-3. 기존 상품 정보 가지고 오기
+####기존 상품 정보 가지고 오기
 
 ```bash
 
@@ -56,7 +57,7 @@ php artisan dev:product-create
 
 ```
 
-> tinker factory
+####tinker factory
 
 ```bash
 User::factory()->count(5)->create();
@@ -64,9 +65,6 @@ PhoneVerify::factory()->count(5)->create();
 ProductCategory::factory()->count(5)->create();
 UserRegisterSelects::factory()->count(5)->create();
 MediaFiles::factory()->count(5)->create();
-
-
-
 ```
 
 ## Contributing
