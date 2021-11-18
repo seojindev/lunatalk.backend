@@ -47,6 +47,9 @@ jobs:
       - name: Clear Config
         run: php artisan config:clear
 
+      - name: Clear Config
+        run: mkdir -p bootstrap/cache && chmod -R 777 bootstrap/cache/
+
       - name: Test with phpunit
         env:
           DB_CONNECTION: sqlite
