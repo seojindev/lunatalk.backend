@@ -37,16 +37,17 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Clear Config
-        run: php artisan config:clear
-
       - name: Install Composer dependencies
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
 
       - name: Prepare the application
         run: |
           php -r "copy('.env.github', '.env');"
           php artisan key:generate
+
+      - name: Clear Config
+        run: php artisan config:clear
 
       - name: Test with phpunit
         env:
