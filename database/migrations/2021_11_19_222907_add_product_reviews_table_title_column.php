@@ -14,7 +14,7 @@ class AddProductReviewsTableTitleColumn extends Migration
     public function up()
     {
         Schema::table('product_reviews', function (Blueprint $table) {
-            $table->string('title')->after('review_id')->nullable(false)->comment('리뷰 제목.');
+            $table->string('title')->after('review_id')->nullable()->comment('리뷰 제목.');
         });
     }
 
