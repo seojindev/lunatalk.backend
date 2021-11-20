@@ -123,6 +123,11 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
             });
 
+            Route::group(['prefix' => 'system', 'as' => 'system.'], function () {
+                Route::get('notice', [\App\Http\Controllers\Api\Admin\v1\SystemController::class, 'getSystemNotice'])->name('get.notice'); // 시스템 공지사항 내용.
+                Route::post('notice', [\App\Http\Controllers\Api\Admin\v1\SystemController::class, 'createSystemNotice'])->name('create.notice'); // 시스템 공지 사항 생성.
+            });
+
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                 Route::post('create-product-category', [AdminProductController::class, 'createProductCategory'])->name('create.product.category');  // 상품 카테고리 추가.
                 Route::get('show-product-category', [AdminProductController::class, 'showProductCategory'])->name('show.product.category'); // 상품 카테고리 리스트.
