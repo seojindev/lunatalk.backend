@@ -73,7 +73,10 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     public function getProductDetailInfo(String $uuid) {
         return $this->model
             ->where([['uuid', $uuid], ['active', 'Y']])
-            ->with(['category', 'options.color', 'options.wireless', 'repImages.image', 'detailImages.image', 'reviews.user'])
+            ->with(['category', 'options.color', 'options.wireless', 'repImages.image', 'detailImages.image', 'reviews' => function($query) {
+                $query->where('review_id', null);
+                $query->orderBy('id', 'desc');
+            }, 'reviews.user', 'reviews.answer'])
             ->get();
     }
 

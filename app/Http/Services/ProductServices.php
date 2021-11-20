@@ -8,6 +8,7 @@ use App\Http\Repositories\Eloquent\ProductMastersRepository;
 use App\Http\Repositories\Eloquent\ProductReviewsRepository;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 class ProductServices {
@@ -181,8 +182,21 @@ class ProductServices {
                 'type3' => Carbon::parse($product['created_at'])->format('Y년 m월 d일'),
             ],
             'reviews' => array_map(function($item) {
+                $answer = [];
+                if($item['answer']) {
+                    $answer = [
+                        'title' => $item['answer']['title'],
+                        'contents' => $item['answer']['contents'],
+                        'created_at' => [
+                            'type1' => Carbon::parse($item['answer']['created_at'])->format('Y-m-d H:i:s'),
+                            'type2' => Carbon::parse($item['answer']['created_at'])->format('Y-m-d'),
+                            'type3' => Carbon::parse($item['answer']['created_at'])->format('Y년 m월 d일'),
+                        ],
+                    ];
+                }
                 return [
                     'id'=> $item['id'],
+                    'title' => $item['title'],
                     'content' => $item['contents'],
                     'user_name' => $item['user']['name'],
                     'created_at' => [
@@ -190,6 +204,7 @@ class ProductServices {
                         'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
                         'type3' => Carbon::parse($item['created_at'])->format('Y년 m월 d일'),
                     ],
+                    'answer' => $answer
                 ];
             }, $product['reviews'])
         ];
@@ -264,6 +279,11 @@ class ProductServices {
         }, $taskResult);
     }
 
+    /**
+     * 상품 리뷰 등록.
+     * @param String $product_uuid
+     * @throws ClientErrorException
+     */
     public function createProductReview(String $product_uuid) : void {
         $task = $this->productMastersRepository->getProductDetailInfo($product_uuid)->first();
 
@@ -271,15 +291,26 @@ class ProductServices {
             throw new ClientErrorException('존재 하지 않은 상품 입니다.');
         }
 
-        $reviewContent = $this->currentRequest->input('review');
+        $validator = Validator::make($this->currentRequest->all(), [
+            'title' => 'required',
+            'review' => 'required',
+        ],
+            [
+                'title.required' => '제목을 입력해 주세요.',
+                'review.required' => '내용을 입력해 주세요',
+            ]);
 
-        if(empty($reviewContent)) {
-            throw new ClientErrorException('리뷰를 등록해 주세요.');
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
         }
+
+        $reviewTitle = $this->currentRequest->input('title');
+        $reviewContent = $this->currentRequest->input('review');
 
         $this->productReviewsRepository->create([
             'product_id' => $task->id,
             'user_id' => Auth()->id(),
+            'title' => $reviewTitle,
             'contents' => $reviewContent
         ]);
     }

@@ -172,6 +172,7 @@ class ProductControllerTest extends BaseCustomTestCase
 
 
         $payload = [
+            'title' => '리뷰 제목 입니다.',
             'review' => '안녕하세요 너무 잘 맞네요 감사합니다.',
         ];
 

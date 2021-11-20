@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Front\v1;
 
+use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Services\ProductServices;
 use Illuminate\Support\Facades\Response;
 
@@ -28,7 +28,7 @@ class ProductController extends Controller
      * 상품 상세 정보.
      * @param String $uuid
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function productDetail(String $uuid) {
         return Response::success($this->productServices->productDetail($uuid));
@@ -39,7 +39,7 @@ class ProductController extends Controller
      * @param String $search
      * @return mixed
      * @throws ServiceErrorException
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function productSearch(String $search) {
         return Response::success($this->productServices->productTotalSearchList($search));
@@ -49,7 +49,7 @@ class ProductController extends Controller
      * 리뷰 등록.
      * @param String $product_uuid
      * @return mixed
-     * @throws \App\Exceptions\ClientErrorException
+     * @throws ClientErrorException
      */
     public function createProductReview(String $product_uuid) {
         $this->productServices->createProductReview($product_uuid);

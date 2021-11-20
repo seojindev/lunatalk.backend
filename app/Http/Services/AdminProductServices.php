@@ -8,7 +8,9 @@ use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
 use App\Http\Repositories\Eloquent\ProductOptionsRepository;
 use App\Http\Repositories\Eloquent\ProductImagesRepository;
+use App\Http\Repositories\Eloquent\ProductReviewsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Str;
 
@@ -40,19 +42,27 @@ class AdminProductServices
     protected ProductImagesRepository $productImagesRepository;
 
     /**
+     * @var ProductReviewsRepository
+     */
+    protected ProductReviewsRepository $productReviewsRepository;
+
+
+    /**
      * @param Request $request
+     * @param ProductReviewsRepository $productReviewsRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      * @param ProductMastersRepository $productMastersRepository
      * @param ProductOptionsRepository $productOptionsRepository
      * @param ProductImagesRepository $productImagesRepository
      */
-    function __construct(Request $request, ProductCategoryMastersRepository $productCategoryMastersRepository, ProductMastersRepository $productMastersRepository, ProductOptionsRepository $productOptionsRepository, ProductImagesRepository $productImagesRepository)
+    function __construct(Request $request, ProductReviewsRepository $productReviewsRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, ProductMastersRepository $productMastersRepository, ProductOptionsRepository $productOptionsRepository, ProductImagesRepository $productImagesRepository)
     {
         $this->currentRequest = $request;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
         $this->productMastersRepository = $productMastersRepository;
         $this->productOptionsRepository = $productOptionsRepository;
         $this->productImagesRepository = $productImagesRepository;
+        $this->productReviewsRepository = $productReviewsRepository;
     }
 
     /**
@@ -519,5 +529,126 @@ class AdminProductServices
             } , $task['detail_images']),
 
         ];
+    }
+
+    /**
+     * 상품 리뷰 리스트.
+     * @return array
+     * @throws ServiceErrorException
+     */
+    public function showProductReviews() : array {
+
+        $reviewTask = $this->productReviewsRepository->getReviewForAdmin();
+
+        if($reviewTask->isEmpty()) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
+
+        $result = $reviewTask->toArray();
+
+        $result = array_values(array_filter($result, function ($item) {
+            return $item['product'];
+        }));
+
+        return array_map(function($item) {
+            return [
+                'id' => $item['id'],
+                'user' => [
+                    'id' => $item['user']['id'],
+                    'name' => $item['user']['name'],
+                    'email' => $item['user']['email'],
+                ],
+                'product' => [
+                    'id' => $item['product']['id'],
+                    'uuid' => $item['product']['uuid'],
+                    'name' => $item['product']['name'],
+                ],
+                'title' => $item['title'],
+                'created_at' => Carbon::parse($item['created_at'])->format('Y-m-d H:i')
+            ];
+        } , $result);
+    }
+
+    /**
+     * 상품 리뷰 상세
+     * @param Int $id
+     * @return array
+     * @throws ServiceErrorException
+     */
+    public function detailProductReviews(Int $id) : array {
+
+        $reviewTask = $this->productReviewsRepository->getReviewDetailForAdmin($id);
+
+        if($reviewTask->isEmpty()) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
+
+        $result = $reviewTask->first()->toArray();
+
+        return [
+            'id' => $result['id'],
+            'user' => [
+                'id' => $result['user']['id'],
+                'name' => $result['user']['name'],
+                'email' => $result['user']['email'],
+            ],
+            'product' => [
+                'id' => $result['product']['id'],
+                'uuid' => $result['product']['uuid'],
+                'name' => $result['product']['name'],
+            ],
+            'title' => $result['title'],
+            'contents' => $result['contents'],
+            'created_at' => Carbon::parse($result['created_at'])->format('Y-m-d H:i'),
+            'answer' => [
+                'title' => $result['answer'] ? $result['answer']['title'] : '',
+                'contents' => $result['answer'] ? $result['answer']['contents'] : '',
+                'created_at' => $result['answer'] ? Carbon::parse($result['answer']['created_at'])->format('Y-m-d H:i') : '',
+            ]
+        ];
+    }
+
+    /**
+     * 상품 리뷰 답변.
+     * @param Int $id
+     * @throws ClientErrorException
+     * @throws ServiceErrorException
+     */
+    public function answerProductReview(Int $id) : void {
+        $reviewTask = $this->productReviewsRepository->getReviewDetailForAdmin($id);
+
+        if($reviewTask->isEmpty()) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
+
+        $validator = Validator::make($this->currentRequest->all(), [
+            'title' => 'required',
+            'contents' => 'required',
+        ],
+            [
+                'title.required' => '제목을 입력해 주세요.',
+                'contents.required' => '내용을 입력해 주세요',
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $result = $reviewTask->first()->toArray();
+
+        $check = $this->productReviewsRepository->exitsAnswer($result['product_id'], $id);
+
+        if($check) {
+            $this->productReviewsRepository
+                ->updateAnswer($result['product_id'], $id, Auth()->id(), $this->currentRequest->input('title'), $this->currentRequest->input('contents'));
+        } else {
+            $this->productReviewsRepository->create([
+                'product_id' => $result['product_id'],
+                'user_id' => Auth()->id(),
+                'review_id' => $id,
+                'title' => $this->currentRequest->input('title'),
+                'contents' => $this->currentRequest->input('contents'),
+            ]);
+        }
     }
 }

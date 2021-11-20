@@ -151,4 +151,35 @@ class ProductController extends Controller
     {
         return Response::custom_success(200, __('default.response.process_success'), $this->adminProductServices->detailProduct($productUUID));
     }
+
+    /**
+     * 상품 리뷰 리스트.
+     * @return mixed
+     * @throws ServiceErrorException
+     */
+    public function showProductReviews() {
+        return Response::success($this->adminProductServices->showProductReviews());
+    }
+
+    /**
+     * 상품 리뷰 상세.
+     * @param $id
+     * @return mixed
+     * @throws ServiceErrorException
+     */
+    public function detailProductReviews($id) {
+        return Response::success($this->adminProductServices->detailProductReviews($id));
+    }
+
+    /**
+     * 상품 리뷰 답변 등록.
+     * @param $id
+     * @return mixed
+     * @throws ClientErrorException
+     * @throws ServiceErrorException
+     */
+    public function answerProductReview($id) {
+        $this->adminProductServices->answerProductReview($id);
+        return Response::success_only_message(201);
+    }
 }

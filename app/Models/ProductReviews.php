@@ -50,6 +50,7 @@ class ProductReviews extends Model
         'product_id',
         'user_id',
         'review_id',
+        'title',
         'contents',
         'active'
     ];
@@ -57,5 +58,14 @@ class ProductReviews extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function product()
+    {
+        return $this->hasOne(ProductMasters::class, 'id', 'user_id');
+    }
+
+    public function answer() {
+        return $this->hasOne(ProductReviews::class, 'review_id', 'id');
     }
 }

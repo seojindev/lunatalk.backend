@@ -48,6 +48,7 @@ class FrontPageServices
     protected CartsRepository $cartsRepository;
 
     /**
+     * @param Request $request
      * @param CartsRepository $cartsRepository
      * @param ProductMastersRepository $productMastersRepository
      * @param MainSlideMastersRepository $mainSlideMastersRepository
@@ -338,6 +339,10 @@ class FrontPageServices
         $this->cartsRepository->deleteByCustomColumn('id', $cart_id);
     }
 
+    /**
+     * 사용자 장바구니 복수 삭제.
+     * @throws ClientErrorException
+     */
     public function deletesCart() : void {
 
         $cartIds = $this->currentRequest->all();

@@ -137,6 +137,11 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('{productUUID}/detail-product', [AdminProductController::class, 'detailProduct'])->name('detail.product'); // 상품 상세.
                 Route::delete('{productUUID}/delete-product', [AdminProductController::class, 'deleteProduct'])->name('delete.product'); // 상품 삭제(한건).
                 Route::delete('delete-products', [AdminProductController::class, 'deleteProducts'])->name('delete.products'); // 상품 삭제(복수).
+
+                Route::get('show-product-reviews', [AdminProductController::class, 'showProductReviews'])->name('show.product.review'); // 상품 리뷰 리스트.
+                Route::get('{id}/detail-product-reviews', [AdminProductController::class, 'detailProductReviews'])->name('detail.product.review')->where('id', '[0-9]+'); // 상품 리뷰 리스트.
+
+                Route::post('{id}/answer-product-review', [AdminProductController::class, 'answerProductReview'])->name('answer.product.review')->where('id', '[0-9]+')->middleware('auth:api'); // 상품 리뷰 답변 등록.
             });
 
             Route::group(['prefix' => 'page-manage', 'as' => 'page-manage.'], function () {
