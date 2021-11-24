@@ -17,11 +17,14 @@ use Illuminate\Support\Carbon;
  * @property int|null $product_id 상품 id
  * @property int|null $user_id 회원 번호
  * @property int|null $review_id 원본 id.
+ * @property string|null $title 리뷰 제목.
  * @property string $contents 리뷰 내용.
  * @property string $active 상태
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read ProductReviews|null $answer
+ * @property-read \App\Models\ProductMasters|null $product
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ProductReviewsFactory factory(...$parameters)
  * @method static Builder|ProductReviews newModelQuery()
@@ -35,6 +38,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ProductReviews whereId($value)
  * @method static Builder|ProductReviews whereProductId($value)
  * @method static Builder|ProductReviews whereReviewId($value)
+ * @method static Builder|ProductReviews whereTitle($value)
  * @method static Builder|ProductReviews whereUpdatedAt($value)
  * @method static Builder|ProductReviews whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|ProductReviews withTrashed()
