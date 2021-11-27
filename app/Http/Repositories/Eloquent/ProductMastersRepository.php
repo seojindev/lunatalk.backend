@@ -40,7 +40,8 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
      */
     public function getProductListMasters() : Collection
     {
-        return $this->model->with(['category' => function($query){
+        return $this->model->where('active', 'Y')
+            ->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
         }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem', 'repImages' => function($query) {
             $query->where('media_id', '>', 0);
@@ -90,6 +91,7 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     {
         return $this->model
             ->where('name', 'like', '%'.$search.'%')
+            ->where('active', 'Y')
             ->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
         }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem', 'repImages' => function($query) {

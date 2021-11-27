@@ -79,7 +79,9 @@ class FrontPageServices
         }
 
         return array_map(function($item) {
+
             $slide_image = $item['image'];
+
             return [
                 'name' => $item['name'],
                 'url' => [
@@ -97,6 +99,7 @@ class FrontPageServices
     }
 
     /**
+     * 메인 상품 카테고리.
      * @return array
      */
     public function mainProductCategory() : array {

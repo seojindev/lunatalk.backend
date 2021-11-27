@@ -101,6 +101,7 @@ class MainItemsRepository extends BaseRepository implements MainItemsRepositoryI
      */
     public function getFrontMainNewItems() : Collection {
         return $this->model->where('category', config('extract.main_item.newItem.code'))
+            ->where('active', 'Y')
             ->with(['product.repImage.image', 'product.color.color'])
             ->inRandomOrder()
             ->get();

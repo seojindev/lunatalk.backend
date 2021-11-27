@@ -18,6 +18,9 @@ class ProductServices {
      */
     protected ProductMastersRepository $productMastersRepository;
 
+    /**
+     * @var ProductReviewsRepository
+     */
     protected ProductReviewsRepository $productReviewsRepository;
 
     /**
@@ -26,8 +29,9 @@ class ProductServices {
     protected Request $currentRequest;
 
     /**
-     * @param ProductMastersRepository $productMastersRepository
      * @param Request $currentRequest
+     * @param ProductMastersRepository $productMastersRepository
+     * @param ProductReviewsRepository $productReviewsRepository
      */
     function __construct(Request $currentRequest, ProductMastersRepository $productMastersRepository, ProductReviewsRepository $productReviewsRepository) {
         $this->productMastersRepository = $productMastersRepository;
