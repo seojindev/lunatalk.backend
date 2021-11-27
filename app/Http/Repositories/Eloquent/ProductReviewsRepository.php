@@ -67,7 +67,7 @@ class ProductReviewsRepository extends BaseRepository implements ProductReviewsI
      * @param string $contents
      * @return mixed
      */
-    public function updateAnswer(Int $product_id, Int $review_id, Int $user_id, string $title, string $contents) {
+    public function updateAnswer(Int $product_id, Int $review_id, Int $user_id, string $title, string $contents) : Collection {
         return $this->model->where('product_id', $product_id)
             ->where('review_id', $review_id)
             ->update([
@@ -75,5 +75,16 @@ class ProductReviewsRepository extends BaseRepository implements ProductReviewsI
                 'title' => $title,
                 'contents' => $contents
             ]);
+    }
+
+    /**
+     * 상품 리뷰 리스트.
+     * @param Int $product_id
+     * @return Collection
+     */
+    public function getReview(Int $product_id) : Collection {
+        return $this->model->where('product_id', $product_id)
+            ->with(['user', 'answer'])
+            ->get();
     }
 }

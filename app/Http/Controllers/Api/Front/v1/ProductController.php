@@ -55,4 +55,14 @@ class ProductController extends Controller
         $this->productServices->createProductReview($product_uuid);
         return Response::success_only_message();
     }
+
+    /**
+     * 상품 리뷰 리스트.
+     * @param String $product_uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function listProductReview(String $product_uuid) {
+        return Response::success($this->productServices->listProductReview($product_uuid));
+    }
 }

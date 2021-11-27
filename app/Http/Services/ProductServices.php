@@ -318,4 +318,50 @@ class ProductServices {
             'contents' => $reviewContent
         ]);
     }
+
+    /**
+     * 리뷰 리스트.
+     * @param String $product_uuid
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function listProductReview(String $product_uuid) : array {
+        $productTask = $this->productMastersRepository->getProductDetailInfo($product_uuid)->first();
+
+        if(!$productTask) {
+            throw new ClientErrorException('존재 하지 않은 상품 입니다.');
+        }
+
+        $task = $this->productReviewsRepository->getReview($productTask->id);
+        if($task->isEmpty()) {
+            throw new ClientErrorException('데이터가 존재 하지 않습니다.');
+        }
+
+        return array_map(function ($item) {
+            $answer = [];
+            if ($item['answer']) {
+                $answer = [
+                    'title' => $item['answer']['title'],
+                    'contents' => $item['answer']['contents'],
+                    'created_at' => [
+                        'type1' => Carbon::parse($item['answer']['created_at'])->format('Y-m-d H:i:s'),
+                        'type2' => Carbon::parse($item['answer']['created_at'])->format('Y-m-d'),
+                        'type3' => Carbon::parse($item['answer']['created_at'])->format('Y년 m월 d일'),
+                    ],
+                ];
+            }
+            return [
+                'id' => $item['id'],
+                'title' => $item['title'],
+                'content' => $item['contents'],
+                'user_name' => $item['user']['name'],
+                'created_at' => [
+                    'type1' => Carbon::parse($item['created_at'])->format('Y-m-d H:i:s'),
+                    'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
+                    'type3' => Carbon::parse($item['created_at'])->format('Y년 m월 d일'),
+                ],
+                'answer' => $answer
+            ];
+        }, $task->toArray());
+    }
 }

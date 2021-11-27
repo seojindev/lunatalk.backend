@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\Front\v1\Etc;
 
 use App\Models\ProductMasters;
+use App\Models\ProductReviews;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\BaseCustomTestCase;
@@ -181,6 +182,33 @@ class ProductControllerTest extends BaseCustomTestCase
 //            ->dump()
             ->assertJsonStructure([
                 'message',
+            ]);
+    }
+
+    public function test_front_v1_pages_etc_회원_리뷰_리스트()
+    {
+
+        $this->insertTestProductMaster();
+        $pcm = ProductMasters::inRandomOrder()->first();
+
+        ProductReviews::factory()->create([
+            'product_id' => $pcm->id
+        ]);
+
+        $this->withHeaders($this->getTestNormalAccessTokenHeader())->json('GET', '/api/front/v1/product/'.$pcm->uuid.'/list-review')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'message',
+                'result' => [
+                    '*' => [
+                        "id",
+                        "title",
+                        "content",
+                        "user_name",
+                        "created_at",
+                        "answer"
+                    ]
+                ]
             ]);
     }
 }
