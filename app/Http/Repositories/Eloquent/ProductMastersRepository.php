@@ -100,4 +100,23 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
             $query->where('media_id', '>', 0);
         }, 'detailImages.image'])->orderBy('id', 'desc')->get();
     }
+
+    /**
+     * 상품 검색.
+     * @param String $search
+     * @return Collection
+     */
+    public function getProductListSearchSub(String $search) : Collection
+    {
+        return $this->model
+            ->where('name', 'like', '%'.$search.'%')
+            ->where('active', 'Y')
+            ->with(['category' => function($query){
+                $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
+            }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem', 'repImage' => function($query) {
+                $query->where('media_id', '>', 0);
+            },'repImage.image', 'detailImages' => function($query) {
+                $query->where('media_id', '>', 0);
+            }, 'detailImages.image'])->orderBy('id', 'desc')->get();
+    }
 }

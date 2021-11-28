@@ -42,7 +42,7 @@ class ProductController extends Controller
      * @throws ClientErrorException
      */
     public function productSearch(String $search) {
-        return Response::success($this->productServices->productTotalSearchList($search));
+        return Response::success($this->productServices->productTotalSearchListSub($search));
     }
 
     /**

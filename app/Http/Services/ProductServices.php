@@ -221,7 +221,7 @@ class ProductServices {
      * @throws ClientErrorException
      * @throws ServiceErrorException
      */
-    public function productTotalSearchList (String $search) : array {
+    public function productTotalSearchList(String $search) : array {
 
         if(empty($search)) {
             throw new ClientErrorException('검색어를 입력해 주세요.');
@@ -279,6 +279,51 @@ class ProductServices {
                         'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
                     ];
                 }, $item['detail_images']),
+            ];
+        }, $taskResult);
+    }
+
+    /**
+     * 상품 검색
+     * @param String $search
+     * @return array
+     * @throws ClientErrorException
+     * @throws ServiceErrorException
+     */
+    public function productTotalSearchListSub(String $search) : array {
+
+        if(empty($search)) {
+            throw new ClientErrorException('검색어를 입력해 주세요.');
+        }
+
+        $taskResult = $this->productMastersRepository->getProductListSearchSub(urldecode($search))->toArray();
+
+        if(empty($taskResult)) {
+            throw new ServiceErrorException(__('response.success_not_found'));
+        }
+
+        return array_map(function($item) {
+            $randReviewCount = rand(50, 200);
+            return [
+                'uuid' => $item['uuid'],
+                'name' => $item['name'],
+                'original_price' => [
+                    'number' => $item['original_price'],
+                    'string' => number_format($item['original_price'])
+                ],
+                'price' => [
+                    'number' => $item['price'],
+                    'string' => number_format($item['price'])
+                ],
+                'color' => isset($item['color']['color']['name']) && $item['color']['color']['name'] ? $item['color']['color']['name'] : null,
+                'review_count' => [
+                    'number' => $randReviewCount,
+                    'string' => number_format($randReviewCount)
+                ],
+                'rep_image' => [
+                    'file_name' => $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
+                    'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
+                ],
             ];
         }, $taskResult);
     }

@@ -107,13 +107,8 @@ class ProductControllerTest extends BaseCustomTestCase
                 'message',
                 'result' => [
                     '*' => [
-                        "id",
                         "uuid",
                         "name",
-                        "quantity" => [
-                            "number",
-                            "string"
-                        ],
                         "original_price" => [
                             "number",
                             "string"
@@ -122,33 +117,14 @@ class ProductControllerTest extends BaseCustomTestCase
                             "number",
                             "string"
                         ],
-                        "category" => [
-                            "id",
-                            "uuid",
-                            "name"
+                        "color",
+                        "review_count" => [
+                            "number",
+                            "string"
                         ],
-                        "color" => [
-                            '*' => [
-                                "id",
-                                "name"
-                            ]
-                        ],
-                        "wireless" => [],
-                        "best_item",
-                        "new_item",
-                        "rep_images" => [
-                            '*' => [
-                                "id",
-                                "file_name",
-                                "url"
-                            ]
-                        ],
-                        "detail_images" => [
-                            '*' => [
-                                "id",
-                                "file_name",
-                                "url"
-                            ]
+                        "rep_image" => [
+                            "file_name",
+                            "url"
                         ]
                     ]
                 ]
