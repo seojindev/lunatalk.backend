@@ -182,4 +182,43 @@ class ProductController extends Controller
         $this->adminProductServices->answerProductReview($id);
         return Response::success_only_message(201);
     }
+
+    /**
+     * 상품 배지 등록.
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function createProductBadgeImage() {
+        $this->adminProductServices->createProductBadgeImage();
+        return Response::success_only_message(201);
+    }
+
+    /**
+     * 상품 배지 리스트.
+     * @return mixed
+     */
+    public function showProductBadges() {
+        return Response::success($this->adminProductServices->listProductBadges());
+    }
+
+    /**
+     * 상품 배지 상세.
+     * @param Int $id
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function detailProductBadges(Int $id) {
+        return Response::success($this->adminProductServices->detailProductBadges($id));
+    }
+
+    /**
+     * 상품 배지 내용 수정.
+     * @param Int $id
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function updateProductBadges(Int $id) {
+        $this->adminProductServices->updateProductBadges($id);
+        return Response::success_only_message(200);
+    }
 }

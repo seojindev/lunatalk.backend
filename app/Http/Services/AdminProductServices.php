@@ -4,11 +4,14 @@ namespace App\Http\Services;
 
 use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
+use App\Http\Repositories\Eloquent\MediaFileMastersRepository;
+use App\Http\Repositories\Eloquent\ProductBadgeMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
 use App\Http\Repositories\Eloquent\ProductOptionsRepository;
 use App\Http\Repositories\Eloquent\ProductImagesRepository;
 use App\Http\Repositories\Eloquent\ProductReviewsRepository;
+use App\Models\ProductBadgeMasters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -46,16 +49,24 @@ class AdminProductServices
      */
     protected ProductReviewsRepository $productReviewsRepository;
 
+    /**
+     * @var MediaFileMastersRepository
+     */
+    protected MediaFileMastersRepository $mediaFileMastersRepository;
+
+    protected ProductBadgeMastersRepository $productBadgeMastersRepository;
+
 
     /**
      * @param Request $request
+     * @param MediaFileMastersRepository $mediaFileMastersRepository
      * @param ProductReviewsRepository $productReviewsRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      * @param ProductMastersRepository $productMastersRepository
      * @param ProductOptionsRepository $productOptionsRepository
      * @param ProductImagesRepository $productImagesRepository
      */
-    function __construct(Request $request, ProductReviewsRepository $productReviewsRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, ProductMastersRepository $productMastersRepository, ProductOptionsRepository $productOptionsRepository, ProductImagesRepository $productImagesRepository)
+    function __construct(Request $request, ProductBadgeMastersRepository $productBadgeMastersRepository, MediaFileMastersRepository $mediaFileMastersRepository, ProductReviewsRepository $productReviewsRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, ProductMastersRepository $productMastersRepository, ProductOptionsRepository $productOptionsRepository, ProductImagesRepository $productImagesRepository)
     {
         $this->currentRequest = $request;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
@@ -63,6 +74,8 @@ class AdminProductServices
         $this->productOptionsRepository = $productOptionsRepository;
         $this->productImagesRepository = $productImagesRepository;
         $this->productReviewsRepository = $productReviewsRepository;
+        $this->mediaFileMastersRepository = $mediaFileMastersRepository;
+        $this->productBadgeMastersRepository = $productBadgeMastersRepository;
     }
 
     /**
@@ -650,5 +663,107 @@ class AdminProductServices
                 'contents' => $this->currentRequest->input('contents'),
             ]);
         }
+    }
+
+    /**
+     * 상품 배지 생성.
+     * @return void
+     * @throws ClientErrorException
+     */
+    public function createProductBadgeImage() {
+
+        $validator = Validator::make($this->currentRequest->all(), [
+            'name' => 'required',
+            'media_id' => 'required|exists:media_file_masters,id|unique:product_badge_masters,media_id',
+        ],
+            [
+                'name.required' => '배지 이름을 입력해 주세요.',
+                'media_id.required' => '배지 이미지를 등록해 주세요',
+                'media_id.exists' => '존재 하지 않은 배지 이미지 입니다.',
+                'media_id.unique' => '이미 등록되어 있는 배지 이미지 입니다.',
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $this->productBadgeMastersRepository->create([
+            'name' => $this->currentRequest->input('name'),
+            'media_id' => $this->currentRequest->input('media_id'),
+        ]);
+    }
+
+    /**
+     * 상품 배지 리스트.
+     * @return array
+     */
+    public function listProductBadges() : array {
+        $task = $this->productBadgeMastersRepository->getList();
+
+        return array_map(function($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'image' => [
+                    'id' => $item['image']['id'],
+                    'file_name' => $item['image']['file_name'],
+                    'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+                ],
+            ];
+        }, $task->toArray()) ;
+    }
+
+    /**
+     * 상품 배지 상세.
+     * @param Int $id
+     * @return array
+     * @throws ClientErrorException
+     */
+    public function detailProductBadges(Int $id) : array {
+        $task = $this->productBadgeMastersRepository->getDetail($id);
+
+        if($task->isEmpty()) {
+            throw new ClientErrorException('데이터가 존재 하지 않습니다.');
+        }
+
+        $task = $task->first()->toArray();
+
+        return [
+            'id' => $task['id'],
+            'name' => $task['name'],
+            'image' => [
+                'id' => $task['image']['id'],
+                'file_name' => $task['image']['file_name'],
+                'url' => env('APP_MEDIA_URL') . $task['image']['dest_path'] . '/' . $task['image']['file_name']
+            ],
+        ];
+    }
+
+    /**
+     * 상품 배지 수정.
+     * @param Int $id
+     * @throws ClientErrorException
+     */
+    public function updateProductBadges(Int $id) : void {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'name' => 'required',
+//            'media_id' => 'required|exists:media_file_masters,id|unique:product_badge_masters,media_id',
+            'media_id' => 'required|exists:media_file_masters,id',
+        ],
+            [
+                'name.required' => '배지 이름을 입력해 주세요.',
+                'media_id.required' => '배지 이미지를 등록해 주세요',
+                'media_id.exists' => '존재 하지 않은 배지 이미지 입니다.',
+                'media_id.unique' => '이미 등록되어 있는 배지 이미지 입니다.',
+            ]);
+
+        if( $validator->fails() ) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $this->productBadgeMastersRepository->update($id, [
+            'name' => $this->currentRequest->input('name'),
+            'media_id' => $this->currentRequest->input('media_id'),
+        ]);
     }
 }

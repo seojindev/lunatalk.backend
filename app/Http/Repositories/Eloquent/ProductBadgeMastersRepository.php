@@ -3,6 +3,7 @@
 namespace App\Http\Repositories\Eloquent;
 
 use App\Http\Repositories\Interfaces\ProductBadgeMastersInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductBadgeMasters;
 
@@ -19,5 +20,29 @@ class ProductBadgeMastersRepository extends BaseRepository implements ProductBad
     public function __construct(ProductBadgeMasters $model)
     {
         parent::__construct($model);
+    }
+
+    /**
+     * 전체 리스트용.
+     * @return Collection
+     */
+    public function getList() : Collection{
+        return $this->model
+            ->where('id', '>', 0)
+            ->with(['image'])
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
+    /**
+     * 상세.
+     * @param Int $id
+     * @return Collection
+     */
+    public function getDetail(Int $id) : Collection{
+        return $this->model
+            ->where('id', $id)
+            ->with(['image'])
+            ->get();
     }
 }

@@ -148,6 +148,11 @@ Route::group(['as' => 'api.'], function () {
                 Route::get('{id}/detail-product-reviews', [AdminProductController::class, 'detailProductReviews'])->name('detail.product.review')->where('id', '[0-9]+'); // 상품 리뷰 리스트.
 
                 Route::post('{id}/answer-product-review', [AdminProductController::class, 'answerProductReview'])->name('answer.product.review')->where('id', '[0-9]+')->middleware('auth:api'); // 상품 리뷰 답변 등록.
+
+                Route::post('create-product-badge-image', [AdminProductController::class, 'createProductBadgeImage'])->name('create.product.badge.image')->middleware('auth:api'); // 상품 배지 등록.
+                Route::get('show-product-badges', [AdminProductController::class, 'showProductBadges'])->name('show-product-badges')->middleware('auth:api'); // 상품 배지 리스트.
+                Route::get('{id}/detail-product-badges', [AdminProductController::class, 'detailProductBadges'])->name('detail.product.badges')->middleware('auth:api'); // 상품 상세 정보.
+                Route::put('{id}/update-product-badges', [AdminProductController::class, 'updateProductBadges'])->name('update.product.badges')->middleware('auth:api'); // 상품 정보 수정.
             });
 
             Route::group(['prefix' => 'page-manage', 'as' => 'page-manage.'], function () {

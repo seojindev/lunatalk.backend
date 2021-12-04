@@ -20,4 +20,14 @@ class MediaFileMastersRepository extends BaseRepository implements MediaFileMast
     {
         parent::__construct($model);
     }
+
+    /**
+     * 모델 체크.
+     * @param Int $id
+     * @return mixed
+     */
+    public function checkExits(Int $id) {
+        return $this->model
+            ->findOrFail($id);
+    }
 }
