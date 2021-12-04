@@ -66,7 +66,7 @@ class ProductReviews extends Model
 
     public function product()
     {
-        return $this->hasOne(ProductMasters::class, 'id', 'user_id');
+        return $this->hasOne(ProductMasters::class, 'id', 'product_id');
     }
 
     public function answer() {
