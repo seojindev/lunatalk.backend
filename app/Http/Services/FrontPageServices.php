@@ -140,7 +140,6 @@ class FrontPageServices
     public function mainBestProductItem() : array {
         return array_map(function($item) {
             $productItem = $item['product'];
-            $randReviewCount = rand(50, 200);
 
             return [
                 'uuid' => $item['uuid'],
@@ -157,8 +156,8 @@ class FrontPageServices
                     ],
                     'color' => $productItem['color']['color']['name'],
                     'review_count' => [
-                        'number' => $randReviewCount,
-                        'string' => number_format($randReviewCount)
+                        'number' => count($productItem['reviews']),
+                        'string' => number_format(count($productItem['reviews']))
                     ],
                     'rep_image' => [
                         'file_name' => $productItem['rep_image']['image'] ? $productItem['rep_image']['image']['file_name'] : null,
@@ -187,7 +186,6 @@ class FrontPageServices
     public function mainNewProductItem() : array {
         return array_map(function($item) {
             $productItem = $item['product'];
-            $randReviewCount = rand(50, 200);
 
             return [
                 'uuid' => $item['uuid'],
@@ -204,8 +202,8 @@ class FrontPageServices
                     ],
                     'color' => $productItem['color']['color']['name'],
                     'review_count' => [
-                        'number' => $randReviewCount,
-                        'string' => number_format($randReviewCount)
+                        'number' => count($productItem['reviews']),
+                        'string' => number_format(count($productItem['reviews']))
                     ],
                     'rep_image' => [
                         'file_name' => $productItem['rep_image']['image'] ? $productItem['rep_image']['image']['file_name'] : null,
@@ -278,8 +276,8 @@ class FrontPageServices
                     ],
                     'color' => isset($item['color']['color']['name']) && $item['color']['color']['name'] ? $item['color']['color']['name'] : null,
                     'review_count' => [
-                        'number' => $randReviewCount,
-                        'string' => number_format($randReviewCount)
+                        'number' => count($item['reviews']),
+                        'string' => number_format(count($item['reviews']))
                     ],
                     'rep_image' => [
                         'file_name' => $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
