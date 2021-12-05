@@ -106,7 +106,9 @@ class ProductMasters extends Model
 
     public function wireless()
     {
-        return $this->hasMany(ProductOptions::class, 'product_id', 'id')->whereNotNull('wireless');
+        // 유무선이 동시에 1개 이상일 경유가 있나??
+//        return $this->hasMany(ProductOptions::class, 'product_id', 'id')->whereNotNull('wireless');
+        return $this->hasOne(ProductOptions::class, 'product_id', 'id')->whereNotNull('wireless');
     }
 
     public function repImage()
@@ -136,4 +138,9 @@ class ProductMasters extends Model
     {
         return $this->hasMany(ProductReviews::class, 'product_id', 'id');
     }
+
+    public function badge() {
+        return $this->hasMany(ProductBadges::class, 'product_id', 'id');
+    }
+
 }

@@ -76,12 +76,27 @@ class ProductServices {
                         'name' => $item['color']['name']
                     ];
                 }, $item['colors']),
-                'wireless' => array_map(function($item) {
+//                'wireless' => array_map(function($item) {
+//                    return [
+//                        'id' => $item['wireless']['id'],
+//                        'wireless' => $item['wireless']['wireless']
+//                    ];
+//                } , $item['wireless']),
+                'wireless' => $item['wireless'] ? [
+                    'id' => $item['wireless']['wireless']['id'],
+                    'wireless' => $item['wireless']['wireless']['wireless'],
+                ] : null,
+                'badge' => array_map(function($item) {
                     return [
-                        'id' => $item['wireless']['id'],
-                        'wireless' => $item['wireless']['wireless']
+                        'id' => $item['badge']['id'],
+                        'name' => $item['badge']['name'],
+                        'image' => [
+                            'id' => $item['badge']['image']['id'],
+                            'file_name' => $item['badge']['image']['file_name'],
+                            'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                        ],
                     ];
-                } , $item['wireless']),
+                }, $item['badge']),
                 'best_item' => !empty($item['best_item']),
                 'new_item' => !empty($item['new_item']),
                 'rep_images' => array_map(function($item) {

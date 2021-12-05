@@ -6,6 +6,7 @@ use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServiceErrorException;
 use App\Http\Repositories\Eloquent\MediaFileMastersRepository;
 use App\Http\Repositories\Eloquent\ProductBadgeMastersRepository;
+use App\Http\Repositories\Eloquent\ProductBadgesRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
 use App\Http\Repositories\Eloquent\ProductOptionsRepository;
@@ -54,11 +55,21 @@ class AdminProductServices
      */
     protected MediaFileMastersRepository $mediaFileMastersRepository;
 
+    /**
+     * @var ProductBadgeMastersRepository
+     */
     protected ProductBadgeMastersRepository $productBadgeMastersRepository;
+
+    /**
+     * @var ProductBadgesRepository
+     */
+    protected ProductBadgesRepository $productBadgesRepository;
 
 
     /**
      * @param Request $request
+     * @param ProductBadgesRepository $productBadgesRepository
+     * @param ProductBadgeMastersRepository $productBadgeMastersRepository
      * @param MediaFileMastersRepository $mediaFileMastersRepository
      * @param ProductReviewsRepository $productReviewsRepository
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
@@ -66,7 +77,17 @@ class AdminProductServices
      * @param ProductOptionsRepository $productOptionsRepository
      * @param ProductImagesRepository $productImagesRepository
      */
-    function __construct(Request $request, ProductBadgeMastersRepository $productBadgeMastersRepository, MediaFileMastersRepository $mediaFileMastersRepository, ProductReviewsRepository $productReviewsRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, ProductMastersRepository $productMastersRepository, ProductOptionsRepository $productOptionsRepository, ProductImagesRepository $productImagesRepository)
+    function __construct(
+        Request $request,
+        ProductBadgesRepository $productBadgesRepository,
+        ProductBadgeMastersRepository $productBadgeMastersRepository,
+        MediaFileMastersRepository $mediaFileMastersRepository,
+        ProductReviewsRepository $productReviewsRepository,
+        ProductCategoryMastersRepository $productCategoryMastersRepository,
+        ProductMastersRepository $productMastersRepository,
+        ProductOptionsRepository $productOptionsRepository,
+        ProductImagesRepository $productImagesRepository
+    )
     {
         $this->currentRequest = $request;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
@@ -76,6 +97,7 @@ class AdminProductServices
         $this->productReviewsRepository = $productReviewsRepository;
         $this->mediaFileMastersRepository = $mediaFileMastersRepository;
         $this->productBadgeMastersRepository = $productBadgeMastersRepository;
+        $this->productBadgesRepository = $productBadgesRepository;
     }
 
     /**
@@ -283,6 +305,7 @@ class AdminProductServices
             throw new ClientErrorException($validator->errors()->first());
         }
 
+        // 상품 인서트
         $createTask = $this->productMastersRepository->create([
             'uuid' => Str::uuid(),
             'category' => $this->currentRequest->input('category'),
@@ -296,6 +319,7 @@ class AdminProductServices
             'active' => $this->currentRequest->input('active')
         ]);
 
+        // 컬러 옵션
         foreach ($this->currentRequest->input('color') as $color_id) :
             $this->productOptionsRepository->create([
                 'product_id' => $createTask->id,
@@ -303,6 +327,7 @@ class AdminProductServices
             ]);
         endforeach;
 
+        // 무선 옵션
         if($this->currentRequest->input('wireless')) {
             $this->productOptionsRepository->create([
                 'product_id' => $createTask->id,
@@ -310,6 +335,7 @@ class AdminProductServices
             ]);
         }
 
+        // 대표 이미지
         foreach ($this->currentRequest->input('rep_image') as $media_id) :
             $this->productImagesRepository->create([
                 'product_id' => $createTask->id,
@@ -318,11 +344,20 @@ class AdminProductServices
             ]);
         endforeach;
 
+        // 상세 이미지
         foreach ($this->currentRequest->input('detail_image') as $media_id) :
             $this->productImagesRepository->create([
                 'product_id' => $createTask->id,
                 'media_category' => config('extract.mediaCategory.detailImage.code'),
                 'media_id' => $media_id,
+            ]);
+        endforeach;
+
+        // 배지 옵션.
+        foreach ($this->currentRequest->input('badge') as $badge_id) :
+            $this->productBadgesRepository->create([
+                'product_id' => $createTask->id,
+                'badge_id' => $badge_id,
             ]);
         endforeach;
 
@@ -390,6 +425,16 @@ class AdminProductServices
                 'media_id' => $media_id,
             ]);
         endforeach;
+
+        // 상품 배지
+        $this->productBadgesRepository->deleteByCustomColumn('product_id', $product->id);
+        foreach ($this->currentRequest->input('badge') as $badge_id) :
+            $this->productBadgesRepository->create([
+                'product_id' => $product->id,
+                'badge_id' => $badge_id,
+            ]);
+        endforeach;
+
     }
 
     /**
@@ -470,12 +515,27 @@ class AdminProductServices
                         'name' => $item['color']['name']
                     ];
                 }, $item['colors']),
-                'wireless' => array_map(function($item) {
+//                'wireless' => array_map(function($item) {
+//                    return [
+//                        'id' => $item['wireless']['id'],
+//                        'wireless' => $item['wireless']['wireless']
+//                    ];
+//                } , $item['wireless']),
+                'wireless' => $item['wireless'] ? [
+                    'id' => $item['wireless']['wireless']['id'],
+                    'wireless' => $item['wireless']['wireless']['wireless'],
+                ] : null,
+                'badge' => array_map(function($item) {
                     return [
-                        'id' => $item['wireless']['id'],
-                        'wireless' => $item['wireless']['wireless']
+                        'id' => $item['badge']['id'],
+                        'name' => $item['badge']['name'],
+                        'image' => [
+                            'id' => $item['badge']['image']['id'],
+                            'file_name' => $item['badge']['image']['file_name'],
+                            'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                        ],
                     ];
-                } , $item['wireless']),
+                }, $item['badge']),
                 'best_item' => !empty($item['best_item']),
                 'new_item' => !empty($item['new_item'])
              ];
@@ -520,12 +580,27 @@ class AdminProductServices
                     'name' => $item['color']['name'],
                 ];
             }, $task['colors']),
-            'wireless' => array_map(function($item) {
+//            'wireless' => array_map(function($item) {
+//                return [
+//                    'id' => $item['wireless']['id'],
+//                    'wireless' => $item['wireless']['wireless']
+//                ];
+//            } , $task['wireless']),
+            'wireless' => $task['wireless'] ? [
+                'id' => $task['wireless']['wireless']['id'],
+                'wireless' => $task['wireless']['wireless']['wireless'],
+            ] : null,
+            'badge' => array_map(function($item) {
                 return [
-                    'id' => $item['wireless']['id'],
-                    'wireless' => $item['wireless']['wireless']
+                    'id' => $item['badge']['id'],
+                    'name' => $item['badge']['name'],
+                    'image' => [
+                        'id' => $item['badge']['image']['id'],
+                        'file_name' => $item['badge']['image']['file_name'],
+                        'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                    ],
                 ];
-            } , $task['wireless']),
+            } , $task['badge']),
             'rep_images' => array_map(function($item) {
                 return [
                     'id' => $item['image']['id'],

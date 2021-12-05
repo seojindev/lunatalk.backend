@@ -42,8 +42,12 @@ class ProductBadges extends Model
 
     protected $fillable = [
         'id',
-        'product_uuid',
+        'product_id',
         'badge_id',
         'active'
     ];
+
+    public function badge() {
+        return $this->hasOne(ProductBadgeMasters::class, 'id', 'badge_id');
+    }
 }

@@ -49,8 +49,18 @@ class ProductListTest extends BaseCustomTestCase
                         ]
                     ],
                     'wireless' => [
+                        'id',
+                        'wireless'
+                    ],
+                    "badge" => [
                         '*' => [
-                            'wireless'
+                            "id",
+                            "name",
+                            "image" => [
+                                "id",
+                                "file_name",
+                                "url"
+                            ]
                         ]
                     ],
                 ],

@@ -52,7 +52,21 @@ class ProductControllerTest extends BaseCustomTestCase
                                 "name"
                             ]
                         ],
-                        "wireless" => [],
+                        'wireless' => [
+                            'id',
+                            'wireless'
+                        ],
+                        "badge" => [
+                            '*' => [
+                                "id",
+                                "name",
+                                "image" => [
+                                    "id",
+                                    "file_name",
+                                    "url"
+                                ]
+                            ]
+                        ],
                         "best_item",
                         "new_item",
                         "rep_images" => [

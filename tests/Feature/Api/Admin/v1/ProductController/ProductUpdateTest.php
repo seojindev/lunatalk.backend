@@ -4,6 +4,7 @@ namespace Tests\Feature\Api\Admin\v1\ProductController;
 
 use App\Exceptions\ClientErrorException;
 use App\Models\MediaFileMasters;
+use App\Models\ProductBadgeMasters;
 use App\Models\ProductImages;
 use App\Models\ProductMasters;
 use App\Models\ProductOptions;
@@ -521,6 +522,8 @@ class ProductUpdateTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_update_무선_옵션_있을때_요청()
     {
+        ProductBadgeMasters::factory()->count(2)->create();
+
         $uuid = ProductMasters::select('uuid')->latest()->first()->uuid;
 
         $rep_mfm = $this->insertTestRepImage();
@@ -540,6 +543,7 @@ class ProductUpdateTest extends BaseCustomTestCase
             "active" => "Y",
             "rep_image" => [$rep_mfm->id],
             "detail_image" => [$detail_mfm->id],
+            "badge" => ['1', '2']
         ];
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', str_replace(':uuid:', $uuid, $this->apiURL), $payload);
@@ -551,6 +555,8 @@ class ProductUpdateTest extends BaseCustomTestCase
 
     public function test_admin_front_v1_product_update_정상_요청()
     {
+        ProductBadgeMasters::factory()->count(2)->create();
+
         $rep_mfm = $this->insertTestRepImage();
         $detail_mfm = $this->insertTestDetailImage();
 
@@ -570,6 +576,7 @@ class ProductUpdateTest extends BaseCustomTestCase
             "active" => "Y",
             "rep_image" => [$rep_mfm->id],
             "detail_image" => [$detail_mfm->id],
+            "badge" => ['1', '2']
         ];
 
         $response = $this->withHeaders($this->getTestAdminAccessTokenHeader())->json('PUT', str_replace(':uuid:', $uuid, $this->apiURL), $payload);

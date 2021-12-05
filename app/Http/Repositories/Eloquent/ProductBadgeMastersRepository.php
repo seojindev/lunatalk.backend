@@ -35,6 +35,18 @@ class ProductBadgeMastersRepository extends BaseRepository implements ProductBad
     }
 
     /**
+     * 기본 리스트용
+     * @return Collection
+     */
+    public function getDefaultList() : Collection{
+        return $this->model
+            ->where('active', 'Y')
+            ->with(['image'])
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    /**
      * 상세.
      * @param Int $id
      * @return Collection

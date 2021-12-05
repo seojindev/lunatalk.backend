@@ -31,7 +31,7 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
     {
         return $this->model->with(['category' => function($query){
             $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
-        }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem'])->orderBy('id', 'desc')->get();
+        }, 'colors', 'colors.color', 'wireless', 'wireless.wireless', 'bestItem', 'newItem', 'badge.badge.image'])->orderBy('id', 'desc')->get();
     }
 
     /**
@@ -47,7 +47,7 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
             $query->where('media_id', '>', 0);
         },'repImages.image', 'detailImages' => function($query) {
             $query->where('media_id', '>', 0);
-        }, 'detailImages.image'])->orderBy('id', 'desc')->get();
+        }, 'detailImages.image', 'badge.badge.image'])->orderBy('id', 'desc')->get();
     }
 
     /**
@@ -63,7 +63,7 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
             $query->where('media_id', '>', 0);
         },'repImages.image', 'detailImages' => function($query) {
             $query->where('media_id', '>', 0);
-        }, 'detailImages.image'])->where('uuid' , $uuid)->firstOrFail();
+        }, 'detailImages.image', 'badge.badge.image'])->where('uuid' , $uuid)->firstOrFail();
     }
 
     /**

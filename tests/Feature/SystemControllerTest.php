@@ -61,7 +61,7 @@ class SystemControllerTest extends BaseCustomTestCase
      *
      * @return void
      */
-    public function test_system_check_base_data() {
+    public function test_system_check_base_data_admin() {
         $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', '/api/system/base-data');
 //         $response->dump();
         $response->assertOk();
@@ -76,58 +76,6 @@ class SystemControllerTest extends BaseCustomTestCase
                     'code_name',
                     'code_group'
                 ],
-                'products' => [
-                    'category' => [
-                        '*' => [
-                            'id',
-                            'uuid',
-                            'name'
-                        ]
-                    ],
-                    'list' => [
-                        '*' => [
-                            'id',
-                            'uuid',
-                            'name',
-                            'quantity' => [
-                                'number',
-                                'string',
-                            ],
-                            'price' => [
-                                'number',
-                                'string',
-                            ],
-                            'category' => [
-                                'id',
-                                'uuid',
-                                'name'
-                            ],
-                            'color' => [
-                                '*' => [
-                                    'name',
-                                ]
-                            ],
-                            'wireless' => [
-                                '*' => [
-                                    'wireless'
-                                ]
-                            ],
-                        ]
-                    ],
-                    'color_options' => [
-                        '*' => [
-                            'id',
-                            'name',
-                            'eng_name'
-                        ]
-                    ],
-                    'wireless_options' => [
-                        '*' => [
-                            'id',
-                            'wireless'
-                        ]
-                    ],
-                ]
             ]
         ]);
     }

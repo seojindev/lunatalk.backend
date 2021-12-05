@@ -61,9 +61,18 @@ class ProductDetailTest extends BaseCustomTestCase
                     ]
                 ],
                 'wireless' => [
+                    'id',
+                    'wireless'
+                ],
+                "badge" => [
                     '*' => [
-                        'id',
-                        'wireless'
+                        "id",
+                        "name",
+                        "image" => [
+                            "id",
+                            "file_name",
+                            "url"
+                        ]
                     ]
                 ],
                 'rep_images' => [
