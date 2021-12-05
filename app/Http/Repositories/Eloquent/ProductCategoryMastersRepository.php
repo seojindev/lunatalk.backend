@@ -55,7 +55,7 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
     public function getProductCategoryList(String $category_uuid) : Collection {
         return $this->model
             ->where([['active', 'Y'], ['uuid', $category_uuid]])
-            ->with(['products', 'products.repImage.image', 'products.color.color'])
+            ->with(['products', 'products.repImage.image', 'products.color.color', 'products.badge.badge.image'])
             ->get();
     }
 

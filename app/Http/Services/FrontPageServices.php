@@ -164,10 +164,18 @@ class FrontPageServices
                         'file_name' => $productItem['rep_image']['image'] ? $productItem['rep_image']['image']['file_name'] : null,
                         'url' => $productItem['rep_image']['image'] ? env('APP_MEDIA_URL') . $productItem['rep_image']['image']['dest_path'] . '/' . $productItem['rep_image']['image']['file_name'] : null,
                     ],
+                    'badge' => array_map(function($item) {
+                        return [
+                            'id' => $item['badge']['id'],
+                            'name' => $item['badge']['name'],
+                            'image' => [
+                                'id' => $item['badge']['image']['id'],
+                                'file_name' => $item['badge']['image']['file_name'],
+                                'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                            ],
+                        ];
+                    }, $productItem['badge']),
                 ],
-
-
-
             ];
         }, $this->mainItemsRepository->getFrontMainBestItems()->toArray());
     }
@@ -203,6 +211,17 @@ class FrontPageServices
                         'file_name' => $productItem['rep_image']['image'] ? $productItem['rep_image']['image']['file_name'] : null,
                         'url' => $productItem['rep_image']['image'] ? env('APP_MEDIA_URL') . $productItem['rep_image']['image']['dest_path'] . '/' . $productItem['rep_image']['image']['file_name'] : null,
                     ],
+                    'badge' => array_map(function($item) {
+                        return [
+                            'id' => $item['badge']['id'],
+                            'name' => $item['badge']['name'],
+                            'image' => [
+                                'id' => $item['badge']['image']['id'],
+                                'file_name' => $item['badge']['image']['file_name'],
+                                'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                            ],
+                        ];
+                    }, $productItem['badge']),
                 ],
 
 
@@ -266,6 +285,17 @@ class FrontPageServices
                         'file_name' => $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
                         'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
                     ],
+                    'badge' => array_map(function($item) {
+                        return [
+                            'id' => $item['badge']['id'],
+                            'name' => $item['badge']['name'],
+                            'image' => [
+                                'id' => $item['badge']['image']['id'],
+                                'file_name' => $item['badge']['image']['file_name'],
+                                'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                            ],
+                        ];
+                    }, $item['badge']),
                 ];
             }, $categoryList['products'])
         ];
