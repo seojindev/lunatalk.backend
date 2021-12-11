@@ -109,6 +109,7 @@ Route::group(['as' => 'api.'], function () {
 
                 Route::group(['prefix' => 'my-page', 'as' => 'my-page.'], function () {
                     Route::get('my-info', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'myInfo'])->name('my.info')->middleware('auth:api'); // 마이 페이지 내정보.
+                    Route::post('my-info', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'udpateMyInfo'])->name('update.my.info')->middleware('auth:api'); // 마이 페이지 내정보 업데이트.
                 });
             });
 

@@ -28,4 +28,22 @@ class MyPageControllerTest extends BaseCustomTestCase
                 'result' => []
             ]);
     }
+
+    public function test_front_v1_pages_mypagecontroller_내정보_수정() {
+        $payload = [
+            "auth_index" => "1",
+            "password" => "password",
+            "postcode" => "08034",
+            "address1" => "서울시 구로구 테스트동 12-3",
+            "address2" => "1234호",
+            "email" => "test@gmail.com",
+
+        ];
+
+        $this->withHeaders($this->getTestNormalAccessTokenHeader())->json('POST', "/api/front/v1/pages/my-page/my-info", $payload)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'message',
+            ]);
+    }
 }

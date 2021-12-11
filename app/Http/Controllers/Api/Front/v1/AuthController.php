@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Front\v1;
 
 use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServerErrorException;
 use App\Http\Controllers\Api\RootController;
 use App\Http\Services\AuthServices;
 use Illuminate\Support\Facades\Response;
@@ -47,7 +48,7 @@ class AuthController extends RootController
 
     /**
      * 로그인.
-     * @throws ClientErrorException
+     * @throws ClientErrorException|ServerErrorException
      */
     public function login()
     {

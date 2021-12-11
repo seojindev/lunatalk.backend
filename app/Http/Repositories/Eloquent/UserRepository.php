@@ -6,6 +6,7 @@ use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -46,11 +47,26 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->get();
     }
 
+    /**
+     * 회원 상세 정보용.
+     * @param String $id
+     * @return Collection
+     */
     public function getUserDetailById(String $id) : Collection {
         return $this->model
             ->where('id', $id)
             ->with(['client', 'type', 'level', 'status', 'user_select', 'phone_verifies', 'memo'])
             ->orderBy('id', 'desc')
             ->get();
+    }
+
+    /**
+     * 회원 정보 수정.
+     * @param Int $id
+     * @param array $info
+     * @return mixed
+     */
+    public function updateUserDetailInfo(Int $id, Array $info) {
+        return $this->model->where('id', $id)->update($info);
     }
 }

@@ -353,7 +353,7 @@ class AuthServices
      * 회원 정보 ( 기본 )
      * @return array
      */
-    public function getMyInfo() : array {
+    public function getUserInfo() : array {
 
         $user_id = Auth()->id();
 
@@ -415,5 +415,65 @@ class AuthServices
                 'step3' => !empty($phoneArray[2]) ? $phoneArray[2] : null,
             ],
         ];
+    }
+
+    /**
+     * 내정보 수정.
+     * @return void
+     * @throws ClientErrorException
+     */
+    public function updateUserInfo() : void {
+        $user_id = Auth()->id();
+
+        if($this->currentRequest->input('auth_index')) {
+            $validator = Validator::make($this->currentRequest->all(), [
+                'auth_index' => 'exists:phone_verifies,id',
+
+            ],
+                [
+                    'auth_index.exists' => __('register.attempt.auth_code.exists'),
+                ]);
+
+            if( $validator->fails() ) {
+                throw new ClientErrorException($validator->errors()->first());
+            }
+
+            $authTask = $this->phoneVerifyRepository->defaultFindById($this->currentRequest->input('auth_index'));
+
+            /**
+             * 인증 받지 않은 auth index 인지.
+             */
+            if($authTask->verified === 'N') {
+                throw new ClientErrorException(__('register.attempt.auth_code.yet_verified'));
+            }
+
+            $this->phoneVerifyRepository->deleteByCustomColumn('user_id', $user_id);
+            $this->phoneVerifyRepository->update($authTask->id, [
+                'user_id' => $user_id,
+            ]);
+        }
+
+        if($this->currentRequest->input('password')) {
+            $this->userRepository->updateUserDetailInfo($user_id, [
+                'password' => Hash::make($this->currentRequest->input('password')),
+            ]);
+        }
+
+        if($this->currentRequest->input('email')) {
+            $validator = Validator::make($this->currentRequest->all(), [
+                'email' => 'required|email',
+            ],
+                [
+                    'email.email' => __('register.attempt.email.check'),
+                ]);
+
+            if( $validator->fails() ) {
+                throw new ClientErrorException($validator->errors()->first());
+            }
+
+            $this->userRepository->updateUserDetailInfo($user_id, [
+                'email' => Hash::make($this->currentRequest->input('email')),
+            ]);
+        }
     }
 }

@@ -27,6 +27,16 @@ class MyPageController extends Controller
      * @return mixed
      */
     public function myInfo() {
-        return Response::custom_success(200, __('default.response.process_success'), $this->authServices->getMyInfo());
+        return Response::custom_success(200, __('default.response.process_success'), $this->authServices->getUserInfo());
+    }
+
+    /**
+     * 회원 정보 수정.
+     * @return mixed
+     * @throws \App\Exceptions\ClientErrorException
+     */
+    public function udpateMyInfo() {
+        $this->authServices->updateUserInfo();
+        return Response::success_only_message(200);
     }
 }
