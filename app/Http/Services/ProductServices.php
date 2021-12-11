@@ -311,7 +311,7 @@ class ProductServices {
             throw new ClientErrorException('검색어를 입력해 주세요.');
         }
 
-        $taskResult = $this->productMastersRepository->getProductListSearchSub(urldecode($search))->toArray();
+        $taskResult = $this->productMastersRepository->getProductListSearchSub(base64_decode(urldecode($search)))->toArray();
 
         if(empty($taskResult)) {
             throw new ServiceErrorException(__('response.success_not_found'));
