@@ -366,6 +366,13 @@ class AuthServices
 
         $taskEmail = $this->codesRepository->defaultCustomFind('code_name', $emailStep2, []);
 
+        $phoneNumber = !empty($userTask['phone_verifies']['phone_number']) ? Crypt::decryptString($userTask['phone_verifies']['phone_number']) : null;
+        if($phoneNumber) {
+            $phoneArray = explode('-', Helper::formatPhone($phoneNumber));
+        } else {
+            $phoneArray = null;
+        }
+
         return [
             'uuid' => $userTask['uuid'],
             'login_id' => $userTask['login_id'],
@@ -402,7 +409,11 @@ class AuthServices
                     'step2' => $taskEmail->code_id,
                 ],
             ],
-            'phone_number' => !empty($item['phone_verifies']['phone_number']) ? Crypt::decryptString($item['phone_verifies']['phone_number']) : null,
+            'phone_number' => [
+                'step1' => !empty($phoneArray[0]) ? $phoneArray[0] : null,
+                'step2' => !empty($phoneArray[1]) ? $phoneArray[1] : null,
+                'step3' => !empty($phoneArray[2]) ? $phoneArray[2] : null,
+            ],
         ];
     }
 }

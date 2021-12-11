@@ -212,4 +212,26 @@ class HelperClass
     {
         return floor(time()-999999999);
     }
+
+    /**
+     * 전화 번호 하이픈.
+     * @param $phone
+     * @return string
+     */
+    public static function formatPhone($phone) : string {
+        $phone = preg_replace("/[^0-9]/", "", $phone);
+        $length = strlen($phone);
+
+        switch($length){
+          case 11 :
+              return preg_replace("/([0-9]{3})([0-9]{4})([0-9]{4})/", "$1-$2-$3", $phone);
+              break;
+          case 10:
+              return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone);
+              break;
+          default :
+              return $phone;
+              break;
+        }
+    }
 }
