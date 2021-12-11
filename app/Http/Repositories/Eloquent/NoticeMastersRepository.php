@@ -55,4 +55,17 @@ class NoticeMastersRepository extends BaseRepository implements NoticeMastersInt
             ->take(5)
             ->get();
     }
+
+    /**
+     * 공지 사항 상세.
+     * @param String $uuid
+     * @return Collection
+     */
+    public function getNoticeDetail(String $uuid) : Collection {
+        return $this->model->where('uuid', $uuid)
+            ->with(['category', 'images.image'])
+            ->where('active',"Y")
+            ->orderBy('id', 'desc')
+            ->get();
+    }
 }

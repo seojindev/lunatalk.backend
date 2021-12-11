@@ -75,7 +75,7 @@ class MainControllerTest extends BaseCustomTestCase
 
 //    public function test_front_v1_pages_main_메인_베스트_아이템_요청()
 //    {
-//        $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', '/api/front/v1/pages/main/main-product-best')
+//        $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', '/api/front/v1/pages/main/main-product-best-item')
 //            ->assertStatus(200)
 //            ->assertJsonStructure([
 //                'message',

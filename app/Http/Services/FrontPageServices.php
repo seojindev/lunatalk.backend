@@ -247,6 +247,38 @@ class FrontPageServices
     }
 
     /**
+     * 공지 사항 상세.
+     * @param String $uuid
+     * @return array
+     */
+    public function detailNotice(String $uuid) : array {
+
+        $task = $this->noticeMastersRepository->getNoticeDetail($uuid)->first()->toArray();
+
+        return [
+            'id' => $task['id'],
+            'uuid' => $task['uuid'],
+            'category' => [
+                'code_id' => $task['category']['code_id'],
+                'code_name' => $task['category']['code_name'],
+            ],
+            'title' => $task['title'],
+            'content' => $task['content'],
+            'images' => array_map(function($item) {
+                return [
+                    'file_name' => $item['image'] ? $item['image']['file_name'] : null,
+                    'url' => $item['image'] ? env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'] : null,
+                ];
+            }, $task['images']),
+            'created_at' => [
+                'type1' => Carbon::parse($task['created_at'])->format('Y-m-d H:i'),
+                'type2' => Carbon::parse($task['created_at'])->format('Y-m-d'),
+            ]
+
+        ];
+    }
+
+    /**
      * 상품 카테고리 리스트( 상단 텝 ).
      */
     public function productCategoryList(String $category_uuid) : array {

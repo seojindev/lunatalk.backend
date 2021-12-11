@@ -90,6 +90,7 @@ Route::group(['as' => 'api.'], function () {
                     Route::get('main-product-best-item', [MainController::class, 'mainBestItem'])->name('main.best.item'); // 메인 베스트 아이템.
                     Route::get('main-product-new-item', [MainController::class, 'mainNewItem'])->name('main.new.item'); // 메인 뉴 아이템.
                     Route::get('main-notice', [MainController::class, 'mainNotice'])->name('main.notice'); // 메인 공지사항.
+                    Route::get('{uuid}/notice-detail', [MainController::class, 'noticeDetail'])->name('main.notice.detail'); // 메인 공지사항 상세.
                 });
 
                 Route::group(['prefix' => 'product-category', 'as' => 'product-category.'], function () {
