@@ -21,7 +21,7 @@ class UserCreateTest extends BaseCustomTestCase
             "user_password" => "121212",
             "user_phone_number" => "01012341234",
             "user_name" => "test-user",
-            "user_email" => "test@test.com",
+            "user_email" => "test@gmail.com",
             'user_status' => "1300011",
             "user_select_email" => "Y",
             "user_select_message" => "Y"

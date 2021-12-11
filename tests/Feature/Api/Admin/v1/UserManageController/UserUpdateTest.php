@@ -16,7 +16,7 @@ class UserUpdateTest extends BaseCustomTestCase
             "level" => "1200900",
             "status" => "1300100",
             "user_name" => "test-user",
-            "user_email" => "test@test.com",
+            "user_email" => "test@gmail.com",
             "user_select_email" => "Y",
             "user_select_message" => "N",
             "user_memo" => "테스트 메모 입니다\n보이나요?"

@@ -45,4 +45,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->orderBy('id', 'desc')
             ->get();
     }
+
+    public function getUserDetailById(String $id) : Collection {
+        return $this->model
+            ->where('id', $id)
+            ->with(['client', 'type', 'level', 'status', 'user_select', 'phone_verifies', 'memo'])
+            ->orderBy('id', 'desc')
+            ->get();
+    }
 }

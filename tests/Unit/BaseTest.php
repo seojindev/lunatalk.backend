@@ -113,7 +113,7 @@ class BaseTest extends BaseCustomTestCase
         $login_id = 'admin';
         $name = '관리자';
         $level = config('extract.user_level.admin.level_code');
-        $email = 'admin@test.com';
+        $email = 'admin@gmail.com';
         $now = now();
         $remember_token = Str::random(10);
 
@@ -187,7 +187,7 @@ class BaseTest extends BaseCustomTestCase
         $login_id = 'testuser';
         $name = '일반사용자';
         $level = config('extract.user_level.normal.level_code');
-        $email = 'testuser@test.com';
+        $email = 'testuser@gmail.com';
         $now = now();
         $remember_token = Str::random(10);
 
