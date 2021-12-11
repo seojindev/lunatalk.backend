@@ -117,6 +117,6 @@ class ProductMastersRepository extends BaseRepository implements ProductMastersI
                 $query->where('media_id', '>', 0);
             },'repImage.image', 'detailImages' => function($query) {
                 $query->where('media_id', '>', 0);
-            }, 'detailImages.image'])->orderBy('id', 'desc')->get();
+            }, 'detailImages.image', 'badge.badge.image', 'reviews'])->orderBy('id', 'desc')->get();
     }
 }
