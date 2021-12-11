@@ -9,6 +9,7 @@ use App\Exceptions\ClientErrorException;
 use App\Http\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
 use App\Http\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Repositories\Eloquent\CodesRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,7 @@ use Auth;
 use Crypt;
 use Hash;
 use Helper;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use Str;
 
 class AuthServices
@@ -28,13 +30,15 @@ class AuthServices
     protected UserRepositoryInterface $userRepository;
     protected PhoneVerifyRepositoryInterface $phoneVerifyRepository;
     protected UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository;
+    protected CodesRepository $codesRepository;
 
-    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository, UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository)
+    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository, UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository, CodesRepository $codesRepository)
     {
         $this->currentRequest = $request;
         $this->userRepository = $userRepository;
         $this->phoneVerifyRepository = $phoneVerifyRepository;
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
+        $this->codesRepository = $codesRepository;
     }
 
     /**
@@ -343,5 +347,62 @@ class AuthServices
         Auth::user()->token()->revoke();
 
         return "정상 처리 하였습니다.";
+    }
+
+    /**
+     * 회원 정보 ( 기본 )
+     * @return array
+     */
+    public function getMyInfo() : array {
+
+        $user_id = Auth()->id();
+
+        $userTask = $this->userRepository->getUserDetailById($user_id)->first()->toArray();
+
+        $tmpEmail = explode('@', $userTask['email']);
+
+        $emailStep1 = $tmpEmail[0];
+        $emailStep2 = $tmpEmail[1];
+
+        $taskEmail = $this->codesRepository->defaultCustomFind('code_name', $emailStep2, []);
+
+        return [
+            'uuid' => $userTask['uuid'],
+            'login_id' => $userTask['login_id'],
+            'client' => [
+                'code_id' => $userTask['client']['code_id'],
+                'code_name' => $userTask['client']['code_name'],
+            ],
+            'type' => [
+                'code_id' => $userTask['type']['code_id'],
+                'code_name' => $userTask['type']['code_name'],
+            ],
+            'level' => [
+                'code_id' => $userTask['level']['code_id'],
+                'code_name' => $userTask['level']['code_name'],
+            ],
+            'status' => [
+                'code_id' => $userTask['status']['code_id'],
+                'code_name' => $userTask['status']['code_name'],
+            ],
+            'name' => $userTask['name'],
+            'address' => [
+                'postcode' => '00881',
+                'step1' => '서울시 구로구 온수동',
+                'step2' => '89-1'
+            ],
+            'email' => [
+                'full_email' => $userTask['email'],
+                'gubun1' => [
+                    'step1' => $emailStep1,
+                    'step2' => $emailStep2,
+                ],
+                'gubun2' => [
+                    'step1' => $emailStep1,
+                    'step2' => $taskEmail->code_id,
+                ],
+            ],
+            'phone_number' => !empty($item['phone_verifies']['phone_number']) ? Crypt::decryptString($item['phone_verifies']['phone_number']) : null,
+        ];
     }
 }

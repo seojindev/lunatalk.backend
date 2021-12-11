@@ -26,7 +26,7 @@ class TestUserSeeder extends Seeder
         $login_id = 'testuser';
         $name = '일반사용자';
         $level = config('extract.user_level.normal.level_code');
-        $email = 'testuser@test.com';
+        $email = 'testuser@gmail.com';
         $now = now();
         $remember_token = Str::random(10);
 

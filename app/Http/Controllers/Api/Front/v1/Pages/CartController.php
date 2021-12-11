@@ -36,7 +36,6 @@ class CartController extends RootController
     /**
      * 장바구니 리스트.
      * @return mixed
-     * @throws ClientErrorException
      */
     public function list() {
         return Response::custom_success(200, __('default.response.process_success'), $this->frontPageServices->cartList());

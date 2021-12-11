@@ -106,6 +106,10 @@ Route::group(['as' => 'api.'], function () {
                     Route::delete('{cart_id}/delete', [\App\Http\Controllers\Api\Front\v1\Pages\CartController::class, 'delete'])->name('delete.cart.list')->where('cart_id', '[0-9]+')->middleware('auth:api'); // 장바구니 삭제 단건.
                     Route::delete('many-delete', [\App\Http\Controllers\Api\Front\v1\Pages\CartController::class, 'manyDelete'])->name('many.delete.cart.list')->middleware('auth:api'); // 장바구니 삭제 복수.
                 });
+
+                Route::group(['prefix' => 'my-page', 'as' => 'my-page.'], function () {
+                    Route::get('my-info', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'myInfo'])->name('my.info')->middleware('auth:api'); // 마이 페이지 내정보.
+                });
             });
 
 

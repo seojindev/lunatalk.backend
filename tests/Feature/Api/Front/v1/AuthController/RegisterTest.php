@@ -79,7 +79,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "테스트사용자",
-                "user_email": "test@test.com",
+                "user_email": "test@gmail.com",
                 "user_select_email": "Y",
                 "user_select_message": "Y"
         }';
@@ -119,7 +119,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "테스트사용자",
-                "user_email": "test@test.com",
+                "user_email": "test@gmail.com",
                 "user_select_email": "Y",
                 "user_select_message": "Y"
         }';
@@ -217,7 +217,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "테스트사용자",
-                "user_email": "test@test.com",
+                "user_email": "test@gmail.com",
                 "user_select_email": "Y",
                 "user_select_message": "Y"
         }';
@@ -332,7 +332,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "asdfasdf",
                 "user_password_confirm": "asdfasdf",
                 "user_name": "",
-                "user_email": "test@test.com",
+                "user_email": "test@gmail.com",
                 "user_select_email": "Y",
                 "user_select_message": "Y"
         }';
@@ -426,7 +426,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password"=> "asdfasdf",
                 "user_password_confirm" => "asdfasdf",
                 "user_name" => "어둠의계정",
-                "user_email" => "testuser@test.com",
+                "user_email" => "testuser@gmail.com",
                 "user_select_email" => "Y",
                 "user_select_message" => "Y"
         ];
@@ -551,7 +551,7 @@ class RegisterTest extends BaseCustomTestCase
                 "user_password": "password",
                 "user_password_confirm": "password",
                 "user_name": "어둠의계정",
-                "user_email": "test1111@test.com",
+                "user_email": "test1111@gmail.com",
                 "user_select_email" : "Y",
                 "user_select_message" : "Y"
         }';
