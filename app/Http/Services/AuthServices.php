@@ -472,7 +472,7 @@ class AuthServices
             }
 
             $this->userRepository->updateUserDetailInfo($user_id, [
-                'email' => Hash::make($this->currentRequest->input('email')),
+                'email' => $this->currentRequest->input('email'),
             ]);
         }
     }
