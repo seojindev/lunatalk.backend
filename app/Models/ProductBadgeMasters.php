@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \App\Models\MediaFileMasters|null $image
  * @method static \Database\Factories\ProductBadgeMastersFactory factory(...$parameters)
  * @method static Builder|ProductBadgeMasters newModelQuery()
  * @method static Builder|ProductBadgeMasters newQuery()

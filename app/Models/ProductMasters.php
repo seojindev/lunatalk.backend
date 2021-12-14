@@ -27,6 +27,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductBadges[] $badge
+ * @property-read int|null $badge_count
  * @property-read \App\Models\MainItem|null $bestItem
  * @property-read \App\Models\ProductOptions|null $color
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $colors
@@ -41,8 +43,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $rep_images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductReviews[] $reviews
  * @property-read int|null $reviews_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductOptions[] $wireless
- * @property-read int|null $wireless_count
+ * @property-read \App\Models\ProductOptions|null $wireless
  * @method static \Database\Factories\ProductMastersFactory factory(...$parameters)
  * @method static Builder|ProductMasters newModelQuery()
  * @method static Builder|ProductMasters newQuery()

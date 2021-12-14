@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \App\Models\ProductBadgeMasters|null $badge
  * @method static \Database\Factories\ProductBadgesFactory factory(...$parameters)
  * @method static Builder|ProductBadges newModelQuery()
  * @method static Builder|ProductBadges newQuery()
