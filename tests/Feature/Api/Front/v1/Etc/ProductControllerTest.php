@@ -201,4 +201,66 @@ class ProductControllerTest extends BaseCustomTestCase
                 ]
             ]);
     }
+
+    public function test_front_v1_pages_etc_상품_추천상품()
+    {
+
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
+
+        $pcm = ProductMasters::inRandomOrder()->first();
+
+
+        $this->withHeaders($this->getTestNormalAccessTokenHeader())->json('GET', '/api/front/v1/product/'.$pcm->uuid.'/recommend')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'message',
+                'result' => [
+                    '*' => [
+                        "uuid",
+                        "name",
+                        "original_price" => [
+                        "number",
+                        "string"
+                        ],
+                        "price" => [
+                            "number",
+                            "string"
+                        ],
+                        "color" => [
+                            "*" => [
+                                "id",
+                                "name"
+                            ]
+                        ],
+                        "review_count" => [
+                            "number",
+                            "string"
+                        ],
+                        "rep_image" => [
+                            "file_name",
+                            "url"
+                        ],
+                        "badge" => [
+                            '*' => [
+                                "id",
+                                "name",
+                                "image" => [
+                                    "id",
+                                    "file_name",
+                                    "url"
+                                ]
+                            ]
+                        ],
+                    ]
+                ]
+            ]);
+    }
 }

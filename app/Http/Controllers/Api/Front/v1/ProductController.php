@@ -35,6 +35,16 @@ class ProductController extends Controller
     }
 
     /**
+     * 추천 상품.
+     * @param String $uuid
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function productRecommend(String $uuid) {
+        return Response::success($this->productServices->productRecommend($uuid));
+    }
+
+    /**
      * 상품 검색 리스트.
      * @param String $search
      * @return mixed
