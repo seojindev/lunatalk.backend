@@ -154,7 +154,12 @@ class FrontPageServices
                         'number' => $productItem['price'],
                         'string' => number_format($productItem['price'])
                     ],
-                    'color' => $productItem['color']['color']['name'],
+                    'color' =>  array_map(function($item) {
+                        return [
+                            'id' => $item['color']['id'],
+                            'name' => $item['color']['name']
+                        ];
+                    }, $productItem['colors']),
                     'review_count' => [
                         'number' => count($productItem['reviews']),
                         'string' => number_format(count($productItem['reviews']))
@@ -200,7 +205,12 @@ class FrontPageServices
                         'number' => $productItem['price'],
                         'string' => number_format($productItem['price'])
                     ],
-                    'color' => $productItem['color']['color']['name'],
+                    'color' =>  array_map(function($item) {
+                        return [
+                            'id' => $item['color']['id'],
+                            'name' => $item['color']['name']
+                        ];
+                    }, $productItem['colors']),
                     'review_count' => [
                         'number' => count($productItem['reviews']),
                         'string' => number_format(count($productItem['reviews']))
@@ -294,7 +304,6 @@ class FrontPageServices
         return [
             'uuid' => $category_uuid,
             'products' => array_map(function($item) {
-                $randReviewCount = rand(50, 200);
                 return [
                     'uuid' => $item['uuid'],
                     'name' => $item['name'],
@@ -306,7 +315,12 @@ class FrontPageServices
                         'number' => $item['price'],
                         'string' => number_format($item['price'])
                     ],
-                    'color' => isset($item['color']['color']['name']) && $item['color']['color']['name'] ? $item['color']['color']['name'] : null,
+                    'color' =>  array_map(function($item) {
+                        return [
+                            'id' => $item['color']['id'],
+                            'name' => $item['color']['name']
+                        ];
+                    }, $item['colors']),
                     'review_count' => [
                         'number' => count($item['reviews']),
                         'string' => number_format(count($item['reviews']))
