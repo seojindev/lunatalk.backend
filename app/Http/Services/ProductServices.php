@@ -249,7 +249,7 @@ class ProductServices {
             throw new ClientErrorException('존재 하지 않은 상품 입니다.');
         }
 
-        $results = $resultTask->take(8)->toArray();
+        $results = $resultTask->toArray();
 
         return array_map(function($item) {
             return [
