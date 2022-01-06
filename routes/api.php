@@ -100,6 +100,7 @@ Route::group(['as' => 'api.'], function () {
 
                 Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
                     Route::get('{uuid}/detail', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productDetail'])->name('product.category.list'); // 상품 상세 정보
+                    Route::post('order', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productOrder'])->name('product.order')->middleware('auth:api'); // 상품 오더.
                 });
 
                 Route::group(['prefix' => 'cart', 'as' => 'cart.'], function () {
