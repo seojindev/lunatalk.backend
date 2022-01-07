@@ -122,7 +122,7 @@ class OrderServices {
         endforeach;
 
         return [
-            'pay_url' => env('APP_PAY_URL') . '/' . '?uuid=' . $orderUUID
+            'pay_url' => env('APP_PAY_URL') . '/order' . '?uuid=' . $orderUUID
         ];
     }
 }
