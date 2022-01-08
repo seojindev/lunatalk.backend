@@ -14,8 +14,8 @@ class AddOrderMasterTableOrderNameOrderPriceColumn extends Migration
     public function up()
     {
         Schema::table('order_masters', function (Blueprint $table) {
-            $table->string('order_name')->after('message')->nullable(false)->comment('상품명.');
-            $table->integer('order_price')->after('order_name')->nullable(false)->comment('상품 가격.');
+            $table->string('order_name')->after('message')->nullable(false)->default('')->comment('상품명.');
+            $table->integer('order_price')->after('order_name')->nullable(false)->default(0)->comment('상품 가격.');
         });
     }
 
