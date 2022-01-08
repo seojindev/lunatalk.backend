@@ -248,8 +248,9 @@ class ProductOrderTest extends BaseCustomTestCase
     {
         $this->insertTestProductMaster();
         $this->insertTestProductMaster();
+        $this->insertTestProductMaster();
 
-        $products = ProductMasters::take(2)->get()->toArray();
+        $products = ProductMasters::take(4)->get()->toArray();
 
         $payload = [
             'name' => $this->faker->name,

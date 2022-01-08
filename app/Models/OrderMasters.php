@@ -51,6 +51,8 @@ class OrderMasters extends Model
         'phone',
         'email',
         'message',
+        'order_name',
+        'order_price',
         'active'
     ];
 }

@@ -102,7 +102,9 @@ class OrderServices {
             'name' => $this->currentRequest->input('name'),
             'phone' => $this->currentRequest->input('phone'),
             'email' => $this->currentRequest->input('email'),
-            'message' => $this->currentRequest->input('message')
+            'message' => $this->currentRequest->input('message'),
+            'order_name' => '',
+            'order_price' => 0
         ]);
 
         $this->orderAddressRepository->create([
@@ -112,6 +114,8 @@ class OrderServices {
             'step2' => $this->currentRequest->input('address2')
         ]);
 
+        $orderName = "";
+        $orderPrice = 0;
         foreach ($this->currentRequest->input('product') as $uuid) :
             $task = $this->productMastersRepository->defaultCustomFind('uuid', $uuid);
             $this->orderProductsRepository->create([
@@ -119,7 +123,20 @@ class OrderServices {
                 'product_id' => $task->id,
                 'price' => $task->price
             ]);
+            $orderPrice = $orderPrice + $task->price;
+            if(empty($orderName)) {
+                $orderName = $task->name;
+            }
         endforeach;
+
+        if(count($this->currentRequest->input('product')) > 1) {
+            $orderName =  $orderName.' 외' . (count($this->currentRequest->input('product'))-1);
+        }
+
+        $this->orderMastersRepository->update($master->id, [
+            'order_name' => $orderName,
+            'order_price' => $orderPrice
+        ]);
 
         return [
             'pay_url' => env('APP_PAY_URL') . '/order' . '?uuid=' . $orderUUID
