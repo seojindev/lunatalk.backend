@@ -14,7 +14,7 @@ class AddOrderMasterTableStateColumn extends Migration
     public function up()
     {
         Schema::table('order_masters', function (Blueprint $table) {
-            $table->enum('state',['Y','N'])->after('active')->default('N')->comment('결제 상.');
+            $table->enum('state',['Y','N'])->after('active')->default('N')->comment('결제 상태.');
         });
     }
 
