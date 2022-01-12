@@ -11,7 +11,7 @@ use App\Http\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\Eloquent\CodesRepository;
 use App\Http\Repositories\Eloquent\UserAddressRepository;
-use App\Http\Repositories\Eloquent\OrderAddressRepository;
+use App\Http\Repositories\Eloquent\OrderMastersRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +33,7 @@ class AuthServices
     protected UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository;
     protected CodesRepository $codesRepository;
     protected UserAddressRepository $userAddressRepository;
-    protected OrderAddressRepository $orderAddressRepository;
+    protected OrderMastersRepository $orderMastersRepository;
 
     function __construct(
         Request $request,
@@ -42,7 +42,7 @@ class AuthServices
         UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository,
         CodesRepository $codesRepository,
         UserAddressRepository $userAddressRepository,
-        OrderAddressRepository $orderAddressRepository
+        OrderMastersRepository $orderMastersRepository
     )
     {
         $this->currentRequest = $request;
@@ -51,7 +51,7 @@ class AuthServices
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
         $this->codesRepository = $codesRepository;
         $this->userAddressRepository = $userAddressRepository;
-        $this->orderAddressRepository = $orderAddressRepository;
+        $this->orderMastersRepository = $orderMastersRepository;
     }
 
     /**
@@ -430,6 +430,11 @@ class AuthServices
         ];
     }
 
+    /**
+     * 내정보
+     * 오더 페이지 용.
+     * @return array
+     */
     public function getUserOrderInfo() : array {
 
         $user_id = Auth()->id();
@@ -450,16 +455,31 @@ class AuthServices
             $phoneArray = null;
         }
 
-//        $orderAddress = $this->orderAddressRepository->getLastAddress($user_id);
+        /**
+         * 주소 내려주는 기준
+         * 1. 주문 정보중 성공한 주소가 있을경우 마지막 주문 주소.
+         * 2. 내정보 주소
+         * 3. 없는경우는 '';
+         */
+        $address_zipcode = $userTask['address'] ? $userTask['address']['zipcode'] : '';
+        $address_step1 = $userTask['address'] ? $userTask['address']['step1'] : '';
+        $address_step2 = $userTask['address'] ? $userTask['address']['step2'] : '';
 
-//        dd($orderAddress);
+        $orderAddressTask = $this->orderMastersRepository->getOrder($user_id);
+        if(!$orderAddressTask->isEmpty()) {
+            $orderAddress = $orderAddressTask->first()->toArray();
+
+            $address_zipcode = $orderAddress['address'] ? $orderAddress['address']['zipcode'] : '';
+            $address_step1 = $orderAddress['address'] ? $orderAddress['address']['step1'] : '';
+            $address_step2 = $orderAddress['address'] ? $orderAddress['address']['step2'] : '';
+        }
 
         return [
             'name' => $userTask['name'],
             'address' => [
-                'zipcode' => $userTask['address'] ? $userTask['address']['zipcode'] : '',
-                'step1' => $userTask['address'] ? $userTask['address']['step1'] : '',
-                'step2' => $userTask['address'] ? $userTask['address']['step2'] : '',
+                'zipcode' => $address_zipcode,
+                'step1' => $address_step1,
+                'step2' => $address_step2,
             ],
             'email' => [
                 'full_email' => $userTask['email'],

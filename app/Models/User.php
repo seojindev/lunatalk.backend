@@ -38,6 +38,7 @@ use Laravel\Passport\Token;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read \App\Models\UserAddress|null $address
  * @property-read Collection|Client[] $clients
  * @property-read int|null $clients_count
  * @property-read \App\Models\UserMemo|null $memo

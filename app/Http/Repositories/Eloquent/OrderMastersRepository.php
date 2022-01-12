@@ -20,4 +20,18 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
     {
         parent::__construct($model);
     }
+
+    /**
+     * 내 주문 정보(성공한 주문)
+     * @param $user_id
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getOrder($user_id) {
+        return $this->model
+            ->with(['address'])
+            ->where('user_id', $user_id)
+            ->where('active', 'Y')
+            ->orderBy('id', 'desc')
+            ->get();
+    }
 }
