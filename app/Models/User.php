@@ -168,4 +168,8 @@ class User extends Authenticatable
     public function memo(): HasOne {
         return $this->hasOne('App\Models\UserMemo', 'user_id', 'id');
     }
+
+    public function address(): HasOne {
+        return $this->hasOne('App\Models\UserAddress', 'user_id', 'id');
+    }
 }

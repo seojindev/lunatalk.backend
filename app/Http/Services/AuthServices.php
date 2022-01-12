@@ -10,6 +10,7 @@ use App\Http\Repositories\Interfaces\UserRegisterSelectsRepositoryInterface;
 use App\Http\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\Eloquent\CodesRepository;
+use App\Http\Repositories\Eloquent\UserAddressRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -31,14 +32,16 @@ class AuthServices
     protected PhoneVerifyRepositoryInterface $phoneVerifyRepository;
     protected UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository;
     protected CodesRepository $codesRepository;
+    protected UserAddressRepository $userAddressRepository;
 
-    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository, UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository, CodesRepository $codesRepository)
+    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository, UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository, CodesRepository $codesRepository, UserAddressRepository $userAddressRepository)
     {
         $this->currentRequest = $request;
         $this->userRepository = $userRepository;
         $this->phoneVerifyRepository = $phoneVerifyRepository;
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
         $this->codesRepository = $codesRepository;
+        $this->userAddressRepository = $userAddressRepository;
     }
 
     /**
@@ -394,9 +397,9 @@ class AuthServices
             ],
             'name' => $userTask['name'],
             'address' => [
-                'postcode' => '00881',
-                'step1' => '서울시 구로구 온수동',
-                'step2' => '89-1'
+                'postcode' => $userTask['address'] ? $userTask['address']['zipcode'] : '',
+                'step1' => $userTask['address'] ? $userTask['address']['step1'] : '',
+                'step2' => $userTask['address'] ? $userTask['address']['step2'] : '',
             ],
             'email' => [
                 'full_email' => $userTask['email'],
@@ -438,7 +441,7 @@ class AuthServices
                 throw new ClientErrorException($validator->errors()->first());
             }
 
-            $authTask = $this->phoneVerifyRepository->defaultFindById($this->currentRequest->input('auth_index'));
+            $authTask = $this->phoneVerifyRepository->defaultGetCustomFind('id', $this->currentRequest->input('auth_index'))->first();
 
             /**
              * 인증 받지 않은 auth index 인지.
@@ -447,7 +450,6 @@ class AuthServices
                 throw new ClientErrorException(__('register.attempt.auth_code.yet_verified'));
             }
 
-            $this->phoneVerifyRepository->deleteByCustomColumn('user_id', $user_id);
             $this->phoneVerifyRepository->update($authTask->id, [
                 'user_id' => $user_id,
             ]);
@@ -474,6 +476,28 @@ class AuthServices
             $this->userRepository->updateUserDetailInfo($user_id, [
                 'email' => $this->currentRequest->input('email'),
             ]);
+        }
+
+        if($this->currentRequest->input('zipcode') && $this->currentRequest->input('step1') && $this->currentRequest->input('step2')) {
+
+            $addressTask = $this->userAddressRepository->defaultGetCustomFind('user_id', $user_id);
+
+            if($addressTask->isEmpty()) {
+                $this->userAddressRepository->create([
+                    'user_id' => $user_id,
+                    'zipcode' => $this->currentRequest->input('zipcode'),
+                    'step1' => $this->currentRequest->input('step1'),
+                    'step2' => $this->currentRequest->input('step2'),
+                ]);
+            } else {
+                $this->userAddressRepository->update($addressTask->first()->id, [
+                    'zipcode' => $this->currentRequest->input('zipcode'),
+                    'step1' => $this->currentRequest->input('step1'),
+                    'step2' => $this->currentRequest->input('step2'),
+                ]);
+            }
+
+
         }
     }
 }
