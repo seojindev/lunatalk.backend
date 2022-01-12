@@ -40,7 +40,7 @@ class CartsRepository extends BaseRepository implements CartsRepositoryInterface
      */
     public function userCarts(Int $user_id) : Collection {
         return $this->model->where('user_id', $user_id)
-            ->with(['product.repImage.image'])
+            ->with(['product.repImage.image', 'product.colors', 'product.colors.color'])
             ->get();
     }
 

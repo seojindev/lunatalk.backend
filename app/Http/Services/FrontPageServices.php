@@ -392,6 +392,12 @@ class FrontPageServices
                     'number' => $item['product']['price'],
                     'string' => number_format($item['product']['price']),
                 ],
+                'color' =>  array_map(function($item) {
+                    return [
+                        'id' => $item['color']['id'],
+                        'name' => $item['color']['name']
+                    ];
+                }, $item['product']['colors']),
                 'rep_image' => [
                     'id' => $item['product']['rep_image']['image']['id'],
                     'file_name' => $item['product']['rep_image']['image']['file_name'],
