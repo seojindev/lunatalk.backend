@@ -33,7 +33,7 @@ class MyPageControllerTest extends BaseCustomTestCase
         $payload = [
             "auth_index" => "1",
             "password" => "password",
-            "postcode" => "08034",
+            "zipcode" => "08034",
             "address1" => "서울시 구로구 테스트동 12-3",
             "address2" => "1234호",
             "email" => "test@gmail.com",

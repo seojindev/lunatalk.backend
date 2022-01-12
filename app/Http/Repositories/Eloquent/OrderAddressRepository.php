@@ -20,4 +20,11 @@ class OrderAddressRepository extends BaseRepository implements OrderAddressInter
     {
         parent::__construct($model);
     }
+
+    public function getLastAddress(Int $user_id) {
+        return $this->model
+            ->where('user_id', $user_id)
+            ->orderBy('id', 'desc')
+            ->get();
+    }
 }

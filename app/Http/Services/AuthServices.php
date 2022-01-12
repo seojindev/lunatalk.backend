@@ -11,6 +11,7 @@ use App\Http\Repositories\Interfaces\PhoneVerifyRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\Eloquent\CodesRepository;
 use App\Http\Repositories\Eloquent\UserAddressRepository;
+use App\Http\Repositories\Eloquent\OrderAddressRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,6 @@ use Auth;
 use Crypt;
 use Hash;
 use Helper;
-use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use Str;
 
 class AuthServices
@@ -33,8 +33,17 @@ class AuthServices
     protected UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository;
     protected CodesRepository $codesRepository;
     protected UserAddressRepository $userAddressRepository;
+    protected OrderAddressRepository $orderAddressRepository;
 
-    function __construct(Request $request, UserRepositoryInterface $userRepository, PhoneVerifyRepositoryInterface $phoneVerifyRepository, UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository, CodesRepository $codesRepository, UserAddressRepository $userAddressRepository)
+    function __construct(
+        Request $request,
+        UserRepositoryInterface $userRepository,
+        PhoneVerifyRepositoryInterface $phoneVerifyRepository,
+        UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository,
+        CodesRepository $codesRepository,
+        UserAddressRepository $userAddressRepository,
+        OrderAddressRepository $orderAddressRepository
+    )
     {
         $this->currentRequest = $request;
         $this->userRepository = $userRepository;
@@ -42,6 +51,7 @@ class AuthServices
         $this->userRegisterSelectsRepository = $userRegisterSelectsRepository;
         $this->codesRepository = $codesRepository;
         $this->userAddressRepository = $userAddressRepository;
+        $this->orderAddressRepository = $orderAddressRepository;
     }
 
     /**
@@ -397,7 +407,57 @@ class AuthServices
             ],
             'name' => $userTask['name'],
             'address' => [
-                'postcode' => $userTask['address'] ? $userTask['address']['zipcode'] : '',
+                'zipcode' => $userTask['address'] ? $userTask['address']['zipcode'] : '',
+                'step1' => $userTask['address'] ? $userTask['address']['step1'] : '',
+                'step2' => $userTask['address'] ? $userTask['address']['step2'] : '',
+            ],
+            'email' => [
+                'full_email' => $userTask['email'],
+                'gubun1' => [
+                    'step1' => $emailStep1,
+                    'step2' => $emailStep2,
+                ],
+                'gubun2' => [
+                    'step1' => $emailStep1,
+                    'step2' => $taskEmail->code_id,
+                ],
+            ],
+            'phone_number' => [
+                'step1' => !empty($phoneArray[0]) ? $phoneArray[0] : null,
+                'step2' => !empty($phoneArray[1]) ? $phoneArray[1] : null,
+                'step3' => !empty($phoneArray[2]) ? $phoneArray[2] : null,
+            ],
+        ];
+    }
+
+    public function getUserOrderInfo() : array {
+
+        $user_id = Auth()->id();
+
+        $userTask = $this->userRepository->getUserDetailById($user_id)->first()->toArray();
+
+        $tmpEmail = explode('@', $userTask['email']);
+
+        $emailStep1 = $tmpEmail[0];
+        $emailStep2 = $tmpEmail[1];
+
+        $taskEmail = $this->codesRepository->defaultCustomFind('code_name', $emailStep2, []);
+
+        $phoneNumber = !empty($userTask['phone_verifies']['phone_number']) ? Crypt::decryptString($userTask['phone_verifies']['phone_number']) : null;
+        if($phoneNumber) {
+            $phoneArray = explode('-', Helper::formatPhone($phoneNumber));
+        } else {
+            $phoneArray = null;
+        }
+
+//        $orderAddress = $this->orderAddressRepository->getLastAddress($user_id);
+
+//        dd($orderAddress);
+
+        return [
+            'name' => $userTask['name'],
+            'address' => [
+                'zipcode' => $userTask['address'] ? $userTask['address']['zipcode'] : '',
                 'step1' => $userTask['address'] ? $userTask['address']['step1'] : '',
                 'step2' => $userTask['address'] ? $userTask['address']['step2'] : '',
             ],

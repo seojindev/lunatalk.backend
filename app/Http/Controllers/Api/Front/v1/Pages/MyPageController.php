@@ -39,4 +39,8 @@ class MyPageController extends Controller
         $this->authServices->updateUserInfo();
         return Response::success_only_message(200);
     }
+
+    public function myOrderInfo() {
+        return Response::custom_success(200, __('default.response.process_success'), $this->authServices->getUserOrderInfo());
+    }
 }
