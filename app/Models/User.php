@@ -159,7 +159,7 @@ class User extends Authenticatable
      * @return HasOne
      */
     public function phone_verifies(): HasOne {
-        return $this->hasOne('App\Models\PhoneVerifies', 'user_id', 'id');
+        return $this->hasOne('App\Models\PhoneVerifies', 'user_id', 'id')->where('verified', 'Y')->orderBy('id', 'desc');
     }
 
     /**
@@ -169,6 +169,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\UserMemo', 'user_id', 'id');
     }
 
+    /**
+     * @return HasOne
+     */
     public function address(): HasOne {
         return $this->hasOne('App\Models\UserAddress', 'user_id', 'id');
     }

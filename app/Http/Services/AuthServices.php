@@ -496,8 +496,6 @@ class AuthServices
                     'step2' => $this->currentRequest->input('step2'),
                 ]);
             }
-
-
         }
     }
 }
