@@ -130,7 +130,7 @@ class OrderServices {
         endforeach;
 
         if(count($this->currentRequest->input('product')) > 1) {
-            $orderName =  $orderName.' 외' . (count($this->currentRequest->input('product'))-1);
+            $orderName =  $orderName.' 외' . (count($this->currentRequest->input('product'))-1) . '건';
         }
 
         $this->orderMastersRepository->update($master->id, [
