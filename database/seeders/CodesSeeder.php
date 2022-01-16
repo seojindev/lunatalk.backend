@@ -76,6 +76,9 @@ class CodesSeeder extends Seeder
             [ 'group_id' => '230', 'group_name' => '메인 아이템 카테고리.' ],
             [ 'group_id' => '300', 'group_name' => '메디아 파일 카테고리.' ],
             [ 'group_id' => '400', 'group_name' => '이메일 리스트.' ],
+            [ 'group_id' => '510', 'group_name' => '결제 상태.' ],
+            [ 'group_id' => '520', 'group_name' => '배송상태.' ],
+            [ 'group_id' => '530', 'group_name' => '취소/반품.' ],
 
         ];
     }
@@ -145,6 +148,22 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0100', 'code_name' => 'yahoo.com' ],
                 [ 'code_id' => '0110', 'code_name' => 'paran.com' ],
                 [ 'code_id' => '0120', 'code_name' => 'dreamwiz.com' ],
+            ],
+            '510' => [
+                [ 'code_id' => '0000', 'code_name' => '결제 실패' ],
+                [ 'code_id' => '0010', 'code_name' => '시도' ],
+                [ 'code_id' => '0020', 'code_name' => '입금전' ],
+                [ 'code_id' => '0030', 'code_name' => '결제완료' ],
+            ],
+            '520' => [
+                [ 'code_id' => '0000', 'code_name' => '배송 준비중' ],
+                [ 'code_id' => '0010', 'code_name' => '배송중' ],
+                [ 'code_id' => '0020', 'code_name' => '배송완료' ],
+            ],
+            '530' => [
+                [ 'code_id' => '0000', 'code_name' => '정상' ],
+                [ 'code_id' => '0010', 'code_name' => '취소' ],
+                [ 'code_id' => '0020', 'code_name' => '반품' ],
             ],
         ];
     }

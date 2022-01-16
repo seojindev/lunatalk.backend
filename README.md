@@ -16,9 +16,12 @@ php artisan passport:install
 php artisan db:seed --class=CodesSeeder --force
 ```
 
-
-
 > 데이베이스 초기화 조심해야함.
+
+####ssh tunneling
+```bash
+ssh lunatalk-dev -N -L 63306:localhost:3306
+```
 
 ####app clear
 ```bash
