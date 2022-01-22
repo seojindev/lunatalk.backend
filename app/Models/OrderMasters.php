@@ -18,8 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $message 배송 메시지
  * @property string $order_name 상품명.
  * @property int $order_price 상품 가격.
- * @property string $active 결제 상태
- * @property string $state 결제 상.
+ * @property string|null $active 시도 상태
+ * @property string $state 결제 상태.
+ * @property string $order_log 결제 기록.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -36,6 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereOrderLog($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereOrderName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereOrderPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters wherePhone($value)
@@ -68,5 +70,19 @@ class OrderMasters extends Model
      */
     public function address() {
         return $this->hasOne(OrderAddress::class, 'order_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products() {
+        return $this->hasMany(OrderProducts::class, 'order_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function state() {
+        return $this->hasOne(Codes::class, 'code_id', 'state');
     }
 }

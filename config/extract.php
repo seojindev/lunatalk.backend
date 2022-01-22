@@ -101,6 +101,13 @@ return [
         '1300100' => '정상',
     ],
 
+    'order_state' => [
+        'price_before' => '5100020', // 입금전
+        'delivery_brfore' => '5200000', // 배송 준비중
+        'delivery_ing' => '5200010', // 배송중
+        'delivery_end' => '5200020', // 배송완료
+    ],
+
     'mediaCategory' => [
         'repImage' => [
             'name' => '상품이미지',

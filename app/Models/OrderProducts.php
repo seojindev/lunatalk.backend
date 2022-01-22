@@ -35,4 +35,11 @@ class OrderProducts extends Model
         'product_id',
         'price'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product() {
+        return $this->hasOne(ProductMasters::class, 'id', 'product_id');
+    }
 }

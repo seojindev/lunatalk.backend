@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Front\v1\Pages;
 
+use App\Models\OrderMasters;
 use App\Models\ProductMasters;
 use App\Models\Carts;
 use App\Models\User;
@@ -41,6 +42,15 @@ class MyPageControllerTest extends BaseCustomTestCase
         ];
 
         $this->withHeaders($this->getTestNormalAccessTokenHeader())->json('POST', "/api/front/v1/pages/my-page/my-info", $payload)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'message',
+            ]);
+    }
+
+    public function test_front_v1_pages_mypagecontroller_내오더() {
+
+        $this->withHeaders($this->getTestNormalAccessTokenHeader())->json('GET', "/api/front/v1/pages/my-page/my-order")
             ->assertStatus(200)
             ->assertJsonStructure([
                 'message',

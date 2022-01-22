@@ -6,10 +6,12 @@ use App\Exceptions\ClientErrorException;
 use App\Exceptions\ServerErrorException;
 use App\Http\Repositories\Eloquent\MainSlideMastersRepository;
 use App\Http\Repositories\Eloquent\NoticeMastersRepository;
+use App\Http\Repositories\Eloquent\OrderMastersRepository;
 use App\Http\Repositories\Eloquent\ProductCategoryMastersRepository;
 use App\Http\Repositories\Eloquent\MainItemsRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
 use App\Http\Repositories\Eloquent\CartsRepository;
+use App\Http\Repositories\Eloquent\UserRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
@@ -48,6 +50,13 @@ class FrontPageServices
     protected CartsRepository $cartsRepository;
 
     /**
+     * @var UserRepository
+     */
+    protected UserRepository $userRepository;
+
+    protected OrderMastersRepository $orderMastersRepository;
+
+    /**
      * @param Request $request
      * @param CartsRepository $cartsRepository
      * @param ProductMastersRepository $productMastersRepository
@@ -55,8 +64,20 @@ class FrontPageServices
      * @param ProductCategoryMastersRepository $productCategoryMastersRepository
      * @param MainItemsRepository $mainItemsRepository
      * @param NoticeMastersRepository $noticeMastersRepository
+     * @param UserRepository $userRepository
+     * @param OrderMastersRepository $orderMastersRepository
      */
-    function __construct(Request $request, CartsRepository $cartsRepository, ProductMastersRepository $productMastersRepository, MainSlideMastersRepository $mainSlideMastersRepository, ProductCategoryMastersRepository $productCategoryMastersRepository, MainItemsRepository $mainItemsRepository, NoticeMastersRepository $noticeMastersRepository) {
+    function __construct(
+        Request $request,
+        CartsRepository $cartsRepository,
+        ProductMastersRepository $productMastersRepository,
+        MainSlideMastersRepository $mainSlideMastersRepository,
+        ProductCategoryMastersRepository $productCategoryMastersRepository,
+        MainItemsRepository $mainItemsRepository,
+        NoticeMastersRepository $noticeMastersRepository,
+        UserRepository $userRepository,
+        OrderMastersRepository $orderMastersRepository
+    ) {
         $this->currentRequest = $request;
         $this->mainSlideMastersRepository = $mainSlideMastersRepository;
         $this->productCategoryMastersRepository = $productCategoryMastersRepository;
@@ -64,6 +85,8 @@ class FrontPageServices
         $this->noticeMastersRepository = $noticeMastersRepository;
         $this->productMastersRepository = $productMastersRepository;
         $this->cartsRepository = $cartsRepository;
+        $this->userRepository = $userRepository;
+        $this->orderMastersRepository = $orderMastersRepository;
     }
 
     /**
@@ -439,5 +462,92 @@ class FrontPageServices
         foreach ($cartIds as $id) :
             $this->cartsRepository->deleteCart($user_id, $id);
         endforeach;
+    }
+
+    /**
+     * 내오더 정보.
+     * @return array[]
+     */
+    public function getUserOrder() : array {
+
+        $user_id = Auth()->id();
+        $userDetail = $this->userRepository->getUserDetailById($user_id)->first()->toArray();
+
+        // 입금전 5100020
+        // 배송 준비중 5200000
+        // 배송중 5200010
+        // 배송완료 5200020
+        // 그냥 쿼리를 4번 날리는걸로~
+        return [
+            'user_info' => [
+                'id' => $userDetail['id'],
+                'uuid' => $userDetail['uuid'],
+                'name' => $userDetail['name'],
+            ],
+            'order_state' => [
+                'price_before' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.price_before'))),
+                'delivery_brfore' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.delivery_brfore'))),
+                'delivery_ing' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.delivery_ing'))),
+                'delivery_end' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.delivery_end'))),
+            ],
+            'list' => [
+                'order' => array_map(function($item) {
+                    $rep_image = $item['products'][0]['product']['rep_image'];
+
+                    return [
+                        'uuid' => $item['uuid'],
+                        'order_name' => $item['order_name'],
+                        'order_price' => [
+                            'number' => $item['order_price'],
+                            'string' => number_format($item['order_price']),
+                        ],
+                        'created_at' => [
+                            'type1' => Carbon::parse($item['created_at'])->format('Y-m-d H:i:s'),
+                            'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
+                            'type3' => Carbon::parse($item['created_at'])->format('Y년 m월 d일'),
+                        ],
+                        'rep_image' => [
+                            'id' => $rep_image['image']['id'],
+                            'file_name' => $rep_image['image']['file_name'],
+                            'url' => env('APP_MEDIA_URL') . $rep_image['image']['dest_path'] . '/' . $rep_image['image']['file_name']
+                        ],
+
+                        'state' => [
+                            'code_id' => $item['state']['code_id'],
+                            'code_name' => $item['state']['code_name'],
+                        ]
+
+                    ];
+                }, $this->orderMastersRepository->getOrderProducts($user_id)->toArray()),
+                'cancle' =>  array_map(function($item) {
+                    $rep_image = $item['products'][0]['product']['rep_image'];
+
+                    return [
+                        'uuid' => $item['uuid'],
+                        'order_name' => $item['order_name'],
+                        'order_price' => [
+                            'number' => $item['order_price'],
+                            'string' => number_format($item['order_price']),
+                        ],
+                        'created_at' => [
+                            'type1' => Carbon::parse($item['created_at'])->format('Y-m-d H:i:s'),
+                            'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
+                            'type3' => Carbon::parse($item['created_at'])->format('Y년 m월 d일'),
+                        ],
+                        'rep_image' => [
+                            'id' => $rep_image['image']['id'],
+                            'file_name' => $rep_image['image']['file_name'],
+                            'url' => env('APP_MEDIA_URL') . $rep_image['image']['dest_path'] . '/' . $rep_image['image']['file_name']
+                        ],
+
+                        'state' => [
+                            'code_id' => $item['state']['code_id'],
+                            'code_name' => $item['state']['code_name'],
+                        ]
+
+                    ];
+                }, $this->orderMastersRepository->getOrderProducts($user_id)->toArray()),
+            ]
+        ];
     }
 }

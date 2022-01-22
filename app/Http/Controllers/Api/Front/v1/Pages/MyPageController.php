@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\Front\v1\Pages;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Http\Services\AuthServices;
+use App\Http\Services\FrontPageServices;
 
 class MyPageController extends Controller
 {
@@ -15,11 +15,18 @@ class MyPageController extends Controller
     protected AuthServices $authServices;
 
     /**
-     * @param AuthServices $authServices
+     * @var FrontPageServices
      */
-    function __construct(AuthServices $authServices)
+    protected FrontPageServices $frontPageServices;
+
+    /**
+     * @param AuthServices $authServices
+     * @param FrontPageServices $frontPageServices
+     */
+    function __construct(AuthServices $authServices, FrontPageServices $frontPageServices)
     {
         $this->authServices = $authServices;
+        $this->frontPageServices = $frontPageServices;
     }
 
     /**
@@ -40,7 +47,17 @@ class MyPageController extends Controller
         return Response::success_only_message(200);
     }
 
+    /**
+     * @return mixed
+     */
     public function myOrderInfo() {
         return Response::custom_success(200, __('default.response.process_success'), $this->authServices->getUserOrderInfo());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function myOrder() {
+        return Response::custom_success(200, __('default.response.process_success'), $this->frontPageServices->getUserOrder());
     }
 }

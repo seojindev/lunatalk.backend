@@ -37,6 +37,5 @@ class OrderAddress extends Model
         'zipcode',
         'step1',
         'step2',
-
     ];
 }
