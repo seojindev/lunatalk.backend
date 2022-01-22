@@ -519,7 +519,7 @@ class FrontPageServices
 
                     ];
                 }, $this->orderMastersRepository->getOrderProducts($user_id)->toArray()),
-                'cancle' =>  array_map(function($item) {
+                'cancel' =>  array_map(function($item) {
                     $rep_image = $item['products'][0]['product']['rep_image'];
 
                     return [
