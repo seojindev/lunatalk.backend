@@ -104,7 +104,8 @@ class OrderServices {
             'email' => $this->currentRequest->input('email'),
             'message' => $this->currentRequest->input('message'),
             'order_name' => '',
-            'order_price' => 0
+            'order_price' => 0,
+            'active' => 'N'
         ]);
 
         $this->orderAddressRepository->create([
