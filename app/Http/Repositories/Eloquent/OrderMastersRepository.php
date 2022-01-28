@@ -37,16 +37,62 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
     }
 
     /**
-     * 오더 카운트
+     * 오더 카운트 - 입금전
      * @param Int $user_id
      * @param String $state_code
      * @return Int
      */
-    public function getOrderCount(Int $user_id, String $state_code) : Int {
+    public function getOrderBeForeCount(Int $user_id) : Int {
         return $this->model
             ->where('active', 'Y')
             ->where('user_id', $user_id)
-            ->where('state', $state_code)
+            ->where('active', 'Y')
+            ->where('state', config('extract.order_state.price_before'))
+            ->get()
+            ->count();
+    }
+
+    /**
+     * 오더 카운트 - 배송준비중
+     * @param Int $user_id
+     * @return Int
+     */
+    public function getOrderDeliveryBeforeCount(Int $user_id) : Int {
+        return $this->model
+            ->where('active', 'Y')
+            ->where('user_id', $user_id)
+            ->where('active', 'Y')
+            ->where('delivery', config('extract.order_state.delivery_brfore'))
+            ->get()
+            ->count();
+    }
+
+    /**
+     * 오더 카운트 - 배송중
+     * @param Int $user_id
+     * @return Int
+     */
+    public function getOrderDeliveryIngCount(Int $user_id) : Int {
+        return $this->model
+            ->where('active', 'Y')
+            ->where('user_id', $user_id)
+            ->where('active', 'Y')
+            ->where('delivery', config('extract.order_state.delivery_ing'))
+            ->get()
+            ->count();
+    }
+
+    /**
+     * 오더 카운트 - 배송완료
+     * @param Int $user_id
+     * @return Int
+     */
+    public function getOrderDeliveryEndCount(Int $user_id) : Int {
+        return $this->model
+            ->where('active', 'Y')
+            ->where('user_id', $user_id)
+            ->where('active', 'Y')
+            ->where('delivery', config('extract.order_state.delivery_end'))
             ->get()
             ->count();
     }
@@ -59,6 +105,7 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
     public function getOrderProducts(Int $user_id) : Collection {
         return $this->model
             ->where('user_id', $user_id)
+            ->where('active', 'Y')
             ->with(['products.product.repImage.image', 'state'])
             ->orderBy('id', 'desc')
             ->get();

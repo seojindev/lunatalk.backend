@@ -485,10 +485,10 @@ class FrontPageServices
                 'name' => $userDetail['name'],
             ],
             'order_state' => [
-                'price_before' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.price_before'))),
-                'delivery_brfore' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.delivery_brfore'))),
-                'delivery_ing' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.delivery_ing'))),
-                'delivery_end' => number_format($this->orderMastersRepository->getOrderCount($user_id, config('extract.order_state.delivery_end'))),
+                'price_before' => number_format($this->orderMastersRepository->getOrderBeForeCount($user_id)),
+                'delivery_brfore' => number_format($this->orderMastersRepository->getOrderDeliveryBeforeCount($user_id)),
+                'delivery_ing' => number_format($this->orderMastersRepository->getOrderDeliveryIngCount($user_id)),
+                'delivery_end' => number_format($this->orderMastersRepository->getOrderDeliveryEndCount($user_id))
             ],
             'list' => [
                 'order' => array_map(function($item) {
