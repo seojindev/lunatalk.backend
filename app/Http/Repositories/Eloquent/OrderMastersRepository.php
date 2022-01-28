@@ -62,6 +62,7 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
             ->where('active', 'Y')
             ->where('user_id', $user_id)
             ->where('active', 'Y')
+            ->where('state', config('extract.order_state.price_end'))
             ->where('delivery', config('extract.order_state.delivery_brfore'))
             ->get()
             ->count();
@@ -77,6 +78,7 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
             ->where('active', 'Y')
             ->where('user_id', $user_id)
             ->where('active', 'Y')
+            ->where('state', config('extract.order_state.price_end'))
             ->where('delivery', config('extract.order_state.delivery_ing'))
             ->get()
             ->count();
@@ -92,6 +94,7 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
             ->where('active', 'Y')
             ->where('user_id', $user_id)
             ->where('active', 'Y')
+            ->where('state', config('extract.order_state.price_end'))
             ->where('delivery', config('extract.order_state.delivery_end'))
             ->get()
             ->count();

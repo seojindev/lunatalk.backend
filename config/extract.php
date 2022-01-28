@@ -102,6 +102,7 @@ return [
     ],
 
     'order_state' => [
+        'price_end' => '5100030', // 결제 완료
         'price_before' => '5100020', // 입금전
         'delivery_brfore' => '5200000', // 배송 준비중
         'delivery_ing' => '5200010', // 배송중
