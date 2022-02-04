@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $price 상품 가격.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ProductMasters|null $product
  * @method static \Database\Factories\OrderProductsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderProducts newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderProducts newQuery()

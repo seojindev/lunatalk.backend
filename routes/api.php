@@ -115,6 +115,7 @@ Route::group(['as' => 'api.'], function () {
                     Route::get('my-order', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'myOrder'])->name('my.order')->middleware('auth:api'); // 마이 오더 정보.
                     Route::get('my-order-info', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'myOrderInfo'])->name('my.order.info')->middleware('auth:api'); // 마이 페이지 내정보.
                     Route::post('my-info', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'udpateMyInfo'])->name('update.my.info')->middleware('auth:api'); // 마이 페이지 내정보 업데이트.
+                    Route::get('{uuid}/my-order-detail', [\App\Http\Controllers\Api\Front\v1\Pages\MyPageController::class, 'myOrderDetail'])->name('my.order.detail')->middleware('auth:api'); // 마이 페이지 오더 상세.
                 });
             });
 

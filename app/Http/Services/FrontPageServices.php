@@ -12,6 +12,7 @@ use App\Http\Repositories\Eloquent\MainItemsRepository;
 use App\Http\Repositories\Eloquent\ProductMastersRepository;
 use App\Http\Repositories\Eloquent\CartsRepository;
 use App\Http\Repositories\Eloquent\UserRepository;
+use Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
@@ -313,6 +314,8 @@ class FrontPageServices
 
     /**
      * 상품 카테고리 리스트( 상단 텝 ).
+     * @param String $category_uuid
+     * @return array
      */
     public function productCategoryList(String $category_uuid) : array {
 
@@ -548,6 +551,99 @@ class FrontPageServices
                     ];
                 }, $this->orderMastersRepository->getOrderProducts($user_id)->toArray()),
             ]
+        ];
+    }
+
+    /**
+     * 내정보 페이지 오더 상세.
+     * @param String $uuid
+     * @return array
+     */
+    public function myOrderDetail(String $uuid) : array {
+
+        $orderTask = $this->orderMastersRepository->getOrderMasterDetail($uuid);
+
+        if($orderTask->isEmpty()) {
+            throw new ModelNotFoundException();
+        }
+
+        $taskResult = $orderTask->first()->toArray();
+
+        $products = $taskResult['products'];
+
+        return [
+            'uuid' => $taskResult['uuid'],
+            'order_info' => [
+                'name' => $taskResult['name'],
+                'phone' => [
+                    'type1' => $taskResult['phone'],
+                    'type2' => Helper::phoneNumberAddHyphen($taskResult['phone'])
+                ],
+                'email' => $taskResult['email'],
+                'message' => $taskResult['message'],
+                'order_name' => $taskResult['order_name'],
+                'order_price' => [
+                    'number' => $taskResult['order_price'],
+                    'string' => number_format($taskResult['order_price'])
+                ],
+                'active' => $taskResult['active'],
+                'state' => [
+                    'code_id' => $taskResult['state']['code_id'],
+                    'code_name' => $taskResult['state']['code_name']
+                ],
+                'delivery' => [
+                    'code_id' => $taskResult['delivery']['code_id'],
+                    'code_name' => $taskResult['delivery']['code_name']
+                ],
+                'receive' => [
+                    'code_id' => $taskResult['receive']['code_id'],
+                    'code_name' => $taskResult['receive']['code_name']
+                ],
+                'order_log' => $taskResult['order_log'],
+            ],
+            'order_address' => [
+                'zipcode' => $taskResult['address']['zipcode'],
+                'step1' => $taskResult['address']['step1'],
+                'step2' => $taskResult['address']['step2'],
+            ],
+            'products' => array_map(function($element) {
+                $item = $element['product'];
+                return [
+                    'id' => $item['id'],
+                    'uuid' => $item['uuid'],
+                    'name' => $item['name'],
+                    'quantity' => [
+                        'number' => $item['quantity'],
+                        'string' => number_format($item['quantity']),
+                    ],
+                    'original_price' => [
+                        'number' => $item['original_price'],
+                        'string' => number_format($item['original_price']),
+                    ],
+                    'price' => [
+                        'number' => $item['price'],
+                        'string' => number_format($item['price']),
+                    ],
+                    'category' => $item['category'],
+                    'color' => array_map(function($item) {
+                        return [
+                            'id' => $item['color']['id'],
+                            'name' => $item['color']['name']
+                        ];
+                    }, $item['colors']),
+                    'wireless' => $item['wireless'] ? [
+                        'id' => $item['wireless']['wireless']['id'],
+                        'wireless' => $item['wireless']['wireless']['wireless'],
+                    ] : null,
+                    'rep_images' => array_map(function($item) {
+                        return [
+                            'id' => $item['image']['id'],
+                            'file_name' => $item['image']['file_name'],
+                            'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name']
+                        ];
+                    } , $item['rep_images']),
+                ];
+            }, $products)
         ];
     }
 }

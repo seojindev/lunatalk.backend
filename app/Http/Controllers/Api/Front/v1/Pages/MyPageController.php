@@ -48,6 +48,7 @@ class MyPageController extends Controller
     }
 
     /**
+     * 마이 페이지 오더 에 필요한 정보.
      * @return mixed
      */
     public function myOrderInfo() {
@@ -55,9 +56,19 @@ class MyPageController extends Controller
     }
 
     /**
+     * 내 오더 리스트.
      * @return mixed
      */
     public function myOrder() {
         return Response::custom_success(200, __('default.response.process_success'), $this->frontPageServices->getUserOrder());
+    }
+
+    /**
+     * 내 오더 상세
+     * @param String $uuid
+     * @return mixed
+     */
+    public function myOrderDetail(String $uuid) {
+        return Response::custom_success(200, __('default.response.process_success'), $this->frontPageServices->myOrderDetail($uuid));
     }
 }

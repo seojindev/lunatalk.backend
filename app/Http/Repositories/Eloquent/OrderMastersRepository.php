@@ -39,7 +39,6 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
     /**
      * 오더 카운트 - 입금전
      * @param Int $user_id
-     * @param String $state_code
      * @return Int
      */
     public function getOrderBeForeCount(Int $user_id) : Int {
@@ -111,6 +110,32 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
             ->where('active', 'Y')
             ->with(['products.product.repImage.image', 'state'])
             ->orderBy('id', 'desc')
+            ->get();
+    }
+
+    /**
+     * 오더 상품 상세.
+     * @param String $uuid
+     * @return Collection
+     */
+    public function getOrderMasterDetail(String $uuid) : Collection {
+        return $this->model
+            ->where('uuid', $uuid)
+            ->with([
+                'user',
+                'address',
+                'state',
+                'delivery',
+                'receive',
+                'products.product.category' => function($query){
+                    $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
+                },
+                'products.product.colors.color',
+                'products.product.wireless.wireless',
+                'products.product.repImages' => function($query) {
+                    $query->where('media_id', '>', 0);
+                },'products.product.repImages.image'
+            ])
             ->get();
     }
 }
