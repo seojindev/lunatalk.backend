@@ -21,6 +21,7 @@ return [
         'auth_code_fail_verified' => '이미 인증 완료한 코드 입니다.',
         'auth_code_fail' => '인증 코드를 확인해 주세요.',
         'auth_code_compare_fail' => '정확한 인증 코드를 입력해 주세요.',
+        'message_server_error' => '메세지 서버 오류 발생!',
     ],
     'attempt' => [
         'required' => [

@@ -46,17 +46,17 @@ class PhoneAuthTest extends BaseCustomTestCase
     }
 
     // 정상 요청.
-    public function test_front_v1_auth_phone_auth_정상_요청()
-    {
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', str_replace('phone-number', '01012342314', $this->apiURL))
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'message',
-                'result' => [
-                    "phone_number",
-                    "auth_index",
-                    "auth_code"
-                ]
-            ]);
-    }
+//    public function test_front_v1_auth_phone_auth_정상_요청()
+//    {
+//        $this->withHeaders($this->getTestDefaultApiHeaders())->json('GET', str_replace('phone-number', '01012342314', $this->apiURL))
+//            ->assertStatus(200)
+//            ->assertJsonStructure([
+//                'message',
+//                'result' => [
+//                    "phone_number",
+//                    "auth_index",
+//                    "auth_code"
+//                ]
+//            ]);
+//    }
 }
