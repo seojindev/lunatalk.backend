@@ -14,6 +14,7 @@ use App\Http\Repositories\Eloquent\UserAddressRepository;
 use App\Http\Repositories\Eloquent\OrderMastersRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Crypt;
@@ -97,6 +98,22 @@ class AuthServices
             'phone_number' => Crypt::encryptString($phoneNumber),
             'auth_code' => $authCode
         ]);
+
+        $message = "[lunatalk.co.kr] 회원가입 인증번호 : " . $authCode;
+        $response = Http::withHeaders(
+            [
+                'X-Secret-Key' => env('SMS_SECRET_KEY'),
+                'Content-Type' => 'application/json;charset=UTF-8'
+            ]
+        )->post('https://api-sms.cloud.toast.com/sms/v3.0/appKeys/'.env('SMS_API_KEY').'/sender/auth/sms',
+            [
+                'body' => $message,
+                'sendNo' =>'01092153192',
+                'recipientList' => [array('recipientNo' => $phoneNumber, 'countryCode' => '82')]
+            ]);
+        if($response->json()['header']['isSuccessful'] == false) {
+            throw new ClientErrorException(__('register.phone_auth_confirm.message_server_error'));
+        }
 
         if(env('APP_ENV') == "production") {
             return [
