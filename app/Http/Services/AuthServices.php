@@ -102,7 +102,7 @@ class AuthServices
         if(is_array($currentPhoneAuth) == 1 && count($currentPhoneAuth) > 0) {
             // phone hash가 계속 변하여, 전체 오늘 데이터를 전체 가져온뒤, 비교한다.
             foreach($currentPhoneAuth as $item) {
-                $decryptPhoneNumber = Crypt::decryptString($item['phone_number']);
+                $decryptPhoneNumber = $item['phone_number'] !== null ? Crypt::decryptString($item['phone_number']) : 0;
                 if($phoneNumber == $decryptPhoneNumber) {
                     $currentPhoneAuthCount += 1;
                 }
