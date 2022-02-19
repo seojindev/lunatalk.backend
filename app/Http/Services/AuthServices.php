@@ -94,18 +94,12 @@ class AuthServices
 
         $authCode = Helper::generateAuthNumberCode();
 
-        $task = $this->phoneVerifyRepository->create([
-            'uuid' => Str::uuid(),
-            'phone_number' => Crypt::encryptString($phoneNumber),
-            'auth_code' => $authCode
-        ]);
-
         $authLimit = 3;
         $now = date('Y-m-d');
         $currentPhoneAuth = $this->phoneVerifyRepository->getPhoneAuth(Crypt::encryptString($phoneNumber), $now)->toArray();
         $currentPhoneAuthCount = 0;
 
-        if(is_array($currentPhoneAuth) && count($currentPhoneAuth) > 0) {
+        if(is_array($currentPhoneAuth) == 1 && count($currentPhoneAuth) > 0) {
             // phone hash가 계속 변하여, 전체 오늘 데이터를 전체 가져온뒤, 비교한다.
             foreach($currentPhoneAuth as $item) {
                 $decryptPhoneNumber = Crypt::decryptString($item['phone_number']);
@@ -118,6 +112,12 @@ class AuthServices
         if($currentPhoneAuthCount > $authLimit) {
             throw new ClientErrorException(__('register.phone_auth_confirm.auth_limit_validation'));
         }
+
+        $task = $this->phoneVerifyRepository->create([
+            'uuid' => Str::uuid(),
+            'phone_number' => Crypt::encryptString($phoneNumber),
+            'auth_code' => $authCode
+        ]);
 
         $message = "[lunatalk.co.kr] 회원가입 인증번호 : " . $authCode;
         $response = Http::withHeaders(
