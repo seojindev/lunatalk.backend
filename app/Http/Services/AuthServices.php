@@ -105,7 +105,7 @@ class AuthServices
         $currentPhoneAuth = $this->phoneVerifyRepository->getPhoneAuth(Crypt::encryptString($phoneNumber), $now)->toArray();
         $currentPhoneAuthCount = 0;
 
-        if(is_array($currentPhoneAuth)) {
+        if(is_array($currentPhoneAuth) && count($currentPhoneAuth) > 0) {
             // phone hash가 계속 변하여, 전체 오늘 데이터를 전체 가져온뒤, 비교한다.
             foreach($currentPhoneAuth as $item) {
                 $decryptPhoneNumber = Crypt::decryptString($item['phone_number']);
