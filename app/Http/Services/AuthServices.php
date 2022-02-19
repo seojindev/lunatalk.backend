@@ -132,13 +132,13 @@ class AuthServices
                 'recipientList' => [array('recipientNo' => $phoneNumber, 'countryCode' => '82')]
             ]);
 
-        $responseStatusCode = $response->json()['body']['data']['sendResultList'][0]['resultCode'];
-        if($responseStatusCode != 0) {
-            if($responseStatusCode == -2019) {
-                throw new ClientErrorException(__('register.phone_auth_confirm.message_server_number_not_valid'));
-            }
-            throw new ServerErrorException(__('register.phone_auth_confirm.message_server_error'));
-        }
+//        $responseStatusCode = $response->json()['body']['data']['sendResultList'][0]['resultCode'];
+//        if($responseStatusCode != 0) {
+//            if($responseStatusCode == -2019) {
+//                throw new ClientErrorException(__('register.phone_auth_confirm.message_server_number_not_valid'));
+//            }
+//            throw new ServerErrorException(__('register.phone_auth_confirm.message_server_error'));
+//        }
 
         if(env('APP_ENV') == "production") {
             return [
