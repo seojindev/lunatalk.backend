@@ -74,6 +74,7 @@ class AuthServices
     /**
      * 휴대폰 인증 코드 생성.
      * @throws ClientErrorException
+     * @throws ServerErrorException
      */
     public function getPhoneAuthCode(string $phoneNumber) : array
     {
@@ -108,11 +109,16 @@ class AuthServices
         )->post('https://api-sms.cloud.toast.com/sms/v3.0/appKeys/'.env('SMS_API_KEY').'/sender/auth/sms',
             [
                 'body' => $message,
-                'sendNo' =>'01092153192',
+                'sendNo' =>env('SMS_SEND_NO'),
                 'recipientList' => [array('recipientNo' => $phoneNumber, 'countryCode' => '82')]
             ]);
-        if($response->json()['header']['isSuccessful'] == false) {
-            throw new ClientErrorException(__('register.phone_auth_confirm.message_server_error'));
+
+        $responseStatusCode = $response->json()['body']['data']['sendResultList'][0]['resultCode'];
+        if($responseStatusCode != 0) {
+            if($responseStatusCode == -2019) {
+                throw new ClientErrorException(__('register.phone_auth_confirm.message_server_number_not_valid'));
+            }
+            throw new ServerErrorException(__('register.phone_auth_confirm.message_server_error'));
         }
 
         if(env('APP_ENV') == "production") {
