@@ -23,6 +23,7 @@ return [
         'auth_code_compare_fail' => '정확한 인증 코드를 입력해 주세요.',
         'message_server_error' => '메세지 서버 오류 발생!',
         'message_server_number_not_valid' =>'유효하지 않는 휴대폰 번호입니다.',
+        'auth_limit_validation' => '일일 휴대폰 인증 횟수를 초과하였습니다.'
     ],
     'attempt' => [
         'required' => [

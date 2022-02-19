@@ -50,5 +50,6 @@ class PhoneVerifies extends Model
         'phone_number',
         'auth_code',
         'verified',
+        'created_at',
     ];
 }
