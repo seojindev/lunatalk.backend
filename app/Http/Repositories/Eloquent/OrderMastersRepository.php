@@ -138,4 +138,37 @@ class OrderMastersRepository extends BaseRepository implements OrderMastersInter
             ])
             ->get();
     }
+
+    /**
+     * 오더 전체 리스트 ( 관리자용 )
+     * @return Collection
+     */
+    public function getAdminOrderMaster() : Collection {
+       return $this->model
+           ->with(['user.phone_verifies','state', 'delivery', 'receive', 'payments.cards', 'payments.virtuals'])
+           ->orderBy('id', 'desc')
+           ->get();
+    }
+
+    /**
+     * 주문 상세 정보 ( 어드민 )
+     * @param String $uuid
+     * @return Collection
+     */
+    public function getAdminOrderMasterDetail(String $uuid) : Collection {
+       return $this->model
+           ->with(['user.phone_verifies', 'address', 'state', 'delivery', 'receive',
+               'products.product.category' => function($query){
+                   $query->select(['id', 'uuid', 'name'])->where('active', 'Y');
+               },
+               'products.product.colors.color',
+               'products.product.wireless.wireless',
+               'products.product.repImages' => function($query) {
+                   $query->where('media_id', '>', 0);
+               },'products.product.repImages.image',
+               'payments.cards', 'payments.virtuals'])
+           ->where('uuid', $uuid)
+           ->orderBy('id', 'desc')
+           ->get();
+    }
 }

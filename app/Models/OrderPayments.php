@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $taxFreeAmount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\OrderPaymentsCard|null $cards
+ * @property-read \App\Models\OrderPaymentsVirtual|null $virtuals
  * @method static \Database\Factories\OrderPaymentsFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderPayments newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderPayments newQuery()
@@ -78,4 +80,18 @@ use Illuminate\Database\Eloquent\Model;
 class OrderPayments extends Model
 {
     use HasFactory;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cards() {
+        return $this->hasOne(OrderPaymentsCard::class, 'pay_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function virtuals() {
+        return $this->hasOne(OrderPaymentsVirtual::class, 'pay_id', 'id');
+    }
 }

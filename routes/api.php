@@ -200,6 +200,10 @@ Route::group(['as' => 'api.'], function () {
                 Route::put('{uuid}/update-user-phone-number', [\App\Http\Controllers\Api\Admin\v1\UserManageController::class, 'updateUserPhoneNumber'])->name('update.user.phone.number'); // 사용자 전화 번호 변경.
             });
 
+            Route::group(['prefix' => 'order-manage', 'as' => 'order-manage.'], function () {
+                Route::get('show-order', [\App\Http\Controllers\Api\Admin\v1\OrderManageController::class, 'showOrder'])->name('show.order'); // 주문 리스트.
+                Route::get('show-order/{uuid}/detail', [\App\Http\Controllers\Api\Admin\v1\OrderManageController::class, 'showOrderDetail'])->name('show.order.detail'); // 주문 상세.
+            });
         });
     });
 });

@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\OrderAddress|null $address
+ * @property-read \App\Models\OrderPayments|null $payments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderProducts[] $products
  * @property-read int|null $products_count
  * @property-read \App\Models\User|null $user
@@ -112,5 +113,12 @@ class OrderMasters extends Model
      */
     public function receive() {
         return $this->hasOne(Codes::class, 'code_id', 'receive');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payments() {
+        return $this->hasOne(OrderPayments::class, 'order_id', 'id');
     }
 }
