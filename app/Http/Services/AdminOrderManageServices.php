@@ -2,14 +2,22 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\ClientErrorException;
 use App\Http\Repositories\Eloquent\OrderMastersRepository;
-use Helper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
+use Helper;
+use Illuminate\Support\Facades\Validator;
 
 class AdminOrderManageServices
 {
+    /**
+     * @var Request
+     */
+    protected Request $currentRequest;
+
     /**
      * @var OrderMastersRepository
      */
@@ -17,9 +25,11 @@ class AdminOrderManageServices
 
     /**
      * @param OrderMastersRepository $orderMastersRepository
+     * @param Request $currentRequest
      */
-    function __construct(OrderMastersRepository $orderMastersRepository) {
+    function __construct(OrderMastersRepository $orderMastersRepository, Request $currentRequest) {
         $this->orderMastersRepository = $orderMastersRepository;
+        $this->currentRequest = $currentRequest;
     }
 
     /**
@@ -165,5 +175,54 @@ class AdminOrderManageServices
                 'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
             ],
         ];
+    }
+
+    /**
+     * 주문 상품 상태 업데이트.
+     * @param String $uuid
+     * @return void
+     * @throws ClientErrorException
+     */
+    public function changeDelivery(String $uuid): void {
+        $orderTask = $this->orderMastersRepository->defaultCustomFind('uuid', $uuid);
+
+        $validator = Validator::make($this->currentRequest->all(), [
+            'change_code' => 'required|exists:codes,code_id'
+        ],[
+            'change_code.required' => '변경할 코드를 등록해 주세요.',
+            'change_code.exists' => '정확한 코드를 등록해 주세요.',
+        ]);
+
+        if( $validator->fails()) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $this->orderMastersRepository->update($orderTask->id, [
+            'delivery' => $this->currentRequest->input('change_code')
+        ]);
+    }
+
+    /**
+     * 주문 메모 수정.
+     * @param String $uuid
+     * @return void
+     * @throws ClientErrorException
+     */
+    public function changeMemo(String $uuid): void {
+        $orderTask = $this->orderMastersRepository->defaultCustomFind('uuid', $uuid);
+
+        $validator = Validator::make($this->currentRequest->all(), [
+            'memo' => 'required'
+        ],[
+            'memo.required' => '메모를 입력해 주세요.',
+        ]);
+
+        if( $validator->fails()) {
+            throw new ClientErrorException($validator->errors()->first());
+        }
+
+        $this->orderMastersRepository->update($orderTask->id, [
+            'memo' => $this->currentRequest->input('memo')
+        ]);
     }
 }

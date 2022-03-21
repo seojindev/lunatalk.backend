@@ -39,4 +39,25 @@ class OrderManageController extends Controller
         return Response::custom_success(200, __('default.response.process_success'), $this->adminOrderManageServices->showOrderDetail($uuid));
     }
 
+    /**
+     * 주문 상품 상태 변경.
+     * @param String $uuid
+     * @return mixed
+     * @throws \App\Exceptions\ClientErrorException
+     */
+    public function changeDelivery(String $uuid) {
+        $this->adminOrderManageServices->changeDelivery($uuid);
+        return Response::message_success(__('default.response.process_success'));
+    }
+
+    /**
+     * 주문 메모 수정.
+     * @param String $uuid
+     * @return mixed
+     * @throws \App\Exceptions\ClientErrorException
+     */
+    public function orderMemo(String $uuid) {
+        $this->adminOrderManageServices->changeMemo($uuid);
+        return Response::message_success(__('default.response.process_success'));
+    }
 }

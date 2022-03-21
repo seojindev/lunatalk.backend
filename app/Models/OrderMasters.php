@@ -70,7 +70,9 @@ class OrderMasters extends Model
         'message',
         'order_name',
         'order_price',
-        'active'
+        'active',
+        'delivery',
+        'memo'
     ];
 
     /**
