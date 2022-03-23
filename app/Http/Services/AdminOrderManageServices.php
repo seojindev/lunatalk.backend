@@ -170,6 +170,7 @@ class AdminOrderManageServices
                 ];
             }, $item['products']),
             'payments' => $item['payments'],
+            'memo' => $item['memo'],
             'created_at' => [
                 'type1' => Carbon::parse($item['created_at'])->format('Y-m-d H:i'),
                 'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
