@@ -68,4 +68,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function updateUserDetailInfo(Int $id, Array $info) {
         return $this->model->where('id', $id)->update($info);
     }
+
+    /**
+     * 로그인 아이디 찾기.
+     * @param String $email
+     * @return Collection
+     */
+    public function getLoginIdByEmail(String $email): Collection {
+        return $this->model->where('email', $email)->get();
+    }
 }

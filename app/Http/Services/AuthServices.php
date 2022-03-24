@@ -3,6 +3,8 @@
 namespace App\Http\Services;
 
 use App\Exceptions\ServerErrorException;
+use App\Http\Repositories\Eloquent\UserRepository;
+use App\Mail\sendMail;
 use App\Models\User;
 use App\Supports\AuthTrait;
 use App\Supports\PassportTrait;
@@ -14,8 +16,9 @@ use App\Http\Repositories\Eloquent\CodesRepository;
 use App\Http\Repositories\Eloquent\UserAddressRepository;
 use App\Http\Repositories\Eloquent\OrderMastersRepository;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Crypt;
@@ -33,7 +36,7 @@ class AuthServices
     }
 
     protected Request $currentRequest;
-    protected UserRepositoryInterface $userRepository;
+    protected UserRepository $userRepository;
     protected PhoneVerifyRepositoryInterface $phoneVerifyRepository;
     protected UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository;
     protected CodesRepository $codesRepository;
@@ -41,13 +44,13 @@ class AuthServices
     protected OrderMastersRepository $orderMastersRepository;
 
     function __construct(
-        Request $request,
-        UserRepositoryInterface $userRepository,
-        PhoneVerifyRepositoryInterface $phoneVerifyRepository,
+        Request                                $request,
+        UserRepositoryInterface                $userRepository,
+        PhoneVerifyRepositoryInterface         $phoneVerifyRepository,
         UserRegisterSelectsRepositoryInterface $userRegisterSelectsRepository,
-        CodesRepository $codesRepository,
-        UserAddressRepository $userAddressRepository,
-        OrderMastersRepository $orderMastersRepository
+        CodesRepository                        $codesRepository,
+        UserAddressRepository                  $userAddressRepository,
+        OrderMastersRepository                 $orderMastersRepository
     )
     {
         $this->currentRequest = $request;
@@ -63,7 +66,8 @@ class AuthServices
      * 로그인 확인.
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
-    protected function loginValidator() {
+    protected function loginValidator()
+    {
         return Validator::make($this->currentRequest->all(), [
             'login_id' => 'required|exists:users,login_id',
             'login_password' => 'required',
@@ -80,7 +84,7 @@ class AuthServices
      * @throws ClientErrorException
      * @throws ServerErrorException
      */
-    public function getPhoneAuthCode(string $phoneNumber) : array
+    public function getPhoneAuthCode(string $phoneNumber): array
     {
         $validator = Validator::make(['phone_number' => $phoneNumber], [
             'phone_number' => 'required|numeric|digits_between:8,11'
@@ -92,7 +96,7 @@ class AuthServices
                 'phone_number.numeric' => __('register.phone_auth.numeric'),
             ]);
 
-        if( $validator->fails() ) {
+        if ($validator->fails()) {
             throw new ClientErrorException($validator->errors()->first());
         }
 
@@ -103,17 +107,17 @@ class AuthServices
         $currentPhoneAuth = $this->phoneVerifyRepository->getPhoneAuth(Crypt::encryptString($phoneNumber), $now)->toArray();
         $currentPhoneAuthCount = 0;
 
-        if(is_array($currentPhoneAuth) == 1 && count($currentPhoneAuth) > 0) {
+        if (is_array($currentPhoneAuth) == 1 && count($currentPhoneAuth) > 0) {
             // phone hash가 계속 변하여, 전체 오늘 데이터를 전체 가져온뒤, 비교한다.
-            foreach($currentPhoneAuth as $item) {
+            foreach ($currentPhoneAuth as $item) {
                 $decryptPhoneNumber = $item['phone_number'] !== null ? Crypt::decryptString($item['phone_number']) : 0;
-                if($phoneNumber == $decryptPhoneNumber) {
+                if ($phoneNumber == $decryptPhoneNumber) {
                     $currentPhoneAuthCount += 1;
                 }
             }
         }
 
-        if($currentPhoneAuthCount > $authLimit) {
+        if ($currentPhoneAuthCount > $authLimit) {
             throw new ClientErrorException(__('register.phone_auth_confirm.auth_limit_validation'));
         }
 
@@ -124,9 +128,9 @@ class AuthServices
         ]);
 
         $message = "[lunatalk.co.kr] 회원가입 인증번호 : " . $authCode;
-        $this->AuthTraitSendSMS($phoneNumber,$message);
+        $this->AuthTraitSendSMS($phoneNumber, $message);
 
-        if(env('APP_ENV') == "production") {
+        if (env('APP_ENV') == "production") {
             return [
                 'uuid' => Str::uuid(),
                 'phone_number' => $this->currentRequest->input('phone_number'),
@@ -148,11 +152,11 @@ class AuthServices
      * @return array
      * @throws ClientErrorException
      */
-    public function phoneAuthConfirm(Int $authIndex) : array
+    public function phoneAuthConfirm(int $authIndex): array
     {
         $task = $this->phoneVerifyRepository->defaultFindById($authIndex);
 
-        if($task->verified === 'Y') {
+        if ($task->verified === 'Y') {
             throw new ClientErrorException(__('register.phone_auth_confirm.auth_code_fail_verified'));
         }
 
@@ -165,11 +169,11 @@ class AuthServices
                 'auth_code.min' => __('register.phone_auth_confirm.auth_code_fail'),
             ]);
 
-        if( $validator->fails() ) {
+        if ($validator->fails()) {
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        if($this->currentRequest->input('auth_code') !== $task->auth_code) {
+        if ($this->currentRequest->input('auth_code') !== $task->auth_code) {
             throw new ClientErrorException(__('register.phone_auth_confirm.auth_code_compare_fail'));
         }
 
@@ -188,7 +192,7 @@ class AuthServices
      * @return array
      * @throws ClientErrorException
      */
-    public function attemptRegister() : array
+    public function attemptRegister(): array
     {
         $validator = Validator::make($this->currentRequest->all(), [
             'auth_index' => 'required|exists:phone_verifies,id',
@@ -216,13 +220,13 @@ class AuthServices
                 'user_email.required' => __('register.attempt.required.user_email'),
                 'user_email.email' => __('register.attempt.email.check'),
                 'user_email.unique' => __('register.attempt.email.unique'),
-                'user_select_email.required'=> __('register.attempt.select_email.required'),
-                'user_select_email.in'=> __('register.attempt.select_email.in'),
-                'user_select_message.required'=> __('register.attempt.select_message.required'),
-                'user_select_message.in'=> __('register.attempt.select_message.in'),
+                'user_select_email.required' => __('register.attempt.select_email.required'),
+                'user_select_email.in' => __('register.attempt.select_email.in'),
+                'user_select_message.required' => __('register.attempt.select_message.required'),
+                'user_select_message.in' => __('register.attempt.select_message.in'),
             ]);
 
-        if( $validator->fails() ) {
+        if ($validator->fails()) {
             throw new ClientErrorException($validator->errors()->first());
         }
 
@@ -231,29 +235,29 @@ class AuthServices
         /**
          * 인증 받지 않은 auth index 인지.
          */
-        if($authTask->verified === 'N') {
+        if ($authTask->verified === 'N') {
             throw new ClientErrorException(__('register.attempt.auth_code.yet_verified'));
         }
 
         /**
          * 이미 회원 가입 까지 진행 된 auth index 인지.
          */
-        if(!empty($authTask->user_id)) {
+        if (!empty($authTask->user_id)) {
             throw new ClientErrorException(__('register.attempt.auth_code.verified'));
         }
 
         // 금지 아이디 체크.
-        if(Helper::checkProhibitLoginId($this->currentRequest->input('user_id'))) {
+        if (Helper::checkProhibitLoginId($this->currentRequest->input('user_id'))) {
             throw new ClientErrorException(__('register.attempt.prohibit_user_id'));
         }
 
         // 닉네임 금지어 단어 체크
-        if(Helper::checkProhibitWord($this->currentRequest->input('user_name'))) {
+        if (Helper::checkProhibitWord($this->currentRequest->input('user_name'))) {
             throw new ClientErrorException(__('register.attempt.prohibit_user_name'));
         }
 
         // 닉네임 금지어 체크
-        if(Helper::checkProhibitUserNickname($this->currentRequest->input('user_name'))) {
+        if (Helper::checkProhibitUserNickname($this->currentRequest->input('user_name'))) {
             throw new ClientErrorException(__('register.attempt.prohibit_user_name'));
         }
 
@@ -295,23 +299,23 @@ class AuthServices
      * @return array
      * @throws ClientErrorException|ServerErrorException
      */
-    public function attemptLogin() : array
+    public function attemptLogin(): array
     {
         $validator = $this->loginValidator();
 
-        if( $validator->fails() ) {
+        if ($validator->fails()) {
             // 로그인 실패.
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        if(!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
+        if (!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
             // 비밀번호 실패.
             throw new ClientErrorException(__('login.password_fail'));
         }
 
         // 차단 상태 체크
         $userTask = $this->userRepository->defaultCustomFind('login_id', $this->currentRequest->input('login_id'));
-        if($userTask->status == config('extract.user_status.block.code')) {
+        if ($userTask->status == config('extract.user_status.block.code')) {
             throw new ClientErrorException(__('login.block_user'));
         }
 
@@ -327,7 +331,7 @@ class AuthServices
      * 로그아웃.
      * @return string
      */
-    public function attemptLogout() : string
+    public function attemptLogout(): string
     {
         Auth::user()->token()->revoke();
 
@@ -349,21 +353,21 @@ class AuthServices
      * @throws AuthenticationException
      * @throws ClientErrorException|ServerErrorException
      */
-    public function attemptAdminLogin() : array
+    public function attemptAdminLogin(): array
     {
         $validator = $this->loginValidator();
 
-        if( $validator->fails() ) {
+        if ($validator->fails()) {
             // 로그인 실패.
             throw new ClientErrorException($validator->errors()->first());
         }
 
-        if(!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
+        if (!Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password')])) {
             // 비밀번호 실패.
             throw new ClientErrorException(__('login.password_fail'));
         }
 
-        if(!(
+        if (!(
             Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password'), 'level' => config('extract.user_level.admin.level_code')]) ||
             Auth::attempt(['login_id' => $this->currentRequest->input('login_id'), 'password' => $this->currentRequest->input('login_password'), 'level' => config('extract.user_level.root.level_code')])
         )) {
@@ -383,7 +387,7 @@ class AuthServices
      * 어드민용 로그아웃.
      * @return string
      */
-    public function attemptAdminLogout() : string
+    public function attemptAdminLogout(): string
     {
         Auth::user()->token()->revoke();
 
@@ -394,7 +398,8 @@ class AuthServices
      * 회원 정보 ( 기본 )
      * @return array
      */
-    public function getUserInfo() : array {
+    public function getUserInfo(): array
+    {
 
         $user_id = Auth()->id();
 
@@ -408,7 +413,7 @@ class AuthServices
         $taskEmail = $this->codesRepository->defaultCustomFind('code_name', $emailStep2, []);
 
         $phoneNumber = !empty($userTask['phone_verifies']['phone_number']) ? Crypt::decryptString($userTask['phone_verifies']['phone_number']) : null;
-        if($phoneNumber) {
+        if ($phoneNumber) {
             $phoneArray = explode('-', Helper::formatPhone($phoneNumber));
         } else {
             $phoneArray = null;
@@ -463,7 +468,8 @@ class AuthServices
      * 오더 페이지 용.
      * @return array
      */
-    public function getUserOrderInfo() : array {
+    public function getUserOrderInfo(): array
+    {
 
         $user_id = Auth()->id();
 
@@ -477,7 +483,7 @@ class AuthServices
         $taskEmail = $this->codesRepository->defaultCustomFind('code_name', $emailStep2, []);
 
         $phoneNumber = !empty($userTask['phone_verifies']['phone_number']) ? Crypt::decryptString($userTask['phone_verifies']['phone_number']) : null;
-        if($phoneNumber) {
+        if ($phoneNumber) {
             $phoneArray = explode('-', Helper::formatPhone($phoneNumber));
         } else {
             $phoneArray = null;
@@ -494,7 +500,7 @@ class AuthServices
         $address_step2 = $userTask['address'] ? $userTask['address']['step2'] : '';
 
         $orderAddressTask = $this->orderMastersRepository->getOrder($user_id);
-        if(!$orderAddressTask->isEmpty()) {
+        if (!$orderAddressTask->isEmpty()) {
             $orderAddress = $orderAddressTask->first()->toArray();
 
             $address_zipcode = $orderAddress['address'] ? $orderAddress['address']['zipcode'] : '';
@@ -533,10 +539,11 @@ class AuthServices
      * @return void
      * @throws ClientErrorException
      */
-    public function updateUserInfo() : void {
+    public function updateUserInfo(): void
+    {
         $user_id = Auth()->id();
 
-        if($this->currentRequest->input('auth_index')) {
+        if ($this->currentRequest->input('auth_index')) {
             $validator = Validator::make($this->currentRequest->all(), [
                 'auth_index' => 'exists:phone_verifies,id',
 
@@ -545,7 +552,7 @@ class AuthServices
                     'auth_index.exists' => __('register.attempt.auth_code.exists'),
                 ]);
 
-            if( $validator->fails() ) {
+            if ($validator->fails()) {
                 throw new ClientErrorException($validator->errors()->first());
             }
 
@@ -554,7 +561,7 @@ class AuthServices
             /**
              * 인증 받지 않은 auth index 인지.
              */
-            if($authTask->verified === 'N') {
+            if ($authTask->verified === 'N') {
                 throw new ClientErrorException(__('register.attempt.auth_code.yet_verified'));
             }
 
@@ -563,13 +570,13 @@ class AuthServices
             ]);
         }
 
-        if($this->currentRequest->input('password')) {
+        if ($this->currentRequest->input('password')) {
             $this->userRepository->updateUserDetailInfo($user_id, [
                 'password' => Hash::make($this->currentRequest->input('password')),
             ]);
         }
 
-        if($this->currentRequest->input('email')) {
+        if ($this->currentRequest->input('email')) {
             $validator = Validator::make($this->currentRequest->all(), [
                 'email' => 'required|email',
             ],
@@ -577,7 +584,7 @@ class AuthServices
                     'email.email' => __('register.attempt.email.check'),
                 ]);
 
-            if( $validator->fails() ) {
+            if ($validator->fails()) {
                 throw new ClientErrorException($validator->errors()->first());
             }
 
@@ -586,11 +593,11 @@ class AuthServices
             ]);
         }
 
-        if($this->currentRequest->input('zipcode') && $this->currentRequest->input('step1') && $this->currentRequest->input('step2')) {
+        if ($this->currentRequest->input('zipcode') && $this->currentRequest->input('step1') && $this->currentRequest->input('step2')) {
 
             $addressTask = $this->userAddressRepository->defaultGetCustomFind('user_id', $user_id);
 
-            if($addressTask->isEmpty()) {
+            if ($addressTask->isEmpty()) {
                 $this->userAddressRepository->create([
                     'user_id' => $user_id,
                     'zipcode' => $this->currentRequest->input('zipcode'),
@@ -606,4 +613,42 @@ class AuthServices
             }
         }
     }
+
+
+    /**
+     * 아이디 찾기
+     * @returns String
+     * @throws ClientErrorException
+     */
+    public function findId()
+    {
+            $validator = Validator::make($this->currentRequest->all(), [
+                'email' => 'required|email'
+            ],[
+                'email.required' => __('register.attempt.required.user_email'),
+                'email.email' => __('register.attempt.required.user_email'),
+            ]);
+
+            if ($validator-> fails()) {
+                throw new ClientErrorException($validator->errors()-> first());
+            }
+
+            $email = $this->currentRequest->input('email');
+            $loginIdTask = $this->userRepository->getLoginIdByEmail($email);
+
+            if(empty($loginIdTask->toArray())) {
+                throw new ModelNotFoundException();
+            }
+
+        $loginIds = array_map(function($item) {
+            return $item['login_id'];
+        } , $loginIdTask->toArray());
+
+            $details = [
+                'loginIds' => $loginIds,
+            ];
+
+            Mail::to($email)->send(new sendMail($details));
+
+        }
 }

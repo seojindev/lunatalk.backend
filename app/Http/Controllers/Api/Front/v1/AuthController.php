@@ -72,4 +72,15 @@ class AuthController extends RootController
     {
         return Response::success($this->authServices->getTokenInfo());
     }
+
+
+    /**
+     * 아이디 찾기
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function findId()
+    {
+        return Response::success($this->authServices->findId());
+    }
 }

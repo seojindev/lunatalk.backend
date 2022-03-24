@@ -70,6 +70,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::post('login', [AuthController::class, 'login'])->name('login'); // 로그인.
                 Route::delete('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
                 Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
+                Route::post('findId', [AuthController::class, 'findId'])->name('findId');
             });
 
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
