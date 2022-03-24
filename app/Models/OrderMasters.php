@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \App\Models\Codes|null $delivery 배송 상태.
  * @property \App\Models\Codes|null $receive 고객 상품 선택 상태.
  * @property string $order_log 결제 기록.
+ * @property string $memo 주문 메모.
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -42,6 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereDelivery($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereMemo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderMasters whereOrderLog($value)
@@ -70,7 +72,9 @@ class OrderMasters extends Model
         'message',
         'order_name',
         'order_price',
-        'active'
+        'active',
+        'delivery',
+        'memo'
     ];
 
     /**

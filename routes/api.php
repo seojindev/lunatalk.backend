@@ -204,6 +204,8 @@ Route::group(['as' => 'api.'], function () {
             Route::group(['prefix' => 'order-manage', 'as' => 'order-manage.'], function () {
                 Route::get('show-order', [\App\Http\Controllers\Api\Admin\v1\OrderManageController::class, 'showOrder'])->name('show.order'); // 주문 리스트.
                 Route::get('show-order/{uuid}/detail', [\App\Http\Controllers\Api\Admin\v1\OrderManageController::class, 'showOrderDetail'])->name('show.order.detail'); // 주문 상세.
+                Route::post('show-order/{uuid}/change-delivery', [\App\Http\Controllers\Api\Admin\v1\OrderManageController::class, 'changeDelivery'])->name('show.order.change.delivery'); // 배송 상태 변경.
+                Route::post('show-order/{uuid}/change-memo', [\App\Http\Controllers\Api\Admin\v1\OrderManageController::class, 'orderMemo'])->name('show.order.change.order.memo'); // 주문 메모 수정.
             });
         });
     });
