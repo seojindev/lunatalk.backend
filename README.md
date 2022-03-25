@@ -93,6 +93,7 @@ docker-compose exec lunatalk-backend /bin/bash
 
 
 // production mysql
+/dockerfiles/*.pem 추가.
 docker-compose exec lunatalk-backend /bin/bash
 ssh -i /tmp/data/lunatalk_backend.pem ubuntu@15.165.251.36 -N -L 63306:localhost:3306
 ```
