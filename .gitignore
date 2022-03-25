@@ -34,3 +34,5 @@ boots.txt
 # test controller
 app/Http/Controllers/Api/TestController.php
 app/Http/Controllers/Front/TestController.php
+
+/dockerfiles/*.pem
