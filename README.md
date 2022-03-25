@@ -35,7 +35,7 @@ composer app-test:clear
 php artisan db:wipe --env=testing && php artisan migrate --seed --env=testing && php artisan passport:install --force --env=testing
 php artisan db:wipe && php artisan migrate --seed && php artisan passport:install --force
 
-> 유닛 테스트 와치 실행. 
+> 유닛 테스트 와치 실행.
 composer app-test:watch
 
 > 팩토리 데이터 실행 ( 데이터 베이스 리셋. )
@@ -68,6 +68,33 @@ PhoneVerify::factory()->count(5)->create();
 ProductCategory::factory()->count(5)->create();
 UserRegisterSelects::factory()->count(5)->create();
 MediaFiles::factory()->count(5)->create();
+```
+
+####Docker
+```bash
+// 빌드
+docker-compose build --force-rm
+
+// 이미지 초기화
+docker system prune -a
+
+
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+docker rmi $(docker images -q --no-trunc)
+docker kill $(docker ps -q)
+docker rm $(docker ps -a -q)
+
+docker kill $(docker ps -q) && docker rm $(docker ps -a -q) && docker rmi $(docker images -q --no-trunc) && docker-compose build --force-rm
+
+docker-compose up -d
+
+// 컨테이너 접속
+docker-compose exec lunatalk-backend /bin/bash
+
+
+// production mysql
+docker-compose exec lunatalk-backend /bin/bash
+ssh -i /tmp/data/lunatalk_backend.pem ubuntu@15.165.251.36 -N -L 63306:localhost:3306
 ```
 
 ## Contributing

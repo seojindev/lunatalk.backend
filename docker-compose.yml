@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  lunatalk-backend:
+    build:
+     context: '.'
+    environment:
+        TZ: "Asia/Seoul"
+    container_name: lunatalk-backend
+    hostname: lunatalk-backend
+    domainname: localdomain
+    ports:
+      - 43380:80
+      - 43343:443
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/var/www:rw
+      - ./dockerfiles:/tmp/data
+    command:
+        - /usr/local/bin/start.sh
+    networks:
+        - lunatalk-networks
+
+networks:
+    lunatalk-networks:
+        driver: bridge
