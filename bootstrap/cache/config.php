@@ -188,7 +188,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/framework/cache/data',
+        'path' => '/var/www/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -506,12 +506,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/app',
+        'root' => '/var/www/storage/app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/app/public',
+        'root' => '/var/www/storage/app/public',
         'url' => 'http://localhost:43380/storage',
         'visibility' => 'public',
       ),
@@ -529,12 +529,12 @@
       'inside-space' => 
       array (
         'driver' => 'local',
-        'root' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/inside/space',
+        'root' => '/var/www/storage/inside/space',
       ),
       'inside-temp' => 
       array (
         'driver' => 'local',
-        'root' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/inside/temp',
+        'root' => '/var/www/storage/inside/temp',
       ),
       'media-server' => 
       array (
@@ -551,7 +551,7 @@
     ),
     'links' => 
     array (
-      '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/public/storage' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/app/public',
+      '/var/www/public/storage' => '/var/www/storage/app/public',
     ),
   ),
   'hashing' => 
@@ -582,7 +582,7 @@
     'include_helpers' => false,
     'helper_files' => 
     array (
-      0 => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+      0 => '/var/www/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
     ),
     'model_locations' => 
     array (
@@ -651,13 +651,13 @@
       'single' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/laravel.log',
+        'path' => '/var/www/storage/logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/laravel.log',
+        'path' => '/var/www/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -708,75 +708,75 @@
       ),
       'emergency' => 
       array (
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/laravel.log',
+        'path' => '/var/www/storage/logs/laravel.log',
       ),
       'ServiceErrorExceptionLog' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/ServiceErrorExceptionLog.log',
+        'path' => '/var/www/storage/logs/2022/03/ServiceErrorExceptionLog.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'NotFoundHttpException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/NotFoundHttpException.log',
+        'path' => '/var/www/storage/logs/2022/03/NotFoundHttpException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'MethodNotAllowedHttpException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/MethodNotAllowedHttpException.log',
+        'path' => '/var/www/storage/logs/2022/03/MethodNotAllowedHttpException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'ClientErrorException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/ClientErrorException.log',
+        'path' => '/var/www/storage/logs/2022/03/ClientErrorException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'ServerErrorException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/ServerErrorException.log',
+        'path' => '/var/www/storage/logs/2022/03/ServerErrorException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'ForbiddenErrorException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/ForbiddenErrorException.log',
+        'path' => '/var/www/storage/logs/2022/03/ForbiddenErrorException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'AuthenticationException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/AuthenticationException.log',
+        'path' => '/var/www/storage/logs/2022/03/AuthenticationException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'ThrottleRequestsException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/ThrottleRequestsException.log',
+        'path' => '/var/www/storage/logs/2022/03/ThrottleRequestsException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'PDOException' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/PDOException.log',
+        'path' => '/var/www/storage/logs/2022/03/PDOException.log',
         'level' => 'debug',
         'days' => 31,
       ),
       'Throwable' => 
       array (
         'driver' => 'daily',
-        'path' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/logs/2022/03/Throwable.log',
+        'path' => '/var/www/storage/logs/2022/03/Throwable.log',
         'level' => 'debug',
         'days' => 31,
       ),
@@ -835,7 +835,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/resources/views/vendor/mail',
+        0 => '/var/www/resources/views/vendor/mail',
       ),
     ),
   ),
@@ -918,7 +918,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/framework/sessions',
+    'files' => '/var/www/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -938,9 +938,9 @@
   array (
     'paths' => 
     array (
-      0 => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/resources/views',
+      0 => '/var/www/resources/views',
     ),
-    'compiled' => '/Users/sm/Workspaces/Develop/Project/Lunatalk/lunatalk.backend/storage/framework/views',
+    'compiled' => '/var/www/storage/framework/views',
   ),
   'flare' => 
   array (
