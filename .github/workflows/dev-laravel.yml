@@ -1,0 +1,25 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  dev-laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '7.4'
+    - uses: actions/checkout@v2
+
+    - name: deploy to development server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEVELOPMENT_SERVER_IP }}
+        username: ${{ secrets.DEVELOPMENT_SERVER_USER_NAME}}
+        key: ${{ secrets.DEVELOPMENT_SSH_PRIVATE_KEY }}
+        script:
+          cd /var/www/site/lunatalk.co.kr/dev.service && ./deploy.sh
