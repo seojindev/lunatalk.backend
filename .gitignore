@@ -13,7 +13,7 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-/bootstrap/cache/*
+bootstrap/cache/*
 
 # local file
 storage/inside/temp/*
