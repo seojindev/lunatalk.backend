@@ -83,4 +83,15 @@ class AuthController extends RootController
     {
         return Response::success($this->authServices->findId());
     }
+
+
+    /**
+     * 비밀번호 초기화
+     * @return mixed
+     * @throws ClientErrorException
+     */
+    public function resetPassword()
+    {
+        return Response::success($this->authServices->resetPassword());
+    }
 }

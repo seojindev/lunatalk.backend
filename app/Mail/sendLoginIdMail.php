@@ -3,11 +3,10 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class sendMail extends Mailable
+class sendLoginIdMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,6 +28,6 @@ class sendMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('루나톡 아이디 찾기 lunatalk.co.kr')->view('email.idPasswordEmail');
+        return $this->subject('루나톡 아이디 찾기')->view('email.idPasswordEmail');
     }
 }
