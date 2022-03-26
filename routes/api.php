@@ -71,6 +71,7 @@ Route::group(['as' => 'api.'], function () {
                 Route::delete('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:api'); // 로그아웃.
                 Route::get('token-info', [AuthController::class, 'tokenInfo'])->name('token.info')->middleware('auth:api'); // 토큰 정보.
                 Route::post('findId', [AuthController::class, 'findId'])->name('findId');
+                Route::post('resetPassword', [AuthController::class, 'resetPassword'])->name('resetPassword');
             });
 
             Route::group(['prefix' => 'product', 'as' => 'product.'], function () {

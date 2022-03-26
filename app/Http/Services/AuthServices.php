@@ -4,7 +4,8 @@ namespace App\Http\Services;
 
 use App\Exceptions\ServerErrorException;
 use App\Http\Repositories\Eloquent\UserRepository;
-use App\Mail\sendMail;
+use App\Mail\sendLoginIdMail;
+use App\Mail\sendResetPasswordMail;
 use App\Models\User;
 use App\Supports\AuthTrait;
 use App\Supports\PassportTrait;
@@ -648,7 +649,47 @@ class AuthServices
                 'loginIds' => $loginIds,
             ];
 
-            Mail::to($email)->send(new sendMail($details));
+            Mail::to($email)->send(new sendLoginIdMail($details));
 
+    }
+
+    public function resetPassword()
+    {
+        $validator = Validator::make($this->currentRequest->all(), [
+            'email' => 'required|email',
+            'login_id' => 'required|exists:users,login_id',
+        ],[
+            'email.required' => __('register.attempt.required.user_email'),
+            'email.email' => __('register.attempt.required.user_email'),
+            'login_id.required' => __('login.login_id_required'),
+            'login_id.exists' => __('login.login_id_exists'),
+        ]);
+
+        if ($validator-> fails()) {
+            throw new ClientErrorException($validator->errors()-> first());
         }
+
+        $email = $this->currentRequest->input('email');
+        $loginId = $this->currentRequest->input('login_id');
+
+        $userDetailTask = $this->userRepository->getUserDetailByLoginIdEmail($email, $loginId);
+
+        if(empty($userDetailTask->toArray())) {
+            throw new ModelNotFoundException();
+        }
+        $modifyPassword = Str::random(8);
+        $userId = $userDetailTask->first()->toArray()['id'];
+
+        $this->userRepository->updateUserDetailInfo($userId, [
+            'password' => Hash::make($modifyPassword),
+        ]);
+
+        $details = [
+            'loginId' => $loginId,
+            'password' => $modifyPassword,
+        ];
+
+        Mail::to($email)->send(new sendResetPasswordMail($details));
+
+    }
 }

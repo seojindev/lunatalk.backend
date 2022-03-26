@@ -77,4 +77,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getLoginIdByEmail(String $email): Collection {
         return $this->model->where('email', $email)->get();
     }
+
+    /**
+     * 로그인 아이디와 이메일로 유저 데이터 찾기
+     * @param String $email
+     * @param String $loginId
+     * @return Collection
+     */
+    public function getUserDetailByLoginIdEmail(String $email, String $loginId) :Collection {
+        return $this->model->where('email', $email)->where('login_id', $loginId)->get();
+    }
 }
