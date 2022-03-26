@@ -18,6 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clear Config
+        run: php artisan config:clear
+
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
@@ -45,9 +48,6 @@ jobs:
         run: |
           php -r "copy('.env.github', '.env');"
           php artisan key:generate
-
-      - name: Clear Config
-        run: php artisan config:clear
 
       - name: Test with phpunit
         env:
