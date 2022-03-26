@@ -10,8 +10,8 @@ services:
     hostname: lunatalk-backend
     domainname: localdomain
     ports:
-      - 43380:80
-      - 43343:443
+      - "43380:80"
+      - "43343:443"
     stdin_open: true
     tty: true
     volumes:
