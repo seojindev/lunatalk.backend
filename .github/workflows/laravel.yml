@@ -3,8 +3,6 @@ name: Laravel
 on:
   push:
     branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
 
 jobs:
   laravel-tests:
@@ -34,4 +32,13 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit --coverage-text
+
+    - name: deploy to development server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEVELOPMENT_SERVER_IP }}
+        username: ${{ secrets.DEVELOPMENT_SERVER_USER_NAME}}
+        key: ${{ secrets.DEVELOPMENT_SSH_PRIVATE_KEY }}
+        script:
+          cd /var/www/site/lunatalk.co.kr/dev.service && ./deploy.sh
