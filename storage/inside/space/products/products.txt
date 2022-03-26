@@ -1,0 +1,114 @@
+P010110,스마일 손거울 ,초콜릿,,6800,46,8809336182235,http://lunatalk.co.kr/product/detail.html?product_no=93&cate_no=27&display_group=1
+P010110,스마일 손거울 ,레드,,6800,49,8809336182211,http://lunatalk.co.kr/product/detail.html?product_no=93&cate_no=27&display_group=1
+P010110,스마일 손거울 ,네이비,,6800,49,8809336182228,http://lunatalk.co.kr/product/detail.html?product_no=93&cate_no=27&display_group=1
+P010110,스마일 손거울 ,베리밀크,,6800,48,8809336182228,http://lunatalk.co.kr/product/detail.html?product_no=93&cate_no=27&display_group=1
+P010110,데일리 체크 크로스백 스트랩,화이트,,3000,656,8809336180163,http://lunatalk.co.kr/product/detail.html?product_no=46&cate_no=27&display_group=1
+P010110,데일리 체크 크로스백 스트랩,엔티크,,3000,338,8809336180156,http://lunatalk.co.kr/product/detail.html?product_no=45&cate_no=27&display_group=1
+P010120,마린마치&빈티지크라운 크로스백,네이비,,68000,160,8809336180477,http://lunatalk.co.kr/product/detail.html?product_no=106&cate_no=25&display_group=1
+P010120,마린마치&빈티지크라운 크로스백,카키,,68000,49,8809336180491,http://lunatalk.co.kr/product/detail.html?product_no=106&cate_no=25&display_group=1
+P010120,마린마치&빈티지크라운 크로스백,레드,,68000,70,8809336180460,http://lunatalk.co.kr/product/detail.html?product_no=106&cate_no=25&display_group=1
+P010120,마린마치&빈티지크라운 크로스백,베이지,,68000,20,8809336180484,http://lunatalk.co.kr/product/detail.html?product_no=106&cate_no=25&display_group=1
+P010120,2way BACKPACK,핫핑크,,34900,63,8809336181030,http://lunatalk.co.kr/product/detail.html?product_no=52&cate_no=25&display_group=1
+P010120,2way BACKPACK,베이지,,34900,44,8809336181054,http://lunatalk.co.kr/product/detail.html?product_no=50&cate_no=25&display_group=1
+P010120,2way BACKPACK,네이비,,34900,136,8809336181047,http://lunatalk.co.kr/product/detail.html?product_no=49&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백L ,레드,,24500,235,8809336180118,http://lunatalk.co.kr/product/detail.html?product_no=21&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백L ,오렌지브라운,,24500,234,8809336180132,http://lunatalk.co.kr/product/detail.html?product_no=22&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백L ,올리브그린,,24500,177,8809336180149,http://lunatalk.co.kr/product/detail.html?product_no=23&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백L ,네이비,,24500,94,8809336180125,http://lunatalk.co.kr/product/detail.html?product_no=24&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백S ,레드,,16000,321,8809336180071,http://lunatalk.co.kr/product/detail.html?product_no=17&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백S ,카멜베이지,,16000,172,8809336180088,http://lunatalk.co.kr/product/detail.html?product_no=18&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백S ,포레스트크린,,16000,212,8809336180095,http://lunatalk.co.kr/product/detail.html?product_no=19&cate_no=25&display_group=1
+P010120,데일리 체크 크로스백S ,블랙,,16000,336,8809336180088,http://lunatalk.co.kr/product/detail.html?product_no=20&cate_no=25&display_group=1
+P010120,데일리 체크 파우치B ,스트로베리 레드,,21000,16,8809336180040,http://lunatalk.co.kr/product/detail.html?product_no=14&cate_no=25&display_group=1
+P010120,데일리 체크 파우치B ,머스타드옐로우,,21000,66,8809336180057,http://lunatalk.co.kr/product/detail.html?product_no=15&cate_no=25&display_group=1
+P010120,데일리 체크 파우치B ,스카이블루,,21000,31,,http://lunatalk.co.kr/product/detail.html?product_no=16&cate_no=25&display_group=1
+P010120,데일리 체크 파우치A ,스트로베리레드,,16000,329,8809336180019,http://lunatalk.co.kr/product/detail.html?product_no=14&cate_no=25&display_group=1
+P010120,데일리 체크 파우치A ,머스타드옐로우,,16000,342,8809336180026,http://lunatalk.co.kr/product/detail.html?product_no=15&cate_no=25&display_group=1
+P010120,데일리 체크 파우치A ,스카이블루,,16000,397,8809336180033,http://lunatalk.co.kr/product/detail.html?product_no=13&cate_no=25&display_group=1
+P010120,모어 그린 캔버스 백 ,화이트,,17800,147,8809308170093,http://lunatalk.co.kr/product/detail.html?product_no=102&cate_no=25&display_group=1
+P010120,모어 그린 캔버스 백 ,카키브라운,,17800,53,8809308170109,http://lunatalk.co.kr/product/detail.html?product_no=102&cate_no=25&display_group=1
+P010120,빈티지 썸머 쇼퍼백 세트 ,멜론그린,,57000,90,8809336180514,http://lunatalk.co.kr/product/detail.html?product_no=62&cate_no=25&display_group=1
+P010120,빈티지 썸머 쇼퍼백 세트 ,크림슨레드,,57000,110,8809336180507,http://lunatalk.co.kr/product/detail.html?product_no=63&cate_no=25&display_group=1
+P010120,빈티지 썸머 쇼퍼백 세트 ,아쿠아블루,,57000,70,8809336180521,http://lunatalk.co.kr/product/detail.html?product_no=64&cate_no=25&display_group=1
+P010130,스노우홀릭 펜슬케이스,,,16800,146,8809336180590,http://lunatalk.co.kr/product/detail.html?product_no=105&cate_no=28&display_group=1
+P010130,스노우홀릭 버튼 플래너 ,초코,,19800,511,8809336180736,http://lunatalk.co.kr/product/detail.html?product_no=104&cate_no=28&display_group=1
+P010130,스노우홀릭 버튼 플래너 ,블루,,19800,446,8809336180743,http://lunatalk.co.kr/product/detail.html?product_no=104&cate_no=28&display_group=1
+P010130,스노우홀릭 버튼 플래너 ,라일락,,19800,377,8809336180729,http://lunatalk.co.kr/product/detail.html?product_no=104&cate_no=28&display_group=1
+P010130,시스템폴더VL 마그넷 ,카멜,,29800,595,8809336180583,http://lunatalk.co.kr/product/detail.html?product_no=99&cate_no=28&display_group=1
+P010130,시스템폴더VL 마그넷 ,다크초콜릿,,29800,280,8809336180576,http://lunatalk.co.kr/product/detail.html?product_no=99&cate_no=28&display_group=1
+P010130,시스템폴더VL 마그넷 ,블루블랙,,29800,216,8809336180835,http://lunatalk.co.kr/product/detail.html?product_no=99&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,브라운,무선,12800,320,8809308170277,http://lunatalk.co.kr/product/detail.html?product_no=67&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,브라운,유선,12800,448,8809308170246,http://lunatalk.co.kr/product/detail.html?product_no=67&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,브라운,스케쥴러,12800,64,8809308170307,http://lunatalk.co.kr/product/detail.html?product_no=67&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,아이보리,무선,12800,320,8809308170260,http://lunatalk.co.kr/product/detail.html?product_no=69&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,아이보리,유선,12800,320,8809308170239,http://lunatalk.co.kr/product/detail.html?product_no=69&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,아이보리,스케쥴러,12800,64,8809308170291,http://lunatalk.co.kr/product/detail.html?product_no=69&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,블랙 ,무선,12800,0,8809336180095,http://lunatalk.co.kr/product/detail.html?product_no=66&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,블랙 ,유선,12800,64,8809308170222,http://lunatalk.co.kr/product/detail.html?product_no=66&cate_no=28&display_group=1
+P010130,세리프 아날로그드리밍 노트,블랙 ,스케쥴러,12800,0,8809308170284,http://lunatalk.co.kr/product/detail.html?product_no=66&cate_no=28&display_group=1
+P010130,루나 여권케이스,다크브라운,,9800,168,8809336180538,http://lunatalk.co.kr/product/detail.html?product_no=95&cate_no=28&display_group=1
+P010130,루나 여권케이스,와인,,9800,26,8809336180545,http://lunatalk.co.kr/product/detail.html?product_no=95&cate_no=28&display_group=1
+P010130,루나 여권케이스,블랙,,9800,30,8809336180552,http://lunatalk.co.kr/product/detail.html?product_no=95&cate_no=28&display_group=1
+P010130,세리프 시스템폴더 L ,핑크,,19800,53,8809308170048,http://lunatalk.co.kr/product/detail.html?product_no=85&cate_no=28&display_group=1
+P010130,세리프 시스템폴더 L ,아이보리,,19800,361,8809308170055,http://lunatalk.co.kr/product/detail.html?product_no=84&cate_no=28&display_group=1
+P010130,세리프 시스템폴더 L ,블랙,,19800,123,8809308170024,http://lunatalk.co.kr/product/detail.html?product_no=83&cate_no=28&display_group=1
+P010130,세리프 시스템폴더 L ,브라운,,19800,0,8809308170017,http://lunatalk.co.kr/product/detail.html?product_no=80&cate_no=28&display_group=1
+P010130,세리프 시스템폴더 L ,블랙에나멜,,22000,1,8809308170154,http://lunatalk.co.kr/product/detail.html?product_no=78&cate_no=28&display_group=1
+P010130,세리프 시스템폴더 L ,아이보리에나멜,,22000,0,,''
+P010130,세리프 시스템폴더 L ,레드에나멜,,29800,58,8809308170130,http://lunatalk.co.kr/product/detail.html?product_no=77&cate_no=28&display_group=1
+P010130,세리프 제시카 펜슬파우치 ,아이보리,,19800,90,8809308170185,http://lunatalk.co.kr/product/detail.html?product_no=71&cate_no=28&display_group=1
+P010130,세리프 제시카 펜슬파우치 ,블랙,,19800,140,8809308170178,http://lunatalk.co.kr/product/detail.html?product_no=72&cate_no=28&display_group=1
+P010130,세리프 제시카 펜슬파우치 ,브라운,,19800,108,8809308170192,http://lunatalk.co.kr/product/detail.html?product_no=70&cate_no=28&display_group=1
+P010130,세리프 포켓노트 모어그린 ,그린,,1400,720,8809308170116,http://lunatalk.co.kr/product/detail.html?product_no=86&cate_no=28&display_group=1
+P010130,세리프 포켓노트 모어그린 , 화이트,,1400,1728,8809308170086,http://lunatalk.co.kr/product/detail.html?product_no=86&cate_no=28&display_group=1
+P010130,세리프 미니 감사카드 4종세트,,,1650,1631,8809308170345,http://lunatalk.co.kr/product/detail.html?product_no=76&cate_no=28&display_group=1
+P010130,양가죽 여권케이스,그린,,29800,40,8809336180774,''
+P010130,양가죽 여권케이스,와인,,29800,8,8809336180774,''
+P010130,가죽양장 백지노트 ,브라운,,18000,12,8809336180804,''
+P010130,가죽양장 백지노트 ,퍼플,,18000,12,8809336180804,''
+P010140,루나톡 코인 파우치,,,19800,2,8809336180811,http://lunatalk.co.kr/product/detail.html?product_no=107&cate_no=26&display_group=1
+P010140,루나 ID카드케이스 ,카멜,,14400,17,8809336180644,http://lunatalk.co.kr/product/detail.html?product_no=101&cate_no=26&display_group=1
+P010140,루나 ID카드케이스 ,블루블랙,,14400,75,8809336180668,http://lunatalk.co.kr/product/detail.html?product_no=101&cate_no=26&display_group=1
+P010140,루나 ID카드케이스 ,라일락,,14400,32,8809336180651,http://lunatalk.co.kr/product/detail.html?product_no=101&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,베이지,,14000,12,8809336180361,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,핑크,,14000,5,8809336180422,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,민트,,14000,0,8809336180392,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,네이비,,14000,55,8809336180699,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 , 스카이블루,,14000,2,8809336180705,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,펄옐로우,,14000,65,880933680682,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,라임,,14000,10,8809336180385,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,아쿠아블루,,14000,4,8809336180408,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,퍼플,,14000,1,8809336180439,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,오렌지브라운,,14000,0,8809336180415,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,레드,,14000,54,8809336180453,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,허니옐로우,,14000,4,8809336180378,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스ver.2 ,카멜,,14000,3,8809336180446,http://lunatalk.co.kr/product/detail.html?product_no=94&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스,오렌지브라운,,9800,16,8809336182181,http://lunatalk.co.kr/product/detail.html?product_no=92&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스,베이지,,9800,3,8809336182174,http://lunatalk.co.kr/product/detail.html?product_no=92&cate_no=26&display_group=1
+P010140,루나 키링 카드케이스,머스터드옐로우,,9800,0,8809336182198,http://lunatalk.co.kr/product/detail.html?product_no=92&cate_no=26&display_group=1
+P010140,쇼콜라 동전지갑 ,체리레드,,18000,59,8809336182095,http://lunatalk.co.kr/product/detail.html?product_no=25&cate_no=26&display_group=1
+P010140,쇼콜라 동전지갑 ,베리밀크,,18000,155,8809330182051,http://lunatalk.co.kr/product/detail.html?product_no=26&cate_no=26&display_group=1
+P010140,쇼콜라 동전지갑 ,허니카라멜,,18000,49,8809336182082,http://lunatalk.co.kr/product/detail.html?product_no=27&cate_no=26&display_group=1
+P010140,쇼콜라 동전지갑 ,초코쿠키,,18000,60,8809336182068,http://lunatalk.co.kr/product/detail.html?product_no=28&cate_no=26&display_group=1
+P010140,소가죽 남성 반지갑,베이지,,38000,38,8809336180798,''
+P010140,소가죽 남성 반지갑,세피아,,38000,37,8809336180798,''
+P010140,슬림 지퍼지갑,레드,,55000,46,8809336180255,http://lunatalk.co.kr/product/detail.html?product_no=33&cate_no=26&display_group=1
+P010140,슬림 지퍼지갑,네이비,,55000,156,8809336180262,http://lunatalk.co.kr/product/detail.html?product_no=34&cate_no=26&display_group=1
+P010140,슬림 지퍼지갑,초코,,55000,106,8809336180279,http://lunatalk.co.kr/product/detail.html?product_no=35&cate_no=26&display_group=1
+P010140,쇼콜라 프레임지갑,체리봉봉,,49800,27,8809336182099,http://lunatalk.co.kr/product/detail.html?product_no=29&cate_no=26&display_group=1
+P010140,쇼콜라 프레임지갑,베리밀크,,49800,8,8809336182105,http://lunatalk.co.kr/product/detail.html?product_no=30&cate_no=26&display_group=1
+P010140,쇼콜라 프레임지갑,블루베리,,49800,20,8809336180200,http://lunatalk.co.kr/product/detail.html?product_no=32&cate_no=26&display_group=1
+P010140,쇼콜라 프레임지갑,허니카라멜,,49800,53,8809336182112,http://lunatalk.co.kr/product/detail.html?product_no=31&cate_no=26&display_group=1
+P010140,슬림버튼지갑,체리레드,,22000,65,8809336180286,http://lunatalk.co.kr/product/detail.html?product_no=36&cate_no=26&display_group=1
+P010140,슬림버튼지갑,애플그린,,22000,62,8809336180309,http://lunatalk.co.kr/product/detail.html?product_no=40&cate_no=26&display_group=1
+P010140,슬림버튼지갑,카멜베이지,,22000,31,8809336180293,http://lunatalk.co.kr/product/detail.html?product_no=39&cate_no=26&display_group=1
+P010140,슬림버튼지갑,마린블루,,22000,0,8809336180316,http://lunatalk.co.kr/product/detail.html?product_no=41&cate_no=26&display_group=1
+P010140,쁘띠리본월렛 ,카라멜,,36000,52,8809336181108,http://lunatalk.co.kr/product/detail.html?product_no=60&cate_no=26&display_group=1
+P010140,쁘띠리본월렛 ,민트,,36000,41,8809336181092,http://lunatalk.co.kr/product/detail.html?product_no=59&cate_no=26&display_group=1
+P010140,쁘띠리본월렛 ,머스타드옐로우,,36000,82,8809336181085,http://lunatalk.co.kr/product/detail.html?product_no=58&cate_no=26&display_group=1
+P010140,쁘띠리본월렛 ,핫핑크,,36000,85,8809336181061,http://lunatalk.co.kr/product/detail.html?product_no=57&cate_no=26&display_group=1
+P010140,쁘띠리본월렛 ,베이비핑크,,36000,33,8809336181078,http://lunatalk.co.kr/product/detail.html?product_no=56&cate_no=26&display_group=1
+P010140,쁘띠리본월렛 ,블루베리,,36000,5,8809336181115,''
+P010140,Real Leather Wallet,커피브라운,,65000,0,8809336181016,http://lunatalk.co.kr/product/detail.html?product_no=54&cate_no=26&display_group=1
+P010140,Real Leather Wallet,바이올렛핑크,,65000,22,8809336181009,http://lunatalk.co.kr/product/detail.html?product_no=54&cate_no=26&display_group=1
+P010140,Real Leather Wallet,라임옐로우,,65000,45,8809336181023,http://lunatalk.co.kr/product/detail.html?product_no=54&cate_no=26&display_group=1
