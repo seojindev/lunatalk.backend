@@ -4,7 +4,7 @@
 
 ### app script
 
-####app-reset
+#### app-reset
 
 ```bash
 composer app-reset
@@ -18,17 +18,17 @@ php artisan db:seed --class=CodesSeeder --force
 
 > 데이베이스 초기화 조심해야함.
 
-####ssh tunneling
+#### ssh tunneling
 ```bash
 ssh lunatalk-dev -N -L 63306:localhost:3306
 ```
 
-####app clear
+#### app clear
 ```bash
 composer app-clear
 ```
 
-####unitest
+#### unitest
 ```bash
 > 테스트 설정 리셋.
 composer app-test:clear
@@ -48,7 +48,7 @@ php artisan test --stop-on-failure
 php artisan db:seed --class=CodesSeeder --force
 ```
 
-####기존 상품 정보 가지고 오기
+#### 기존 상품 정보 가지고 오기
 
 ```bash
 
@@ -60,7 +60,7 @@ php artisan dev:product-create
 
 ```
 
-####tinker factory
+#### tinker factory
 
 ```bash
 User::factory()->count(5)->create();
@@ -70,7 +70,7 @@ UserRegisterSelects::factory()->count(5)->create();
 MediaFiles::factory()->count(5)->create();
 ```
 
-####Docker
+#### Docker
 ```bash
 // 빌드
 docker-compose build --force-rm
