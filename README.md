@@ -21,6 +21,8 @@ php artisan db:seed --class=CodesSeeder --force
 #### ssh tunneling
 ```bash
 ssh lunatalk-dev -N -L 63306:localhost:3306
+ssh lunatalk-web -N -L 63306:localhost:3306
+ssh lunatalk-db -N -L 63306:localhost:3306
 ```
 
 #### app clear
