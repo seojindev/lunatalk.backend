@@ -145,18 +145,18 @@ class ProductsTxtToJson extends Command
 
                     // detimg 상세 이미지
                     $detailTmpImages1 = array_values(array_map(function($element) {
-                        return 'http://lunatalk.co.kr' . $element['src'];
+                        return 'http://sjsanup21.cafe24.com' . $element['src'];
                     }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/detimg') !== false))));
 
                     $detailTmpImages2 = array_values(array_map(function($element) {
-                        return 'http://lunatalk.co.kr' . $element['src'];
+                        return 'http://sjsanup21.cafe24.com' . $element['src'];
                     }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/ACC/') !== false))));
                     $detailTmpImages2 = array_unique($detailTmpImages2);
 
                     if(count($detailTmpImages1) === 0 && count($detailTmpImages2) === 0 ) {
 
                         $detailTmpImages3 = array_values(array_map(function($element) {
-                            return 'http://lunatalk.co.kr' . $element['src'];
+                            return 'http://sjsanup21.cafe24.com' . $element['src'];
                         }, array_filter($extractedImages, fn($value) => (strpos($value['src'], '/%BB%F3%BC%BC%C0%CC%B9%CC%C1%F6%BF%EB/') !== false))));
 
                         $detail_image = array_merge_recursive($detailTmpImages1, $detailTmpImages2, $detailTmpImages3);
