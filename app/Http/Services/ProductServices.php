@@ -274,7 +274,7 @@ class ProductServices {
                     'string' => number_format(count($item['reviews']))
                 ],
                 'rep_image' => [
-                    'file_name' => $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
+                    'file_name' => $item['rep_image'] && $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
                     'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
                 ],
                 'badge' => array_map(function($item) {
