@@ -154,6 +154,7 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0010', 'code_name' => '시도' ],
                 [ 'code_id' => '0020', 'code_name' => '입금전' ],
                 [ 'code_id' => '0030', 'code_name' => '결제완료' ],
+                [ 'code_id' => '0040', 'code_name' => '입금완료' ],
             ],
             '520' => [
                 [ 'code_id' => '0000', 'code_name' => '배송 준비중' ],
