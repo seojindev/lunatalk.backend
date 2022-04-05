@@ -2,11 +2,18 @@
 
 namespace App\Console\Commands\Production;
 
+use App\Exceptions\ClientErrorException;
+use App\Exceptions\ServerErrorException;
 use Illuminate\Console\Command;
 use App\Models\OrderMasters;
+use App\Supports\AuthTrait;
 
 class ProductOrderAlert extends Command
 {
+    use AuthTrait {
+        AuthTrait::sendSMS as AuthTraitSendSMS;
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -46,6 +53,8 @@ class ProductOrderAlert extends Command
 
         foreach ($task->toArray() as $item) {
 
+            $message = "[lunatalk] " . $item['order_name'].' 주문이 완료 되었습니다.';
+            $this->AuthTraitSendSMS(env('SMS_SEND_NO'), $message);
 
             OrderMasters::where('id', $item['id'])
                 ->update(['notice' => 'Y']);
