@@ -11,7 +11,7 @@ use App\Supports\AuthTrait;
 class ProductOrderAlert extends Command
 {
     use AuthTrait {
-        AuthTrait::sendSMS as AuthTraitSendSMS;
+        AuthTrait::sendAuthSMS as AuthTraitSendSMS;
     }
 
     /**
