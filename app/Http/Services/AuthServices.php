@@ -33,7 +33,7 @@ class AuthServices
         PassportTrait::newToken as PassportTraitNewToken;
     }
     use AuthTrait {
-        AuthTrait::sendSMS as AuthTraitSendSMS;
+        AuthTrait::sendAuthSMS as AuthTraitSendAuthSMS;
     }
 
     protected Request $currentRequest;
@@ -129,7 +129,7 @@ class AuthServices
         ]);
 
         $message = "[lunatalk.co.kr] 회원가입 인증번호 : " . $authCode;
-        $this->AuthTraitSendSMS($phoneNumber, $message);
+        $this->AuthTraitSendAuthSMS($phoneNumber, $message);
 
         if (env('APP_ENV') == "production") {
             return [
