@@ -11,7 +11,7 @@ use App\Supports\AuthTrait;
 class ProductOrderAlert extends Command
 {
     use AuthTrait {
-        AuthTrait::sendAuthSMS as AuthTraitSendSMS;
+        AuthTrait::sendSMS as AuthTraitSendSMS;
     }
 
     /**
@@ -45,7 +45,6 @@ class ProductOrderAlert extends Command
      */
     public function handle() : int
     {
-
         $task = OrderMasters::whereIn('state', ['5100030', '5100040'])
             ->where('notice', 'N')
             ->orderBy('id', 'asc')
@@ -53,8 +52,8 @@ class ProductOrderAlert extends Command
 
         foreach ($task->toArray() as $item) {
 
-            $message = "[lunatalk] " . $item['order_name'].' 주문이 완료 되었습니다.';
-            $this->AuthTraitSendSMS(env('SMS_SEND_NO'), $message);
+            $message = "[루나톡]" . $item['order_name'] . ' 주문이 완료 되었습니다.';
+            $this->AuthTraitSendSMS(env('SMS_PRODUCT_NOTICE_NO'), $message);
 
             OrderMasters::where('id', $item['id'])
                 ->update(['notice' => 'Y']);
