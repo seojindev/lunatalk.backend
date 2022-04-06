@@ -136,10 +136,10 @@ class FrontPageServices
                     'name' => $item['name'],
                     'uuid' => $item['uuid'],
                     'image' => [
-                        'file_name' => $rep_image['file_name'],
-                        'url' => env('APP_MEDIA_URL') . '/' . $rep_image['dest_path'] . '/' . $rep_image['file_name'],
-                        'width' => $rep_image['width'],
-                        'height' => $rep_image['height'],
+                        'file_name' => $rep_image['file_name'] ?? null,
+                        'url' => isset($rep_image['file_name']) ? env('APP_MEDIA_URL') . '/' . $rep_image['dest_path'] . '/' . $rep_image['file_name'] : null,
+                        'width' => isset($rep_image['file_name']) ? $rep_image['width'] : null,
+                        'height' => isset($rep_image['file_name']) ? $rep_image['height'] : null,
                     ]
                 ];
             } else {
