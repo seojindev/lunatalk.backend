@@ -181,8 +181,8 @@ class ProductServices {
                 'rep' => array_map(function($item) {
                     return [
                         'id' => $item['image']['id'],
-                        'file_name' => $item['image']['file_name'],
-                        'url' => env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'],
+                        'file_name' => $item['image'] && $item['image']['file_name'] ? $item['image']['file_name'] : null,
+                        'url' => $item['image'] && $item['image']['file_name'] ?  env('APP_MEDIA_URL') . $item['image']['dest_path'] . '/' . $item['image']['file_name'] : null,
                     ];
                 }, $product['rep_images']),
                 'detail' => array_map(function($item) {
