@@ -251,6 +251,10 @@ class ProductServices {
 
         $results = $resultTask->toArray();
 
+        if(empty($results)) {
+            throw new ClientErrorException('추천 상품이 존재 하지 않습니다.');
+        }
+
         return array_map(function($item) {
             return [
                 'uuid' => $item['uuid'],
@@ -275,7 +279,7 @@ class ProductServices {
                 ],
                 'rep_image' => [
                     'file_name' => $item['rep_image'] && $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
-                    'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
+                    'url' => $item['rep_image'] && $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
                 ],
                 'badge' => array_map(function($item) {
                     return [
