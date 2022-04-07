@@ -59,5 +59,17 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
             ->get();
     }
 
-
+    /**
+     * 카테고리별 order 변경용
+     * @param String $category_uuid
+     * @param array $order
+     * @return Collection
+     */
+    public function getProductCategoryOrderList(String $category_uuid, array $order) : Collection {
+        return $this->model
+            ->where([['active', 'Y'], ['uuid', $category_uuid]])
+            ->with(['products', 'products.repImage.image', 'products.colors.color', 'products.badge.badge.image', 'products.reviews'])
+            ->orderBy($order['order'], $order['by'])
+            ->get();
+    }
 }
