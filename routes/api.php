@@ -98,6 +98,7 @@ Route::group(['as' => 'api.'], function () {
 
                 Route::group(['prefix' => 'product-category', 'as' => 'product-category.'], function () {
                     Route::get('{uuid}/list', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productCategoryList'])->name('product.category.list'); // 홈 상품 카테고리 리스트
+                    Route::get('{uuid}/{search_code}/list', [\App\Http\Controllers\Api\Front\v1\Pages\ProductController::class, 'productCategorySearchList'])->name('product.category.search.list'); // 홈 상품 카테고리 검색 리스트
                 });
 
                 Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
