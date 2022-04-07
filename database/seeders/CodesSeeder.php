@@ -79,6 +79,7 @@ class CodesSeeder extends Seeder
             [ 'group_id' => '510', 'group_name' => '결제 상태.' ],
             [ 'group_id' => '520', 'group_name' => '배송상태.' ],
             [ 'group_id' => '530', 'group_name' => '취소/반품.' ],
+            [ 'group_id' => '600', 'group_name' => '상품 카테고리 구분.' ],
 
         ];
     }
@@ -165,6 +166,12 @@ class CodesSeeder extends Seeder
                 [ 'code_id' => '0000', 'code_name' => '정상' ],
                 [ 'code_id' => '0010', 'code_name' => '취소' ],
                 [ 'code_id' => '0020', 'code_name' => '반품' ],
+            ],
+            '600' => [
+                [ 'code_id' => '0010', 'code_name' => '이름순' ],
+                [ 'code_id' => '0020', 'code_name' => '최신순' ],
+                [ 'code_id' => '0030', 'code_name' => '가격낮은순' ],
+                [ 'code_id' => '0040', 'code_name' => '가격높은순' ],
             ],
         ];
     }
