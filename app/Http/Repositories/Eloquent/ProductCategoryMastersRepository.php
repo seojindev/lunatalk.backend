@@ -68,8 +68,9 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
     public function getProductCategoryOrderList(String $category_uuid, array $order) : Collection {
         return $this->model
             ->where([['active', 'Y'], ['uuid', $category_uuid]])
-            ->with(['products', 'products.repImage.image', 'products.colors.color', 'products.badge.badge.image', 'products.reviews'])
-            ->orderBy($order['order'], $order['by'])
+            ->with(['products' => function($query) use ($order) {
+                $query->orderBy($order['order'], $order['by']);
+            }, 'products.repImage.image', 'products.colors.color', 'products.badge.badge.image', 'products.reviews'])
             ->get();
     }
 }
