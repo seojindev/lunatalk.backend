@@ -15,7 +15,7 @@ trait AuthTrait
     public function sendAuthSMS(string $phoneNumber, string $message)
     {
         $sendPhoneNumbers =explode(',', env('SMS_SEND_NO'));
-        foreach($sendPhoneNumbers as $adminPhoneNumber) {
+//        foreach($sendPhoneNumbers as $adminPhoneNumber) {
             $response = Http::withHeaders(
                 [
                     'X-Secret-Key' => env('SMS_SECRET_KEY'),
@@ -24,7 +24,7 @@ trait AuthTrait
             )->post('https://api-sms.cloud.toast.com/sms/v3.0/appKeys/'.env('SMS_API_KEY').'/sender/auth/sms',
                 [
                     'body' => $message,
-                    'sendNo' => $adminPhoneNumber,
+                    'sendNo' => env('SMS_SEND_NO'),
                     'recipientList' => [array('recipientNo' => $phoneNumber, 'countryCode' => '82')]
                 ]);
 
@@ -36,7 +36,7 @@ trait AuthTrait
                 }
                 throw new ServerErrorException(__('register.phone_auth_confirm.message_server_error'));
             }
-        }
+//        }
     }
 
     public function sendSMS(string $phoneNumber, string $message)
