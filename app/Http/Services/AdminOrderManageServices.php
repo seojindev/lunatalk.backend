@@ -131,6 +131,10 @@ class AdminOrderManageServices
                 'code_id' => $item['delivery']['code_id'],
                 'code_name' => $item['delivery']['code_name'],
             ],
+            'address' => [
+                'step1' => $item['address']['step1'],
+                'step2' => $item['address']['step2'],
+            ],
             'products' => array_map(function($element) {
                 $item = $element['product'];
                 return [

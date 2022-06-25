@@ -136,10 +136,10 @@ class FrontPageServices
                     'name' => $item['name'],
                     'uuid' => $item['uuid'],
                     'image' => [
-                        'file_name' => $rep_image['file_name'],
-                        'url' => env('APP_MEDIA_URL') . '/' . $rep_image['dest_path'] . '/' . $rep_image['file_name'],
-                        'width' => $rep_image['width'],
-                        'height' => $rep_image['height'],
+                        'file_name' => $rep_image['file_name'] ?? null,
+                        'url' => isset($rep_image['file_name']) ? env('APP_MEDIA_URL') . '/' . $rep_image['dest_path'] . '/' . $rep_image['file_name'] : null,
+                        'width' => isset($rep_image['file_name']) ? $rep_image['width'] : null,
+                        'height' => isset($rep_image['file_name']) ? $rep_image['height'] : null,
                     ]
                 ];
             } else {
@@ -372,7 +372,110 @@ class FrontPageServices
     }
 
     /**
-     * 장바구니 리스트 상품 추가.
+     * 카테고리별 검색
+     * @param String $uuid
+     * @param String $search_code
+     * @return array
+     */
+    public function productCategorySearchList(String $uuid, String $search_code) : array {
+        /*
+            6000010 이름순
+            6000020 최신순
+            6000030 가격낮은순
+            6000040 가격높은순
+        */
+
+        switch ($search_code) {
+            case '6000010': // 이름순
+                $order = [
+                    'order' => 'name',
+                    'by' => 'asc',
+                ];
+                break;
+
+            case '6000020': // 최신순
+                $order = [
+                    'order' => 'updated_at',
+                    'by' => 'desc',
+                ];
+                break;
+
+            case '6000030': // 가격낮은순
+                $order = [
+                    'order' => 'price',
+                    'by' => 'asc',
+                ];
+                break;
+
+            case '6000040': // 가격높은순
+                $order = [
+                    'order' => 'price',
+                    'by' => 'desc',
+                ];
+                break;
+
+            default: // 디폴트 입력순
+                $order = [
+                    'order' => 'created_at',
+                    'by' => 'desc',
+                ];
+        }
+
+
+        $task = $this->productCategoryMastersRepository->getProductCategoryOrderList($uuid, $order);
+
+        if($task->isEmpty()) {
+            throw new ModelNotFoundException();
+        }
+
+        $categoryList = $task->first()->toArray();
+
+        return [
+            'uuid' => $uuid,
+            'products' => array_map(function($item) {
+                return [
+                    'uuid' => $item['uuid'],
+                    'name' => $item['name'],
+                    'original_price' => [
+                        'number' => $item['original_price'],
+                        'string' => number_format($item['original_price'])
+                    ],
+                    'price' => [
+                        'number' => $item['price'],
+                        'string' => number_format($item['price'])
+                    ],
+                    'color' =>  array_map(function($item) {
+                        return [
+                            'id' => $item['color']['id'],
+                            'name' => $item['color']['name']
+                        ];
+                    }, $item['colors']),
+                    'review_count' => [
+                        'number' => count($item['reviews']),
+                        'string' => number_format(count($item['reviews']))
+                    ],
+                    'rep_image' => [
+                        'file_name' => $item['rep_image']['image'] ? $item['rep_image']['image']['file_name'] : null,
+                        'url' => $item['rep_image']['image'] ? env('APP_MEDIA_URL') . $item['rep_image']['image']['dest_path'] . '/' . $item['rep_image']['image']['file_name'] : null,
+                    ],
+                    'badge' => array_map(function($item) {
+                        return [
+                            'id' => $item['badge']['id'],
+                            'name' => $item['badge']['name'],
+                            'image' => [
+                                'id' => $item['badge']['image']['id'],
+                                'file_name' => $item['badge']['image']['file_name'],
+                                'url' => env('APP_MEDIA_URL') . $item['badge']['image']['dest_path'] . '/' . $item['badge']['image']['file_name']
+                            ],
+                        ];
+                    }, $item['badge']),
+                ];
+            }, $categoryList['products'])
+        ];
+}
+
+/**
+ * 장바구니 리스트 상품 추가.
      * @param String $product_uuid
      * @throws ClientErrorException
      */

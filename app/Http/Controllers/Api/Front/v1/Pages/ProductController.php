@@ -43,4 +43,14 @@ class ProductController extends Controller
     public function productOrder() {
         return Response::custom_success(201, __('default.response.process_success'), $this->orderServices->productNewOrder());
     }
+
+    /**
+     * 상품 카테고리별 검색.
+     * @param String $uuid
+     * @param String $search_code
+     * @return mixed
+     */
+    public function productCategorySearchList(String $uuid, String $search_code) {
+        return Response::custom_success(201, __('default.response.process_success'), $this->frontPageServices->productCategorySearchList($uuid, $search_code));
+    }
 }

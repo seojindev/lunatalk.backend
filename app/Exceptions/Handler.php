@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
 //            //
 //        });
 
-        $slackLogging = (env('APP_ENV') != "testing" && env('APP_ENV') != "local");
+        $slackLogging = env('APP_ENV') == "production" || env('APP_ENV') == "development";
 
         /**
          * 정상 이지만 에러 메시지를 보낼 경우.
