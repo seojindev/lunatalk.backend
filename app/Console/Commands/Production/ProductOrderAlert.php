@@ -53,7 +53,8 @@ class ProductOrderAlert extends Command
         foreach ($task->toArray() as $item) {
 
             $message = "[루나톡]" . $item['order_name'] . ' 주문이 완료 되었습니다.';
-            $this->AuthTraitSendSMS(env('SMS_PRODUCT_NOTICE_NO'), $message);
+            $this->AuthTraitSendSMS(env('SMS_PRODUCT_NOTICE_NO_DEVELOPER'), $message);
+            $this->AuthTraitSendSMS(env('SMS_PRODUCT_NOTICE_NO_ADMIN'), $message);
 
             OrderMasters::where('id', $item['id'])
                 ->update(['notice' => 'Y']);
