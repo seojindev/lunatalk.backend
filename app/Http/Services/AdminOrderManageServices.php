@@ -179,6 +179,7 @@ class AdminOrderManageServices
             'created_at' => [
                 'type1' => Carbon::parse($item['created_at'])->format('Y-m-d H:i'),
                 'type2' => Carbon::parse($item['created_at'])->format('Y-m-d'),
+                'type3' => $item['created_at'],
             ],
         ];
     }
