@@ -69,7 +69,7 @@ class ProductCategoryMastersRepository extends BaseRepository implements Product
         return $this->model
             ->where([['active', 'Y'], ['uuid', $category_uuid]])
             ->with(['products' => function($query) use ($order) {
-                $query->orderBy($order['order'], $order['by']);
+                $query->where('active', 'Y')->orderBy($order['order'], $order['by']);
             }, 'products.repImage.image', 'products.colors.color', 'products.badge.badge.image', 'products.reviews'])
             ->get();
     }
