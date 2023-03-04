@@ -103,7 +103,7 @@ class AuthServices
 
         $authCode = Helper::generateAuthNumberCode();
 
-        $authLimit = 3;
+        $authLimit = 30000;
         $now = date('Y-m-d');
         $currentPhoneAuth = $this->phoneVerifyRepository->getPhoneAuth(Crypt::encryptString($phoneNumber), $now)->toArray();
         $currentPhoneAuthCount = 0;
