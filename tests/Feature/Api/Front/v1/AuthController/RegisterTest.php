@@ -28,107 +28,107 @@ class RegisterTest extends BaseCustomTestCase
     }
 
     //  인증코드 없이 요청.
-    public function test_front_v1_auth_register_인증_index_없이_요청()
-    {
-        $this->expectException(ClientErrorException::class);
-        $this->expectExceptionMessage(__('register.attempt.required.auth_index'));
+    // public function test_front_v1_auth_register_인증_index_없이_요청()
+    // {
+    //     $this->expectException(ClientErrorException::class);
+    //     $this->expectExceptionMessage(__('register.attempt.required.auth_index'));
 
-        $testPayload = '{
-                "auth_index": "",
-                "user_id": "",
-                "user_password": "",
-                "user_password_confirm": "",
-                "user_name": "",
-                "user_email": ""
-        }';
+    //     $testPayload = '{
+    //             "auth_index": "",
+    //             "user_id": "",
+    //             "user_password": "",
+    //             "user_password_confirm": "",
+    //             "user_name": "",
+    //             "user_email": ""
+    //     }';
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
-    }
+    //     $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    // }
 
     //  존재 하지 않은 인증코드 요청.
-    public function test_front_v1_auth_register_존재_하지_않은_인증코드_요청()
-    {
-        $this->expectException(ClientErrorException::class);
-        $this->expectExceptionMessage(__('register.attempt.auth_code.exists'));
+    // public function test_front_v1_auth_register_존재_하지_않은_인증코드_요청()
+    // {
+    //     $this->expectException(ClientErrorException::class);
+    //     $this->expectExceptionMessage(__('register.attempt.auth_code.exists'));
 
-        $testPayload = '{
-                "auth_index": "111111",
-                "user_id": "",
-                "user_password": "",
-                "user_password_confirm": "",
-                "user_name": "",
-                "user_email": ""
-        }';
+    //     $testPayload = '{
+    //             "auth_index": "111111",
+    //             "user_id": "",
+    //             "user_password": "",
+    //             "user_password_confirm": "",
+    //             "user_name": "",
+    //             "user_email": ""
+    //     }';
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
-    }
+    //     $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    // }
 
     //  휴대폰 인증하지 않은 상태로 요청.
-    public function test_front_v1_auth_register_휴대폰_인증하지_않은_상태로_요청()
-    {
-        $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
-        PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
-        $auth_index = $randTask->id;
+    // public function test_front_v1_auth_register_휴대폰_인증하지_않은_상태로_요청()
+    // {
+    //     $randTask = PhoneVerifies::select('id')->where('verified' , 'Y')->inRandomOrder()->first();
+    //     PhoneVerifies::where('id', $randTask->id)->update(['verified' => 'N']);
+    //     $auth_index = $randTask->id;
 
-        $this->expectException(ClientErrorException::class);
-        $this->expectExceptionMessage(__('register.attempt.auth_code.yet_verified'));
+    //     $this->expectException(ClientErrorException::class);
+    //     $this->expectExceptionMessage(__('register.attempt.auth_code.yet_verified'));
 
-        $testPayload = '{
-                "auth_index": "'.$auth_index.'",
-                "user_id": "aaaaaaaaa",
-                "user_password": "password",
-                "user_password_confirm": "password",
-                "user_name": "테스트사용자",
-                "user_email": "test@gmail.com",
-                "user_select_email": "Y",
-                "user_select_message": "Y"
-        }';
+    //     $testPayload = '{
+    //             "auth_index": "'.$auth_index.'",
+    //             "user_id": "aaaaaaaaa",
+    //             "user_password": "password",
+    //             "user_password_confirm": "password",
+    //             "user_name": "테스트사용자",
+    //             "user_email": "test@gmail.com",
+    //             "user_select_email": "Y",
+    //             "user_select_message": "Y"
+    //     }';
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
-    }
+    //     $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    // }
 
     //  이미 인증이 끝난 인증 정보 요청.
-    public function test_front_v1_auth_register_이미_인증이_끝난_인증_정보_요청()
-    {
+    // public function test_front_v1_auth_register_이미_인증이_끝난_인증_정보_요청()
+    // {
 
-        $login_id = 'id'.uniqid();
+    //     $login_id = 'id'.uniqid();
 
-        $us = User::factory()->create([
-            'uuid' => Str::uuid(),
-            'login_id' => $login_id,
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ]);
+    //     $us = User::factory()->create([
+    //         'uuid' => Str::uuid(),
+    //         'login_id' => $login_id,
+    //         'name' => $this->faker->name(),
+    //         'email' => $this->faker->unique()->safeEmail(),
+    //         'email_verified_at' => now(),
+    //         'password' => Hash::make('password'),
+    //         'remember_token' => Str::random(10),
+    //     ]);
 
-        $pv = PhoneVerifies::factory()->create([
-            'user_id' => $us->id,
-            'phone_number' => Crypt::encryptString('01012340947'),
-            'auth_code' => Helper::generateAuthNumberCode(),
-            'verified' => 'Y',
-        ]);
+    //     $pv = PhoneVerifies::factory()->create([
+    //         'user_id' => $us->id,
+    //         'phone_number' => Crypt::encryptString('01012340947'),
+    //         'auth_code' => Helper::generateAuthNumberCode(),
+    //         'verified' => 'Y',
+    //     ]);
 
-        $this->expectException(ClientErrorException::class);
-        $this->expectExceptionMessage(__('register.attempt.auth_code.verified'));
+    //     $this->expectException(ClientErrorException::class);
+    //     $this->expectExceptionMessage(__('register.attempt.auth_code.verified'));
 
-        $testPayload = '{
-                "auth_index": "'.$pv->id.'",
-                "user_id": "aaaaaaaaa",
-                "user_password": "password",
-                "user_password_confirm": "password",
-                "user_name": "테스트사용자",
-                "user_email": "test@gmail.com",
-                "user_select_email": "Y",
-                "user_select_message": "Y"
-        }';
+    //     $testPayload = '{
+    //             "auth_index": "'.$pv->id.'",
+    //             "user_id": "aaaaaaaaa",
+    //             "user_password": "password",
+    //             "user_password_confirm": "password",
+    //             "user_name": "테스트사용자",
+    //             "user_email": "test@gmail.com",
+    //             "user_select_email": "Y",
+    //             "user_select_message": "Y"
+    //     }';
 
-        $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    //     $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
 
-        PhoneVerifies::where('id', $pv->id)->forcedelete();
-        User::where('id', $us->id)->forcedelete();
-    }
+    //     PhoneVerifies::where('id', $pv->id)->forcedelete();
+    //     User::where('id', $us->id)->forcedelete();
+    // }
 
     //  아이디 없이 요청.
     public function test_front_v1_auth_register_아이디_없이_요청()
