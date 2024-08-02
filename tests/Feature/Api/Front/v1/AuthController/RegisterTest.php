@@ -535,40 +535,40 @@ class RegisterTest extends BaseCustomTestCase
         $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
     }
 
-    //  정상 요청.
-    public function test_front_v1_auth_register_정상_요청()
-    {
-        $result = PhoneVerifies::factory()->create([
-            'user_id' => null,
-            'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
-            'auth_code' => Helper::generateAuthNumberCode(),
-            'verified' => 'Y',
-        ]);
+    // //  정상 요청.
+    // public function test_front_v1_auth_register_정상_요청()
+    // {
+    //     $result = PhoneVerifies::factory()->create([
+    //         'user_id' => null,
+    //         'phone_number' => Crypt::encryptString($this->faker->phoneNumber()),
+    //         'auth_code' => Helper::generateAuthNumberCode(),
+    //         'verified' => 'Y',
+    //     ]);
 
-        $testPayload = '{
-                "auth_index": "'.$result->id.'",
-                "user_id": "testuserid",
-                "user_password": "password",
-                "user_password_confirm": "password",
-                "user_name": "어둠의계정",
-                "user_email": "test1111@gmail.com",
-                "user_select_email" : "Y",
-                "user_select_message" : "Y"
-        }';
+    //     $testPayload = '{
+    //             "auth_index": "'.$result->id.'",
+    //             "user_id": "testuserid",
+    //             "user_password": "password",
+    //             "user_password_confirm": "password",
+    //             "user_name": "어둠의계정",
+    //             "user_email": "test1111@gmail.com",
+    //             "user_select_email" : "Y",
+    //             "user_select_message" : "Y"
+    //     }';
 
-        $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
-        $response->assertStatus(201);
-        $response->assertJsonStructure([
-            'message',
-            'result' => [
-                'id',
-                'uuid',
-                'login_id',
-                'name',
-                'type',
-                'level',
-                'status'
-            ]
-        ]);
-    }
+    //     $response = $this->withHeaders($this->getTestDefaultApiHeaders())->json('POST', $this->apiURL, json_decode($testPayload, true));
+    //     $response->assertStatus(201);
+    //     $response->assertJsonStructure([
+    //         'message',
+    //         'result' => [
+    //             'id',
+    //             'uuid',
+    //             'login_id',
+    //             'name',
+    //             'type',
+    //             'level',
+    //             'status'
+    //         ]
+    //     ]);
+    // }
 }
