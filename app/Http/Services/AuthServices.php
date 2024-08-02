@@ -280,9 +280,9 @@ class AuthServices
             'message' => $this->currentRequest->input('user_select_message')
         ]);
 
-        $this->phoneVerifyRepository->update($authTask->id, [
-            'user_id' => $createTask->id
-        ]);
+        // $this->phoneVerifyRepository->update($authTask->id, [
+        //     'user_id' => $createTask->id
+        // ]);
 
         return [
             'id' => $createTask->id,
