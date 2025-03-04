@@ -90,7 +90,7 @@ class MainItemsRepository extends BaseRepository implements MainItemsRepositoryI
      */
     public function getFrontMainBestItems() : Collection {
         return $this->model->where('category', config('extract.main_item.bestItem.code'))
-            ->with(['product.repImage.image', 'product.colors.color', 'product.badge.badge.image', 'product.reviews','product.active'])
+            ->with(['product.repImage.image', 'product.colors.color', 'product.badge.badge.image', 'product.reviews'])
             ->inRandomOrder()
             ->get();
     }
@@ -102,7 +102,7 @@ class MainItemsRepository extends BaseRepository implements MainItemsRepositoryI
     public function getFrontMainNewItems() : Collection {
         return $this->model->where('category', config('extract.main_item.newItem.code'))
 //            ->where('active', 'Y')
-            ->with(['product.repImage.image', 'product.colors.color', 'product.badge.badge.image', 'product.reviews','product.active'])
+            ->with(['product.repImage.image', 'product.colors.color', 'product.badge.badge.image', 'product.reviews'])
             ->inRandomOrder()
             ->get();
     }
